@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.RadioButton
+import android.widget.*
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_quiz.*
@@ -57,6 +54,11 @@ class QuizFragment : Fragment() {
                 if (checkBox.isChecked) {
                     years.add(year)
                 }
+            }
+
+            if (years.isEmpty()) {
+                Toast.makeText(activity, "출제년도를 선택하세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
             val problemString = problemSpinner.selectedItem.toString()
