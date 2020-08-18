@@ -11,8 +11,10 @@
     <string name="email_subject">[CPA 회계학 말문제 앱 건의사항]</string>
     <string name="setting">설정</string>
     <string name="quiz">퀴즈</string>
-    <string name="quiz_problem_size_description">기본 문제 수</string>
+    <string name="quiz_problem_size_description">문제 수</string>
     <string name="DB">DB</string>
     <string name="refresh_note">오답노트 초기화</string>
     <string name="etc">기타</string>
+    <string name="quiz_setting_text">%s</string>
+    <string name="setting_year">출제년도</string>
 </resources>

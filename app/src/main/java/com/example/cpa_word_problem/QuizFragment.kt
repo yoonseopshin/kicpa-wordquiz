@@ -20,7 +20,16 @@ class QuizFragment : Fragment() {
     lateinit var quizOption : QuizOption
     var turn = 1
     var problemSize = 0
+    val problemToPosition = hashMapOf<Int, Int>()
     lateinit var wrongProblems : ArrayList<AccountingData>
+    val checkBoxList = arrayListOf<CheckBox>()
+
+    init {
+        problemToPosition[3] = 0
+        problemToPosition[5] = 1
+        problemToPosition[7] = 2
+        problemToPosition[10] = 3
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,20 +99,14 @@ class QuizFragment : Fragment() {
 
         problemSpinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_item,
             resources.getStringArray(R.array.problems))
-        val position = when (activity.preferenceManager.getProblem()) {
-            3 -> 0
-            5 -> 1
-            7 -> 2
-            10 -> 3
-            else -> 0
-        }
-        problemSpinner.setSelection(position)
+
 
         for (year in activity.startYear..activity.endYear) {
             val checkBox = CheckBox(activity)
             checkBox.text = year.toString()
             checkBox.isChecked = true
             checkBox.tag = year
+            checkBoxList.add(checkBox)
             checkBoxLayout.addView(checkBox)
         }
     }
@@ -116,6 +119,23 @@ class QuizFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         setInfoVisibility(View.VISIBLE)
+        updateProblemSize()
+        updateSelectedYear()
+    }
+
+    private fun updateSelectedYear() {
+        val checkBoxBitSet = activity.preferenceManager.getSelectedYear()
+        val yearSize = activity.endYear - activity.startYear + 1
+        for (i in 0 until yearSize) {
+            val bit = 1 shl i
+            val result = checkBoxBitSet and bit
+            checkBoxList[i].isChecked = result == bit
+        }
+    }
+
+    private fun updateProblemSize() {
+        val position = problemToPosition[activity.preferenceManager.getProblem()]
+        position?.let { problemSpinner.setSelection(it) }
     }
 
     private fun setQuiz(option: QuizOption) {
