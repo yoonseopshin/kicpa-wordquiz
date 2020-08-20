@@ -140,9 +140,11 @@
         android:layout_marginEnd="70dp"
         android:text="@string/submit"
         android:visibility="gone"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scrollView" />
+         />
 
     <TextView
         android:id="@+id/quizDescriptionTextView"
