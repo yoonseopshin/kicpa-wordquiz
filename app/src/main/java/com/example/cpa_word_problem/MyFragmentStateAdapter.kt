@@ -7,16 +7,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class MyFragmentStateAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int {
-        return 4
+        return 3
     }
 
     override fun createFragment(position: Int): Fragment {
 
         return when (position) {
-            1 -> QuizFragment()
-            2 -> NoteFragment()
-            3 -> SettingFragment()
-            else -> HomeFragment()
+            1 -> NoteFragment()
+            2 -> SettingFragment()
+            else -> QuizFragment()
         }
     }
 

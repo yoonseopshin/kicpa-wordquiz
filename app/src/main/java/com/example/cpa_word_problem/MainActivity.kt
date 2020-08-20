@@ -15,10 +15,11 @@ class MainActivity : AppCompatActivity() {
     var endYear = 0
     val wrongProblems = LinkedHashSet<AccountingData>()
     lateinit var preferenceManager: PreferenceManager
+    lateinit var wrongProblemDBHelper: WrongProblemDBHelper
+    lateinit var dateDBHelper: DateDBHelper
 
     companion object {
-        val TAB_ICON_LIST = arrayListOf(R.drawable.ic_home,
-            R.drawable.ic_quiz,
+        val TAB_ICON_LIST = arrayListOf(R.drawable.ic_quiz,
             R.drawable.ic_study,
             R.drawable.ic_setting)
     }
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         preferenceManager = PreferenceManager(this)
+
+        wrongProblemDBHelper = WrongProblemDBHelper(this)
+        dateDBHelper = DateDBHelper(this)
     }
 
     private fun loadJson() {

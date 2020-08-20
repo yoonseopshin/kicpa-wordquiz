@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_note.*
 class NoteFragment : Fragment() {
 
     lateinit var activity : MainActivity
-    lateinit var dbHelper : WrongProblemDBHelper
+    lateinit var wrongProblemDBHelper : WrongProblemDBHelper
     lateinit var wrongProblemList : ArrayList<AccountingData>
 
     override fun onCreateView(
@@ -32,9 +32,9 @@ class NoteFragment : Fragment() {
 
     private fun init() {
         activity = requireActivity() as MainActivity
-        dbHelper = WrongProblemDBHelper(activity)
+        wrongProblemDBHelper = activity.wrongProblemDBHelper
 
-        wrongProblemList = dbHelper.fetch()
+        wrongProblemList = wrongProblemDBHelper.fetch()
         wrongProblemRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
         val adapter = WrongProblemAdapter()
@@ -64,7 +64,7 @@ class NoteFragment : Fragment() {
                     .setPositiveButton("삭제") { _, _ ->
                         val problem = wrongProblemList.removeAt(position)
                         adapter.checked.remove(problem)
-                        dbHelper.remove(problem)
+                        wrongProblemDBHelper.remove(problem)
                         adapter.submitList(wrongProblemList)
                     }
                     .setNegativeButton("취소") { _, _ -> }
@@ -92,9 +92,9 @@ class NoteFragment : Fragment() {
 
     override fun onResume() {
         if (activity.wrongProblems.isNotEmpty()) {
-            dbHelper.save(activity.wrongProblems)
+            wrongProblemDBHelper.save(activity.wrongProblems)
             activity.wrongProblems.clear()
-            wrongProblemList = dbHelper.fetch()
+            wrongProblemList = wrongProblemDBHelper.fetch()
             (wrongProblemRecyclerView.adapter as WrongProblemAdapter).submitList(wrongProblemList)
         }
         super.onResume()

@@ -37,7 +37,7 @@ class SettingFragment : Fragment() {
             override fun onDBCleared() {
                 val fragmentManager = activity.supportFragmentManager
                 val noteFragment = fragmentManager.findFragmentByTag("f2") as NoteFragment
-                noteFragment.dbHelper.clear()
+                noteFragment.wrongProblemDBHelper.clear()
                 noteFragment.wrongProblemList.clear()
                 val adapter = (noteFragment.wrongProblemRecyclerView.adapter as WrongProblemAdapter)
                 adapter.checked.clear()
