@@ -1,4 +1,4 @@
-package com.example.cpa_word_problem
+package com.cpa.cpa_word_problem
 
 import android.os.Bundle
 import android.widget.Toast

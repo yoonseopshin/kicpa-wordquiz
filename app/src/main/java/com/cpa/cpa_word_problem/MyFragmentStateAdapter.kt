@@ -1,4 +1,4 @@
-package com.example.cpa_word_problem
+package com.cpa.cpa_word_problem
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

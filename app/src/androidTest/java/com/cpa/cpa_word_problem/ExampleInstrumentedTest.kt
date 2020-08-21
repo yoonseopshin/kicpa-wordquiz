@@ -1,4 +1,4 @@
-package com.example.cpa_word_problem
+package com.cpa.cpa_word_problem
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
