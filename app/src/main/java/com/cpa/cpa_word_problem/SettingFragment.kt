@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_setting.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SettingFragment : Fragment() {
 
@@ -32,12 +35,14 @@ class SettingFragment : Fragment() {
         activity = requireActivity() as MainActivity
         onDBClearedListener = object : OnDBClearedListener {
             override fun onDBCleared() {
-                val fragmentManager = activity.supportFragmentManager
-                val noteFragment = fragmentManager.findFragmentByTag("f1") as NoteFragment
-                val db = activity.db
-                val problemDao = db.problemDao()
-                problemDao.deleteAll()
-                noteFragment.wrongProblemList.clear()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val fragmentManager = activity.supportFragmentManager
+                    val noteFragment = fragmentManager.findFragmentByTag("f1") as NoteFragment
+                    val db = activity.db
+                    val problemDao = db.problemDao()
+                    problemDao.deleteAll()
+                    noteFragment.wrongProblemList.clear()
+                }
             }
         }
 

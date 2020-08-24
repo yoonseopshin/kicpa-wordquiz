@@ -9,10 +9,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cpa.cpa_word_problem.db.ProblemData
 import kotlinx.android.synthetic.main.fragment_note.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NoteFragment : Fragment() {
 
@@ -39,6 +42,7 @@ class NoteFragment : Fragment() {
         wrongProblemRecyclerView.adapter = adapter
 
         val problemDao = db.problemDao()
+
         problemDao.getAll().observe(activity, Observer {
             adapter.submitList(it)
             wrongProblemList = it as ArrayList<ProblemData>
@@ -73,9 +77,11 @@ class NoteFragment : Fragment() {
                 builder.setMessage("해당 문제를 삭제하시겠습니까?")
                     .setCancelable(true)
                     .setPositiveButton("삭제") { _, _ ->
-                        val problem = wrongProblemList.removeAt(position)
-                        adapter.checked.remove(problem)
-                        problemDao.delete(problem)
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            val problem = wrongProblemList.removeAt(position)
+                            adapter.checked.remove(problem)
+                            problemDao.delete(problem)
+                        }
                     }
                     .setNegativeButton("취소") { _, _ -> }
                     .create()
@@ -107,10 +113,12 @@ class NoteFragment : Fragment() {
 
     override fun onResume() {
         if (activity.wrongProblems.isNotEmpty()) {
-            val db = activity.db
-            val problemDao = db.problemDao()
-            problemDao.insertAll(activity.wrongProblems.toList())
-            activity.wrongProblems.clear()
+            lifecycleScope.launch(Dispatchers.IO) {
+                val db = activity.db
+                val problemDao = db.problemDao()
+                problemDao.insertAll(activity.wrongProblems.toList())
+                activity.wrongProblems.clear()
+            }
         }
         super.onResume()
     }

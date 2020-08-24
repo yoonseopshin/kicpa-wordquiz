@@ -50,9 +50,7 @@ class MainActivity : AppCompatActivity() {
             this,
             AppDatabase::class.java,
             ProblemContract.ProblemEntity.TABLE_NAME
-        )
-            .allowMainThreadQueries()
-            .build()
+        ).build()
     }
 
     private fun loadJson() {
