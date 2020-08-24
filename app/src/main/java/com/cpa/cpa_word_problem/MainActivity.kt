@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     var endYear = 0
     val wrongProblems = LinkedHashSet<ProblemData>()
     lateinit var preferenceManager: PreferenceManager
-    lateinit var dateDBHelper: DateDBHelper
     lateinit var db: AppDatabase
     val TAB_ICON_LIST = arrayListOf(R.drawable.ic_quiz,
         R.drawable.ic_study,
