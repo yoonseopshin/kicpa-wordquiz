@@ -3,6 +3,11 @@ package com.cpa.cpa_word_problem
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import com.cpa.cpa_word_problem.db.AppDatabase
+import com.cpa.cpa_word_problem.db.PreferenceManager
+import com.cpa.cpa_word_problem.db.ProblemContract
+import com.cpa.cpa_word_problem.db.ProblemData
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
@@ -10,19 +15,16 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity() {
 
     private var backKeyPressedTime: Long = 0
-    val data = ArrayList<AccountingData>()
+    val data = ArrayList<ProblemData>()
     var startYear = 0
     var endYear = 0
-    val wrongProblems = LinkedHashSet<AccountingData>()
+    val wrongProblems = LinkedHashSet<ProblemData>()
     lateinit var preferenceManager: PreferenceManager
-    lateinit var wrongProblemDBHelper: WrongProblemDBHelper
     lateinit var dateDBHelper: DateDBHelper
-
-    companion object {
-        val TAB_ICON_LIST = arrayListOf(R.drawable.ic_quiz,
-            R.drawable.ic_study,
-            R.drawable.ic_setting)
-    }
+    lateinit var db: AppDatabase
+    val TAB_ICON_LIST = arrayListOf(R.drawable.ic_quiz,
+        R.drawable.ic_study,
+        R.drawable.ic_setting)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +45,17 @@ class MainActivity : AppCompatActivity() {
 
         preferenceManager = PreferenceManager(this)
 
-        wrongProblemDBHelper = WrongProblemDBHelper(this)
-        dateDBHelper = DateDBHelper(this)
+        db = Room.databaseBuilder(this,
+            AppDatabase::class.java,
+            ProblemContract.ProblemEntity.TABLE_NAME)
+            .allowMainThreadQueries()
+            .build()
+
+
+
+
+//        wrongProblemDBHelper = WrongProblemDBHelper(this)
+//        dateDBHelper = DateDBHelper(this)
     }
 
     private fun loadJson() {
@@ -65,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 val p4 = obj.getString("p4")
                 val p5 = obj.getString("p5")
                 val answer = obj.getInt("answer")
-                val accountingData = AccountingData(pid, year, description, p1, p2, p3, p4, p5, answer)
+                val accountingData = ProblemData(pid, year, description, p1, p2, p3, p4, p5, answer)
                 data.add(accountingData)
             }
         }

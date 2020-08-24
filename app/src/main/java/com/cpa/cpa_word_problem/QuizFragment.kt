@@ -7,18 +7,19 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.cpa.cpa_word_problem.db.ProblemData
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_quiz.*
 
 class QuizFragment : Fragment() {
 
     lateinit var activity: MainActivity
-    lateinit var selectedProblem: AccountingData
+    lateinit var selectedProblem: ProblemData
     lateinit var quizOption : QuizOption
     var turn = 1
     var problemSize = 0
     val problemToPosition = hashMapOf<Int, Int>()
-    lateinit var wrongProblems : ArrayList<AccountingData>
+    lateinit var wrongProblems : ArrayList<ProblemData>
     val checkBoxList = arrayListOf<CheckBox>()
 
     init {
@@ -143,7 +144,6 @@ class QuizFragment : Fragment() {
     private fun setQuiz(option: QuizOption) {
         radioButton.isChecked = true
 
-        val data = activity.data
         selectedProblem = getRandomProblem(option)
 
         descriptionTextView.text = selectedProblem.description
@@ -171,9 +171,9 @@ class QuizFragment : Fragment() {
         submitBtn.visibility = visibility
     }
 
-    private fun getRandomProblem(quizOption: QuizOption) : AccountingData {
+    private fun getRandomProblem(quizOption: QuizOption) : ProblemData {
         val data = activity.data
-        val candidate = arrayListOf<AccountingData>()
+        val candidate = arrayListOf<ProblemData>()
         for (i in data) {
             if (i.year in quizOption.years) {
                 candidate.add(i)
@@ -182,7 +182,7 @@ class QuizFragment : Fragment() {
         return candidate.random()
     }
 
-    private fun getInfoText(problem : AccountingData) = StringBuilder("${problem.year}년 ${problem.pid}번").toString()
+    private fun getInfoText(problem : ProblemData) = StringBuilder("${problem.year}년 ${problem.pid}번").toString()
 
     private fun isCorrect(pno: Int) = selectedProblem.answer == pno
 

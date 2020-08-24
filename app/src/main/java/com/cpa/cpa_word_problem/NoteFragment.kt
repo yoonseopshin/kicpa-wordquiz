@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cpa.cpa_word_problem.db.ProblemData
 import kotlinx.android.synthetic.main.fragment_note.*
 
 class NoteFragment : Fragment() {
 
     lateinit var activity : MainActivity
-    lateinit var wrongProblemDBHelper : WrongProblemDBHelper
-    lateinit var wrongProblemList : ArrayList<AccountingData>
+    lateinit var wrongProblemList : ArrayList<ProblemData>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,13 +33,17 @@ class NoteFragment : Fragment() {
 
     private fun init() {
         activity = requireActivity() as MainActivity
-        wrongProblemDBHelper = activity.wrongProblemDBHelper
-
-        wrongProblemList = wrongProblemDBHelper.fetch()
-        wrongProblemRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
+        val db = activity.db
+        wrongProblemRecyclerView.layoutManager = LinearLayoutManager(activity)
         val adapter = WrongProblemAdapter()
-        adapter.submitList(wrongProblemList)
+        wrongProblemRecyclerView.adapter = adapter
+
+        val problemDao = db.problemDao()
+        problemDao.getAll().observe(activity, Observer {
+            adapter.submitList(it)
+            wrongProblemList = it as ArrayList<ProblemData>
+        })
+
         adapter.itemClickListener = object: WrongProblemAdapter.OnItemClickListener {
             override fun onItemClick(holder: WrongProblemAdapter.WrongProblemViewHolder, position: Int) {
                 val problem = wrongProblemList[position]
@@ -64,8 +69,7 @@ class NoteFragment : Fragment() {
                     .setPositiveButton("삭제") { _, _ ->
                         val problem = wrongProblemList.removeAt(position)
                         adapter.checked.remove(problem)
-                        wrongProblemDBHelper.remove(problem)
-                        adapter.submitList(wrongProblemList)
+                        problemDao.delete(problem)
                     }
                     .setNegativeButton("취소") { _, _ -> }
                     .create()
@@ -92,10 +96,10 @@ class NoteFragment : Fragment() {
 
     override fun onResume() {
         if (activity.wrongProblems.isNotEmpty()) {
-            wrongProblemDBHelper.save(activity.wrongProblems)
+            val db = activity.db
+            val problemDao = db.problemDao()
+            problemDao.insertAll(activity.wrongProblems.toList())
             activity.wrongProblems.clear()
-            wrongProblemList = wrongProblemDBHelper.fetch()
-            (wrongProblemRecyclerView.adapter as WrongProblemAdapter).submitList(wrongProblemList)
         }
         super.onResume()
     }

@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.db
 
 import android.content.Context
 import android.content.SharedPreferences

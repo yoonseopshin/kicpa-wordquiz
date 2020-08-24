@@ -8,13 +8,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 class SettingFragment : Fragment() {
 
     lateinit var activity: MainActivity
-    lateinit var wrongProblemDBHelper: WrongProblemDBHelper
     lateinit var onDBClearedListener: OnDBClearedListener
 
     override fun onCreateView(
@@ -32,16 +30,14 @@ class SettingFragment : Fragment() {
 
     private fun init() {
         activity = requireActivity() as MainActivity
-        wrongProblemDBHelper = WrongProblemDBHelper(activity)
         onDBClearedListener = object: OnDBClearedListener {
             override fun onDBCleared() {
                 val fragmentManager = activity.supportFragmentManager
-                val noteFragment = fragmentManager.findFragmentByTag("f2") as NoteFragment
-                noteFragment.wrongProblemDBHelper.clear()
+                val noteFragment = fragmentManager.findFragmentByTag("f1") as NoteFragment
+                val db = activity.db
+                val problemDao = db.problemDao()
+                problemDao.deleteAll()
                 noteFragment.wrongProblemList.clear()
-                val adapter = (noteFragment.wrongProblemRecyclerView.adapter as WrongProblemAdapter)
-                adapter.checked.clear()
-                adapter.submitList(noteFragment.wrongProblemList)
             }
         }
 

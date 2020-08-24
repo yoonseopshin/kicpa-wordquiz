@@ -8,20 +8,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.cpa.cpa_word_problem.db.ProblemData
 
-class WrongProblemAdapter : ListAdapter<AccountingData, WrongProblemAdapter.WrongProblemViewHolder>(DiffCallback) {
+class WrongProblemAdapter : ListAdapter<ProblemData, WrongProblemAdapter.WrongProblemViewHolder>(DiffCallback) {
 
     lateinit var itemClickListener : OnItemClickListener
     lateinit var itemLongClickListener : OnItemLongClickListener
     lateinit var itemLookup: ItemLookup
-    val checked = HashMap<AccountingData, Boolean>()
+    val checked = HashMap<ProblemData, Boolean>()
 
-    object DiffCallback : DiffUtil.ItemCallback<AccountingData>() {
-        override fun areItemsTheSame(oldItem: AccountingData, newItem: AccountingData): Boolean {
+    object DiffCallback : DiffUtil.ItemCallback<ProblemData>() {
+        override fun areItemsTheSame(oldItem: ProblemData, newItem: ProblemData): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: AccountingData, newItem: AccountingData): Boolean {
+        override fun areContentsTheSame(oldItem: ProblemData, newItem: ProblemData): Boolean {
             return areItemsTheSame(oldItem, newItem)
         }
     }
@@ -82,10 +83,10 @@ class WrongProblemAdapter : ListAdapter<AccountingData, WrongProblemAdapter.Wron
         }
     }
 
-    override fun submitList(list: MutableList<AccountingData>?) {
+    override fun submitList(list: List<ProblemData>?) {
         for (accountingData in currentList) {
             checked.putIfAbsent(accountingData, false)
         }
-        return super.submitList(list?.let { ArrayList<AccountingData>(it) })
+        return super.submitList(list?.let { ArrayList<ProblemData>(it) })
     }
 }
