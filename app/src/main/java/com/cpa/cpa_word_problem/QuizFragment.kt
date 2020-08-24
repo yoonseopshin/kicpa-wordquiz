@@ -13,14 +13,14 @@ import kotlinx.android.synthetic.main.fragment_quiz.*
 
 class QuizFragment : Fragment() {
 
-    lateinit var activity: MainActivity
-    lateinit var selectedProblem: ProblemData
-    lateinit var quizOption : QuizOption
-    var turn = 1
-    var problemSize = 0
-    val problemToPosition = hashMapOf<Int, Int>()
-    lateinit var wrongProblems : ArrayList<ProblemData>
-    val checkBoxList = arrayListOf<CheckBox>()
+    private lateinit var activity: MainActivity
+    private lateinit var selectedProblem: ProblemData
+    private lateinit var quizOption: QuizOption
+    private var turn = 1
+    private var problemSize = 0
+    private lateinit var wrongProblems: ArrayList<ProblemData>
+    private val problemToPosition = hashMapOf<Int, Int>()
+    private val checkBoxList = arrayListOf<CheckBox>()
 
     init {
         problemToPosition[3] = 0
@@ -75,7 +75,8 @@ class QuizFragment : Fragment() {
         }
 
         submitBtn.setOnClickListener {
-            val radioBtn = radioGroup.findViewById<View>(radioGroup.checkedRadioButtonId) as RadioButton
+            val radioBtn =
+                radioGroup.findViewById<View>(radioGroup.checkedRadioButtonId) as RadioButton
             val pno = radioGroup.indexOfChild(radioBtn) + 1
 
             if (isCorrect(pno)) {
@@ -100,8 +101,10 @@ class QuizFragment : Fragment() {
             }
         }
 
-        problemSpinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_item,
-            resources.getStringArray(R.array.problems))
+        problemSpinner.adapter = ArrayAdapter(
+            requireContext(), R.layout.spinner_item,
+            resources.getStringArray(R.array.problems)
+        )
 
 
         for (year in activity.startYear..activity.endYear) {
@@ -171,7 +174,7 @@ class QuizFragment : Fragment() {
         submitBtn.visibility = visibility
     }
 
-    private fun getRandomProblem(quizOption: QuizOption) : ProblemData {
+    private fun getRandomProblem(quizOption: QuizOption): ProblemData {
         val data = activity.data
         val candidate = arrayListOf<ProblemData>()
         for (i in data) {
@@ -182,7 +185,8 @@ class QuizFragment : Fragment() {
         return candidate.random()
     }
 
-    private fun getInfoText(problem : ProblemData) = StringBuilder("${problem.year}년 ${problem.pid}번").toString()
+    private fun getInfoText(problem: ProblemData) =
+        StringBuilder("${problem.year}년 ${problem.pid}번").toString()
 
     private fun isCorrect(pno: Int) = selectedProblem.answer == pno
 

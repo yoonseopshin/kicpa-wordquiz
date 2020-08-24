@@ -14,16 +14,18 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
-    private var backKeyPressedTime: Long = 0
     val data = ArrayList<ProblemData>()
     var startYear = 0
     var endYear = 0
     val wrongProblems = LinkedHashSet<ProblemData>()
     lateinit var preferenceManager: PreferenceManager
     lateinit var db: AppDatabase
-    val TAB_ICON_LIST = arrayListOf(R.drawable.ic_quiz,
+    private var backKeyPressedTime: Long = 0
+    private val tabIconList = arrayListOf(
+        R.drawable.ic_quiz,
         R.drawable.ic_study,
-        R.drawable.ic_setting)
+        R.drawable.ic_setting
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,22 +41,18 @@ class MainActivity : AppCompatActivity() {
 
         viewPager2.adapter = MyFragmentStateAdapter(this)
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-            tab.setIcon(TAB_ICON_LIST[position])
+            tab.setIcon(tabIconList[position])
         }.attach()
 
         preferenceManager = PreferenceManager(this)
 
-        db = Room.databaseBuilder(this,
+        db = Room.databaseBuilder(
+            this,
             AppDatabase::class.java,
-            ProblemContract.ProblemEntity.TABLE_NAME)
+            ProblemContract.ProblemEntity.TABLE_NAME
+        )
             .allowMainThreadQueries()
             .build()
-
-
-
-
-//        wrongProblemDBHelper = WrongProblemDBHelper(this)
-//        dateDBHelper = DateDBHelper(this)
     }
 
     private fun loadJson() {
@@ -86,8 +84,7 @@ class MainActivity : AppCompatActivity() {
             backKeyPressedTime = System.currentTimeMillis()
             Toast.makeText(this, "한 번 더 누르면 앱을 종료합니다.", Toast.LENGTH_SHORT).show()
             return
-        }
-        else {
+        } else {
             moveTaskToBack(true)
             finish()
         }

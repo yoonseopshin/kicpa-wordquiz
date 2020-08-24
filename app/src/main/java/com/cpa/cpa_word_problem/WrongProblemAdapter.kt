@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.db.ProblemData
 
-class WrongProblemAdapter : ListAdapter<ProblemData, WrongProblemAdapter.WrongProblemViewHolder>(DiffCallback) {
+class WrongProblemAdapter :
+    ListAdapter<ProblemData, WrongProblemAdapter.WrongProblemViewHolder>(DiffCallback) {
 
-    lateinit var itemClickListener : OnItemClickListener
-    lateinit var itemLongClickListener : OnItemLongClickListener
+    lateinit var itemClickListener: OnItemClickListener
+    lateinit var itemLongClickListener: OnItemLongClickListener
     lateinit var itemLookup: ItemLookup
     val checked = HashMap<ProblemData, Boolean>()
 
@@ -28,14 +29,16 @@ class WrongProblemAdapter : ListAdapter<ProblemData, WrongProblemAdapter.WrongPr
     }
 
     inner class WrongProblemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val wrongProblemInfoTextView : TextView = itemView.findViewById(R.id.wrongProblemInfoTextView)
-        val descriptionTextView : TextView = itemView.findViewById(R.id.wrongProblemDescriptionTextView)
-        val wrongProblemLayout : LinearLayout = itemView.findViewById(R.id.wrongProblemLayout)
-        val wrongProblemTextView1 : TextView = itemView.findViewById(R.id.wrongProblemTextView1)
-        val wrongProblemTextView2 : TextView = itemView.findViewById(R.id.wrongProblemTextView2)
-        val wrongProblemTextView3 : TextView = itemView.findViewById(R.id.wrongProblemTextView3)
-        val wrongProblemTextView4 : TextView = itemView.findViewById(R.id.wrongProblemTextView4)
-        val wrongProblemTextView5 : TextView = itemView.findViewById(R.id.wrongProblemTextView5)
+        val wrongProblemInfoTextView: TextView =
+            itemView.findViewById(R.id.wrongProblemInfoTextView)
+        val descriptionTextView: TextView =
+            itemView.findViewById(R.id.wrongProblemDescriptionTextView)
+        val wrongProblemLayout: LinearLayout = itemView.findViewById(R.id.wrongProblemLayout)
+        val wrongProblemTextView1: TextView = itemView.findViewById(R.id.wrongProblemTextView1)
+        val wrongProblemTextView2: TextView = itemView.findViewById(R.id.wrongProblemTextView2)
+        val wrongProblemTextView3: TextView = itemView.findViewById(R.id.wrongProblemTextView3)
+        val wrongProblemTextView4: TextView = itemView.findViewById(R.id.wrongProblemTextView4)
+        val wrongProblemTextView5: TextView = itemView.findViewById(R.id.wrongProblemTextView5)
 
         init {
             itemView.setOnClickListener {
@@ -62,13 +65,16 @@ class WrongProblemAdapter : ListAdapter<ProblemData, WrongProblemAdapter.WrongPr
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WrongProblemViewHolder {
-        return WrongProblemViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.problem_item, parent, false))
+        return WrongProblemViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.problem_item, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: WrongProblemViewHolder, position: Int) {
         val problem = currentList[position]
-        holder.wrongProblemInfoTextView.text = StringBuilder("${problem.year}년 ${problem.pid}번").toString()
+        holder.wrongProblemInfoTextView.text =
+            StringBuilder("${problem.year}년 ${problem.pid}번").toString()
         holder.descriptionTextView.text = problem.description
         holder.wrongProblemTextView1.text = problem.p1
         holder.wrongProblemTextView2.text = problem.p2

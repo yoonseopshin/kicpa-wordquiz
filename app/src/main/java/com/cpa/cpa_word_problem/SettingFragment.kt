@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_setting.*
 class SettingFragment : Fragment() {
 
     lateinit var activity: MainActivity
-    lateinit var onDBClearedListener: OnDBClearedListener
+    private lateinit var onDBClearedListener: OnDBClearedListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +30,7 @@ class SettingFragment : Fragment() {
 
     private fun init() {
         activity = requireActivity() as MainActivity
-        onDBClearedListener = object: OnDBClearedListener {
+        onDBClearedListener = object : OnDBClearedListener {
             override fun onDBCleared() {
                 val fragmentManager = activity.supportFragmentManager
                 val noteFragment = fragmentManager.findFragmentByTag("f1") as NoteFragment
@@ -44,8 +44,10 @@ class SettingFragment : Fragment() {
         quizLayout1.setOnClickListener {
             val builder = AlertDialog.Builder(activity)
             val spinner = Spinner(activity)
-            spinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_item,
-                resources.getStringArray(R.array.problems))
+            spinner.adapter = ArrayAdapter(
+                requireContext(), R.layout.spinner_item,
+                resources.getStringArray(R.array.problems)
+            )
 
             builder.setMessage("기본 문제 수를 선택하세요.")
                 .setCancelable(true)
@@ -59,7 +61,8 @@ class SettingFragment : Fragment() {
                 .create()
                 .show()
         }
-        quizSettingTextView1.text = getString(R.string.quiz_setting_text, getString(R.string.quiz_problem_size_description))
+        quizSettingTextView1.text =
+            getString(R.string.quiz_setting_text, getString(R.string.quiz_problem_size_description))
 
         quizLayout2.setOnClickListener {
             val checkBoxList = arrayListOf<CheckBox>()

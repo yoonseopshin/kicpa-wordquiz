@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 
 class HomeFragment : Fragment() {
 
-    lateinit var activity: MainActivity
+    private lateinit var activity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
