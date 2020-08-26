@@ -13,6 +13,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val startYear = application.resources.getString(R.string.START_YEAR).toInt()
     val endYear = application.resources.getString(R.string.END_YEAR).toInt()
+    var turn = 1
+    var probSize = 0
     private val preferenceManager = PreferenceManager(application)
     private val data = ArrayList<ProblemData>()
     private val db = Room.databaseBuilder(

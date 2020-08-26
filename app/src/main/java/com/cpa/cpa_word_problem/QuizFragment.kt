@@ -13,11 +13,8 @@ import kotlinx.android.synthetic.main.fragment_quiz.*
 
 class QuizFragment : Fragment() {
 
-    private lateinit var activity: MainActivity
     private lateinit var selectedProblem: ProblemData
     private lateinit var quizOption: QuizOption
-    private var turn = 1
-    private var problemSize = 0
     private lateinit var wrongProblems: ArrayList<ProblemData>
     private val problemToPosition = hashMapOf<Int, Int>()
     private val checkBoxList = arrayListOf<CheckBox>()
@@ -43,7 +40,7 @@ class QuizFragment : Fragment() {
     }
 
     private fun init() {
-        activity = requireActivity() as MainActivity
+        val activity = requireActivity() as MainActivity
         val viewModel = activity.viewModel
         setInfoVisibility(View.VISIBLE)
         setProblemVisibility(View.GONE)
@@ -65,9 +62,9 @@ class QuizFragment : Fragment() {
             }
 
             val problemString = problemSpinner.selectedItem.toString()
-            problemSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
+            viewModel.probSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
             quizOption = QuizOption(years)
-            turn = 1
+            viewModel.turn = 1
 
             setInfoVisibility(View.GONE)
             setProblemVisibility(View.VISIBLE)
@@ -92,7 +89,7 @@ class QuizFragment : Fragment() {
                 wrongProblems.add(selectedProblem)
             }
 
-            if (turn++ >= problemSize) {
+            if (viewModel.turn++ >= viewModel.probSize) {
                 setProblemVisibility(View.GONE)
                 setInfoVisibility(View.VISIBLE)
                 activity.viewPager2.isUserInputEnabled = true
@@ -130,6 +127,7 @@ class QuizFragment : Fragment() {
     }
 
     private fun updateSelectedYear() {
+        val activity = requireActivity() as MainActivity
         val viewModel = activity.viewModel
         val checkBoxBitSet = viewModel.getSelectedYear()
         val yearSize = viewModel.endYear - viewModel.startYear + 1
@@ -141,12 +139,14 @@ class QuizFragment : Fragment() {
     }
 
     private fun updateProblemSize() {
+        val activity = requireActivity() as MainActivity
         val viewModel = activity.viewModel
         val position = problemToPosition[viewModel.getSelectedProblemSize()]
         position?.let { problemSpinner.setSelection(it) }
     }
 
     private fun setQuiz(option: QuizOption) {
+        val activity = requireActivity() as MainActivity
         val viewModel = activity.viewModel
         radioButton.isChecked = true
 
