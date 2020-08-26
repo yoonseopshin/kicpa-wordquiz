@@ -19,9 +19,6 @@ import kotlinx.coroutines.launch
 
 class NoteFragment : Fragment() {
 
-    lateinit var activity: MainActivity
-    lateinit var wrongProblemList: ArrayList<ProblemData>
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,14 +32,14 @@ class NoteFragment : Fragment() {
     }
 
     private fun init() {
-        activity = requireActivity() as MainActivity
-        val db = activity.db
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
         wrongProblemRecyclerView.layoutManager = LinearLayoutManager(activity)
         val adapter = WrongProblemAdapter()
         wrongProblemRecyclerView.adapter = adapter
+        var wrongProblemList = arrayListOf<ProblemData>()
 
-        val problemDao = db.problemDao()
-
+        val problemDao = viewModel.getProblemDao()
         problemDao.getAll().observe(activity, Observer {
             adapter.submitList(it)
             wrongProblemList = it as ArrayList<ProblemData>
@@ -112,18 +109,19 @@ class NoteFragment : Fragment() {
     }
 
     override fun onResume() {
-        if (activity.wrongProblems.isNotEmpty()) {
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
+        if (viewModel.isWrongProblemExist()) {
             lifecycleScope.launch(Dispatchers.IO) {
-                val db = activity.db
-                val problemDao = db.problemDao()
-                problemDao.insertAll(activity.wrongProblems.toList())
-                activity.wrongProblems.clear()
+                viewModel.getProblemDao().insertAll(viewModel.getWrongProblemList())
+                viewModel.clearWrongProblems()
             }
         }
         super.onResume()
     }
 
     fun visualize(holder: WrongProblemAdapter.WrongProblemViewHolder, answer: Int) {
+        val activity = requireActivity() as MainActivity
         holder.wrongProblemLayout.visibility = View.VISIBLE
         holder.wrongProblemTextView1.typeface = Typeface.DEFAULT
         holder.wrongProblemTextView1.setTextColor(

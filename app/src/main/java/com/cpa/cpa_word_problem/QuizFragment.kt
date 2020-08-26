@@ -44,13 +44,15 @@ class QuizFragment : Fragment() {
 
     private fun init() {
         activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
         setInfoVisibility(View.VISIBLE)
         setProblemVisibility(View.GONE)
 
         quizBtn.setOnClickListener {
             wrongProblems = arrayListOf()
+
             val years = arrayListOf<Int>()
-            for (year in activity.startYear..activity.endYear) {
+            for (year in viewModel.startYear..viewModel.endYear) {
                 val checkBox = checkBoxLayout.findViewWithTag<CheckBox>(year)
                 if (checkBox.isChecked) {
                     years.add(year)
@@ -94,8 +96,7 @@ class QuizFragment : Fragment() {
                 setProblemVisibility(View.GONE)
                 setInfoVisibility(View.VISIBLE)
                 activity.viewPager2.isUserInputEnabled = true
-
-                activity.wrongProblems.addAll(wrongProblems)
+                viewModel.addWrongProblems(wrongProblems)
             } else {
                 setQuiz(quizOption)
             }
@@ -106,8 +107,7 @@ class QuizFragment : Fragment() {
             resources.getStringArray(R.array.problems)
         )
 
-
-        for (year in activity.startYear..activity.endYear) {
+        for (year in viewModel.startYear..viewModel.endYear) {
             val checkBox = CheckBox(activity)
             checkBox.text = year.toString()
             checkBox.isChecked = true
@@ -130,8 +130,9 @@ class QuizFragment : Fragment() {
     }
 
     private fun updateSelectedYear() {
-        val checkBoxBitSet = activity.preferenceManager.getSelectedYear()
-        val yearSize = activity.endYear - activity.startYear + 1
+        val viewModel = activity.viewModel
+        val checkBoxBitSet = viewModel.getSelectedYear()
+        val yearSize = viewModel.endYear - viewModel.startYear + 1
         for (i in 0 until yearSize) {
             val bit = 1 shl i
             val result = checkBoxBitSet and bit
@@ -140,14 +141,16 @@ class QuizFragment : Fragment() {
     }
 
     private fun updateProblemSize() {
-        val position = problemToPosition[activity.preferenceManager.getProblem()]
+        val viewModel = activity.viewModel
+        val position = problemToPosition[viewModel.getSelectedProblemSize()]
         position?.let { problemSpinner.setSelection(it) }
     }
 
     private fun setQuiz(option: QuizOption) {
+        val viewModel = activity.viewModel
         radioButton.isChecked = true
 
-        selectedProblem = getRandomProblem(option)
+        selectedProblem = viewModel.getRandomProblem(option)
 
         descriptionTextView.text = selectedProblem.description
         infoTextView.text = getInfoText(selectedProblem)
@@ -172,17 +175,6 @@ class QuizFragment : Fragment() {
         infoTextView.visibility = visibility
         scrollView.visibility = visibility
         submitBtn.visibility = visibility
-    }
-
-    private fun getRandomProblem(quizOption: QuizOption): ProblemData {
-        val data = activity.data
-        val candidate = arrayListOf<ProblemData>()
-        for (i in data) {
-            if (i.year in quizOption.years) {
-                candidate.add(i)
-            }
-        }
-        return candidate.random()
     }
 
     private fun getInfoText(problem: ProblemData) =

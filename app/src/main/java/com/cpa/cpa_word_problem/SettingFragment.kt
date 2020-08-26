@@ -15,9 +15,6 @@ import kotlinx.coroutines.launch
 
 class SettingFragment : Fragment() {
 
-    lateinit var activity: MainActivity
-    private lateinit var onDBClearedListener: OnDBClearedListener
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,19 +29,7 @@ class SettingFragment : Fragment() {
     }
 
     private fun init() {
-        activity = requireActivity() as MainActivity
-        onDBClearedListener = object : OnDBClearedListener {
-            override fun onDBCleared() {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val fragmentManager = activity.supportFragmentManager
-                    val noteFragment = fragmentManager.findFragmentByTag("f1") as NoteFragment
-                    val db = activity.db
-                    val problemDao = db.problemDao()
-                    problemDao.deleteAll()
-                    noteFragment.wrongProblemList.clear()
-                }
-            }
-        }
+        val activity = requireActivity() as MainActivity
 
         quizLayout1.setOnClickListener {
             val builder = AlertDialog.Builder(activity)
@@ -60,7 +45,8 @@ class SettingFragment : Fragment() {
                 .setPositiveButton("확인") { _, _ ->
                     val problemString = spinner.selectedItem.toString()
                     val problemSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
-                    activity.preferenceManager.setProblemSize(problemSize)
+                    val viewModel = activity.viewModel
+                    viewModel.setProblemSize(problemSize)
                 }
                 .setNegativeButton("취소") { _, _ -> }
                 .create()
@@ -81,7 +67,8 @@ class SettingFragment : Fragment() {
                         if (checkBoxList[i].isChecked) {
                             checkBoxBitSet = checkBoxBitSet or (1 shl i)
                         }
-                        activity.preferenceManager.setSelectedYear(checkBoxBitSet)
+                        val viewModel = activity.viewModel
+                        viewModel.setSelectedYear(checkBoxBitSet)
                     }
                 }
                 .setNegativeButton("취소") { _, _ -> }
@@ -94,7 +81,10 @@ class SettingFragment : Fragment() {
             builder.setMessage("오답노트를 초기화하시겠습니까?")
                 .setCancelable(true)
                 .setPositiveButton("초기화") { _, _ ->
-                    onDBClearedListener.onDBCleared()
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val viewModel = activity.viewModel
+                        viewModel.getProblemDao().deleteAll()
+                    }
                 }
                 .setNegativeButton("취소") { _, _ -> }
                 .create()
@@ -112,6 +102,7 @@ class SettingFragment : Fragment() {
     }
 
     private fun AlertDialog.Builder.setSpinner(spinner: Spinner): AlertDialog.Builder {
+        val activity = requireActivity()
         val container = FrameLayout(activity)
         container.addView(spinner)
         val containerParams = FrameLayout.LayoutParams(
@@ -131,7 +122,9 @@ class SettingFragment : Fragment() {
     }
 
     private fun AlertDialog.Builder.setYearCheckbox(checkBoxList: ArrayList<CheckBox>): AlertDialog.Builder {
-        for (year in activity.startYear..activity.endYear) {
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
+        for (year in viewModel.startYear..viewModel.endYear) {
             val checkBox = CheckBox(activity)
             checkBox.text = year.toString()
             checkBox.isChecked = true
@@ -160,7 +153,4 @@ class SettingFragment : Fragment() {
         return this
     }
 
-    interface OnDBClearedListener {
-        fun onDBCleared()
-    }
 }

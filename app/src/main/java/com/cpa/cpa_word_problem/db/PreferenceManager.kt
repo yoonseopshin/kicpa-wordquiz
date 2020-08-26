@@ -17,14 +17,14 @@ class PreferenceManager(private val context: Context) {
         return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
     }
 
-    fun setProblemSize(value: Int) {
+    fun setSelectedProblemSize(value: Int) {
         val pref = getPreferences()
         val editor = pref.edit()
         editor.putInt(PROBLEM_SIZE, value)
         editor.apply()
     }
 
-    fun getProblem(): Int {
+    fun getSelectedProblemSize(): Int {
         val pref = getPreferences()
         return pref.getInt(PROBLEM_SIZE, DEFAULT_PROBLEM_SIZE)
     }
