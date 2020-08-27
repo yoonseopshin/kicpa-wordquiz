@@ -7,14 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".QuizFragment">
 
-    <Button
+    <com.sanojpunchihewa.glowbutton.GlowButton
         android:id="@+id/quizBtn"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:layout_marginBottom="50dp"
         android:text="@string/start"
-        android:textSize="40sp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="28sp"
         android:textStyle="bold"
+        app:buttonColor="@color/colorPrimaryDark"
+        app:glowColor="@color/colorPrimaryDark"
+        app:unpressedGlowSize="20dp"
+        app:pressedGlowSize="25dp"
+        app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
