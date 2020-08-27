@@ -10,5 +10,7 @@
     <color name="lightRed">#FFCCCB</color>
     <color name="lightGreen">#90EE90</color>
     <color name="success">#B7DF89</color>
+    <color name="success_dark">#1B4125</color>
     <color name="wrong">#FFCCBB</color>
+    <color name="wrong_dark">#662228</color>
 </resources>
