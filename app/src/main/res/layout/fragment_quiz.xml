@@ -133,16 +133,24 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:id="@+id/submitBtn"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
-        android:text="@string/submit"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:visibility="gone"
+        app:cornerRadius="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:icon="@drawable/ic_check"
+        app:iconGravity="textStart"
+        app:backgroundTint="@color/colorAccent"
+        android:insetLeft="0dp"
+        android:insetRight="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:iconPadding="0dp"
         android:layout_marginBottom="30dp"
         android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
          />
