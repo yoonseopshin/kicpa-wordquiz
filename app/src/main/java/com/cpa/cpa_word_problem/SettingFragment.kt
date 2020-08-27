@@ -32,7 +32,9 @@ class SettingFragment : Fragment() {
         val activity = requireActivity() as MainActivity
 
         quizLayout1.setOnClickListener {
-            val builder = AlertDialog.Builder(activity)
+            val builder = AlertDialog.Builder(
+                activity, R.style.AlertDialogStyle
+            )
             val spinner = Spinner(activity)
             spinner.adapter = ArrayAdapter(
                 requireContext(), R.layout.spinner_item,
@@ -57,7 +59,9 @@ class SettingFragment : Fragment() {
 
         quizLayout2.setOnClickListener {
             val checkBoxList = arrayListOf<CheckBox>()
-            val builder = AlertDialog.Builder(activity)
+            val builder = AlertDialog.Builder(
+                activity, R.style.AlertDialogStyle
+            )
             builder.setMessage("기본 출제년도를 선택하세요.")
                 .setCancelable(true)
                 .setYearCheckbox(checkBoxList)
@@ -77,7 +81,10 @@ class SettingFragment : Fragment() {
         }
 
         DBLayout.setOnClickListener {
-            val builder = AlertDialog.Builder(activity)
+            val builder = AlertDialog.Builder(
+                activity,
+                R.style.AlertDialogStyle
+            )
             builder.setMessage("오답노트를 초기화하시겠습니까?")
                 .setCancelable(true)
                 .setPositiveButton("초기화") { _, _ ->
