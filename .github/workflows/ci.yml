@@ -8,7 +8,7 @@ on:
 
 jobs:
   testing:
-    name: Lint check and testing
+    name: test
     runs-on: ubuntu-latest
 
     steps:
@@ -19,9 +19,6 @@ jobs:
     
     - name: Make gradlew executable
       run: chmod +x ./gradlew
-        
-    - name: Run kotlin linter
-      run: ./gradlew ktlintCheck --stacttrace
       
     - name: Run unit tests
       run: ./gradlew test --stacktrace
