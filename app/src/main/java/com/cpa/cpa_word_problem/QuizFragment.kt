@@ -1,11 +1,18 @@
 package com.cpa.cpa_word_problem
 
+import android.animation.ObjectAnimator
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.CheckBox
+import android.widget.RadioButton
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.cpa.cpa_word_problem.db.ProblemData
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,6 +31,10 @@ class QuizFragment : Fragment() {
         problemToPosition[5] = 1
         problemToPosition[7] = 2
         problemToPosition[10] = 3
+    }
+
+    companion object {
+        const val DURATION = 500L
     }
 
     override fun onCreateView(
@@ -78,22 +89,38 @@ class QuizFragment : Fragment() {
                 radioGroup.findViewById<View>(radioGroup.checkedRadioButtonId) as RadioButton
             val pno = radioGroup.indexOfChild(radioBtn) + 1
 
+            val backgroundColor =
+                (quizWholeLayout.background as? ColorDrawable)?.color ?: Color.TRANSPARENT
             if (isCorrect(pno)) {
-                val imageView: ImageView = activity.findViewById(R.id.successImageView)
-                val anim = AnimationUtils.loadAnimation(activity, R.anim.pop_image)
-                imageView.startAnimation(anim)
+                ObjectAnimator.ofArgb(
+                    quizWholeLayout,
+                    "backgroundColor",
+                    ContextCompat.getColor(activity, R.color.success),
+                    backgroundColor
+                ).apply {
+                    duration = DURATION
+                    start()
+                }
             } else {
-                val imageView: ImageView = activity.findViewById(R.id.failImageView)
-                val anim = AnimationUtils.loadAnimation(activity, R.anim.pop_image)
-                imageView.startAnimation(anim)
+                ObjectAnimator.ofArgb(
+                    quizWholeLayout,
+                    "backgroundColor",
+                    ContextCompat.getColor(activity, R.color.wrong),
+                    backgroundColor
+                ).apply {
+                    duration = DURATION
+                    start()
+                }
                 wrongProblems.add(selectedProblem)
             }
 
             if (viewModel.turn++ >= viewModel.probSize) {
-                setProblemVisibility(View.GONE)
-                setInfoVisibility(View.VISIBLE)
-                activity.viewPager2.isUserInputEnabled = true
-                viewModel.addWrongProblems(wrongProblems)
+                Handler().postDelayed({
+                    setProblemVisibility(View.GONE)
+                    setInfoVisibility(View.VISIBLE)
+                    activity.viewPager2.isUserInputEnabled = true
+                    viewModel.addWrongProblems(wrongProblems)
+                }, DURATION)
             } else {
                 setQuiz(quizOption)
             }

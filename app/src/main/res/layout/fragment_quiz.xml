@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/quizWholeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".QuizFragment">
@@ -108,52 +109,27 @@
         </RadioGroup>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/successImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/ic_success"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/failImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/ic_wrong"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
 
     <com.google.android.material.button.MaterialButton
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:id="@+id/submitBtn"
-        android:visibility="gone"
-        app:cornerRadius="40dp"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="30dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorAccent"
+        app:cornerRadius="40dp"
         app:icon="@drawable/ic_check"
         app:iconGravity="textStart"
-        app:backgroundTint="@color/colorAccent"
-        android:insetLeft="0dp"
-        android:insetRight="0dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
         app:iconPadding="0dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-         />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/quizDescriptionTextView"
@@ -198,8 +174,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
                 android:text="문제 수"
-                android:textStyle="bold"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/problemSpinner"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -227,8 +203,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
                 android:text="출제년도"
-                android:textStyle="bold"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/problemSizeTextView" />
 
