@@ -28,6 +28,10 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources true
     }
+
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 dependencies {

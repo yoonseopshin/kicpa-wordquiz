@@ -23,6 +23,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         ProblemContract.ProblemEntity.TABLE_NAME
     ).build()
     private val wrongProblems = LinkedHashSet<ProblemData>()
+    var backKeyPressedTime: Long = 0
+    val tabIconList = arrayListOf(
+        R.drawable.ic_quiz,
+        R.drawable.ic_study,
+        R.drawable.ic_setting
+    )
 
     fun getRandomProblem(option: QuizOption): ProblemData {
         val candidate = arrayListOf<ProblemData>()
