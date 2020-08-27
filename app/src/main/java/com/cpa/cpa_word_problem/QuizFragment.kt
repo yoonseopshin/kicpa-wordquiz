@@ -95,28 +95,10 @@ class QuizFragment : Fragment() {
 
             if (isCorrect(pno)) {
                 val animColor = ContextCompat.getColor(activity, if (isDarkTheme()) R.color.success_dark else R.color.success)
-
-                ObjectAnimator.ofArgb(
-                    quizWholeLayout,
-                    "backgroundColor",
-                    animColor,
-                    backgroundColor
-                ).apply {
-                    duration = DURATION
-                    start()
-                }
+                showAnswerAnimation(backgroundColor, animColor)
             } else {
                 val animColor = ContextCompat.getColor(activity, if (isDarkTheme()) R.color.wrong_dark else R.color.wrong)
-
-                ObjectAnimator.ofArgb(
-                    quizWholeLayout,
-                    "backgroundColor",
-                    animColor,
-                    backgroundColor
-                ).apply {
-                    duration = DURATION
-                    start()
-                }
+                showAnswerAnimation(backgroundColor, animColor)
                 wrongProblems.add(selectedProblem)
             }
 
@@ -162,6 +144,18 @@ class QuizFragment : Fragment() {
     private fun isDarkTheme(): Boolean {
         val activity = requireActivity() as MainActivity
         return activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun showAnswerAnimation(backgroundColor: Int, animColor: Int) {
+        ObjectAnimator.ofArgb(
+            quizWholeLayout,
+            "backgroundColor",
+            animColor,
+            backgroundColor
+        ).apply {
+            duration = DURATION
+            start()
+        }
     }
 
     private fun updateSelectedYear() {
