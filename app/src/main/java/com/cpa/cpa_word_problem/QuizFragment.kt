@@ -1,7 +1,6 @@
 package com.cpa.cpa_word_problem
 
 import android.animation.ObjectAnimator
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -94,10 +93,10 @@ class QuizFragment : Fragment() {
                 (quizWholeLayout.background as? ColorDrawable)?.color ?: Color.TRANSPARENT
 
             if (isCorrect(pno)) {
-                val animColor = ContextCompat.getColor(activity, if (isDarkTheme()) R.color.success_dark else R.color.success)
+                val animColor = ContextCompat.getColor(activity, R.color.success)
                 showAnswerAnimation(backgroundColor, animColor)
             } else {
-                val animColor = ContextCompat.getColor(activity, if (isDarkTheme()) R.color.wrong_dark else R.color.wrong)
+                val animColor = ContextCompat.getColor(activity, R.color.wrong)
                 showAnswerAnimation(backgroundColor, animColor)
                 wrongProblems.add(selectedProblem)
             }
@@ -139,11 +138,6 @@ class QuizFragment : Fragment() {
         setInfoVisibility(View.VISIBLE)
         updateProblemSize()
         updateSelectedYear()
-    }
-
-    private fun isDarkTheme(): Boolean {
-        val activity = requireActivity() as MainActivity
-        return activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun showAnswerAnimation(backgroundColor: Int, animColor: Int) {

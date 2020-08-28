@@ -13,17 +13,17 @@
         android:layout_height="100dp"
         android:layout_marginBottom="50dp"
         android:text="@string/start"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@android:color/white"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:buttonColor="@color/colorPrimaryDark"
-        app:glowColor="@color/colorPrimaryDark"
-        app:unpressedGlowSize="20dp"
-        app:pressedGlowSize="25dp"
+        app:buttonColor="@color/colorPrimary"
         app:cornerRadius="50dp"
+        app:glowColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:pressedGlowSize="25dp"
+        app:unpressedGlowSize="20dp" />
 
     <TextView
         android:id="@+id/descriptionTextView"
@@ -55,13 +55,16 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
         android:layout_marginTop="60dp"
+        android:layout_marginBottom="30dp"
         android:fillViewport="true"
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView">
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView"
+        app:layout_constraintBottom_toTopOf="@id/submitBtn"
+        >
 
         <RadioGroup
             android:id="@+id/radioGroup"

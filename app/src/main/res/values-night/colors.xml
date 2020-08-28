@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorPrimary">#0288D1</color>
+    <color name="colorPrimaryDark">#024481</color>
     <color name="colorPrimaryLight">#B3E5FC</color>
     <color name="colorAccent">#FF0099</color>
     <color name="textColor">#757575</color>
@@ -9,6 +9,6 @@
     <color name="divider">#BDBDBD</color>
     <color name="lightRed">#FFCCCB</color>
     <color name="lightGreen">#90EE90</color>
-    <color name="success">#B7DF89</color>
-    <color name="wrong">#FFCCBB</color>
+    <color name="success">#1B4125</color>
+    <color name="wrong">#662228</color>
 </resources>
