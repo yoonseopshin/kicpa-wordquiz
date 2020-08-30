@@ -193,7 +193,7 @@ class QuizFragment : Fragment() {
             toast.view = toastWrongLayout
         }
         toast.setGravity(Gravity.BOTTOM or Gravity.CENTER, 0, 200)
-        toast.duration = DURATION.toInt()
+        toast.duration = Toast.LENGTH_SHORT
         toast.show()
     }
 
