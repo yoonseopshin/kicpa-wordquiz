@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +16,16 @@ import androidx.fragment.app.Fragment
 import com.cpa.cpa_word_problem.db.ProblemData
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_quiz.*
+import kotlinx.android.synthetic.main.toast_success_view.view.*
+import kotlinx.android.synthetic.main.toast_wrong_view.view.*
 
 class QuizFragment : Fragment() {
 
     private lateinit var selectedProblem: ProblemData
     private lateinit var quizOption: QuizOption
     private lateinit var wrongProblems: ArrayList<ProblemData>
+    private lateinit var toastSuccessLayout: View
+    private lateinit var toastWrongLayout: View
     private val problemToPosition = hashMapOf<Int, Int>()
     private val checkBoxList = arrayListOf<CheckBox>()
     private var curCheckBoxHorizontalLayout: LinearLayout? = null
@@ -61,7 +66,8 @@ class QuizFragment : Fragment() {
             val years = arrayListOf<Int>()
             for (year in viewModel.startYear..viewModel.endYear) {
                 for (checkBoxHorizontalLayout in checkBoxVerticalLayout) {
-                    val checkBox = checkBoxHorizontalLayout.findViewWithTag<CheckBox>(year) ?: continue
+                    val checkBox =
+                        checkBoxHorizontalLayout.findViewWithTag<CheckBox>(year) ?: continue
                     if (checkBox.isChecked) {
                         years.add(year)
                     }
@@ -94,11 +100,19 @@ class QuizFragment : Fragment() {
                 (quizWholeLayout.background as? ColorDrawable)?.color ?: Color.TRANSPARENT
 
             if (isCorrect(pno)) {
-                val animColor = ContextCompat.getColor(activity, R.color.success)
-                showAnswerAnimation(backgroundColor, animColor)
+                if (viewModel.isQuizEffectOn()) {
+                    val animColor = ContextCompat.getColor(activity, R.color.success)
+                    showAnswerByAnimation(backgroundColor, animColor)
+                } else {
+                    showAnswerByToast(true)
+                }
             } else {
-                val animColor = ContextCompat.getColor(activity, R.color.wrong)
-                showAnswerAnimation(backgroundColor, animColor)
+                if (viewModel.isQuizEffectOn()) {
+                    val animColor = ContextCompat.getColor(activity, R.color.wrong)
+                    showAnswerByAnimation(backgroundColor, animColor)
+                } else {
+                    showAnswerByToast(false)
+                }
                 wrongProblems.add(selectedProblem)
             }
 
@@ -119,7 +133,6 @@ class QuizFragment : Fragment() {
             resources.getStringArray(R.array.problems)
         )
 
-        // TODO: 가로로 넘어가면 한 줄 내리기
         cardView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val cardViewWidth = cardView.measuredWidth
 
@@ -139,11 +152,10 @@ class QuizFragment : Fragment() {
             )
             checkBoxList.add(checkBox)
             val checkBoxWidth = checkBox.measuredWidth
-
-                curCheckBoxHorizontalLayout?.measure(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+            curCheckBoxHorizontalLayout?.measure(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
             val curCheckBoxLayoutWidth = curCheckBoxHorizontalLayout?.measuredWidth ?: 0
 
             if (curCheckBoxLayoutWidth + checkBoxWidth >= cardViewWidth) {
@@ -153,6 +165,11 @@ class QuizFragment : Fragment() {
 
             curCheckBoxHorizontalLayout?.addView(checkBox)
         }
+
+        toastSuccessLayout = layoutInflater.inflate(R.layout.toast_success_view, null)
+        toastSuccessLayout.successToastTextView.text = getString(R.string.success)
+        toastWrongLayout = layoutInflater.inflate(R.layout.toast_wrong_view, null)
+        toastWrongLayout.wrongToastTextView.text = getString(R.string.wrong)
     }
 
     override fun onPause() {
@@ -167,7 +184,20 @@ class QuizFragment : Fragment() {
         updateSelectedYear()
     }
 
-    private fun showAnswerAnimation(backgroundColor: Int, animColor: Int) {
+    private fun showAnswerByToast(isQuizEffectOn: Boolean) {
+        val activity = requireActivity()
+        val toast = Toast(activity)
+        if (isQuizEffectOn) {
+            toast.view = toastSuccessLayout
+        } else {
+            toast.view = toastWrongLayout
+        }
+        toast.setGravity(Gravity.BOTTOM or Gravity.CENTER, 0, 200)
+        toast.duration = DURATION.toInt()
+        toast.show()
+    }
+
+    private fun showAnswerByAnimation(backgroundColor: Int, animColor: Int) {
         ObjectAnimator.ofArgb(
             quizWholeLayout,
             "backgroundColor",

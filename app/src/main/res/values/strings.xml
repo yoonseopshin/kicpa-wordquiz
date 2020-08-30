@@ -17,4 +17,7 @@
     <string name="etc">기타</string>
     <string name="quiz_setting_text">%s</string>
     <string name="setting_year">출제년도</string>
+    <string name="setting_correct">정답 이펙트</string>
+    <string name="success">정답입니다!</string>
+    <string name="wrong">오답입니다.</string>
 </resources>

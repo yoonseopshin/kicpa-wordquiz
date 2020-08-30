@@ -28,6 +28,20 @@ class SettingFragment : Fragment() {
         init()
     }
 
+    override fun onPause() {
+        super.onPause()
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
+        viewModel.setQuizEffect(quizEffectSwitch.isChecked)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
+        quizEffectSwitch.isChecked = viewModel.isQuizEffectOn()
+    }
+
     private fun init() {
         val activity = requireActivity() as MainActivity
 

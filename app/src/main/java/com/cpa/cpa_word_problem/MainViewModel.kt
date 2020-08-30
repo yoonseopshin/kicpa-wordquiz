@@ -59,6 +59,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setSelectedYear(yearBitSet: Int) = preferenceManager.setSelectedYear(yearBitSet)
 
+    fun setQuizEffect(isTurnOn: Boolean) = preferenceManager.setQuizEffect(isTurnOn)
+
+    fun isQuizEffectOn() = preferenceManager.getQuizEffect()
+
     fun loadJson() {
         val assetManager = getApplication<Application>().resources.assets
         val inputStream = assetManager.open("accounting.json")

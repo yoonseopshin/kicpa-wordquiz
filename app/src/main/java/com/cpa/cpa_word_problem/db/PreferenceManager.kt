@@ -11,6 +11,8 @@ class PreferenceManager(private val context: Context) {
         const val DEFAULT_PROBLEM_SIZE = 3
         const val SELECTED_YEAR = "selected_year"
         const val DEFAULT_SELECTED_YEAR = 0b11111
+        const val QUIZ_EFFECT = "quiz_effect"
+        const val DEFAULT_QUIZ_EFFECT = true
     }
 
     private fun getPreferences(): SharedPreferences {
@@ -39,6 +41,18 @@ class PreferenceManager(private val context: Context) {
     fun getSelectedYear(): Int {
         val pref = getPreferences()
         return pref.getInt(SELECTED_YEAR, DEFAULT_SELECTED_YEAR)
+    }
+
+    fun setQuizEffect(isTurnOn: Boolean) {
+        val pref = getPreferences()
+        val editor = pref.edit()
+        editor.putBoolean(QUIZ_EFFECT, isTurnOn)
+        editor.apply()
+    }
+
+    fun getQuizEffect(): Boolean {
+        val pref = getPreferences()
+        return pref.getBoolean(QUIZ_EFFECT, DEFAULT_QUIZ_EFFECT)
     }
 
 }
