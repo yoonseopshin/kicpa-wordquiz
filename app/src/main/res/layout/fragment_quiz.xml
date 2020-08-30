@@ -9,12 +9,12 @@
 
     <com.sanojpunchihewa.glowbutton.GlowButton
         android:id="@+id/quizBtn"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="25dp"
         android:text="@string/start"
         android:textColor="@android:color/white"
-        android:textSize="28sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:buttonColor="@color/colorPrimary"
         app:cornerRadius="50dp"
