@@ -18,6 +18,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_quiz.*
 import kotlinx.android.synthetic.main.toast_success_view.view.*
 import kotlinx.android.synthetic.main.toast_wrong_view.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class QuizFragment : Fragment() {
 
@@ -195,6 +198,11 @@ class QuizFragment : Fragment() {
         toast.setGravity(Gravity.BOTTOM or Gravity.CENTER, 0, 200)
         toast.duration = Toast.LENGTH_SHORT
         toast.show()
+
+        GlobalScope.launch {
+            delay(DURATION)
+            toast.cancel()
+        }
     }
 
     private fun showAnswerByAnimation(backgroundColor: Int, animColor: Int) {

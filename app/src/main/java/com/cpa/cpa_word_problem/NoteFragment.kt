@@ -164,7 +164,7 @@ class NoteFragment : Fragment() {
                 holder.wrongProblemTextView1.setTextColor(
                     ContextCompat.getColor(
                         activity,
-                        R.color.colorPrimaryDark
+                        R.color.colorPrimary
                     )
                 )
             }
@@ -173,7 +173,7 @@ class NoteFragment : Fragment() {
                 holder.wrongProblemTextView2.setTextColor(
                     ContextCompat.getColor(
                         activity,
-                        R.color.colorPrimaryDark
+                        R.color.colorPrimary
                     )
                 )
             }
@@ -182,7 +182,7 @@ class NoteFragment : Fragment() {
                 holder.wrongProblemTextView3.setTextColor(
                     ContextCompat.getColor(
                         activity,
-                        R.color.colorPrimaryDark
+                        R.color.colorPrimary
                     )
                 )
             }
@@ -191,7 +191,7 @@ class NoteFragment : Fragment() {
                 holder.wrongProblemTextView4.setTextColor(
                     ContextCompat.getColor(
                         activity,
-                        R.color.colorPrimaryDark
+                        R.color.colorPrimary
                     )
                 )
             }
@@ -200,7 +200,7 @@ class NoteFragment : Fragment() {
                 holder.wrongProblemTextView5.setTextColor(
                     ContextCompat.getColor(
                         activity,
-                        R.color.colorPrimaryDark
+                        R.color.colorPrimary
                     )
                 )
             }

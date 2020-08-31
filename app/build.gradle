@@ -9,10 +9,10 @@ android {
 
     defaultConfig {
         applicationId "com.cpa.cpa_word_problem"
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 29
-        versionCode 9
-        versionName "1.2.1"
+        versionCode 10
+        versionName "1.2.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
