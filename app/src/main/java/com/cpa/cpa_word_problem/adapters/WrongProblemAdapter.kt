@@ -68,8 +68,7 @@ class WrongProblemAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WrongProblemViewHolder {
         return WrongProblemViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.problem_item, parent, false)
-        )
+                .inflate(R.layout.problem_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: WrongProblemViewHolder, position: Int) {

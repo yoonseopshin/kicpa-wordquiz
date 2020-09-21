@@ -52,7 +52,6 @@ class NoteFragment : Fragment() {
                 val problem = adapter.currentList[position]
                 val checked = adapter.checked
                 checked[problem] = if (!checked.containsKey(problem)) true else !checked[problem]!!
-
                 adapter.itemLookup.lookup(holder, position)
             }
         }
@@ -125,46 +124,23 @@ class NoteFragment : Fragment() {
     }
 
     private fun showProblems(holder: WrongProblemAdapter.WrongProblemViewHolder, answer: Int) {
+        val textViewMapper = hashMapOf<Int, TextView>()
+        textViewMapper[1] = holder.wrongProblemTextView1
+        textViewMapper[2] = holder.wrongProblemTextView2
+        textViewMapper[3] = holder.wrongProblemTextView3
+        textViewMapper[4] = holder.wrongProblemTextView4
+        textViewMapper[5] = holder.wrongProblemTextView5
+
         val defaultTypeface = Typeface.DEFAULT
         val defaultColor =
             ContextCompat.getColor(requireActivity(), android.R.color.tab_indicator_text)
-
-        setProblemTextColor(holder.wrongProblemTextView1, defaultTypeface, defaultColor)
-        setProblemTextColor(holder.wrongProblemTextView2, defaultTypeface, defaultColor)
-        setProblemTextColor(holder.wrongProblemTextView3, defaultTypeface, defaultColor)
-        setProblemTextColor(holder.wrongProblemTextView4, defaultTypeface, defaultColor)
-        setProblemTextColor(holder.wrongProblemTextView5, defaultTypeface, defaultColor)
+        for (i in 1..5) {
+            textViewMapper[i]?.let { setProblemTextColor(it, defaultTypeface, defaultColor) }
+        }
 
         val highlightTypeface = Typeface.DEFAULT_BOLD
         val highlightColor = ContextCompat.getColor(requireActivity(), R.color.colorPrimary)
-
-        when (answer) {
-            1 -> setProblemTextColor(
-                holder.wrongProblemTextView1,
-                highlightTypeface,
-                highlightColor
-            )
-            2 -> setProblemTextColor(
-                holder.wrongProblemTextView2,
-                highlightTypeface,
-                highlightColor
-            )
-            3 -> setProblemTextColor(
-                holder.wrongProblemTextView3,
-                highlightTypeface,
-                highlightColor
-            )
-            4 -> setProblemTextColor(
-                holder.wrongProblemTextView4,
-                highlightTypeface,
-                highlightColor
-            )
-            5 -> setProblemTextColor(
-                holder.wrongProblemTextView5,
-                highlightTypeface,
-                highlightColor
-            )
-        }
+        textViewMapper[answer]?.let { setProblemTextColor(it, highlightTypeface, highlightColor) }
     }
 
     private fun setProblemTextColor(textView: TextView, typeface: Typeface, color: Int) {
