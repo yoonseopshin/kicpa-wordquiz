@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.data
 
 data class QuizOption(val years: ArrayList<Int>) {
 }

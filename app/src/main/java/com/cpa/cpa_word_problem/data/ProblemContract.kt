@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.db
+package com.cpa.cpa_word_problem.data
 
 object ProblemContract {
     object ProblemEntity {

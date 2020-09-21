@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,8 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
-import com.cpa.cpa_word_problem.db.ProblemData
+import com.cpa.cpa_word_problem.data.ProblemData
+import com.cpa.cpa_word_problem.data.QuizOption
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_quiz.*
 import kotlinx.android.synthetic.main.toast_success_view.view.*
@@ -29,16 +31,8 @@ class QuizFragment : Fragment() {
     private lateinit var wrongProblems: ArrayList<ProblemData>
     private lateinit var toastSuccessLayout: View
     private lateinit var toastWrongLayout: View
-    private val problemToPosition = hashMapOf<Int, Int>()
     private val checkBoxList = arrayListOf<CheckBox>()
     private var curCheckBoxHorizontalLayout: LinearLayout? = null
-
-    init {
-        problemToPosition[3] = 0
-        problemToPosition[5] = 1
-        problemToPosition[7] = 2
-        problemToPosition[10] = 3
-    }
 
     companion object {
         const val DURATION = 500L
@@ -138,6 +132,7 @@ class QuizFragment : Fragment() {
 
         cardView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val cardViewWidth = cardView.measuredWidth
+        Log.d("cardview", cardViewWidth.toString())
 
         for (year in viewModel.startYear..viewModel.endYear) {
             if (curCheckBoxHorizontalLayout == null) {
@@ -232,7 +227,7 @@ class QuizFragment : Fragment() {
     private fun updateProblemSize() {
         val activity = requireActivity() as MainActivity
         val viewModel = activity.viewModel
-        val position = problemToPosition[viewModel.getSelectedProblemSize()]
+        val position = viewModel.problemToPosition[viewModel.getSelectedProblemSize()]
         position?.let { problemSpinner.setSelection(it) }
     }
 

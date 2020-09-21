@@ -1,12 +1,10 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.room.Room
-import com.cpa.cpa_word_problem.db.AppDatabase
-import com.cpa.cpa_word_problem.db.PreferenceManager
-import com.cpa.cpa_word_problem.db.ProblemContract
-import com.cpa.cpa_word_problem.db.ProblemData
+import com.cpa.cpa_word_problem.R
+import com.cpa.cpa_word_problem.data.*
 import org.json.JSONObject
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -16,7 +14,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var turn = 1
     var probSize = 0
     private val preferenceManager = PreferenceManager(application)
-    private val data = ArrayList<ProblemData>()
+    private val accountingData = ArrayList<ProblemData>()
     private val db = Room.databaseBuilder(
         application,
         AppDatabase::class.java,
@@ -24,15 +22,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     ).build()
     private val wrongProblems = LinkedHashSet<ProblemData>()
     var backKeyPressedTime: Long = 0
-    val tabIconList = arrayListOf(
-        R.drawable.ic_quiz,
-        R.drawable.ic_study,
-        R.drawable.ic_setting
-    )
+    val problemToPosition = hashMapOf(3 to 0, 5 to 1, 7 to 2, 10 to 3)
 
     fun getRandomProblem(option: QuizOption): ProblemData {
         val candidate = arrayListOf<ProblemData>()
-        for (i in data) {
+        for (i in accountingData) {
             if (i.year in option.years) {
                 candidate.add(i)
             }
@@ -82,7 +76,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val p5 = obj.getString("p5")
                 val answer = obj.getInt("answer")
                 val accountingData = ProblemData(pid, year, description, p1, p2, p3, p4, p5, answer)
-                data.add(accountingData)
+                this.accountingData.add(accountingData)
             }
         }
     }

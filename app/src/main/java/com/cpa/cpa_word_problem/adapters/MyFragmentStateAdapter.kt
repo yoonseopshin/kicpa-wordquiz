@@ -1,8 +1,11 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.cpa.cpa_word_problem.NoteFragment
+import com.cpa.cpa_word_problem.QuizFragment
+import com.cpa.cpa_word_problem.SettingFragment
 
 class MyFragmentStateAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
@@ -19,6 +22,5 @@ class MyFragmentStateAdapter(fragmentActivity: FragmentActivity) :
             else -> QuizFragment()
         }
     }
-
 
 }
