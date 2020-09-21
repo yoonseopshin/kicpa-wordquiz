@@ -45,32 +45,18 @@ class SettingFragment : Fragment() {
         val activity = requireActivity() as MainActivity
 
         quizLayout1.setOnClickListener {
-            setDefaultProblemDialog(activity)
+            setDefaultProblemConfirmDialog(activity)
         }
 
         quizSettingTextView1.text =
             getString(R.string.quiz_setting_text, getString(R.string.quiz_problem_size_description))
 
         quizLayout2.setOnClickListener {
-            setDefaultYearDialog(activity)
+            setDefaultYearConfirmDialog(activity)
         }
 
         DBLayout.setOnClickListener {
-            val builder = AlertDialog.Builder(
-                activity,
-                R.style.AlertDialogStyle
-            )
-            builder.setMessage("오답노트를 초기화하시겠습니까?")
-                .setCancelable(true)
-                .setPositiveButton("초기화") { _, _ ->
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        val viewModel = activity.viewModel
-                        viewModel.getProblemDao().deleteAll()
-                    }
-                }
-                .setNegativeButton("취소") { _, _ -> }
-                .create()
-                .show()
+            setDbInitConfirmDialog(activity)
         }
 
         emailLayout.setOnClickListener {
@@ -83,7 +69,25 @@ class SettingFragment : Fragment() {
         }
     }
 
-    private fun setDefaultYearDialog(activity: MainActivity) {
+    private fun setDbInitConfirmDialog(activity: MainActivity) {
+        val builder = AlertDialog.Builder(
+            activity,
+            R.style.AlertDialogStyle
+        )
+        builder.setMessage("오답노트를 초기화하시겠습니까?")
+            .setCancelable(true)
+            .setPositiveButton("초기화") { _, _ ->
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val viewModel = activity.viewModel
+                    viewModel.getProblemDao().deleteAll()
+                }
+            }
+            .setNegativeButton("취소") { _, _ -> }
+            .create()
+            .show()
+    }
+
+    private fun setDefaultYearConfirmDialog(activity: MainActivity) {
         val checkBoxList = arrayListOf<CheckBox>()
         val builder = AlertDialog.Builder(
             activity, R.style.AlertDialogStyle
@@ -106,7 +110,7 @@ class SettingFragment : Fragment() {
             .show()
     }
 
-    private fun setDefaultProblemDialog(activity: MainActivity) {
+    private fun setDefaultProblemConfirmDialog(activity: MainActivity) {
         val builder = AlertDialog.Builder(
             activity, R.style.AlertDialogStyle
         )
