@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cpa.cpa_word_problem.adapters.WrongProblemAdapter
+import com.cpa.cpa_word_problem.data.ProblemData
 import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,16 +61,15 @@ class NoteFragment : Fragment() {
                 holder: WrongProblemAdapter.WrongProblemViewHolder,
                 position: Int
             ) {
-                setDeleteConfirmDialog(position)
+                setDeleteConfirmDialog(adapter.currentList[position])
             }
 
-            private fun setDeleteConfirmDialog(position: Int) {
+            private fun setDeleteConfirmDialog(problem: ProblemData) {
                 val builder = AlertDialog.Builder(activity)
                 builder.setMessage("해당 문제를 삭제하시겠습니까?")
                     .setCancelable(true)
                     .setPositiveButton("삭제") { _, _ ->
                         lifecycleScope.launch(Dispatchers.IO) {
-                            val problem = adapter.currentList.removeAt(position)
                             adapter.checked.remove(problem)
                             problemDao.delete(problem)
                         }
