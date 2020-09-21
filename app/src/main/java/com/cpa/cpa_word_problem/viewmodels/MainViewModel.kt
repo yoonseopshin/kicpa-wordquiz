@@ -15,11 +15,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var probSize = 0
     private val preferenceManager = PreferenceManager(application)
     private val accountingData = ArrayList<ProblemData>()
+    private val businessData = ArrayList<ProblemData>()
     private val db = Room.databaseBuilder(
         application,
         AppDatabase::class.java,
         ProblemContract.ProblemEntity.TABLE_NAME
-    ).build()
+    ).addMigrations(AppMigration.MIGRATION_1_2).build()
     private val wrongProblems = LinkedHashSet<ProblemData>()
     var backKeyPressedTime: Long = 0
     val problemToPosition = hashMapOf(3 to 0, 5 to 1, 7 to 2, 10 to 3)
@@ -57,9 +58,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun isQuizEffectOn() = preferenceManager.getQuizEffect()
 
-    fun loadJson() {
+    fun loadJson(type: ProblemType) {
         val assetManager = getApplication<Application>().resources.assets
-        val inputStream = assetManager.open("accounting.json")
+        val inputStream = when (type) {
+            ProblemType.Accounting -> assetManager.open("accounting.json")
+            ProblemType.Business -> assetManager.open("business.json")
+        }
         val jsonString = inputStream.bufferedReader().use { it.readText() }
         val jsonObject = JSONObject(jsonString)
 
@@ -75,9 +79,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val p4 = obj.getString("p4")
                 val p5 = obj.getString("p5")
                 val answer = obj.getInt("answer")
-                val accountingData = ProblemData(pid, year, description, p1, p2, p3, p4, p5, answer)
-                this.accountingData.add(accountingData)
+                val data = ProblemData(pid, year, description, p1, p2, p3, p4, p5, answer, type.toString())
+                when (type) {
+                    ProblemType.Accounting -> accountingData.add(data)
+                    ProblemType.Business -> businessData.add(data)
+                }
             }
         }
     }
+
 }
