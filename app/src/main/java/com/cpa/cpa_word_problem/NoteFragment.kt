@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cpa.cpa_word_problem.adapters.WrongProblemAdapter
-import com.cpa.cpa_word_problem.data.ProblemData
 import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,12 +38,10 @@ class NoteFragment : Fragment() {
         wrongProblemRecyclerView.layoutManager = LinearLayoutManager(activity)
         val adapter = WrongProblemAdapter()
         wrongProblemRecyclerView.adapter = adapter
-        var wrongProblemList = arrayListOf<ProblemData>()
 
         val problemDao = viewModel.getProblemDao()
         problemDao.getAll().observe(activity, Observer {
             adapter.submitList(it)
-            wrongProblemList = it as ArrayList<ProblemData>
         })
 
         adapter.itemClickListener = object : WrongProblemAdapter.OnItemClickListener {
@@ -52,16 +49,11 @@ class NoteFragment : Fragment() {
                 holder: WrongProblemAdapter.WrongProblemViewHolder,
                 position: Int
             ) {
-                val problem = wrongProblemList[position]
+                val problem = adapter.currentList[position]
                 val checked = adapter.checked
                 checked[problem] = if (!checked.containsKey(problem)) true else !checked[problem]!!
 
-                if (checked[problem] == true) {
-                    unfoldProblem(holder)
-                    showProblems(holder, problem.answer)
-                } else {
-                    foldProblem(holder)
-                }
+                adapter.itemLookup.lookup(holder, position)
             }
         }
         adapter.itemLongClickListener = object : WrongProblemAdapter.OnItemLongClickListener {
@@ -78,7 +70,7 @@ class NoteFragment : Fragment() {
                     .setCancelable(true)
                     .setPositiveButton("삭제") { _, _ ->
                         lifecycleScope.launch(Dispatchers.IO) {
-                            val problem = wrongProblemList.removeAt(position)
+                            val problem = adapter.currentList.removeAt(position)
                             adapter.checked.remove(problem)
                             problemDao.delete(problem)
                         }
@@ -93,7 +85,7 @@ class NoteFragment : Fragment() {
                 holder: WrongProblemAdapter.WrongProblemViewHolder,
                 position: Int
             ) {
-                val problem = wrongProblemList[position]
+                val problem = adapter.currentList[position]
                 if (adapter.checked[problem] == true) {
                     unfoldProblem(holder)
                     showProblems(holder, problem.answer)

@@ -82,12 +82,7 @@ class WrongProblemAdapter :
         holder.wrongProblemTextView3.text = problem.p3
         holder.wrongProblemTextView4.text = problem.p4
         holder.wrongProblemTextView5.text = problem.p5
-
-        if (checked[problem] == true) {
-            itemLookup.lookup(holder, position)
-        } else {
-            holder.wrongProblemLayout.visibility = View.GONE
-        }
+        itemLookup.lookup(holder, position)
     }
 
     override fun submitList(list: List<ProblemData>?) {
