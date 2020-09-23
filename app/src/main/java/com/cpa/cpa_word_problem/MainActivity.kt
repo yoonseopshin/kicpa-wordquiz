@@ -23,12 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding =
-            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        binding.lifecycleOwner = this
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        binding.viewModel = viewModel
-
         viewModel.loadJson(ProblemType.Accounting)
         viewModel.loadJson(ProblemType.Business)
 
