@@ -1,8 +1,8 @@
 package com.cpa.cpa_word_problem
 
 import android.animation.ObjectAnimator
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.app.Activity
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.view.Gravity
@@ -26,7 +26,6 @@ class QuizFragment : Fragment() {
 
     private lateinit var selectedProblem: ProblemData
     private lateinit var quizOption: QuizOption
-    private lateinit var wrongProblems: ArrayList<ProblemData>
     private lateinit var toastSuccessLayout: View
     private lateinit var toastWrongLayout: View
     private val checkBoxList = arrayListOf<CheckBox>()
@@ -46,86 +45,17 @@ class QuizFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        init()
-    }
-
-    private fun init() {
-        val activity = requireActivity() as MainActivity
-        val viewModel = activity.viewModel
         setInfoVisibility(View.VISIBLE)
         setProblemVisibility(View.GONE)
+        setButtonListener()
+        setProblemSpinnerAdapter()
+        setCheckBoxOnCardView()
+        createToastLayout()
+    }
 
-        quizBtn.setOnClickListener {
-            wrongProblems = arrayListOf()
-
-            val years = arrayListOf<Int>()
-            for (year in viewModel.startYear..viewModel.endYear) {
-                for (checkBoxHorizontalLayout in checkBoxVerticalLayout) {
-                    val checkBox =
-                        checkBoxHorizontalLayout.findViewWithTag<CheckBox>(year) ?: continue
-                    if (checkBox.isChecked) {
-                        years.add(year)
-                    }
-                }
-            }
-
-            if (years.isEmpty()) {
-                Toast.makeText(activity, "출제년도를 선택하세요.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val problemString = problemSpinner.selectedItem.toString()
-            viewModel.probSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
-            quizOption = QuizOption(years)
-            viewModel.turn = 1
-
-            setInfoVisibility(View.GONE)
-            setProblemVisibility(View.VISIBLE)
-
-            setQuiz(quizOption)
-        }
-
-        submitBtn.setOnClickListener {
-            val radioBtn =
-                radioGroup.findViewById<View>(radioGroup.checkedRadioButtonId) as RadioButton
-            val pno = radioGroup.indexOfChild(radioBtn) + 1
-
-            val backgroundColor =
-                (quizWholeLayout.background as? ColorDrawable)?.color ?: Color.TRANSPARENT
-
-            if (isCorrect(pno)) {
-                if (viewModel.isQuizEffectOn()) {
-                    val animColor = ContextCompat.getColor(activity, R.color.success)
-                    showAnswerByAnimation(backgroundColor, animColor)
-                } else {
-                    showAnswerByToast(true)
-                }
-            } else {
-                if (viewModel.isQuizEffectOn()) {
-                    val animColor = ContextCompat.getColor(activity, R.color.wrong)
-                    showAnswerByAnimation(backgroundColor, animColor)
-                } else {
-                    showAnswerByToast(false)
-                }
-                wrongProblems.add(selectedProblem)
-            }
-
-            if (viewModel.turn++ >= viewModel.probSize) {
-                Handler().postDelayed({
-                    setProblemVisibility(View.GONE)
-                    setInfoVisibility(View.VISIBLE)
-                    viewModel.addWrongProblems(wrongProblems)
-                }, DURATION)
-            } else {
-                setQuiz(quizOption)
-            }
-        }
-
-        problemSpinner.adapter = ArrayAdapter(
-            requireContext(), R.layout.spinner_item,
-            resources.getStringArray(R.array.problems)
-        )
-
+    private fun setCheckBoxOnCardView() {
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
         cardView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val cardViewWidth = cardView.measuredWidth
 
@@ -158,11 +88,97 @@ class QuizFragment : Fragment() {
 
             curCheckBoxHorizontalLayout?.addView(checkBox)
         }
+    }
 
+    private fun createToastLayout() {
         toastSuccessLayout = layoutInflater.inflate(R.layout.toast_success_view, null)
         toastSuccessLayout.successToastTextView.text = getString(R.string.success)
         toastWrongLayout = layoutInflater.inflate(R.layout.toast_wrong_view, null)
         toastWrongLayout.wrongToastTextView.text = getString(R.string.wrong)
+    }
+
+    private fun setProblemSpinnerAdapter() {
+        problemSpinner.adapter = ArrayAdapter(
+            requireContext(), R.layout.spinner_item,
+            resources.getStringArray(R.array.problems)
+        )
+    }
+
+    private fun setButtonListener() {
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
+        val wrongProblems = arrayListOf<ProblemData>()
+        quizBtn.setOnClickListener {
+            val years = arrayListOf<Int>()
+            for (year in viewModel.startYear..viewModel.endYear) {
+                for (checkBoxHorizontalLayout in checkBoxVerticalLayout) {
+                    val checkBox =
+                        checkBoxHorizontalLayout.findViewWithTag<CheckBox>(year) ?: continue
+                    if (checkBox.isChecked) {
+                        years.add(year)
+                    }
+                }
+            }
+
+            if (years.isEmpty()) {
+                Toast.makeText(activity, "출제년도를 선택하세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val problemString = problemSpinner.selectedItem.toString()
+            viewModel.probSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
+            quizOption = QuizOption(years)
+            viewModel.turn = 1
+
+            setInfoVisibility(View.GONE)
+            setProblemVisibility(View.VISIBLE)
+
+            setQuiz(quizOption)
+        }
+
+        submitBtn.setOnClickListener {
+            val radioBtn =
+                radioGroup.findViewById<View>(radioGroup.checkedRadioButtonId) as RadioButton
+            val pno = radioGroup.indexOfChild(radioBtn) + 1
+
+            val backgroundColor = ContextCompat.getColor(
+                activity,
+                if (isDarkTheme(activity)) android.R.color.background_dark
+                else android.R.color.background_light
+            )
+
+            if (isCorrect(pno)) {
+                if (viewModel.isQuizEffectOn()) {
+                    val animColor = ContextCompat.getColor(activity, R.color.success)
+                    showAnswerByAnimation(backgroundColor, animColor)
+                } else {
+                    showAnswerByToast(true)
+                }
+            } else {
+                if (viewModel.isQuizEffectOn()) {
+                    val animColor = ContextCompat.getColor(activity, R.color.wrong)
+                    showAnswerByAnimation(backgroundColor, animColor)
+                } else {
+                    showAnswerByToast(false)
+                }
+                wrongProblems.add(selectedProblem)
+            }
+
+            if (viewModel.turn++ >= viewModel.probSize) {
+                Handler().postDelayed({
+                    setProblemVisibility(View.GONE)
+                    setInfoVisibility(View.VISIBLE)
+                    viewModel.addWrongProblems(wrongProblems)
+                }, DURATION)
+            } else {
+                setQuiz(quizOption)
+            }
+        }
+    }
+
+    private fun isDarkTheme(activity: Activity): Boolean {
+        return activity.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 
     override fun onPause() {
