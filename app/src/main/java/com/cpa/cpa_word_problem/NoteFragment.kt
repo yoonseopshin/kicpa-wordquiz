@@ -21,6 +21,8 @@ import kotlinx.coroutines.launch
 
 class NoteFragment : Fragment() {
 
+    private val textViewMapper = hashMapOf<Int, TextView>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -124,7 +126,6 @@ class NoteFragment : Fragment() {
     }
 
     private fun showProblems(holder: WrongProblemAdapter.WrongProblemViewHolder, answer: Int) {
-        val textViewMapper = hashMapOf<Int, TextView>()
         textViewMapper[1] = holder.wrongProblemTextView1
         textViewMapper[2] = holder.wrongProblemTextView2
         textViewMapper[3] = holder.wrongProblemTextView3

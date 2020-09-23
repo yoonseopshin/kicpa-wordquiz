@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,6 @@ import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.cpa.cpa_word_problem.data.ProblemData
 import com.cpa.cpa_word_problem.data.QuizOption
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_quiz.*
 import kotlinx.android.synthetic.main.toast_success_view.view.*
 import kotlinx.android.synthetic.main.toast_wrong_view.view.*
@@ -85,7 +83,6 @@ class QuizFragment : Fragment() {
             setProblemVisibility(View.VISIBLE)
 
             setQuiz(quizOption)
-            activity.viewPager2.isUserInputEnabled = false
         }
 
         submitBtn.setOnClickListener {
@@ -117,7 +114,6 @@ class QuizFragment : Fragment() {
                 Handler().postDelayed({
                     setProblemVisibility(View.GONE)
                     setInfoVisibility(View.VISIBLE)
-                    activity.viewPager2.isUserInputEnabled = true
                     viewModel.addWrongProblems(wrongProblems)
                 }, DURATION)
             } else {
@@ -132,7 +128,6 @@ class QuizFragment : Fragment() {
 
         cardView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val cardViewWidth = cardView.measuredWidth
-        Log.d("cardview", cardViewWidth.toString())
 
         for (year in viewModel.startYear..viewModel.endYear) {
             if (curCheckBoxHorizontalLayout == null) {
