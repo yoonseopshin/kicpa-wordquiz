@@ -15,6 +15,7 @@
     <string name="note">오답노트</string>
     <string name="refresh_note">오답노트 초기화</string>
     <string name="etc">기타</string>
+    <string name="question">문의하기</string>
     <string name="quiz_setting_text">%s</string>
     <string name="setting_year">출제년도</string>
     <string name="setting_correct">정답 이펙트</string>

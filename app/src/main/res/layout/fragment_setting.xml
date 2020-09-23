@@ -316,14 +316,15 @@
                             android:src="@drawable/ic_email"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:contentDescription="@string/email_subject"/>
 
                         <TextView
                             android:id="@+id/emailTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="문의하기"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/question"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/emailImageView"
