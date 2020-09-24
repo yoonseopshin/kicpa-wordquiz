@@ -2,6 +2,7 @@ package com.cpa.cpa_word_problem
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -118,10 +119,14 @@ class NoteFragment : Fragment() {
     }
 
     private fun foldProblem(holder: WrongProblemAdapter.WrongProblemViewHolder) {
+        holder.wrongProblemDescriptionTextView.ellipsize = TextUtils.TruncateAt.END
+        holder.wrongProblemDescriptionTextView.maxLines = 2
         holder.wrongProblemLayout.visibility = View.GONE
     }
 
     private fun unfoldProblem(holder: WrongProblemAdapter.WrongProblemViewHolder) {
+        holder.wrongProblemDescriptionTextView.ellipsize = TextUtils.TruncateAt.END
+        holder.wrongProblemDescriptionTextView.maxLines = Integer.MAX_VALUE
         holder.wrongProblemLayout.visibility = View.VISIBLE
     }
 

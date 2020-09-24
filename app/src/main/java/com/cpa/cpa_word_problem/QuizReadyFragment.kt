@@ -29,6 +29,7 @@ class QuizReadyFragment : Fragment() {
         setSelectedYear()
         setQuizButtonListener()
         setProblemSize()
+        setCategory()
     }
 
     private fun setQuizButtonListener() {
@@ -53,7 +54,8 @@ class QuizReadyFragment : Fragment() {
 
             val problemString = problemSpinner.selectedItem.toString()
             viewModel.probSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
-            viewModel.quizOption = QuizOption(years)
+            val category = categorySpinner.selectedItem.toString()
+            viewModel.quizOption = QuizOption(years, category)
 
             setFragment(QuizState.Start)
         }
@@ -67,6 +69,13 @@ class QuizReadyFragment : Fragment() {
         problemSpinner.adapter = ArrayAdapter(
             requireContext(), R.layout.spinner_item,
             resources.getStringArray(R.array.problems)
+        )
+    }
+
+    private fun setCategory() {
+        categorySpinner.adapter = ArrayAdapter(
+            requireContext(), R.layout.spinner_item,
+            resources.getStringArray(R.array.categories)
         )
     }
 
@@ -133,10 +142,18 @@ class QuizReadyFragment : Fragment() {
         position?.let { problemSpinner.setSelection(it) }
     }
 
+    private fun updateCategory() {
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
+        val position = viewModel.categoryToPosition[viewModel.getCategory()]
+        position?.let { categorySpinner.setSelection(it) }
+    }
+
     override fun onResume() {
         super.onResume()
         updateProblemSize()
         updateSelectedYear()
+        updateCategory()
     }
 
 }

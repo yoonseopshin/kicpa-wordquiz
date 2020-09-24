@@ -81,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-
                 app:layout_constraintBottom_toBottomOf="@+id/problemSizeTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -89,18 +88,46 @@
                 app:layout_constraintTop_toTopOf="@+id/problemSizeTextView" />
 
             <TextView
+                android:id="@+id/categoryTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/quiz_category"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/categorySpinner"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/problemSizeTextView" />
+
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/categoryTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/categoryTextView"
+                app:layout_constraintTop_toTopOf="@+id/categoryTextView" />
+
+            <TextView
                 android:id="@+id/yearSelectTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/setting_year"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/problemSizeTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/categoryTextView" />
 
             <LinearLayout
                 android:id="@+id/checkBoxVerticalLayout"

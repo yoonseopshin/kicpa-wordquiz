@@ -13,6 +13,8 @@ class PreferenceManager(private val context: Context) {
         const val DEFAULT_SELECTED_YEAR = 0b11111
         const val QUIZ_EFFECT = "quiz_effect"
         const val DEFAULT_QUIZ_EFFECT = true
+        const val CATEGORY = "category"
+        const val DEFAULT_CATEGORY = "회계학"
     }
 
     private fun getPreferences(): SharedPreferences {
@@ -53,6 +55,18 @@ class PreferenceManager(private val context: Context) {
     fun getQuizEffect(): Boolean {
         val pref = getPreferences()
         return pref.getBoolean(QUIZ_EFFECT, DEFAULT_QUIZ_EFFECT)
+    }
+
+    fun setCategory(category: String) {
+        val pref = getPreferences()
+        val editor = pref.edit()
+        editor.putString(CATEGORY, category)
+        editor.apply()
+    }
+
+    fun getCategory(): String {
+        val pref = getPreferences()
+        return pref.getString(CATEGORY, DEFAULT_CATEGORY)!!
     }
 
 }

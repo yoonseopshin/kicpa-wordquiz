@@ -5,13 +5,14 @@
     <string name="END_YEAR">2020</string>
     <string name="submit">제출</string>
     <string name="start">시작</string>
-    <string name="quiz_description">2016~2020 CPA 1차 회계학 말문제 랜덤퀴즈입니다.</string>
+    <string name="quiz_description">2016~2020 CPA 1차 눈으로 푸는 문제들만 모아둔 랜덤퀴즈입니다.</string>
     <string name="quiz_information">틀린 문제는 자동으로 오답노트에 저장됩니다. \n문제의 정답은 오답노트에서 확인하세요.</string>
     <string name="email">sys09270883@gmail.com</string>
     <string name="email_subject">[CPA 회계학 말문제 앱 건의사항]</string>
     <string name="setting">설정</string>
     <string name="quiz">퀴즈</string>
     <string name="quiz_problem_size_description">문제 수</string>
+    <string name="quiz_category">과목</string>
     <string name="note">오답노트</string>
     <string name="refresh_note">오답노트 초기화</string>
     <string name="etc">기타</string>

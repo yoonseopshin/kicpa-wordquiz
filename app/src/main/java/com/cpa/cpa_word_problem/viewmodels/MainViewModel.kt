@@ -25,13 +25,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val wrongProblems = LinkedHashSet<ProblemData>()
     var backKeyPressedTime: Long = 0
     val problemToPosition = hashMapOf(3 to 0, 5 to 1, 7 to 2, 10 to 3)
+    val categoryToPosition = hashMapOf("회계학" to 0, "경영학" to 1)
     lateinit var quizOption: QuizOption
     lateinit var checkBoxArray: Array<CheckBox>
 
 
     fun getRandomProblem(option: QuizOption): ProblemData {
+        val data = when (option.type) {
+            "회계학" -> accountingData
+            "경영학" -> businessData
+            else -> accountingData
+        }
         val candidate = arrayListOf<ProblemData>()
-        for (i in accountingData) {
+        for (i in data) {
             if (i.year in option.years) {
                 candidate.add(i)
             }
@@ -55,6 +61,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun getSelectedProblemSize() = preferenceManager.getSelectedProblemSize()
 
     fun setProblemSize(problemSize: Int) = preferenceManager.setSelectedProblemSize(problemSize)
+
+    fun setCategory(category: String) = preferenceManager.setCategory(category)
+
+    fun getCategory() = preferenceManager.getCategory()
 
     fun setSelectedYear(yearBitSet: Int) = preferenceManager.setSelectedYear(yearBitSet)
 

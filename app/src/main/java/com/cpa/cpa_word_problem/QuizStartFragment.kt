@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import com.cpa.cpa_word_problem.data.ProblemData
 import com.cpa.cpa_word_problem.data.QuizOption
 import com.cpa.cpa_word_problem.data.QuizState
+import com.cpa.cpa_word_problem.utils.QuizClassifier
 import kotlinx.android.synthetic.main.fragment_quiz_start.*
 import kotlinx.android.synthetic.main.toast_success_view.view.*
 import kotlinx.android.synthetic.main.toast_wrong_view.view.*
@@ -149,8 +150,14 @@ class QuizStartFragment : Fragment() {
 
         selectedProblem = viewModel.getRandomProblem(option)
 
-        descriptionTextView.text = selectedProblem.description
-        infoTextView.text = getInfoText(selectedProblem)
+        val (description, subDescription) = QuizClassifier.getInstance()
+            .classify(selectedProblem.description)
+        descriptionTextView.text = description
+        if (subDescription.isEmpty()) subDescriptionTextView.visibility = View.GONE
+        else subDescriptionTextView.visibility = View.VISIBLE
+        subDescriptionTextView.text = subDescription
+        problemCategoryTextView.text = option.type
+        problemInfoTextView.text = getInfoText(selectedProblem)
         radioButton.text = selectedProblem.p1
         radioButton2.text = selectedProblem.p2
         radioButton3.text = selectedProblem.p3
