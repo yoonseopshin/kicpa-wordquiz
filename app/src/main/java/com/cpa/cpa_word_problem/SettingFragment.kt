@@ -55,6 +55,10 @@ class SettingFragment : Fragment() {
             setDefaultYearConfirmDialog(activity)
         }
 
+        quizLayout3.setOnClickListener {
+            setDefaultCategoryConfirmDialog(activity)
+        }
+
         DBLayout.setOnClickListener {
             setDbInitConfirmDialog(activity)
         }
@@ -67,6 +71,29 @@ class SettingFragment : Fragment() {
             intent.type = "message/rfc822"
             startActivity(Intent.createChooser(intent, "개발자한테 문의하기"))
         }
+    }
+
+    private fun setDefaultCategoryConfirmDialog(activity: MainActivity) {
+        val builder = AlertDialog.Builder(
+            activity,
+            R.style.AlertDialogStyle
+        )
+        val spinner = Spinner(activity)
+        spinner.adapter = ArrayAdapter(
+            requireContext(), R.layout.spinner_item,
+            resources.getStringArray(R.array.categories)
+        )
+        builder.setMessage("기본 과목을 선택하세요.")
+            .setCancelable(true)
+            .setSpinner(spinner)
+            .setPositiveButton("확인") { _, _ ->
+                val category = spinner.selectedItem.toString()
+                val viewModel = activity.viewModel
+                viewModel.setCategory(category)
+            }
+            .setNegativeButton("취소") { _, _ -> }
+            .create()
+            .show()
     }
 
     private fun setDbInitConfirmDialog(activity: MainActivity) {

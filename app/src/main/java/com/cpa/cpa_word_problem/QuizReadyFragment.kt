@@ -54,8 +54,8 @@ class QuizReadyFragment : Fragment() {
 
             val problemString = problemSpinner.selectedItem.toString()
             viewModel.probSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
-            viewModel.category = categorySpinner.selectedItem.toString()
-            viewModel.quizOption = QuizOption(years, viewModel.category)
+            val category = categorySpinner.selectedItem.toString()
+            viewModel.quizOption = QuizOption(years, category)
 
             setFragment(QuizState.Start)
         }
@@ -142,10 +142,18 @@ class QuizReadyFragment : Fragment() {
         position?.let { problemSpinner.setSelection(it) }
     }
 
+    private fun updateCategory() {
+        val activity = requireActivity() as MainActivity
+        val viewModel = activity.viewModel
+        val position = viewModel.categoryToPosition[viewModel.getCategory()]
+        position?.let { categorySpinner.setSelection(it) }
+    }
+
     override fun onResume() {
         super.onResume()
         updateProblemSize()
         updateSelectedYear()
+        updateCategory()
     }
 
 }

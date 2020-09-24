@@ -10,7 +10,6 @@ import org.json.JSONObject
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    var category = "회계학"
     val startYear = application.resources.getString(R.string.START_YEAR).toInt()
     val endYear = application.resources.getString(R.string.END_YEAR).toInt()
     var turn = 1
@@ -26,6 +25,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val wrongProblems = LinkedHashSet<ProblemData>()
     var backKeyPressedTime: Long = 0
     val problemToPosition = hashMapOf(3 to 0, 5 to 1, 7 to 2, 10 to 3)
+    val categoryToPosition = hashMapOf("회계학" to 0, "경영학" to 1)
     lateinit var quizOption: QuizOption
     lateinit var checkBoxArray: Array<CheckBox>
 
@@ -61,6 +61,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun getSelectedProblemSize() = preferenceManager.getSelectedProblemSize()
 
     fun setProblemSize(problemSize: Int) = preferenceManager.setSelectedProblemSize(problemSize)
+
+    fun setCategory(category: String) = preferenceManager.setCategory(category)
+
+    fun getCategory() = preferenceManager.getCategory()
 
     fun setSelectedYear(yearBitSet: Int) = preferenceManager.setSelectedYear(yearBitSet)
 
