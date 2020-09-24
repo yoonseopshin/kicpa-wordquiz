@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.db
+package com.cpa.cpa_word_problem.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -14,7 +14,8 @@ data class ProblemData(
     @ColumnInfo(name = ProblemContract.ProblemEntity.P3) val p3: String,
     @ColumnInfo(name = ProblemContract.ProblemEntity.P4) val p4: String,
     @ColumnInfo(name = ProblemContract.ProblemEntity.P5) val p5: String,
-    @ColumnInfo(name = ProblemContract.ProblemEntity.ANSWER) val answer: Int
+    @ColumnInfo(name = ProblemContract.ProblemEntity.ANSWER) val answer: Int,
+    @ColumnInfo(name = ProblemContract.ProblemEntity.TYPE) val type: String
 ) {
 
     override fun equals(other: Any?): Boolean {

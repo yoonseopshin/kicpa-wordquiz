@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.cpa.cpa_word_problem.db.ProblemData
+import com.cpa.cpa_word_problem.R
+import com.cpa.cpa_word_problem.data.ProblemData
 
 class WrongProblemAdapter :
     ListAdapter<ProblemData, WrongProblemAdapter.WrongProblemViewHolder>(DiffCallback) {
@@ -67,8 +68,7 @@ class WrongProblemAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WrongProblemViewHolder {
         return WrongProblemViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.problem_item, parent, false)
-        )
+                .inflate(R.layout.problem_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: WrongProblemViewHolder, position: Int) {
@@ -81,12 +81,7 @@ class WrongProblemAdapter :
         holder.wrongProblemTextView3.text = problem.p3
         holder.wrongProblemTextView4.text = problem.p4
         holder.wrongProblemTextView5.text = problem.p5
-
-        if (checked[problem] == true) {
-            itemLookup.lookup(holder, position)
-        } else {
-            holder.wrongProblemLayout.visibility = View.GONE
-        }
+        itemLookup.lookup(holder, position)
     }
 
     override fun submitList(list: List<ProblemData>?) {

@@ -19,7 +19,6 @@ class SettingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_setting, container, false)
     }
 
@@ -46,70 +45,18 @@ class SettingFragment : Fragment() {
         val activity = requireActivity() as MainActivity
 
         quizLayout1.setOnClickListener {
-            val builder = AlertDialog.Builder(
-                activity, R.style.AlertDialogStyle
-            )
-            val spinner = Spinner(activity)
-            spinner.adapter = ArrayAdapter(
-                requireContext(), R.layout.spinner_item,
-                resources.getStringArray(R.array.problems)
-            )
-
-            builder.setMessage("기본 문제 수를 선택하세요.")
-                .setCancelable(true)
-                .setSpinner(spinner)
-                .setPositiveButton("확인") { _, _ ->
-                    val problemString = spinner.selectedItem.toString()
-                    val problemSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
-                    val viewModel = activity.viewModel
-                    viewModel.setProblemSize(problemSize)
-                }
-                .setNegativeButton("취소") { _, _ -> }
-                .create()
-                .show()
+            setDefaultProblemConfirmDialog(activity)
         }
+
         quizSettingTextView1.text =
             getString(R.string.quiz_setting_text, getString(R.string.quiz_problem_size_description))
 
         quizLayout2.setOnClickListener {
-            val checkBoxList = arrayListOf<CheckBox>()
-            val builder = AlertDialog.Builder(
-                activity, R.style.AlertDialogStyle
-            )
-            builder.setMessage("기본 출제년도를 선택하세요.")
-                .setCancelable(true)
-                .setYearCheckbox(checkBoxList)
-                .setPositiveButton("확인") { _, _ ->
-                    var checkBoxBitSet = 0b00000
-                    for (i in checkBoxList.indices) {
-                        if (checkBoxList[i].isChecked) {
-                            checkBoxBitSet = checkBoxBitSet or (1 shl i)
-                        }
-                        val viewModel = activity.viewModel
-                        viewModel.setSelectedYear(checkBoxBitSet)
-                    }
-                }
-                .setNegativeButton("취소") { _, _ -> }
-                .create()
-                .show()
+            setDefaultYearConfirmDialog(activity)
         }
 
         DBLayout.setOnClickListener {
-            val builder = AlertDialog.Builder(
-                activity,
-                R.style.AlertDialogStyle
-            )
-            builder.setMessage("오답노트를 초기화하시겠습니까?")
-                .setCancelable(true)
-                .setPositiveButton("초기화") { _, _ ->
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        val viewModel = activity.viewModel
-                        viewModel.getProblemDao().deleteAll()
-                    }
-                }
-                .setNegativeButton("취소") { _, _ -> }
-                .create()
-                .show()
+            setDbInitConfirmDialog(activity)
         }
 
         emailLayout.setOnClickListener {
@@ -120,6 +67,71 @@ class SettingFragment : Fragment() {
             intent.type = "message/rfc822"
             startActivity(Intent.createChooser(intent, "개발자한테 문의하기"))
         }
+    }
+
+    private fun setDbInitConfirmDialog(activity: MainActivity) {
+        val builder = AlertDialog.Builder(
+            activity,
+            R.style.AlertDialogStyle
+        )
+        builder.setMessage("오답노트를 초기화하시겠습니까?")
+            .setCancelable(true)
+            .setPositiveButton("초기화") { _, _ ->
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val viewModel = activity.viewModel
+                    viewModel.getProblemDao().deleteAll()
+                }
+            }
+            .setNegativeButton("취소") { _, _ -> }
+            .create()
+            .show()
+    }
+
+    private fun setDefaultYearConfirmDialog(activity: MainActivity) {
+        val checkBoxList = arrayListOf<CheckBox>()
+        val builder = AlertDialog.Builder(
+            activity, R.style.AlertDialogStyle
+        )
+        builder.setMessage("기본 출제년도를 선택하세요.")
+            .setCancelable(true)
+            .setYearCheckbox(checkBoxList)
+            .setPositiveButton("확인") { _, _ ->
+                var checkBoxBitSet = 0b00000
+                for (i in checkBoxList.indices) {
+                    if (checkBoxList[i].isChecked) {
+                        checkBoxBitSet = checkBoxBitSet or (1 shl i)
+                    }
+                    val viewModel = activity.viewModel
+                    viewModel.setSelectedYear(checkBoxBitSet)
+                }
+            }
+            .setNegativeButton("취소") { _, _ -> }
+            .create()
+            .show()
+    }
+
+    private fun setDefaultProblemConfirmDialog(activity: MainActivity) {
+        val builder = AlertDialog.Builder(
+            activity, R.style.AlertDialogStyle
+        )
+        val spinner = Spinner(activity)
+        spinner.adapter = ArrayAdapter(
+            requireContext(), R.layout.spinner_item,
+            resources.getStringArray(R.array.problems)
+        )
+
+        builder.setMessage("기본 문제 수를 선택하세요.")
+            .setCancelable(true)
+            .setSpinner(spinner)
+            .setPositiveButton("확인") { _, _ ->
+                val problemString = spinner.selectedItem.toString()
+                val problemSize = problemString.replace("[^0-9]".toRegex(), "").toInt()
+                val viewModel = activity.viewModel
+                viewModel.setProblemSize(problemSize)
+            }
+            .setNegativeButton("취소") { _, _ -> }
+            .create()
+            .show()
     }
 
     private fun AlertDialog.Builder.setSpinner(spinner: Spinner): AlertDialog.Builder {

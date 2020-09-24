@@ -1,0 +1,89 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "ad6ab54817c79efda221bb2b93c7be17",
+    "entities": [
+      {
+        "tableName": "problems",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` INTEGER NOT NULL, `year` INTEGER NOT NULL, `description` TEXT NOT NULL, `p1` TEXT NOT NULL, `p2` TEXT NOT NULL, `p3` TEXT NOT NULL, `p4` TEXT NOT NULL, `p5` TEXT NOT NULL, `answer` INTEGER NOT NULL, `type` TEXT NOT NULL, PRIMARY KEY(`pid`, `year`))",
+        "fields": [
+          {
+            "fieldPath": "pid",
+            "columnName": "pid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "p1",
+            "columnName": "p1",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "p2",
+            "columnName": "p2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "p3",
+            "columnName": "p3",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "p4",
+            "columnName": "p4",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "p5",
+            "columnName": "p5",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "answer",
+            "columnName": "answer",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "pid",
+            "year"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ad6ab54817c79efda221bb2b93c7be17')"
+    ]
+  }
+}

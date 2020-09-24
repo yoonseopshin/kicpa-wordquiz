@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -12,12 +13,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cpa.cpa_word_problem.db.ProblemData
+import com.cpa.cpa_word_problem.adapters.WrongProblemAdapter
+import com.cpa.cpa_word_problem.data.ProblemData
 import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NoteFragment : Fragment() {
+
+    private val textViewMapper = hashMapOf<Int, TextView>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,12 +41,10 @@ class NoteFragment : Fragment() {
         wrongProblemRecyclerView.layoutManager = LinearLayoutManager(activity)
         val adapter = WrongProblemAdapter()
         wrongProblemRecyclerView.adapter = adapter
-        var wrongProblemList = arrayListOf<ProblemData>()
 
         val problemDao = viewModel.getProblemDao()
         problemDao.getAll().observe(activity, Observer {
             adapter.submitList(it)
-            wrongProblemList = it as ArrayList<ProblemData>
         })
 
         adapter.itemClickListener = object : WrongProblemAdapter.OnItemClickListener {
@@ -50,19 +52,10 @@ class NoteFragment : Fragment() {
                 holder: WrongProblemAdapter.WrongProblemViewHolder,
                 position: Int
             ) {
-                val problem = wrongProblemList[position]
+                val problem = adapter.currentList[position]
                 val checked = adapter.checked
-                if (!checked.containsKey(problem)) {
-                    checked[problem] = true
-                } else {
-                    checked[problem] = !checked[problem]!!
-                }
-
-                if (checked[problem] == true) {
-                    visualize(holder, problem.answer)
-                } else {
-                    holder.wrongProblemLayout.visibility = View.GONE
-                }
+                checked[problem] = if (!checked.containsKey(problem)) true else !checked[problem]!!
+                adapter.itemLookup.lookup(holder, position)
             }
         }
         adapter.itemLongClickListener = object : WrongProblemAdapter.OnItemLongClickListener {
@@ -70,12 +63,15 @@ class NoteFragment : Fragment() {
                 holder: WrongProblemAdapter.WrongProblemViewHolder,
                 position: Int
             ) {
+                setDeleteConfirmDialog(adapter.currentList[position])
+            }
+
+            private fun setDeleteConfirmDialog(problem: ProblemData) {
                 val builder = AlertDialog.Builder(activity)
                 builder.setMessage("해당 문제를 삭제하시겠습니까?")
                     .setCancelable(true)
                     .setPositiveButton("삭제") { _, _ ->
                         lifecycleScope.launch(Dispatchers.IO) {
-                            val problem = wrongProblemList.removeAt(position)
                             adapter.checked.remove(problem)
                             problemDao.delete(problem)
                         }
@@ -90,11 +86,12 @@ class NoteFragment : Fragment() {
                 holder: WrongProblemAdapter.WrongProblemViewHolder,
                 position: Int
             ) {
-                val problem = wrongProblemList[position]
+                val problem = adapter.currentList[position]
                 if (adapter.checked[problem] == true) {
-                    visualize(holder, problem.answer)
+                    unfoldProblem(holder)
+                    showProblems(holder, problem.answer)
                 } else {
-                    holder.wrongProblemLayout.visibility = View.GONE
+                    foldProblem(holder)
                 }
             }
         }
@@ -120,91 +117,36 @@ class NoteFragment : Fragment() {
         super.onResume()
     }
 
-    fun visualize(holder: WrongProblemAdapter.WrongProblemViewHolder, answer: Int) {
-        val activity = requireActivity() as MainActivity
+    private fun foldProblem(holder: WrongProblemAdapter.WrongProblemViewHolder) {
+        holder.wrongProblemLayout.visibility = View.GONE
+    }
+
+    private fun unfoldProblem(holder: WrongProblemAdapter.WrongProblemViewHolder) {
         holder.wrongProblemLayout.visibility = View.VISIBLE
-        holder.wrongProblemTextView1.typeface = Typeface.DEFAULT
-        holder.wrongProblemTextView1.setTextColor(
-            ContextCompat.getColor(
-                activity,
-                android.R.color.tab_indicator_text
-            )
-        )
-        holder.wrongProblemTextView2.typeface = Typeface.DEFAULT
-        holder.wrongProblemTextView2.setTextColor(
-            ContextCompat.getColor(
-                activity,
-                android.R.color.tab_indicator_text
-            )
-        )
-        holder.wrongProblemTextView3.typeface = Typeface.DEFAULT
-        holder.wrongProblemTextView3.setTextColor(
-            ContextCompat.getColor(
-                activity,
-                android.R.color.tab_indicator_text
-            )
-        )
-        holder.wrongProblemTextView4.typeface = Typeface.DEFAULT
-        holder.wrongProblemTextView4.setTextColor(
-            ContextCompat.getColor(
-                activity,
-                android.R.color.tab_indicator_text
-            )
-        )
-        holder.wrongProblemTextView5.typeface = Typeface.DEFAULT
-        holder.wrongProblemTextView5.setTextColor(
-            ContextCompat.getColor(
-                activity,
-                android.R.color.tab_indicator_text
-            )
-        )
-        when (answer) {
-            1 -> {
-                holder.wrongProblemTextView1.setTypeface(null, Typeface.BOLD)
-                holder.wrongProblemTextView1.setTextColor(
-                    ContextCompat.getColor(
-                        activity,
-                        R.color.colorPrimary
-                    )
-                )
-            }
-            2 -> {
-                holder.wrongProblemTextView2.setTypeface(null, Typeface.BOLD)
-                holder.wrongProblemTextView2.setTextColor(
-                    ContextCompat.getColor(
-                        activity,
-                        R.color.colorPrimary
-                    )
-                )
-            }
-            3 -> {
-                holder.wrongProblemTextView3.setTypeface(null, Typeface.BOLD)
-                holder.wrongProblemTextView3.setTextColor(
-                    ContextCompat.getColor(
-                        activity,
-                        R.color.colorPrimary
-                    )
-                )
-            }
-            4 -> {
-                holder.wrongProblemTextView4.setTypeface(null, Typeface.BOLD)
-                holder.wrongProblemTextView4.setTextColor(
-                    ContextCompat.getColor(
-                        activity,
-                        R.color.colorPrimary
-                    )
-                )
-            }
-            5 -> {
-                holder.wrongProblemTextView5.setTypeface(null, Typeface.BOLD)
-                holder.wrongProblemTextView5.setTextColor(
-                    ContextCompat.getColor(
-                        activity,
-                        R.color.colorPrimary
-                    )
-                )
-            }
+    }
+
+    private fun showProblems(holder: WrongProblemAdapter.WrongProblemViewHolder, answer: Int) {
+        textViewMapper[1] = holder.wrongProblemTextView1
+        textViewMapper[2] = holder.wrongProblemTextView2
+        textViewMapper[3] = holder.wrongProblemTextView3
+        textViewMapper[4] = holder.wrongProblemTextView4
+        textViewMapper[5] = holder.wrongProblemTextView5
+
+        val defaultTypeface = Typeface.DEFAULT
+        val defaultColor =
+            ContextCompat.getColor(requireActivity(), android.R.color.tab_indicator_text)
+        for (i in 1..5) {
+            textViewMapper[i]?.let { setProblemTextColor(it, defaultTypeface, defaultColor) }
         }
+
+        val highlightTypeface = Typeface.DEFAULT_BOLD
+        val highlightColor = ContextCompat.getColor(requireActivity(), R.color.colorPrimary)
+        textViewMapper[answer]?.let { setProblemTextColor(it, highlightTypeface, highlightColor) }
+    }
+
+    private fun setProblemTextColor(textView: TextView, typeface: Typeface, color: Int) {
+        textView.typeface = typeface
+        textView.setTextColor(color)
     }
 
 }

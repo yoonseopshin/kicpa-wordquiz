@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.db
+package com.cpa.cpa_word_problem.data
 
 object ProblemContract {
     object ProblemEntity {
@@ -12,5 +12,6 @@ object ProblemContract {
         const val P4 = "p4"
         const val P5 = "p5"
         const val ANSWER = "answer"
+        const val TYPE = "type"
     }
 }

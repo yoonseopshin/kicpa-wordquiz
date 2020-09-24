@@ -1,8 +1,8 @@
-package com.cpa.cpa_word_problem.db
+package com.cpa.cpa_word_problem.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.cpa.cpa_word_problem.db.ProblemContract.ProblemEntity
+import com.cpa.cpa_word_problem.data.ProblemContract.ProblemEntity
 
 @Dao
 interface ProblemDao {
