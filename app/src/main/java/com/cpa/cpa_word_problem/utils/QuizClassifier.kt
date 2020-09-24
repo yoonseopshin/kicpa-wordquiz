@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.util
+package com.cpa.cpa_word_problem.utils
 
 class QuizClassifier private constructor() {
 
@@ -15,15 +15,15 @@ class QuizClassifier private constructor() {
             }
     }
 
-    fun classify(description: String): Pair<String, String> {
+    fun classify(str: String): Pair<String, String> {
         val pattern = "[a-z][.]".toRegex()
-        val tokens = description.split(pattern).map { it.trim() }
-        val description = tokens[0]
+        val tokens = str.split(pattern).map { it.trim() }
         val subDescriptionBuilder = StringBuilder()
         for (i in 1 until tokens.size) {
-            subDescriptionBuilder.append(('a' + i - 1)).append(tokens[i]).append('\n')
+            subDescriptionBuilder.append("${('a' + i - 1)}. ${tokens[i]}\n")
         }
-        val subDescription = subDescriptionBuilder.toString()
+        val description = tokens[0].trim()
+        val subDescription = subDescriptionBuilder.toString().trim()
         return Pair(description, subDescription)
     }
 }

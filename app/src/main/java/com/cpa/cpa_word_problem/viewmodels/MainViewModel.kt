@@ -10,6 +10,7 @@ import org.json.JSONObject
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
+    var category = "회계학"
     val startYear = application.resources.getString(R.string.START_YEAR).toInt()
     val endYear = application.resources.getString(R.string.END_YEAR).toInt()
     var turn = 1
@@ -30,8 +31,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun getRandomProblem(option: QuizOption): ProblemData {
+        val data = when (option.type) {
+            "회계학" -> accountingData
+            "경영학" -> businessData
+            else -> accountingData
+        }
         val candidate = arrayListOf<ProblemData>()
-        for (i in accountingData) {
+        for (i in data) {
             if (i.year in option.years) {
                 candidate.add(i)
             }

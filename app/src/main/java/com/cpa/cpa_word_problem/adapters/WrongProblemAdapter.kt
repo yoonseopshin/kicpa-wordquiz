@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.data.ProblemData
 import com.cpa.cpa_word_problem.data.ProblemType
+import com.cpa.cpa_word_problem.utils.QuizClassifier
 
 class WrongProblemAdapter :
     ListAdapter<ProblemData, WrongProblemAdapter.WrongProblemViewHolder>(DiffCallback) {
@@ -35,8 +36,10 @@ class WrongProblemAdapter :
             itemView.findViewById(R.id.wrongProblemInfoTextView)
         val wrongProblemCategoryTextView: TextView =
             itemView.findViewById(R.id.wrongProblemCategoryTextView)
-        val descriptionTextView: TextView =
+        val wrongProblemDescriptionTextView: TextView =
             itemView.findViewById(R.id.wrongProblemDescriptionTextView)
+        val wrongProblemSubDescriptionTextView: TextView =
+            itemView.findViewById(R.id.wrongProblemSubDescriptionTextView)
         val wrongProblemLayout: LinearLayout = itemView.findViewById(R.id.wrongProblemLayout)
         val wrongProblemTextView1: TextView = itemView.findViewById(R.id.wrongProblemTextView1)
         val wrongProblemTextView2: TextView = itemView.findViewById(R.id.wrongProblemTextView2)
@@ -80,7 +83,13 @@ class WrongProblemAdapter :
         holder.wrongProblemInfoTextView.text =
             StringBuilder("${problem.year}년 ${problem.pid}번").toString()
         holder.wrongProblemCategoryTextView.text = translate(problem.type)
-        holder.descriptionTextView.text = problem.description
+        val (description, subDescription) = QuizClassifier.getInstance()
+            .classify(problem.description)
+        if (subDescription.isEmpty()) holder.wrongProblemSubDescriptionTextView.visibility =
+            View.GONE
+        else holder.wrongProblemSubDescriptionTextView.visibility = View.VISIBLE
+        holder.wrongProblemDescriptionTextView.text = description
+        holder.wrongProblemSubDescriptionTextView.text = subDescription
         holder.wrongProblemTextView1.text = problem.p1
         holder.wrongProblemTextView2.text = problem.p2
         holder.wrongProblemTextView3.text = problem.p3
