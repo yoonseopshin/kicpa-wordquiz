@@ -21,4 +21,5 @@
     <string name="setting_correct">정답 이펙트</string>
     <string name="success">정답입니다!</string>
     <string name="wrong">오답입니다.</string>
+    <string name="select_problems">출제년도를 선택하세요.</string>
 </resources>

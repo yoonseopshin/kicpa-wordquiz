@@ -1,6 +1,7 @@
 package com.cpa.cpa_word_problem.viewmodels
 
 import android.app.Application
+import android.widget.CheckBox
 import androidx.lifecycle.AndroidViewModel
 import androidx.room.Room
 import com.cpa.cpa_word_problem.R
@@ -24,6 +25,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val wrongProblems = LinkedHashSet<ProblemData>()
     var backKeyPressedTime: Long = 0
     val problemToPosition = hashMapOf(3 to 0, 5 to 1, 7 to 2, 10 to 3)
+    lateinit var quizOption: QuizOption
+    lateinit var checkBoxArray: Array<CheckBox>
+
 
     fun getRandomProblem(option: QuizOption): ProblemData {
         val candidate = arrayListOf<ProblemData>()
@@ -79,7 +83,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val p4 = obj.getString("p4")
                 val p5 = obj.getString("p5")
                 val answer = obj.getInt("answer")
-                val data = ProblemData(pid, year, description, p1, p2, p3, p4, p5, answer, type.toString())
+                val data =
+                    ProblemData(pid, year, description, p1, p2, p3, p4, p5, answer, type.toString())
                 when (type) {
                     ProblemType.Accounting -> accountingData.add(data)
                     ProblemType.Business -> businessData.add(data)
