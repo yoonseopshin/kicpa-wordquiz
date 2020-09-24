@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.data.ProblemData
+import com.cpa.cpa_word_problem.data.ProblemType
 
 class WrongProblemAdapter :
     ListAdapter<ProblemData, WrongProblemAdapter.WrongProblemViewHolder>(DiffCallback) {
@@ -32,6 +33,8 @@ class WrongProblemAdapter :
     inner class WrongProblemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val wrongProblemInfoTextView: TextView =
             itemView.findViewById(R.id.wrongProblemInfoTextView)
+        val wrongProblemCategoryTextView: TextView =
+            itemView.findViewById(R.id.wrongProblemCategoryTextView)
         val descriptionTextView: TextView =
             itemView.findViewById(R.id.wrongProblemDescriptionTextView)
         val wrongProblemLayout: LinearLayout = itemView.findViewById(R.id.wrongProblemLayout)
@@ -68,13 +71,15 @@ class WrongProblemAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WrongProblemViewHolder {
         return WrongProblemViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.problem_item, parent, false))
+                .inflate(R.layout.problem_item, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: WrongProblemViewHolder, position: Int) {
         val problem = currentList[position]
         holder.wrongProblemInfoTextView.text =
             StringBuilder("${problem.year}년 ${problem.pid}번").toString()
+        holder.wrongProblemCategoryTextView.text = translate(problem.type)
         holder.descriptionTextView.text = problem.description
         holder.wrongProblemTextView1.text = problem.p1
         holder.wrongProblemTextView2.text = problem.p2
@@ -89,5 +94,13 @@ class WrongProblemAdapter :
             checked.putIfAbsent(accountingData, false)
         }
         return super.submitList(list?.let { ArrayList<ProblemData>(it) })
+    }
+
+    private fun translate(word: String): String {
+        return when (word) {
+            ProblemType.Accounting.toString() -> "회계학"
+            ProblemType.Business.toString() -> "경영학"
+            else -> "회계학"
+        }
     }
 }
