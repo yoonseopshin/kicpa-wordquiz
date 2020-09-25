@@ -83,7 +83,7 @@ class WrongProblemAdapter :
         holder.wrongProblemInfoTextView.text =
             StringBuilder("${problem.year}년 ${problem.pid}번").toString()
         holder.wrongProblemCategoryTextView.text = translate(problem.type)
-        val (description, subDescription) = QuizClassifier.getInstance()
+        val (description, subDescription) = QuizClassifier
             .classify(problem.description)
         if (subDescription.isEmpty()) holder.wrongProblemSubDescriptionTextView.visibility =
             View.GONE

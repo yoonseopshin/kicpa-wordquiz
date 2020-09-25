@@ -1,20 +1,6 @@
 package com.cpa.cpa_word_problem.utils
 
-class QuizClassifier private constructor() {
-
-    companion object {
-        @Volatile
-        private var instance: QuizClassifier? = null
-
-        @JvmStatic
-        fun getInstance(): QuizClassifier =
-            instance ?: synchronized(this) {
-                instance ?: QuizClassifier().also {
-                    instance = it
-                }
-            }
-    }
-
+object QuizClassifier {
     fun classify(str: String): Pair<String, String> {
         val pattern = "[a-z][.]".toRegex()
         val tokens = str.split(pattern).map { it.trim() }

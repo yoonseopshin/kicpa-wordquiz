@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.cpa.cpa_word_problem.data.QuizOption
 import com.cpa.cpa_word_problem.data.QuizState
@@ -39,11 +37,8 @@ class QuizReadyFragment : Fragment() {
         startBtn.setOnClickListener {
             val years = arrayListOf<Int>()
             for (year in viewModel.startYear..viewModel.endYear) {
-                for (checkBoxHorizontalLayout in checkBoxVerticalLayout) {
-                    val checkBox =
-                        checkBoxHorizontalLayout.findViewWithTag<CheckBox>(year) ?: continue
-                    if (checkBox.isChecked) years.add(year)
-                }
+                val checkBox = checkBoxFlowLayout.findViewWithTag<CheckBox>(year) ?: continue
+                if (checkBox.isChecked) years.add(year)
             }
 
             if (years.isEmpty()) {
@@ -82,16 +77,8 @@ class QuizReadyFragment : Fragment() {
     private fun setSelectedYear() {
         val activity = requireActivity() as MainActivity
         val viewModel = activity.viewModel
-        bodyCardView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        val cardViewWidth = bodyCardView.measuredWidth
-
         viewModel.checkBoxArray =
             Array(viewModel.endYear - viewModel.startYear + 1) { CheckBox(activity) }
-
-        checkBoxVerticalLayout.removeAllViewsInLayout()
-        val checkBoxHorizontalLayoutList = arrayListOf<LinearLayout>()
-        checkBoxHorizontalLayoutList.clear()
-        checkBoxHorizontalLayoutList.add(LinearLayout(activity))
 
         for (year in viewModel.startYear..viewModel.endYear) {
             val yearIdx = year - viewModel.startYear
@@ -99,27 +86,8 @@ class QuizReadyFragment : Fragment() {
             checkBox.text = year.toString()
             checkBox.isChecked = true
             checkBox.tag = year
-            checkBox.measure(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            val checkBoxWidth = checkBox.measuredWidth
-            viewModel.checkBoxArray[year - viewModel.startYear] = checkBox
-            checkBoxHorizontalLayoutList.last().measure(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            val curCheckBoxLayoutWidth = checkBoxHorizontalLayoutList.last().measuredWidth
-
-            if (curCheckBoxLayoutWidth + checkBoxWidth >= cardViewWidth) {
-                checkBoxHorizontalLayoutList.add(LinearLayout(activity))
-            }
-
-            checkBoxHorizontalLayoutList.last().addView(checkBox)
-        }
-
-        for (horizontalLayout in checkBoxHorizontalLayoutList) {
-            checkBoxVerticalLayout.addView(horizontalLayout)
+            checkBox.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            checkBoxFlowLayout.addView(checkBox)
         }
     }
 

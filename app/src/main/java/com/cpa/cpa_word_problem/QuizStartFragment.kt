@@ -150,7 +150,7 @@ class QuizStartFragment : Fragment() {
 
         selectedProblem = viewModel.getRandomProblem(option)
 
-        val (description, subDescription) = QuizClassifier.getInstance()
+        val (description, subDescription) = QuizClassifier
             .classify(selectedProblem.description)
         descriptionTextView.text = description
         if (subDescription.isEmpty()) subDescriptionTextView.visibility = View.GONE
