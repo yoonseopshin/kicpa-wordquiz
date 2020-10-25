@@ -29,7 +29,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     lateinit var quizOption: QuizOption
     lateinit var checkBoxArray: Array<CheckBox>
 
-
     fun getRandomProblem(option: QuizOption): ProblemData {
         val data = when (option.type) {
             "회계학" -> accountingData
@@ -72,7 +71,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun isQuizEffectOn() = preferenceManager.getQuizEffect()
 
-    fun loadJson(type: ProblemType) {
+    fun loadProblemSetFromAssets(type: ProblemType) {
         val assetManager = getApplication<Application>().resources.assets
         val inputStream = when (type) {
             ProblemType.Accounting -> assetManager.open("accounting.json")

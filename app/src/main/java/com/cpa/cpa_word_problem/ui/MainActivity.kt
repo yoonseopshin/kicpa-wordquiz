@@ -1,9 +1,10 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.ui
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.adapters.MyFragmentStateAdapter
 import com.cpa.cpa_word_problem.data.ProblemType
 import com.cpa.cpa_word_problem.viewmodels.MainViewModel
@@ -23,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.loadJson(ProblemType.Accounting)
-        viewModel.loadJson(ProblemType.Business)
+        viewModel.loadProblemSetFromAssets(ProblemType.Accounting)
+        viewModel.loadProblemSetFromAssets(ProblemType.Business)
 
         viewPager2.adapter = MyFragmentStateAdapter(this)
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->

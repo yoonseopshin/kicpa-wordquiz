@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.ui
 
 import android.animation.ObjectAnimator
 import android.app.Activity
@@ -13,6 +13,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.data.ProblemData
 import com.cpa.cpa_word_problem.data.QuizOption
 import com.cpa.cpa_word_problem.data.QuizState

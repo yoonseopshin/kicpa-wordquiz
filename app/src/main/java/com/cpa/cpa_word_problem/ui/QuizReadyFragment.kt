@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.data.QuizOption
 import com.cpa.cpa_word_problem.data.QuizState
 import kotlinx.android.synthetic.main.fragment_quiz_ready.*

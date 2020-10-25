@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.ui
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.adapters.WrongProblemAdapter
 import com.cpa.cpa_word_problem.data.ProblemData
 import kotlinx.android.synthetic.main.fragment_note.*

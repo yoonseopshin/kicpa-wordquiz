@@ -1,10 +1,11 @@
-package com.cpa.cpa_word_problem
+package com.cpa.cpa_word_problem.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.data.QuizState
 
 class QuizFragment : Fragment() {

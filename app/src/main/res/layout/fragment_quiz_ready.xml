@@ -5,7 +5,7 @@
     android:id="@+id/quizReadyWholeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuizReadyFragment">
+    tools:context=".ui.QuizReadyFragment">
 
     <com.sanojpunchihewa.glowbutton.GlowButton
         android:id="@+id/startBtn"
