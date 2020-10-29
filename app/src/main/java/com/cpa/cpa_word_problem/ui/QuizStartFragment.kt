@@ -12,11 +12,13 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.data.ProblemData
 import com.cpa.cpa_word_problem.data.QuizOption
 import com.cpa.cpa_word_problem.data.QuizState
+import com.cpa.cpa_word_problem.databinding.FragmentQuizStartBinding
 import com.cpa.cpa_word_problem.utils.QuizClassifier
 import kotlinx.android.synthetic.main.fragment_quiz_start.*
 import kotlinx.android.synthetic.main.toast_success_view.view.*
@@ -27,7 +29,6 @@ import kotlinx.coroutines.launch
 
 class QuizStartFragment : Fragment() {
 
-    private lateinit var selectedProblem: ProblemData
     private lateinit var toastSuccessLayout: View
     private lateinit var toastWrongLayout: View
     private var isEnd = false
@@ -40,8 +41,15 @@ class QuizStartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quiz_start, container, false)
+        val mainViewModel = (requireActivity() as MainActivity).viewModel
+        val binding = DataBindingUtil.inflate<FragmentQuizStartBinding>(inflater, R.layout.fragment_quiz_start, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = (requireActivity() as MainActivity).viewModel
+        binding.apply {
+            lifecycleOwner = this@QuizStartFragment
+            viewModel = mainViewModel
+        }
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -84,7 +92,7 @@ class QuizStartFragment : Fragment() {
                 } else {
                     showAnswerByToast(false)
                 }
-                wrongProblems.add(selectedProblem)
+                wrongProblems.add(viewModel.getSelectedProblem())
             }
 
             viewModel.turn = viewModel.probSize.coerceAtMost(viewModel.turn + 1)
@@ -149,7 +157,8 @@ class QuizStartFragment : Fragment() {
         val viewModel = activity.viewModel
         radioButton.isChecked = true
 
-        selectedProblem = viewModel.getRandomProblem(option)
+        viewModel.generateRandomProblem(option)
+        val selectedProblem = viewModel.getSelectedProblem()
 
         val (description, subDescription) = QuizClassifier
             .classify(selectedProblem.description)
@@ -159,11 +168,6 @@ class QuizStartFragment : Fragment() {
         subDescriptionTextView.text = subDescription
         problemCategoryTextView.text = option.type
         problemInfoTextView.text = getInfoText(selectedProblem)
-        radioButton.text = selectedProblem.p1
-        radioButton2.text = selectedProblem.p2
-        radioButton3.text = selectedProblem.p3
-        radioButton4.text = selectedProblem.p4
-        radioButton5.text = selectedProblem.p5
     }
 
     override fun onPause() {
@@ -181,7 +185,7 @@ class QuizStartFragment : Fragment() {
     private fun getInfoText(problem: ProblemData) =
         StringBuilder("${problem.year}년 ${problem.pid}번").toString()
 
-    private fun isCorrect(pno: Int) = selectedProblem.answer == pno
+    private fun isCorrect(pno: Int) = (requireActivity() as MainActivity).viewModel.getSelectedProblem().answer == pno
 
     private fun setFragment(quizState: QuizState) {
         (requireParentFragment() as QuizFragment).setFragment(quizState)

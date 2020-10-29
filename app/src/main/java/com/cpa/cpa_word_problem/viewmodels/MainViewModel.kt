@@ -1,8 +1,10 @@
 package com.cpa.cpa_word_problem.viewmodels
 
 import android.app.Application
+import android.util.Log
 import android.widget.CheckBox
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.data.*
@@ -28,8 +30,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val categoryToPosition = hashMapOf("회계학" to 0, "경영학" to 1)
     lateinit var quizOption: QuizOption
     lateinit var checkBoxArray: Array<CheckBox>
+    var selectedProblem = MutableLiveData<ProblemData>()
 
-    fun getRandomProblem(option: QuizOption): ProblemData {
+    fun generateRandomProblem(option: QuizOption) {
         val data = when (option.type) {
             "회계학" -> accountingData
             "경영학" -> businessData
@@ -41,8 +44,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 candidate.add(i)
             }
         }
-        return candidate.random()
+        selectedProblem.value = candidate.random()
     }
+
+    fun getSelectedProblem() : ProblemData = selectedProblem.value!!
 
     fun isWrongProblemExist() = wrongProblems.isNotEmpty()
 
