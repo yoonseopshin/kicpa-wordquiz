@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             loadProblemSetFromAssets(ProblemType.Business)
         }
         setViewPager()
-        setBottomAdView()
+        setadView()
     }
 
     private fun setViewPager() {
@@ -44,9 +44,9 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 
-    private fun setBottomAdView() {
-        bottomAdView.setClientId("DAN-qxqjtd0wo5dd")
-        bottomAdView.setAdListener(object : AdListener {
+    private fun setadView() {
+        adView.setClientId("DAN-qxqjtd0wo5dd")
+        adView.setAdListener(object : AdListener {
             override fun onAdLoaded() {
                 Log.d("banner", "Ad banner loaded")
             }
@@ -63,20 +63,20 @@ class MainActivity : AppCompatActivity() {
         lifecycle.addObserver(object: LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onResume() {
-                bottomAdView.resume()
+                adView.resume()
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
             fun onPause() {
-                bottomAdView.pause()
+                adView.pause()
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                bottomAdView.destroy()
+                adView.destroy()
             }
         })
-        bottomAdView.loadAd()
+        adView.loadAd()
     }
 
     override fun onBackPressed() {
