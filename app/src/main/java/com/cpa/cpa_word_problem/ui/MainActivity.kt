@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             loadProblemSetFromAssets(ProblemType.Business)
         }
         setViewPager()
-        setadView()
+        setAdView()
     }
 
     private fun setViewPager() {
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 
-    private fun setadView() {
+    private fun setAdView() {
         adView.setClientId("DAN-qxqjtd0wo5dd")
         adView.setAdListener(object : AdListener {
             override fun onAdLoaded() {
