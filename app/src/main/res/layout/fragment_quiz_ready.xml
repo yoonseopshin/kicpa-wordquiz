@@ -9,8 +9,8 @@
 
     <com.sanojpunchihewa.glowbutton.GlowButton
         android:id="@+id/startBtn"
-        android:layout_width="160dp"
-        android:layout_height="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="20dp"
         android:text="@string/start"
         android:textColor="@android:color/white"
@@ -21,7 +21,10 @@
         app:glowColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.16"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bodyCardView"
+        app:layout_constraintWidth_percent="0.4"
         app:pressedGlowSize="25dp"
         app:unpressedGlowSize="20dp" />
 
@@ -133,14 +136,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:paddingTop="20dp"
+                android:paddingTop="40dp"
                 android:paddingRight="20dp"
+                android:paddingBottom="20dp"
                 android:text="@string/quiz_description"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/centerAdView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checkBoxFlowLayout" />
+
+            <com.kakao.adfit.ads.ba.BannerAdView
+                android:id="@+id/centerAdView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/infoTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
