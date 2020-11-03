@@ -1,6 +1,7 @@
 package com.cpa.cpa_word_problem.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,13 @@ import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.data.QuizOption
 import com.cpa.cpa_word_problem.data.QuizState
+import com.kakao.adfit.ads.AdListener
 import kotlinx.android.synthetic.main.fragment_quiz_ready.*
 
 class QuizReadyFragment : Fragment() {
@@ -29,6 +34,7 @@ class QuizReadyFragment : Fragment() {
         setQuizButtonListener()
         setProblemSize()
         setCategory()
+        setCenterAdView()
     }
 
     private fun setQuizButtonListener() {
@@ -125,4 +131,38 @@ class QuizReadyFragment : Fragment() {
         updateCategory()
     }
 
+    private fun setCenterAdView() {
+        centerAdView.setClientId("DAN-vf9782z0rlmg")
+        centerAdView.setAdListener(object : AdListener {
+            override fun onAdLoaded() {
+                Log.d("banner", "Ad banner loaded")
+            }
+
+            override fun onAdFailed(errorCode: Int) {
+                Log.e("banner", "$errorCode")
+            }
+
+            override fun onAdClicked() {
+                Log.d("banner", "Ad banner clicked")
+            }
+        })
+
+        requireParentFragment().lifecycle.addObserver(object: LifecycleObserver {
+            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            fun onResume() {
+                centerAdView.resume()
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            fun onPause() {
+                centerAdView.pause()
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            fun onDestroy() {
+                centerAdView.destroy()
+            }
+        })
+        centerAdView.loadAd()
+    }
 }

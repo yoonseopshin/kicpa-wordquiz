@@ -27,6 +27,7 @@ class QuizFragment : Fragment() {
             QuizState.Start to QuizStartFragment()
         )
         setFragment(QuizState.Ready)
+
     }
 
     fun setFragment(quizState: QuizState) {
@@ -35,5 +36,4 @@ class QuizFragment : Fragment() {
         ta.replace(R.id.quizFragmentContainer, childFragments[quizState]!!)
         ta.commit()
     }
-
 }
