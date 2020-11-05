@@ -147,20 +147,20 @@ class QuizReadyFragment : Fragment() {
             }
         })
 
-        requireParentFragment().lifecycle.addObserver(object: LifecycleObserver {
+        lifecycle.addObserver(object: LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onResume() {
-                centerAdView.resume()
+                centerAdView?.resume()
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
             fun onPause() {
-                centerAdView.pause()
+                centerAdView?.pause()
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                centerAdView.destroy()
+                centerAdView?.destroy()
             }
         })
         centerAdView.loadAd()
