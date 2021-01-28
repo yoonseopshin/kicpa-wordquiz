@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.cpa.cpa_word_problem.R
+import com.cpa.cpa_word_problem.utils.KakaoUtils
 import kotlinx.android.synthetic.main.fragment_setting.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,6 +63,10 @@ class SettingFragment : Fragment() {
 
         DBLayout.setOnClickListener {
             setDbInitConfirmDialog(activity)
+        }
+
+        kakaoShareLayout.setOnClickListener {
+            KakaoUtils.share(activity)
         }
 
         emailLayout.setOnClickListener {
