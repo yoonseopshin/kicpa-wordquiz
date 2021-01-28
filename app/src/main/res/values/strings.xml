@@ -22,4 +22,8 @@
     <string name="success">정답입니다!</string>
     <string name="wrong">오답입니다.</string>
     <string name="select_problems">출제년도를 선택하세요.</string>
+    <string name="kakao_app_key">d86daf6bcc68f548400e9cda9016088c</string>
+    <string name="kakao_scheme"></string>
+    <string name="kakaolink_host">kakaolink</string>
+    <string name="share_kakao">카카오톡 공유하기</string>
 </resources>
