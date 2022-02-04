@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Theme.Cpa_word_problem.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Cpa_word_problem.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Cpa_word_problem.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
