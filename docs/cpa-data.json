@@ -14,7 +14,7 @@
         "사업결합을 통해 취득한 영업권은 적정한 내용연수에 걸쳐 상각하며, 상각 후 장부금액에 대해서는 매 보고기간마다 손상 검사를 수행한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -31,7 +31,7 @@
         "관계기업에 대한 투자 장부금액의 일부를 구성하는 영업권은 분리하여 인식하지 않으므로 영업권에 대한 별도의 손상검사를 하지 않는다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -48,7 +48,7 @@
         "보고기업의 경영진도 해당 기업에 대한 재무정보에 관심이 있기 때문에 일반목적재무보고서에 의존할 필요가 있다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -65,7 +65,7 @@
         "상업적 실질이 결여되지 않은 유형자산 교환거래에 있어서 취득한 자산과 제공한 자산 모두의 공정가치를 신뢰성 있게 측정할 수 있는 상황이라면, 취득한 자산의 공정가치가 더 명백한 경우를 제외하고는 취득한 자산의 원가를 제공한 자산의 공정 가치로 측정한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -82,7 +82,7 @@
         "금융자산 전체가 제거 조건을 충족하는 양도로 금융자산을 양도 하고, 수수료를 대가로 당해 양도자산의 관리용역을 제공하기로 한다면, 관리용역제공계약과 관련하여 자산이나 부채를 인식한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -99,7 +99,7 @@
         "박토활동의 결과로 보다 더 접근하기 쉬워진, 광체의 식별된 구성요소에 예상내용연수에 걸쳐 체계적인 방법에 따라 박토 활동자산을 감가상각하거나 상각하는데, 다른 방법이 더 적절 하지 않다면 정액법을 적용한다."
       ],
       "answer":3,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -116,7 +116,7 @@
         "시장조건이 있는 지분상품을 부여한 경우에는 그러한 시장조건이 달성되는지 여부와 관계없이 다른 모든 가득조건을 충족하는 거래상대방으로부터 제공받는 재화나 용역을 인식한다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -133,7 +133,7 @@
         "제조자나 판매자인 리스제공자의 금융리스 협상 및 계약단계에서 리스와 관련하여 발생한 원가는 주로 제조자나 판매자의 매출 이익 획득과 관계가 있으므로 리스기간개시일에 비용으로 인식한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -150,7 +150,7 @@
         "이연법인세자산의 장부금액은 매 보고기간말에 검토한다. 이연 법인세자산의 일부 또는 전부에 대한 혜택이 사용되기에 충분한 과세소득이 발생할 가능성이 더 이상 높지 않다면, 이연법인세 자산의 장부금액을 감액시킨다. 감액된 금액은 사용되기에 충분한 과세소득이 발생할 가능성이 높아지더라도 다시 환입 하지 아니한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -167,7 +167,7 @@
         "보고기업의 해외사업장에 대한 순투자의 일부인 화폐성항목에서 생기는 외환차이는 보고기업의 별도재무제표나 해외사업장의 개별재무제표에서 기타포괄손익으로 인식한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -184,7 +184,7 @@
         "필수보충정보는 재무제표에는 표시하지 아니하였으나, 재무제표의 내용을 보완하고 이해를 돕기 위하여 필수적으로 제공되어야 하는 정보를 말하며 수익․비용 기능별 재정운영표는 필수보충정보로 제공되어야 한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -201,7 +201,7 @@
         "각 중앙관서의 장은 「국가회계법」에서 정하는 바에 따라 회계 연도마다 작성한 결산보고서(중앙관서결산보고서)를 다음 연도 2월 말일까지 기획재정부장관에게 제출하여야 한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -218,7 +218,7 @@
         "지방자치단체의 재무제표는 일반회계 기타특별회계 기금회계의 유형별 재무제표를 통합하여 작성하며, 지방공기업특별회계는 포함하지 아니한다."
       ],
       "answer":3,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -235,7 +235,7 @@
         "지방자치단체는 회계연도마다 세입ㆍ세출결산상 잉여금이 있을 때에는 「지방재정법」에서 정한 금액을 뺀 잉여금은 그 잉여금이 생긴 회계연도의 다음 회계연도까지 세출예산의 범위 내에서만 지방채 원리금 상환에 사용하여야 한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -252,7 +252,7 @@
         "종합예산은 조직의 각 부문활동에 대한 예산이 종합된 조직 전체의 예산이며 변동예산의 일종이다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -269,7 +269,7 @@
         "제품수명주기원가계산(product life-cycle costing)은 제조이후 단계에서 대부분의 제품원가가 결정된다는 인식을 토대로 생산단계와 마케팅단계에서 원가절감을 강조한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -286,7 +286,7 @@
         "비유동자산 간의 교환거래를 통하여 비유동자산의 매각거래를 계획하고 있는 경우, 해당 거래의 상업적 실질이 없다면 매각 예정자산으로 분류할 수 없다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -303,7 +303,7 @@
         "내용연수가 유한한 무형자산의 상각방법은 자산의 경제적 효익이 소비될 것으로 예상되는 형태를 반영한 방법이어야 한다. 다만, 그 형태를 신뢰성 있게 결정할 수 없는 경우에는 정액법을 사용한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -320,7 +320,7 @@
         "투자부동산의 손상, 멸실 또는 포기로 제3자에게서 받는 보상은 보상금을 수취한 시점에서 당기손익으로 인식한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -337,7 +337,7 @@
         "부채로 분류되는 상환우선주에 대한 배당금은 보통주에 귀속 되는 당기순손익을 계산할 때 조정하지 않는다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -354,7 +354,7 @@
         "지배기업이 종속기업에 대한 지배력을 상실하게 되면 그 종속 기업과 관련하여 기타포괄손익으로 인식한 모든 금액을 당기 손익으로 재분류한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -371,7 +371,7 @@
         "해외사업장순투자의 위험회피회계를 적용하는 경우 위험회피수단의 손익 중 위험회피에 비효과적인 부분은 당기손익으로 인식한다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -388,7 +388,7 @@
         "국가의 재정상태표에서 자산은 유동성이 높은 항목부터 배열하되, 유동자산, 투자자산, 일반유형자산, 사회기반시설, 무형자산 및 기타 비유동자산으로 구분하여 표시한다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -405,7 +405,7 @@
         "중앙관서의 순자산변동표에 표시되는 재원의 조달 및 이전 거래는 국가재무제표를 작성할 때에 재정운영표상 비교환수익 등에 반영한다."
       ],
       "answer":3,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -422,7 +422,7 @@
         "국가가 법령 등을 위반한 자에게 부과하는 벌금, 과료, 범칙금 또는 몰수품으로서 청구권이 확정된 때나 몰수품을 몰수한 때에 그 금액을 확정하기 어려운 경우에는 납부 또는 처분 시점에서 수익을 인식할 수 있다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -439,7 +439,7 @@
         "투자수익률이 투자중심점 경영자의 성과평가목적으로 사용될 경우에 준최적화 현상이 발생할 수 있는데, 이와 같은 투자 수익률의 문제점을 보완하기 위해 잔여이익이 사용될 수 있다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2017,
@@ -456,7 +456,7 @@
         "균형성과표는 조직의 비전과 전략을 성과평가지표로 구체화함 으로써 조직의 전략수행을 지원한다."
       ],
       "answer":3,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -473,7 +473,7 @@
         "근본적 질적 특성 중 하나인 표현충실성은 그 자체가 반드시 유용한 정보를 만들어 내는 것은 아니다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -490,7 +490,7 @@
         "기업이 약속한 재화나 용역을 고객에게 이전하여 수행의무를 이행할 때(또는 기간에 걸쳐 이행하는 대로) 수익을 인식한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -507,7 +507,7 @@
         "유형자산의 감가상각방법과 잔존가치 및 내용연수는 적어도 매 회계연도말에 재검토한다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -524,7 +524,7 @@
         "회계불일치를 제거하거나 유의적으로 줄이는 경우에는 최초 인식 시점에 해당 금융자산을 기타포괄손익-공정가치 측정 항목으로 지정할 수 있으며, 지정 후 이를 취소할 수 있다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -541,7 +541,7 @@
         "과거에 발생하였지만 중요하지 않았던 거래, 기타 사건 또는 상황에 대하여 새로운 회계정책을 적용하는 경우는 회계정책의 변경에 해당하지 않는다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -558,7 +558,7 @@
         "지배력을 상실하지 않는 범위내에서 종속기업에 대한 지분을 추가로 취득하거나 처분하는 현금흐름은 연결현금흐름표에서 재무활동으로 분류한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -575,7 +575,7 @@
         "시장참여자가 공정가치를 측정할 때 계약의 잠재적 갱신을 고려하는지와 무관하게, 취득자는 무형자산으로 인식하는, 다시 취득한 권리의 가치를 관련 계약의 남는 계약기간에 기초하여 측정한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -592,7 +592,7 @@
         "자산은 공용 또는 공공용으로 사용되는 등 공공서비스를 제공할 수 있거나 직접적 또는 간접적으로 경제적 효익을 창출하거나 창출에 기여할 가능성이 매우 높고 그 가액을 신뢰성 있게 측정할 수 있을 때에 인식한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2018,
@@ -609,7 +609,7 @@
         "감사원은 제출된 국가결산보고서를 검사하고 그 보고서를 다음 연도 5월 20일까지 기획재정부장관에게 송부하여야 하며, 정부는 감사원의 검사를 거친 국가결산보고서를 다음 연도 5월 31일까지 국회에 제출하여야 한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -626,7 +626,7 @@
         "중요성은 개별 기업 재무보고서 관점에서 해당 정보와 관련된 항목의 성격이나 규모 또는 이 둘 모두에 근거하여 해당 기업에 특유한 측면의 목적적합성을 의미한다."
       ],
       "answer":3,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -643,7 +643,7 @@
         "양도자가 매도 후에 미리 정한 가격으로 또는 매도가격에 양도자에게 금전을 대여하였더라면 그 대가로 받았을 이자 수익을 더한 금액으로 양도자산을 재매입하는 거래는 양도자가 소유에 따른 위험과 보상의 대부분을 이전하는 경우의 예이다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -660,7 +660,7 @@
         "당기에 취득하여 보유중인 토지에 재평가모형을 적용하여 토지의 장부금액이 세무기준액보다 높은 경우에는 이연법인세 부채를 인식하며, 이로 인한 이연법인세효과는 당기손익으로 인식한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -677,7 +677,7 @@
         "잠재적보통주는 보통주로 전환된다고 가정할 경우 주당계속 영업이익을 감소시키거나 주당계속영업손실을 증가시킬 수 있는 경우에만 희석성 잠재적보통주로 취급한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -694,7 +694,7 @@
         "거래가격의 후속 변동은 계약 개시시점과 같은 기준으로 계약상 수행의무에 배분한다. 따라서 계약을 개시한 후의 개별 판매가격 변동을 반영하기 위해 거래가격을 다시 배분하지는 않는다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -711,7 +711,7 @@
         "소액 기초자산 리스에 대한 리스회계처리 선택은 기초자산의 유형별로 적용해야 한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -728,7 +728,7 @@
         "취득자가 피취득자에게 대가를 이전하지 않더라도 사업결합이 이루어질 수 있다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -745,7 +745,7 @@
         "기업회계기준서 제1110호 ‘연결재무제표’에 따라 연결이 면제 되는 경우, 그 기업의 유일한 재무제표로서 별도재무제표만을 재무제표로 작성할 수 있다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -762,7 +762,7 @@
         "외화위험회피의 경우 비파생금융자산이나 비파생금융부채의 외화위험 부분은 위험회피수단으로 지정할 수 있다. 다만, 공정가치의 변동을 기타포괄손익으로 표시하기로 선택한 지분 상품의 투자는 제외한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -779,7 +779,7 @@
         "장기연불조건의 거래, 장기금전대차거래 또는 이와 유사한 거래에서 발생하는 채권․채무로서 명목가액과 현재가치의 차이가 중요한 경우에도 명목가액으로 평가한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -796,7 +796,7 @@
         "보증충당부채는 보증약정 등에 따른 피보증인인 주채무자의 채무불이행에 따라 국가회계실체가 부담하게 될 추정 순현금 유출액의 현재가치로 평가한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -813,7 +813,7 @@
         "지방자치단체의 장기투자증권은 매입가격에 부대비용을 더하고 이에 종목별로 총평균법을 적용하여 산정한 취득원가로 평가 함을 원칙으로 한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2019,
@@ -830,7 +830,7 @@
         "지방자치단체의 장은 회계처리를 적정하게 하고, 공무원의 부정․비리를 예방하기 위하여 「지방회계법」에 따른 회계 책임관으로 하여금 회계관계공무원의 회계처리에 관한 사항 등을 관리․감독하는 등 내부통제를 하게 하여야 한다."
       ],
       "answer":3,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -847,7 +847,7 @@
         "공정가치모형을 적용하는 경우 투자부동산의 공정가치 변동으로 발생하는 손익은 발생한 기간의 당기손익에 반영한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -864,7 +864,7 @@
         "양도의 결과로 금융자산 전체를 제거하지만 새로운 금융자산을 획득하거나 새로운 금융부채나 관리용역부채를 부담한다면, 그 새로운 금융자산, 금융부채, 관리용역부채를 공정가치로 인식 한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -881,7 +881,7 @@
         "순확정급여부채(자산)의 재측정요소는 보험수리적손익, 순확정 급여부채(자산)의 순이자에 포함된 금액을 제외한 사외적립 자산의 수익, 순확정급여부채(자산)의 순이자에 포함된 금액을 제외한 자산인식상한효과의 변동으로 구성된다."
       ],
       "answer":3,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -898,7 +898,7 @@
         "당기법인세자산과 부채는 기업이 인식된 금액에 대한 법적으로 집행가능한 상계권리를 가지고 있는 경우 또는 순액으로 결제 하거나, 자산을 실현하고 부채를 결제할 의도가 있는 경우에 상계한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -915,7 +915,7 @@
         "㈜대한은 20x1년 말 보유 중인 토지가 정부에 의해 강제 수용될 가능성이 높다고 판단하였다. 20x1년 말 현재 보유 중인 토지의 장부금액은 ￦10,000이며 수용금액은 ￦14,000일 것으로 예상 된다. ㈜대한은 ￦4,000을 20x1년에 우발자산으로 인식하였다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -932,7 +932,7 @@
         "기업이 고객에게 대가를 지급하는 경우, 고객에게 지급할 대가가 고객에게서 받은 구별되는 재화나 용역에 대한 지급이 아니라면 그 대가는 판매비로 회계처리한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -949,7 +949,7 @@
         "기업이 현금결제방식이나 주식결제방식을 선택할 수 있는 주식 기준보상거래에서 기업이 현금을 지급해야 하는 현재 의무가 있으면 현금결제형 주식기준보상거래로 보아 회계처리한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -966,7 +966,7 @@
         "관계기업이 해외사업장과 관련된 누적 외환차이가 있고 기업이 지분법의 사용을 중단하는 경우, 기업은 해외사업장과 관련하여 이전에 기타포괄손익으로 인식했던 손익을 당기손익으로 재분류 한다."
       ],
       "answer":4,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -983,7 +983,7 @@
         "고정금리부 대여금에 대하여 고정금리를 지급하고 변동금리를 수취하는 이자율스왑으로 위험회피하면 이는 현금흐름위험회피 유형에 해당한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -1000,7 +1000,7 @@
         "지방자치단체의 장기투자증권은 매입가격에 부대비용을 더하고 이에 종목별로 총평균법을 적용하여 산정한 취득원가로 평가 함을 원칙으로 한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -1017,7 +1017,7 @@
         "장기차입부채는 재정상태표일부터 1년 후에 만기가 되는 확정 부채로서 국채, 공채, 장기차입금 및 기타 장기차입부채 등을 말한다."
       ],
       "answer":1,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -1034,7 +1034,7 @@
         "수익은 자산의 증가 또는 부채의 감소를 초래하는 회계연도 동안의 거래로 생긴 순자산의 증가를 말한다. 다만, 관리전환 이나 기부채납 등으로 생긴 순자산의 증가는 수익에 포함하지 않는다."
       ],
       "answer":0,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2020,
@@ -1051,7 +1051,7 @@
         "「국가회계법」은 일반회계·특별회계 및 기금의 회계 및 결산에 관하여 다른 법률에 우선하여 적용한다."
       ],
       "answer":2,
-      "type":"accounting"
+      "type":"Accounting"
     },
     {
       "year":2016,
@@ -1068,7 +1068,7 @@
         "켈리(Kelley)의 귀인모형에서 특이성(distinctiveness)이 높으면 행위자의 내적 요인에 귀인하는 경향이 있다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1085,7 +1085,7 @@
         "아담스(Adams)의 공정성 이론(equity theory)에 의하면 절차적 공정성, 분배적 공정성, 상호작용적 공정성 순서로 동기부여가 일어난다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1102,7 +1102,7 @@
         "블레이크(Blake)와 머튼(Mouton)은 (1,1)형 리더를 이상적인 리더십 스타일로 규정하였다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1119,7 +1119,7 @@
         "사회적 책임 관점"
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1136,7 +1136,7 @@
         "페로우에 따르면 비일상적(nonroutine) 기술을 사용하는 부서는 과업의 다양성이 높고 문제의 분석가능성이 낮다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1153,7 +1153,7 @@
         "체크리스트법(check list method)"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1170,7 +1170,7 @@
         "기업의 임금체계와 임금의 내부공정성은 해당 기업의 지불능력, 생계비 수준, 노동시장에서의 임금수준에 의해 결정된다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1187,7 +1187,7 @@
         "인사평가의 신뢰성은 특정의 평가도구가 얼마나 평가목적을 잘 충족시키느냐에 관한 것이다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1207,7 +1207,7 @@
         "4개"
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1224,7 +1224,7 @@
         "확산 곡선의 기울기는 제품유형에 따라 다르지 않다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1241,7 +1241,7 @@
         "우리 회사의 브랜드와 다른 회사의 브랜드를 결합해서 사용하는 것은 공동브랜딩(co-branding)의 일종이다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1258,7 +1258,7 @@
         "JND(just noticeable difference)"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1275,7 +1275,7 @@
         "전년도 광고예산 기준법"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1292,7 +1292,7 @@
         "전문적 힘(expert power)은 경로구성원 A가 B에 대해 일체감을 갖고 있거나 갖게 되기를 바라기 때문에 발생하는 힘이다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1312,7 +1312,7 @@
         "4개"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1329,7 +1329,7 @@
         "조사현장의 오류와 자료처리의 오류는 관찰오류(survey error)에 포함된다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1346,7 +1346,7 @@
         "제품별배치에서는 제품이 정해진 경로를 따라 이동하지만 프로젝트 배치와 공정별배치에서는 다양한 이동경로를 갖는다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1363,7 +1363,7 @@
         "고객의 니즈(needs)를 바탕으로 핵심품질특성(CTQ: Critical to Quality)을 파악한다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1383,7 +1383,7 @@
         "c, d"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1403,7 +1403,7 @@
         "c, d"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1420,7 +1420,7 @@
         "ABC 재고분류에서 세심한 관리가 필요한 A항목에 포함된 품목은 높은 재고수준을 감수하고서라도 발주간격을 늘리는 것이 바람직 하다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1437,7 +1437,7 @@
         "공급자재고관리(vendor managed inventory)를 활용하면, 구매자의 재고유지 비용은 빈번한 발주와 리드타임 증가로 인해 상승하고 공급자의 수요예측 정확도는 낮아진다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1454,7 +1454,7 @@
         "수요의 변동이 생산시스템에 미치는 영향을 최소화하기 위해 자재 소요계획(MRP)을 기반으로 생산 및 통제를 실시한다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1471,7 +1471,7 @@
         "이표채의 듀레이션은 만기보다 짧다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1488,7 +1488,7 @@
         "영업이익이 이자비용(이자비용>0)보다 큰 경우, 영업이익이 증가 함에 따라 DFL은 감소하며 1에 수렴한다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1507,7 +1507,7 @@
         "a, b, c"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1524,7 +1524,7 @@
         "50%"
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1541,7 +1541,7 @@
         "다른 조건이 일정할 때, 요구수익률이 하락하면 주가는 상승한다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1562,7 +1562,7 @@
         "5개"
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2016,
@@ -1579,7 +1579,7 @@
         "스트립(strip) 전략은 만기와 행사가격이 동일한 콜옵션을 2개 매입 하고 풋옵션을 1개 매입하는 전략이다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1596,7 +1596,7 @@
         "핵크만(Hackman)과 올드햄(Oldham)의 직무특성모형(job characteristics model)에 의하면, 다양한 기능을 사용하는 직무기회를 제공하는 경우보다 자신이 잘하는 한 가지 기능만 사용하는 직무를 부여하는 경우에 동기부여 수준이 더 높다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1613,7 +1613,7 @@
         "‘부하가 상사를 카리스마 리더로 인식할 때 조직 성과가 높아지는 것이 아니라, 조직 성과가 높은 경우 상사를 카리스마 리더로 인식하는 정도가 강해진다’는 연구결과는 리더십 귀인이론(attribution theory of leadership)의 예이다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1633,7 +1633,7 @@
         "b, c, d"
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1650,7 +1650,7 @@
         "스캔론 플랜과 럭커 플랜은 개인의 업무성과를 기초로 임금 수준을 정하는 개인성과급 제도이다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1667,7 +1667,7 @@
         "다수의 면접자가 한 명의 피면접자를 평가하는 방식을 패널면접 (panel interview)이라고 한다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1684,7 +1684,7 @@
         "카페테리아(cafeteria)식 복리후생제도는 여러 복리후생 프로그램 중 종업원 자신이 선호하는 것을 선택할 수 있도록 하는 제도를 말한다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1703,7 +1703,7 @@
         "a, b, c"
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1720,7 +1720,7 @@
         "BCG 매트릭스에서 상대적 시장점유율은 높지만 시장성장률이 낮은 사업군을 자금 젖소(cash cow)라고 한다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1739,7 +1739,7 @@
         "b, c"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1756,7 +1756,7 @@
         "상향 확장(upward line extension)의 경우, 신제품의 고급(프리미엄) 이미지 구축에 실패할 가능성이 있다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1774,7 +1774,7 @@
         "종속제품 가격결정(captive product pricing)"
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1791,7 +1791,7 @@
         "홍보(publicity)는 기업과 관련이 있는 여러 집단들(투자자, 정부, 국회, 시민단체 등)과 좋은 관계를 구축하고 유지하는 총체적인 활동이기 때문에 PR(public relations)보다 대상범위가 넓다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1808,7 +1808,7 @@
         "전문점(specialty store)의 경쟁적 우위는 저렴한 제품가격에 있다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1827,7 +1827,7 @@
         "b, c"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1844,7 +1844,7 @@
         "저관여 하이어라키모델(low involvement hierarchy model)"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1861,7 +1861,7 @@
         "장기기억으로부터 정보인출을 못하는 이유는 쇠퇴이론(decay theory)과 방해이론(interference theory)에 의해 설명될 수 있다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1878,7 +1878,7 @@
         "이동컨베이어 시스템을 효율적으로 이용하기 위해 장비의 전문화, 작업의 단순화, 부품의 표준화 등이 제시되었다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1895,7 +1895,7 @@
         "흐름시간(flow/throughput time)의 단축: 프로세스 개선을 통한 재공품(work-in-process)재고 및 주기시간(cycle time)의 최대화"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1912,7 +1912,7 @@
         "일반적으로 단기예측보다는 장기예측의 정확도가 더 높다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1929,7 +1929,7 @@
         "정량발주시스템에서 EOQ모형을 사용하는 경우, 주문량은 1회 주문비용 및 단위당 연간 재고유지비용에 정비례한다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1946,7 +1946,7 @@
         "생산시스템의 효율을 극대화하기 위해 생산준비 이후 동일 제품을 최대한 많이 생산하고 다음 제품으로 생산 전환을 하는 혼류생산(mixed-model production) 및 생산평준화(production leveling)를 실시한다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1963,7 +1963,7 @@
         "주가장부가치비율(PBR)은 일반적으로 수익전망이 높은 기업일수록 높게 나타난다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1980,7 +1980,7 @@
         "소유경영자의 지분율이 100%일 때 지분의 대리인비용(agency cost of equity)이 가장 크게 나타나며, 소유경영자 지분율이 낮아지고 외부주주 지분율이 높아질수록 지분의 대리인 비용은 감소한다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -1997,7 +1997,7 @@
         "정보의 비대칭성이 존재하는 경우 경영자는 시장에 기업정보를 전달하는 수단으로 배당을 사용할 수 있다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -2016,7 +2016,7 @@
         "b, c"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -2033,7 +2033,7 @@
         "선물 매도, 원화 차입, 달러로 환전, 원화 대출"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2017,
@@ -2050,7 +2050,7 @@
         "다른 조건이 동일할 때, 행사가격이 높은 콜옵션의 가격은 행사 가격이 낮은 콜옵션의 가격보다 높거나 같다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2067,7 +2067,7 @@
         "서번트 리더십(servant leadership)은 리더와 부하의 역할교환, 명확한 비전의 제시, 경청, 적절한 보상과 벌, 자율과 공식화를 통하여 집단의 성장보다는 집단의 효율성과 생산성을 높이는 데 초점을 두고 있다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2084,7 +2084,7 @@
         "매트릭스 조직(matrix structure)은 이중적인 보고체계로 인하여 보고담당자가 역할갈등을 느낄 수 있고 업무에 혼선이 생길 수 있다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2101,7 +2101,7 @@
         "과업의 중요성을 높여줌으로써, 직무수행자가 해당 직무에서 의미감을 경험하게 한다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2118,7 +2118,7 @@
         "아담스(Adams)의 공정성 이론(equity theory)에 의하면 개인이 지각하는 투입(input)에는 개인이 직장에서 투여한 시간, 노력, 경험 등이 포함될 수 있고, 개인이 지각하는 산출(output)에는 직장에서 받은 급여와 유무형의 혜택들이 포함될 수 있다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2135,7 +2135,7 @@
         "집단 사고(group think)는 응집력이 강한 대규모 집단에서 복잡한 의사결정을 할 때, 문제에 대한 토론을 진행할수록 집단내의 의견이 양극화되는 현상이다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2152,7 +2152,7 @@
         "선발도구의 타당성을 측정하는 방법에는 내적 일관성(internal consistency) 측정방법, 양분법(split half method), 시험 재시험 (test-retest) 방법 등이 있다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2169,7 +2169,7 @@
         "기업의 지불능력, 종업원의 생계비 수준, 노동시장에서의 수요와 공급 등은 기업의 임금수준을 결정하는 요인이다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2186,7 +2186,7 @@
         "통합적 협상에서는 제시된 협상의 이슈(issue)뿐만 아니라 협상 당사자의 관심사(interests)에도 초점을맞추어야 좋은 협상결과가 나온다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2205,7 +2205,7 @@
         "b, c"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2224,7 +2224,7 @@
         "b, c"
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2243,7 +2243,7 @@
         "b, c"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2260,7 +2260,7 @@
         "순수 묶음가격(pure bundling)은 여러 가지 제품들을 묶음으로도 판매하고 개별적으로도 판매하는 가격정책이다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2277,7 +2277,7 @@
         "인적판매에서 내부 판매(inside selling)는 판매사원이 잠재 구매자를 방문하여 판매활동을 하는 것이다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2294,7 +2294,7 @@
         "전속적 유통(exclusive distribution)은 중간상의 역할이 그다지 중요하지 않은 제품에 적합하며, 제조업체의 표적시장 범위가 넓을수록 유리하다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2311,7 +2311,7 @@
         "다양한 제품정보에 노출되었을 때, 소비자는 맨 처음에 제시된 정보와 맨 나중에 제시된 정보를 중간에 제시된 정보보다 잘 기억하는 경향이 있다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2331,7 +2331,7 @@
         "4개"
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2348,7 +2348,7 @@
         "가동준비(setup)가 필요한 뱃치공정(batch process)에서 가동 준비시간이 늘어나면 생산능력이 증가되는 효과가 있다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2365,7 +2365,7 @@
         "프로젝트공정에 주로 사용되는 고정위치배치에서는 장비와 인원 등이 작업장의 특정위치에 고정되므로 작업물의 이동경로 관리가 중요하다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2382,7 +2382,7 @@
         "이용률 최대화 및 재공품의 안정적 흐름을 위해, 공정에 품질 등의 문제가 발생하더라도 공정을 계속적으로 운영할 것을 강조한다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2399,7 +2399,7 @@
         "자재소요계획은 전사적자원관리(ERP)가 생산부문으로 진화·발전된 것으로, 원자재 및 부품 등의 필요량과 필요시기를 산출한다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2416,7 +2416,7 @@
         "데밍(Deming)에 의해 고안된 PDCA 사이클은 품질의 지속적 개선을 위한 도구로 활용된다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2433,7 +2433,7 @@
         "현금배당 또는 자사주 매입 시, 기존주주의 부는 변하지 않는다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2450,7 +2450,7 @@
         "다수의 의견이 틀리지 않을 것이라는 믿음 하에 개별적으로 수집·분석한 정보를 무시한 채 대중이 움직이는 대로 따라가는 현상을 과신(overconfidence)이라고 한다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2467,7 +2467,7 @@
         "국내시장의 무위험이자율이 10%일 때, 행사가격이 1,570원인 유로콜의 1기간 이항모형가격은 225원이다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2018,
@@ -2484,7 +2484,7 @@
         "자본시장선보다 아래에 존재하는 자산은 증권시장선에 놓이지 않을 수 있다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2501,7 +2501,7 @@
         "허쯔버그(Herzberg)의 2요인이론(two factor theory)에서 위생 요인은 만족을 증대시키고 동기요인은 불만족을 감소시킨다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2518,7 +2518,7 @@
         "조직시민행동(organizational citizenship behavior)은 신사적 행동 (sportsmanship), 예의바른 행동(courtesy), 이타적 행동(altruism), 전문가적 행동(professionalism)의 네 요소로 구성된다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2535,7 +2535,7 @@
         "남성성(masculinity)과 여성성(femininity)"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2552,7 +2552,7 @@
         "리더-구성원 교환관계이론(LMX: leader-member exchange theory)에서는 리더와 부하와의 관계의 질에 따라서 부하를 내집단(in-group)과 외집단(out-group)으로 구분한다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2569,7 +2569,7 @@
         "네트워크 조직(network structure)은 공장과 제조시설에 대한 대규모 투자가 없어도 사업이 가능하다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2586,7 +2586,7 @@
         "교육훈련으로 인해 인지능력과 감성능력이 향상되었는가에 대한 기초능력평가"
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2603,7 +2603,7 @@
         "수행하는 과업의 수와 다양성을 증가시키는 수평적 직무확대를 직무충실화(job enrichment)라 한다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2620,7 +2620,7 @@
         "360도 피드백 인사평가에서는 전통적인 평가 방법인 상사의 평가와 피평가자의 영향력이 미치는 부하의 평가를 제외한다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2639,7 +2639,7 @@
         "b, c"
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2658,7 +2658,7 @@
         "b, c"
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2676,7 +2676,7 @@
         "스키밍 가격(market-skimming pricing)"
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2693,7 +2693,7 @@
         "구매 공제(buying allowances)는 소매업자가 신제품을 취급해 주는 대가로 제조업자가 제품대금의 일부를 공제해 주는 것 이다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2710,7 +2710,7 @@
         "구매자가 요구하는 서비스 수준이 높은 경우에는 통합적 유통 경로(integrated distribution channel)를 갖게 될 가능성이 높아진다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2728,7 +2728,7 @@
         "자기지각이론(self-perception theory)"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2745,7 +2745,7 @@
         "특정 브랜드에 대해 호의적 태도를 가지고 반복 구매하는 것은 브랜드충성도와 관련이 있다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2764,7 +2764,7 @@
         "b, c"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2781,7 +2781,7 @@
         "작업장 수를 고정하면 주기시간을 줄일수록 밸런스 효율은 향상된다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2798,7 +2798,7 @@
         "묶음단위 배치주문(order batching)과 수량할인으로 인한 선구매 (forward buying)는 공급사슬의 채찍효과(bullwhip effect)를 초래 하는 원인이 된다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2815,7 +2815,7 @@
         "효과적인 생산관리 활동(제품 및 공정설계, 품질관리 등)을 통해 실제산출률은 증가하지만 유효생산능력은 변하지 않는다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2832,7 +2832,7 @@
         "EOQ 재고모형은 고정주문량모형(fixed-order quantity model) 이므로 현재의 수요량과 리드타임이 변경되더라도 EOQ의 변동은 없다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2849,7 +2849,7 @@
         "TQM(total quality management)은 결과보다는 프로세스 지향적 이고 고객만족, 전원참여, 프로세스의 지속적인 개선을 강조한다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2869,7 +2869,7 @@
         "c, d"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2888,7 +2888,7 @@
         "c > b > a"
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2905,7 +2905,7 @@
         "PI법을 사용할 경우 PI가 0보다 크면 투자안을 채택하고, 0보다 작으면 투자안을 기각한다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2922,7 +2922,7 @@
         "DeAngelo와 Masulis(1980)에 의하면 투자세액공제 등 비부채성 세금절감효과를 고려할 경우 기업별 유효법인세율의 차이로 인해 최적자본구조가 존재할 수 있다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2939,7 +2939,7 @@
         "무위험수익률이 5%이고 시장포트폴리오의 위험프리미엄이 5%이면, 포트폴리오 A의 기대수익률은 9%이다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2958,7 +2958,7 @@
         "a, b, c"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2019,
@@ -2975,7 +2975,7 @@
         "선호영역(preferred habitat)이론에 의하면 투자자는 선호하는 특정한 만기의 영역이 존재하고, 설령 다른 만기의 채권들에 충분한 프리미엄이 존재한다고 할지라도 자신들이 선호하는 영역을 벗어난 만기를 가진 채권에 투자하지 않는다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -2992,7 +2992,7 @@
         "많은 자극 가운데 자신에게 필요한 자극에만 관심을 기울이고 이해하려 하는 현상을 선택적 지각(selective perception)이라고 한다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3009,7 +3009,7 @@
         "임파워먼트(empowerment)는 부하직원이 스스로의 책임 하에 주어진 공식적 권력, 즉 권한을 행사할 수 있도록 해주는 것을 말하며, 조직 내 책임경영의 실천을 위해 중요하다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3026,7 +3026,7 @@
         "형식지(explicit knowledge)는 개인이 체화하여 가지고 있으며 말로 하나하나 설명할 수 없는 내면의 비밀스러운 지식을 의미 하고, 암묵지(tacit knowledge)는 전달과 설명이 가능하며 적절히 표현되고 정리된 지식을 의미한다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3043,7 +3043,7 @@
         "레윈(Lewin)의 조직변화 3단계 모델에 의하면, ‘변화’ 단계에서는 구성원의 변화 필요성 인식, 주도세력 결집, 비전과 변화전략의 개발 등이 이루어진다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3060,7 +3060,7 @@
         "연봉제는 종업원 개인 간의 지나친 경쟁의식을 유발하여 위화감을 조성하고 조직 내 팀워크를 약화시키며, 단기 업적주의의 풍토를 조장할 수 있다는 단점이 있다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3077,7 +3077,7 @@
         "대조오류(contrast errors)란 피평가자가 속한 집단에 대한 지각에 기초하여 이루어지는 것으로 평가자가 생각하고 있는 특정집단 구성원의 자질이나 행동을 그 집단의 모든 구성원에게 일반화시키는 경향에서 발생한다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3094,7 +3094,7 @@
         "외부노동시장에서 지원자를 모집하는 원천(source)에는 광고, 교육기관, 기존 종업원의 추천 등이 있다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3111,7 +3111,7 @@
         "교육훈련 설계(training design)는 교육훈련의 필요성 평가로부터 시작되며, 이러한 평가는 조직분석, 과업분석, 개인분석 등을 포함한다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3128,7 +3128,7 @@
         "관성(inertia)은 제품경험이 없는 저관여 소비자가 의사결정의 과정을 단순화하기 위해 동일 브랜드를 반복적으로 구매하는 행동이다."
       ],
       "answer":1,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3149,7 +3149,7 @@
         "a, c, d"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3168,7 +3168,7 @@
         "a, b, c"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3185,7 +3185,7 @@
         "지각적 경계(perceptual vigilance)"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3202,7 +3202,7 @@
         "마케터는 차별화 요소를 찾기 위해 자사의 제품과 서비스에 대한 고객의 다양한 경험을 최대한 고려해야 한다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3219,7 +3219,7 @@
         "다차원척도법은 기업이 소비자의 브랜드 인지 시 사용하는 평가차원의 수와 속성의 종류를 파악하는 데 유용하다."
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3236,7 +3236,7 @@
         "지각된 가치 가격(perceived-value pricing)"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3253,7 +3253,7 @@
         "과거 실제치에 대한 가중치는 현재로부터 멀어질수록 지수적 으로 하락한다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3270,7 +3270,7 @@
         "공정별배치는 설비의 고장에 따른 손실이 제품별배치보다 상대적으로 크다."
       ],
       "answer":3,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3290,7 +3290,7 @@
         "a, c, d"
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3307,7 +3307,7 @@
         "로트크기(lot size)를 크게 하면 생산능력은 증가하고 재고는 감소한다."
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3324,7 +3324,7 @@
         "품질특성의 표준편차가 감소하면 불량률과 시그마수준 모두 감소한다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3341,7 +3341,7 @@
         "위험선호유인(risk incentive)"
       ],
       "answer":0,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3362,7 +3362,7 @@
         "a, b, c, d"
       ],
       "answer":4,
-      "type":"business"
+      "type":"Business"
     },
     {
       "year":2020,
@@ -3379,6 +3379,6 @@
         "이 옵션의 행사가격은 50,000원이다."
       ],
       "answer":2,
-      "type":"business"
+      "type":"Business"
     }
   ]
