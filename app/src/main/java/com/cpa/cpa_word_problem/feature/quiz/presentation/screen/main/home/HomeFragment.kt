@@ -20,6 +20,7 @@ import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.utils.invisible
 import com.cpa.cpa_word_problem.utils.setOnThrottleClick
+import com.cpa.cpa_word_problem.utils.visibleOrGone
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -214,6 +215,30 @@ class HomeFragment : BaseFragment() {
                 launch {
                     viewModel.useTimer.collectLatest { useTimer ->
                         binding.bsQuiz.swTimer.isChecked = useTimer
+                    }
+                }
+
+                launch {
+                    viewModel.accountingCount.collectLatest { count ->
+                        binding.layAccounting.tvSubjectCount.visibleOrGone(count > 0)
+                        binding.layAccounting.tvSubjectCount.text =
+                            getString(R.string.subject_total_count, count)
+                    }
+                }
+
+                launch {
+                    viewModel.businessCount.collectLatest { count ->
+                        binding.layBusiness.tvSubjectCount.visibleOrGone(count > 0)
+                        binding.layBusiness.tvSubjectCount.text =
+                            getString(R.string.subject_total_count, count)
+                    }
+                }
+
+                launch {
+                    viewModel.commercialLawCount.collectLatest { count ->
+                        binding.layCommercialLaw.tvSubjectCount.visibleOrGone(count > 0)
+                        binding.layCommercialLaw.tvSubjectCount.text =
+                            getString(R.string.subject_total_count, count)
                     }
                 }
             }

@@ -109,5 +109,8 @@ class QuizRepositoryImpl @Inject constructor(
         return nextExam
     }
 
+    override fun getProblemCountByType(type: QuizType): Flow<Int> =
+        problemDao.getProblemCountByType(type)
+
 }
 

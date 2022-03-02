@@ -42,6 +42,15 @@ interface ProblemDao {
 
     @Query(
         """
+            SELECT COUNT(*)
+            FROM ${AppContract.Problem.TABLE_NAME}
+            WHERE $TYPE = :type
+            """
+    )
+    fun getProblemCountByType(type: QuizType): Flow<Int>
+
+    @Query(
+        """
         SELECT *
         FROM ${AppContract.Problem.TABLE_NAME}
         WHERE $DESCRIPTION LIKE '%' || :text || '%'

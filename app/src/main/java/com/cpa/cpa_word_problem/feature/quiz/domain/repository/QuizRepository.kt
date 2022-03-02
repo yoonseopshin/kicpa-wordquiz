@@ -27,4 +27,6 @@ interface QuizRepository {
 
     suspend fun getNextExamDate(): String
 
+    fun getProblemCountByType(type: QuizType): Flow<Int>
+
 }

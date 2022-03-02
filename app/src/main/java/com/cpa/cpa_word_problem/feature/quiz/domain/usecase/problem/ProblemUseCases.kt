@@ -9,4 +9,5 @@ data class ProblemUseCases(
     val deleteAllWrongProblems: DeleteAllWrongProblems,
     val getProblem: GetProblem,
     val syncRemoteProblems: SyncRemoteProblems,
+    val getProblemCount: GetProblemCount,
 )

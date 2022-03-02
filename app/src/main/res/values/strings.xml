@@ -56,4 +56,5 @@
     <string name="note_header_description">오답은 노트에서 확인할 수 있어요.</string>
     <string name="move">이동</string>
     <string name="scroll_to_top">상단으로 이동</string>
+    <string name="subject_total_count">총 %1$d문제</string>
 </resources>

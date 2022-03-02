@@ -26,6 +26,7 @@ object UseCaseModule {
             DeleteAllWrongProblems(repository),
             GetProblem(repository),
             SyncRemoteProblems(repository),
+            GetProblemCount(repository),
         )
 
     @Provides
