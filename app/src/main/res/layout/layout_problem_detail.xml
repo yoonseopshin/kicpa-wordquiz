@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode" />
+
+        <variable
+            name="problem"
+            type="com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem" />
+
+        <variable
+            name="mode"
+            type="com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/ch_year_pid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:pid="@{problem.pid}"
+            app:year="@{problem.year}" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/ch_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:problem_type="@{problem.type}"
+            tools:text="@string/business" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:text="@{problem.description}"
+            android:textColor="@color/daynight_gray800s"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ch_year_pid" />
+
+        <TextView
+            android:id="@+id/tv_sub_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:background="@color/daynight_gray070s"
+            android:padding="8dp"
+            android:textColor="@color/daynight_gray700s"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description"
+            app:sub_descriptions="@{problem.subDescriptions}" />
+
+        <RadioGroup
+            android:id="@+id/rg_questions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sub_description"
+            app:problem_detail_mode="@{mode}">
+
+            <RadioButton
+                android:id="@+id/rb0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 0}"
+                android:paddingVertical="4dp"
+                android:text="@{!problem.questions.empty ? problem.questions.get(0) : null}"
+                android:textColor="@color/daynight_gray700s" />
+
+            <RadioButton
+                android:id="@+id/rb1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 1}"
+                android:paddingVertical="4dp"
+                android:text="@{!problem.questions.empty ? problem.questions.get(1) : null}"
+                android:textColor="@color/daynight_gray700s" />
+
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 2}"
+                android:paddingVertical="4dp"
+                android:text="@{!problem.questions.empty ? problem.questions.get(2) : null}"
+                android:textColor="@color/daynight_gray700s" />
+
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 3}"
+                android:paddingVertical="4dp"
+                android:text="@{!problem.questions.empty ? problem.questions.get(3) : null}"
+                android:textColor="@color/daynight_gray700s" />
+
+            <RadioButton
+                android:id="@+id/rb4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 4}"
+                android:paddingVertical="4dp"
+                android:text="@{!problem.questions.empty ? problem.questions.get(4) : null}"
+                android:textColor="@color/daynight_gray700s" />
+
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="nightonly_pastel_red">#ad1457</color>
+    <color name="nightonly_pastel_orange">#d84315</color>
+    <color name="nightonly_pastel_yellow">#f9a825</color>
+    <color name="nightonly_pastel_green">#558b2f</color>
+    <color name="nightonly_pastel_blue">#0277bd</color>
+    <color name="nightonly_pastel_indigo">#283593</color>
+    <color name="nightonly_pastel_purple">#6a1b9a</color>
+    <color name="nightonly_pastel_deep_purple">#4527a0</color>
+    <color name="nightonly_pastel_brown">#5d4037</color>
+    <color name="nightonly_pastel_light_gray">#757575</color>
+
+    <color name="nightonly_pastel_orange_0.20">#33d84315</color>
+    <color name="nightonly_pastel_green_0.20">#33558b2f</color>
+    <color name="nightonly_pastel_blue_0.20">#330277bd</color>
+    <color name="nightonly_pastel_indigo_0.20">#33283593</color>
+    <color name="nightonly_pastel_deep_purple_0.20">#334527a0</color>
+
+    <color name="nightonly_gray900s">#E7E7E7</color>
+    <color name="nightonly_gray800s">#CFCFCF</color>
+    <color name="nightonly_gray700s">#B8B8B8</color>
+    <color name="nightonly_gray600s">#A0A0A0</color>
+    <color name="nightonly_gray550s">#959595</color>
+    <color name="nightonly_gray500s">#888888</color>
+    <color name="nightonly_gray400s">#707070</color>
+    <color name="nightonly_gray300a">#59FFFFFF</color> <!-- FFFFFF, 35% -->
+    <color name="nightonly_gray300s">#646464</color>
+    <color name="nightonly_gray200a">#38FFFFFF</color> <!-- FFFFFF, 22% -->
+    <color name="nightonly_gray150a">#24FFFFFF</color> <!-- FFFFFF, 14% -->
+    <color name="nightonly_gray120a">#1FFFFFFF</color> <!-- FFFFFF, 12% -->
+    <color name="nightonly_gray100a">#1AFFFFFF</color> <!-- FFFFFF, 10% -->
+    <color name="nightonly_gray070a">#14FFFFFF</color> <!-- FFFFFF, 8% -->
+    <color name="nightonly_gray070s">#242424</color>
+    <color name="nightonly_gray050a">#0FFFFFFF</color> <!-- FFFFFF, 6% -->
+    <color name="nightonly_gray050s">#1F1F1F</color>
+    <color name="nightonly_gray000a">#0AFFFFFF</color> <!-- FFFFFF, 4% -->
+    <color name="nightonly_gray000s">#1B1B1B</color>
+
+</resources>

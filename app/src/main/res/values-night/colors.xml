@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0288D1</color>
-    <color name="colorPrimaryDark">#024481</color>
-    <color name="colorPrimaryLight">#B3E5FC</color>
-    <color name="colorAccent">#FF0099</color>
-    <color name="textColor">#757575</color>
-    <color name="icons">#FFFFFF</color>
-    <color name="divider">#BDBDBD</color>
-    <color name="lightRed">#FFCCCB</color>
-    <color name="lightGreen">#90EE90</color>
-    <color name="success">#1B4125</color>
-    <color name="wrong">#662228</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="primaryColor">#627d98</color>
+    <color name="primaryLightColor">#91acc9</color>
+    <color name="primaryDarkColor">#35516a</color>
+    <color name="secondaryColor">#7c4dff</color>
+    <color name="secondaryLightColor">#b47cff</color>
+    <color name="secondaryDarkColor">#3f1dcb</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#ffffff</color>
+    <color name="item_highlight_color">@color/white</color>
+
+    <color name="daynight_gray900s">@color/nightonly_gray900s</color>
+    <color name="daynight_gray800s">@color/nightonly_gray800s</color>
+    <color name="daynight_gray700s">@color/nightonly_gray700s</color>
+    <color name="daynight_gray600s">@color/nightonly_gray600s</color>
+    <color name="daynight_gray550s">@color/nightonly_gray550s</color>
+    <color name="daynight_gray500s">@color/nightonly_gray500s</color>
+    <color name="daynight_gray400s">@color/nightonly_gray400s</color>
+    <color name="daynight_gray300a">@color/nightonly_gray300a</color> <!-- FFFFFF, 35% -->
+    <color name="daynight_gray300s">@color/nightonly_gray300s</color>
+    <color name="daynight_gray200a">@color/nightonly_gray200a</color> <!-- FFFFFF, 22% -->
+    <color name="daynight_gray150a">@color/nightonly_gray150a</color> <!-- FFFFFF, 14% -->
+    <color name="daynight_gray120a">@color/nightonly_gray120a</color> <!-- FFFFFF, 12% -->
+    <color name="daynight_gray100a">@color/nightonly_gray100a</color> <!-- FFFFFF, 10% -->
+    <color name="daynight_gray070a">@color/nightonly_gray070a</color> <!-- FFFFFF, 8% -->
+    <color name="daynight_gray070s">@color/nightonly_gray070s</color>
+    <color name="daynight_gray050a">@color/nightonly_gray050a</color> <!-- FFFFFF, 6% -->
+    <color name="daynight_gray050s">@color/nightonly_gray050s</color>
+    <color name="daynight_gray000a">@color/nightonly_gray000a</color> <!-- FFFFFF, 4% -->
+    <color name="daynight_gray000s">@color/nightonly_gray000s</color>
+
+    <color name="daynight_pastel_red">@color/nightonly_pastel_red</color>
+    <color name="daynight_pastel_orange">@color/nightonly_pastel_orange</color>
+    <color name="daynight_pastel_yellow">@color/nightonly_pastel_yellow</color>
+    <color name="daynight_pastel_green">@color/nightonly_pastel_green</color>
+    <color name="daynight_pastel_blue">@color/nightonly_pastel_blue</color>
+    <color name="daynight_pastel_indigo">@color/nightonly_pastel_indigo</color>
+    <color name="daynight_pastel_purple">@color/nightonly_pastel_purple</color>
+    <color name="daynight_pastel_deep_purple">@color/nightonly_pastel_deep_purple</color>
+    <color name="daynight_pastel_brown">@color/nightonly_pastel_brown</color>
+    <color name="daynight_pastel_light_gray">@color/nightonly_pastel_light_gray</color>
+
+    <color name="daynight_pastel_orange_0.20">@color/nightonly_pastel_orange_0.20</color>
+    <color name="daynight_pastel_green_0.20">@color/nightonly_pastel_green_0.20</color>
+    <color name="daynight_pastel_blue_0.20">@color/nightonly_pastel_blue_0.20</color>
+    <color name="daynight_pastel_indigo_0.20">@color/nightonly_pastel_indigo_0.20</color>
+    <color name="daynight_pastel_deep_purple_0.20">@color/nightonly_pastel_indigo_0.20</color>
+
+    <color name="accounting_highlight_color">@color/daynight_pastel_blue</color>
+    <color name="accounting_highlight_color_0.20">@color/daynight_pastel_blue_0.20</color>
+    <color name="business_highlight_color">@color/daynight_pastel_indigo</color>
+    <color name="business_highlight_color_0.20">@color/daynight_pastel_indigo_0.20</color>
+    <color name="timer_result_highlight_color">@color/daynight_pastel_deep_purple</color>
+    <color name="timer_result_highlight_color_0.20">@color/daynight_pastel_deep_purple_0.20</color>
+
+    <color name="color_on_correct">#661B4125</color>
+    <color name="color_on_correct_bg">#661B4125</color>
+    <color name="color_on_incorrect">#66662228</color>
+    <color name="color_on_incorrect_bg">#66662228</color>
+
+    <color name="theme_color">#121212</color>
+    <color name="reverse_theme_color">#ffffff</color>
+    <color name="rippleColor">#1fffffff</color>
+
 </resources>
