@@ -1,4 +1,4 @@
-package com.cpa.cpaquiz
+package com.cpa.cpa_word_problem
 
 import org.junit.Test
 

@@ -1,0 +1,62 @@
+[
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/layout_home_subject_card.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/layout_home_subject_card.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/layout_note_result_header.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/layout_note_result_header.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_problem_detail.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/activity_problem_detail.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/layout_scroll_to_top.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/layout_scroll_to_top.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/layout_bottom_sheet_search.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/layout_bottom_sheet_search.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_quiz_statistics.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/activity_quiz_statistics.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_note.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/fragment_note.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/layout_common_note_header.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/layout_common_note_header.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_main.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/layout_bottom_sheet_quiz_settings.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/layout_bottom_sheet_quiz_settings.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_settings.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_home.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/fragment_home.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/layout_result_timer.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/layout_result_timer.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/layout_problem_detail.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/layout_problem_detail.xml"
+    },
+    {
+        "merged": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/list_item_problem.xml",
+        "source": "/Users/ssuby/AndroidStudioProjects/kicpa-wordquiz/app/src/main/res/layout/list_item_problem.xml"
+    }
+]

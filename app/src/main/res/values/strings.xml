@@ -8,17 +8,23 @@
     <string name="quiz_description">2016~2020 CPA 1차 기출문제 중 눈으로 풀 수 있는 문제들만 모아두었습니다.\n틀린 문제는 오답노트에 저장됩니다. \n문제의 정답은 오답노트에서 확인하세요.</string>
     <string name="email">sys09270883@gmail.com</string>
     <string name="email_subject">[CPA 회계학 말문제 앱 건의사항]</string>
-    <string name="setting">설정</string>
-    <string name="quiz">퀴즈</string>
-    <string name="quiz_problem_size_description">문제 수</string>
+    <string name="settings">설정</string>
+    <string name="search">검색</string>
+    <string name="home">홈</string>
+    <string name="note">노트</string>
+    <string name="quiz_amount">문제 수</string>
+    <string name="timer">타이머</string>
+    <string name="result">결과</string>
     <string name="quiz_category">과목</string>
-    <string name="note">오답노트</string>
     <string name="refresh_note">오답노트 초기화</string>
+    <string name="wrong_note">오답문제</string>
+    <string name="total_note">전체문제</string>
+    <string name="searched_problem">검색결과</string>
+    <string name="search_hint">키워드</string>
     <string name="etc">기타</string>
     <string name="question">문의하기</string>
     <string name="quiz_setting_text">%s</string>
     <string name="setting_year">출제년도</string>
-    <string name="setting_correct">정답 이펙트</string>
     <string name="success">정답입니다!</string>
     <string name="wrong">오답입니다.</string>
     <string name="select_problems">출제년도를 선택하세요.</string>
@@ -26,4 +32,34 @@
     <string name="kakao_scheme"></string>
     <string name="kakaolink_host">kakaolink</string>
     <string name="share_kakao">카카오톡 공유하기</string>
+    <string name="title_activity_problem_list">ProblemListActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="accounting">회계학</string>
+    <string name="business">경영학</string>
+    <string name="close">닫기</string>
+    <string name="clear">삭제</string>
+    <string name="title_activity_problem_detail">ProblemDetailActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">다음</string>
+    <string name="previous">Previous</string>
+
+
+    <string name="practice_test">연습</string>
+    <string name="mock_test">실전</string>
+
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="quiz">퀴즈</string>
+    <string name="icon">아이콘</string>
+    <string name="msg_need_answer">정답을 선택해주세요.</string>
+    <string name="total_elapsed_time">총 소요 시간</string>
+    <string name="solved_problems">내가 푼 문제</string>
+    <string name="note_header_description">틀린 문제는 노트에서 확인할 수 있어요.</string>
+    <string name="move">이동</string>
+    <string name="scroll_to_top">상단으로 이동</string>
+
+
 </resources>
