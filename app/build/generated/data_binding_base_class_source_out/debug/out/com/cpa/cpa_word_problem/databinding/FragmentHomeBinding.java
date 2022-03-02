@@ -30,6 +30,9 @@ public abstract class FragmentHomeBinding extends ViewDataBinding {
   public final LayoutHomeSubjectCardBinding layBusiness;
 
   @NonNull
+  public final LayoutHomeSubjectCardBinding layCommercialLaw;
+
+  @NonNull
   public final Toolbar toolbar;
 
   @Bindable
@@ -38,12 +41,13 @@ public abstract class FragmentHomeBinding extends ViewDataBinding {
   protected FragmentHomeBinding(Object _bindingComponent, View _root, int _localFieldCount,
       LayoutBottomSheetQuizSettingsBinding bsQuiz, FloatingActionButton fabCloseBsQuiz,
       LayoutHomeSubjectCardBinding layAccounting, LayoutHomeSubjectCardBinding layBusiness,
-      Toolbar toolbar) {
+      LayoutHomeSubjectCardBinding layCommercialLaw, Toolbar toolbar) {
     super(_bindingComponent, _root, _localFieldCount);
     this.bsQuiz = bsQuiz;
     this.fabCloseBsQuiz = fabCloseBsQuiz;
     this.layAccounting = layAccounting;
     this.layBusiness = layBusiness;
+    this.layCommercialLaw = layCommercialLaw;
     this.toolbar = toolbar;
   }
 

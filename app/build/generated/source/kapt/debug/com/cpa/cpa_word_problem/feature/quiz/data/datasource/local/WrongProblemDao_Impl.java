@@ -196,6 +196,7 @@ public final class WrongProblemDao_Impl implements WrongProblemDao {
     } switch (_value) {
       case Accounting: return "Accounting";
       case Business: return "Business";
+      case CommercialLaw: return "CommercialLaw";
       case None: return "None";
       default: throw new IllegalArgumentException("Can't convert enum to string, unknown enum value: " + _value);
     }
@@ -207,6 +208,7 @@ public final class WrongProblemDao_Impl implements WrongProblemDao {
     } switch (_value) {
       case "Accounting": return QuizType.Accounting;
       case "Business": return QuizType.Business;
+      case "CommercialLaw": return QuizType.CommercialLaw;
       case "None": return QuizType.None;
       default: throw new IllegalArgumentException("Can't convert value to enum, unknown value: " + _value);
     }

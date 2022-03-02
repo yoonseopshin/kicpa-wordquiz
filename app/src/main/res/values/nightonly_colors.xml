@@ -15,8 +15,10 @@
     <color name="nightonly_pastel_orange_0.20">#33d84315</color>
     <color name="nightonly_pastel_green_0.20">#33558b2f</color>
     <color name="nightonly_pastel_blue_0.20">#330277bd</color>
+    <color name="nightonly_pastel_purple_0.20">#336a1b9a</color>
     <color name="nightonly_pastel_indigo_0.20">#33283593</color>
     <color name="nightonly_pastel_deep_purple_0.20">#334527a0</color>
+    <color name="nightonly_pastel_brown_0.20">#335d4037</color>
 
     <color name="nightonly_gray900s">#E7E7E7</color>
     <color name="nightonly_gray800s">#CFCFCF</color>

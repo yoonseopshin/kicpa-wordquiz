@@ -191,8 +191,8 @@ public final class DaggerCpaQuizApp_HiltComponents_SingletonC extends CpaQuizApp
   }
 
   @Override
-  public void inject(FlipperInitializer arg0) {
-    injectFlipperInitializer(arg0);
+  public void inject(FlipperInitializer initializer) {
+    injectFlipperInitializer(initializer);
   }
 
   @Override
