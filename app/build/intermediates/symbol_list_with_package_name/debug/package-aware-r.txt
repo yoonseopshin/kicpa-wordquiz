@@ -1272,6 +1272,8 @@ color color_on_correct
 color color_on_correct_bg
 color color_on_incorrect
 color color_on_incorrect_bg
+color commercial_law_highlight_color
+color commercial_law_highlight_color_0_20
 color common_ripple
 color common_webview_loading_bg
 color common_webview_navigator_icon_bg
@@ -1297,6 +1299,7 @@ color daynight_gray900s
 color daynight_pastel_blue
 color daynight_pastel_blue_0_20
 color daynight_pastel_brown
+color daynight_pastel_brown_0_20
 color daynight_pastel_deep_purple
 color daynight_pastel_deep_purple_0_20
 color daynight_pastel_green
@@ -1307,6 +1310,7 @@ color daynight_pastel_light_gray
 color daynight_pastel_orange
 color daynight_pastel_orange_0_20
 color daynight_pastel_purple
+color daynight_pastel_purple_0_20
 color daynight_pastel_red
 color daynight_pastel_yellow
 color dayonly_gray000a
@@ -1331,6 +1335,7 @@ color dayonly_gray900s
 color dayonly_pastel_blue
 color dayonly_pastel_blue_0_20
 color dayonly_pastel_brown
+color dayonly_pastel_brown_0_20
 color dayonly_pastel_deep_purple
 color dayonly_pastel_deep_purple_0_20
 color dayonly_pastel_green
@@ -1341,6 +1346,7 @@ color dayonly_pastel_light_gray
 color dayonly_pastel_orange
 color dayonly_pastel_orange_0_20
 color dayonly_pastel_purple
+color dayonly_pastel_purple_0_20
 color dayonly_pastel_red
 color dayonly_pastel_yellow
 color design_bottom_navigation_shadow_color
@@ -1883,6 +1889,7 @@ color nightonly_gray900s
 color nightonly_pastel_blue
 color nightonly_pastel_blue_0_20
 color nightonly_pastel_brown
+color nightonly_pastel_brown_0_20
 color nightonly_pastel_deep_purple
 color nightonly_pastel_deep_purple_0_20
 color nightonly_pastel_green
@@ -1893,6 +1900,7 @@ color nightonly_pastel_light_gray
 color nightonly_pastel_orange
 color nightonly_pastel_orange_0_20
 color nightonly_pastel_purple
+color nightonly_pastel_purple_0_20
 color nightonly_pastel_red
 color nightonly_pastel_yellow
 color notification_action_color_filter
@@ -2996,6 +3004,7 @@ id jumpToStart
 id labeled
 id lay_accounting
 id lay_business
+id lay_commercial_law
 id lay_problem_detail
 id lay_quiz_num
 id lay_timer
@@ -3562,6 +3571,7 @@ string clear_text_end_icon_content_description
 string close
 string close_drawer
 string close_sheet
+string commercial_law
 string common_google_play_services_unknown_issue
 string default_error_message
 string default_popup_window_title

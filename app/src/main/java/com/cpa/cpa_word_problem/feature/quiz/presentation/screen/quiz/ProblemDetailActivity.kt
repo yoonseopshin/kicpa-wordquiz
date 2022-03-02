@@ -115,6 +115,7 @@ class ProblemDetailActivity : BaseActivity() {
                 }
             }
             is QuizEvent.Ended -> {
+                binding.fabNext.isEnabled = false
                 viewModel.onEnd {
                     lifecycleScope.launch {
                         delay(1000L)

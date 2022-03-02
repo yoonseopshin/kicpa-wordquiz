@@ -16,7 +16,9 @@
     <color name="dayonly_pastel_green_0.20">#33aed581</color>
     <color name="dayonly_pastel_blue_0.20">#3364b5f6</color>
     <color name="dayonly_pastel_indigo_0.20">#337986cb</color>
+    <color name="dayonly_pastel_purple_0.20">#33ba68c8</color>
     <color name="dayonly_pastel_deep_purple_0.20">#339575cd</color>
+    <color name="dayonly_pastel_brown_0.20">#33a1887f</color>
 
     <color name="dayonly_gray900s">#191919</color>
     <color name="dayonly_gray800s">#4C4C4C</color>

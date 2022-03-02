@@ -77,6 +77,11 @@ fun Chip.bindByType(type: QuizType?) {
             text = context.getString(R.string.business)
             chipBackgroundColor = context.color(R.color.business_highlight_color_0_20)
         }
+        QuizType.CommercialLaw -> {
+            visibility = View.VISIBLE
+            text = context.getString(R.string.commercial_law)
+            chipBackgroundColor = context.color(R.color.commercial_law_highlight_color_0_20)
+        }
         QuizType.None -> {
             visibility = View.GONE
         }

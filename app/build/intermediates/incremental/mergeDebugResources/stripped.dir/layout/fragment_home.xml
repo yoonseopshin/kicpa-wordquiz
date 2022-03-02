@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+        
+
+    
+
+                                                                                     
+
+                                           
+
+                 
+                            
+                                                                                                       
+
+           
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature.quiz.presentation.screen.main.home.HomeFragment" android:tag="layout/fragment_home_0">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/theme_color"
+                android:tag="binding_1"             
+                app:menu="@menu/menu_home_toolbar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent" android:tag="binding_2">
+
+                    <include
+                        android:id="@+id/lay_accounting"
+                        layout="@layout/layout_home_subject_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="16dp" />
+
+                    <include
+                        android:id="@+id/lay_business"
+                        layout="@layout/layout_home_subject_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginVertical="16dp" />
+
+                    <include
+                        android:id="@+id/lay_commercial_law"
+                        layout="@layout/layout_home_subject_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginBottom="16dp" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_close_bs_quiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/light_gray"
+            android:contentDescription="@string/close"
+            android:src="@drawable/ic_close"
+            android:visibility="invisible"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:layout_anchor="@id/bs_quiz"
+            app:layout_anchorGravity="top|end" />
+
+        <include
+            android:id="@+id/bs_quiz"
+            layout="@layout/layout_bottom_sheet_quiz_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/bottom_sheet_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+         

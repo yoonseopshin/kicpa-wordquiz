@@ -155,6 +155,24 @@ class HomeFragment : BaseFragment() {
             }
         }
 
+        with(binding.layCommercialLaw) {
+            tvSubjectTitle.text = getString(R.string.commercial_law)
+
+            btnQuiz.backgroundTintList = color(R.color.commercial_law_highlight_color)
+            root.setCardBackgroundColor(color(R.color.commercial_law_highlight_color_0_20))
+
+            root.setOnThrottleClick {
+                startActivity(
+                    ProblemDetailActivity.newIntent(
+                        context = requireContext(),
+                        quizType = QuizType.CommercialLaw,
+                        quizNumbers = viewModel.quizNumber.value,
+                        useTimer = viewModel.useTimer.value
+                    )
+                )
+            }
+        }
+
         with(binding.bsQuiz) {
             layQuizNum.setOnThrottleClick {
                 val numberPicker = NumberPicker(requireActivity()).apply {

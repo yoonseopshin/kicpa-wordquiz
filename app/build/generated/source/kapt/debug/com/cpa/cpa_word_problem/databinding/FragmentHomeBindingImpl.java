@@ -16,8 +16,9 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
         sViewsWithIds = new android.util.SparseIntArray();
         sViewsWithIds.put(R.id.lay_accounting, 3);
         sViewsWithIds.put(R.id.lay_business, 4);
-        sViewsWithIds.put(R.id.bs_quiz, 5);
-        sViewsWithIds.put(R.id.fab_close_bs_quiz, 6);
+        sViewsWithIds.put(R.id.lay_commercial_law, 5);
+        sViewsWithIds.put(R.id.bs_quiz, 6);
+        sViewsWithIds.put(R.id.fab_close_bs_quiz, 7);
     }
     // views
     @NonNull
@@ -30,14 +31,15 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
     // Inverse Binding Event Handlers
 
     public FragmentHomeBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
-        this(bindingComponent, root, mapBindings(bindingComponent, root, 7, sIncludes, sViewsWithIds));
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 8, sIncludes, sViewsWithIds));
     }
     private FragmentHomeBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
         super(bindingComponent, root, 1
-            , (bindings[5] != null) ? com.cpa.cpa_word_problem.databinding.LayoutBottomSheetQuizSettingsBinding.bind((android.view.View) bindings[5]) : null
-            , (com.google.android.material.floatingactionbutton.FloatingActionButton) bindings[6]
+            , (bindings[6] != null) ? com.cpa.cpa_word_problem.databinding.LayoutBottomSheetQuizSettingsBinding.bind((android.view.View) bindings[6]) : null
+            , (com.google.android.material.floatingactionbutton.FloatingActionButton) bindings[7]
             , (bindings[3] != null) ? com.cpa.cpa_word_problem.databinding.LayoutHomeSubjectCardBinding.bind((android.view.View) bindings[3]) : null
             , (bindings[4] != null) ? com.cpa.cpa_word_problem.databinding.LayoutHomeSubjectCardBinding.bind((android.view.View) bindings[4]) : null
+            , (bindings[5] != null) ? com.cpa.cpa_word_problem.databinding.LayoutHomeSubjectCardBinding.bind((android.view.View) bindings[5]) : null
             , (androidx.appcompat.widget.Toolbar) bindings[1]
             );
         this.mboundView0 = (androidx.coordinatorlayout.widget.CoordinatorLayout) bindings[0];
