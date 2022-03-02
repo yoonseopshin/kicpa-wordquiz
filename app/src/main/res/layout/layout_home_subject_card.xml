@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:textColor="@color/daynight_gray800s"
-            android:textSize="28sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_quiz"
             app:layout_constraintTop_toTopOf="parent"

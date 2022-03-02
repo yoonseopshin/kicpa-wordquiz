@@ -51,4 +51,6 @@ class NoteViewModel @Inject constructor(
         }
     }
 
+    fun isSearching() = userInputText.value.isNotBlank()
+
 }

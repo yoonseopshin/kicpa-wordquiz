@@ -3,8 +3,11 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.statistics
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityQuizStatisticsBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
@@ -17,7 +20,7 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.from
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.MainActivity
-import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home.MainTab
+import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.MainTab
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
@@ -65,6 +68,21 @@ class QuizStatisticsActivity : BaseActivity() {
         setContentView(binding.root)
         initView()
         parseIntent()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_quiz_statistics_toolbar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.confirm -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initView() {

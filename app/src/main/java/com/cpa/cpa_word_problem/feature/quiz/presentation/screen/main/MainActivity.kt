@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityMainBinding
-import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home.MainTab
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

@@ -27,6 +27,7 @@
             android:layout_margin="4dp"
             android:clickable="false"
             android:focusable="false"
+            app:chipBackgroundColor="@color/daynight_gray050s"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:pid="@{problem.pid}"
@@ -49,9 +50,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
-            android:paddingVertical="8dp"
+            android:layout_marginTop="8dp"
             android:text="@{problem.description}"
-            android:textColor="@color/daynight_gray800s"
+            android:textColor="@color/daynight_gray700s"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
             android:background="@color/daynight_gray070s"
             android:padding="8dp"
             android:textColor="@color/daynight_gray700s"
@@ -76,6 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_sub_description"
@@ -88,7 +91,7 @@
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 0}"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(0) : null}"
-                android:textColor="@color/daynight_gray700s" />
+                android:textColor="@color/daynight_gray600s" />
 
             <RadioButton
                 android:id="@+id/rb1"
@@ -97,7 +100,7 @@
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 1}"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(1) : null}"
-                android:textColor="@color/daynight_gray700s" />
+                android:textColor="@color/daynight_gray600s" />
 
             <RadioButton
                 android:id="@+id/rb2"
@@ -106,7 +109,7 @@
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 2}"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(2) : null}"
-                android:textColor="@color/daynight_gray700s" />
+                android:textColor="@color/daynight_gray600s" />
 
             <RadioButton
                 android:id="@+id/rb3"
@@ -115,7 +118,7 @@
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 3}"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(3) : null}"
-                android:textColor="@color/daynight_gray700s" />
+                android:textColor="@color/daynight_gray600s" />
 
             <RadioButton
                 android:id="@+id/rb4"
@@ -124,7 +127,7 @@
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 4}"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(4) : null}"
-                android:textColor="@color/daynight_gray700s" />
+                android:textColor="@color/daynight_gray600s" />
 
         </RadioGroup>
 

@@ -37,7 +37,7 @@
         android:foreground="@drawable/background_common_ripple"
         android:onClick="@{onClickListener}"
         android:onLongClick="@{onLongClickListener}"
-        android:paddingBottom="8dp">
+        android:paddingBottom="20dp">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/ch_year_pid"
@@ -48,6 +48,7 @@
             android:layout_marginEnd="8dp"
             android:clickable="false"
             android:focusable="false"
+            app:chipBackgroundColor="@color/daynight_gray050s"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:pid="@{problem.pid}"
@@ -64,6 +65,7 @@
             android:focusable="false"
             android:text="@{TimeFormatter.INSTANCE.formatKorean(elapsedTime)}"
             android:visibility="@{elapsedTime > 0 ? View.VISIBLE : View.GONE}"
+            app:chipBackgroundColor="@color/daynight_gray050s"
             app:layout_constraintStart_toEndOf="@id/ch_year_pid"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1분 23초" />
@@ -87,10 +89,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@{problem.description}"
-            android:textSize="13sp"
+            android:textColor="@color/daynight_gray700s"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ch_year_pid"

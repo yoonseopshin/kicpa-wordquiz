@@ -10,6 +10,7 @@
     <string name="email_subject">[CPA 회계학 말문제 앱 건의사항]</string>
     <string name="settings">설정</string>
     <string name="search">검색</string>
+    <string name="confirm">확인</string>
     <string name="home">홈</string>
     <string name="note">노트</string>
     <string name="quiz_amount">문제 수</string>
@@ -45,22 +46,14 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">다음</string>
     <string name="previous">Previous</string>
-
-
     <string name="practice_test">연습</string>
     <string name="mock_test">실전</string>
-
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="quiz">퀴즈</string>
     <string name="icon">아이콘</string>
     <string name="msg_need_answer">정답을 선택해주세요.</string>
     <string name="total_elapsed_time">총 소요 시간</string>
     <string name="solved_problems">내가 푼 문제</string>
-    <string name="note_header_description">틀린 문제는 노트에서 확인할 수 있어요.</string>
+    <string name="note_header_description">오답은 노트에서 확인할 수 있어요.</string>
     <string name="move">이동</string>
     <string name="scroll_to_top">상단으로 이동</string>
-
-
 </resources>

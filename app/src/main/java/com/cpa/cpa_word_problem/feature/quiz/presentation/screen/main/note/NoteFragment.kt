@@ -116,7 +116,7 @@ class NoteFragment : BaseFragment() {
     private val scrollToTopAdapter: ScrollToTopAdapter by lazy {
         ScrollToTopAdapter().also { adapter ->
             adapter.onScrollToTopClick = {
-                binding.recyclerView.smoothScrollToPosition(0)
+                binding.recyclerView.scrollToPosition(0)
             }
         }
     }
@@ -280,6 +280,8 @@ class NoteFragment : BaseFragment() {
 
                 launch {
                     viewModel.searchedProblems.collectLatest { problems ->
+                        if (viewModel.isSearching().not()) return@collectLatest
+
                         if (problems.isEmpty()) {
                             scrollToTopAdapter.hide()
                         } else {

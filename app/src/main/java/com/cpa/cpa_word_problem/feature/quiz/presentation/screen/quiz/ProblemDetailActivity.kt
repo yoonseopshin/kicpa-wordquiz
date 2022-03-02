@@ -78,7 +78,7 @@ class ProblemDetailActivity : BaseActivity() {
     private fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.quizEvent.collect { event ->
+                viewModel.quizState.collect { event ->
                     handleEvent(event)
                     Timber.d("$event")
                 }
@@ -86,35 +86,35 @@ class ProblemDetailActivity : BaseActivity() {
         }
     }
 
-    private fun handleEvent(event: QuizEvent) {
-        when (event) {
-            is QuizEvent.Started -> {
+    private fun handleEvent(state: QuizState) {
+        when (state) {
+            is QuizState.Started -> {
                 viewModel.onStart {
                     viewModel.next()
                 }
             }
-            is QuizEvent.Paused -> viewModel.onPause()
-            is QuizEvent.Resumed -> viewModel.onResume()
-            is QuizEvent.Calculating -> viewModel.onCalculating(binding.getUserAnswerIndex())
-            is QuizEvent.Correct -> {
+            is QuizState.Paused -> viewModel.onPause()
+            is QuizState.Resumed -> viewModel.onResume()
+            is QuizState.Calculating -> viewModel.onCalculating(binding.getUserAnswerIndex())
+            is QuizState.Correct -> {
                 binding.root.blink(
                     ContextCompat.getColor(this, R.color.theme_color),
                     ContextCompat.getColor(this, R.color.color_on_correct)
                 )
             }
-            is QuizEvent.Incorrect -> {
+            is QuizState.Incorrect -> {
                 binding.root.blink(
                     ContextCompat.getColor(this, R.color.theme_color),
                     ContextCompat.getColor(this, R.color.color_on_incorrect)
                 )
             }
-            is QuizEvent.Next -> {
+            is QuizState.Next -> {
                 viewModel.onNext {
                     binding.layProblemDetail.rgQuestions.clearCheck()
                     binding.scrollView.scrollToView(binding.toolbar)
                 }
             }
-            is QuizEvent.Ended -> {
+            is QuizState.Ended -> {
                 binding.fabNext.isEnabled = false
                 viewModel.onEnd {
                     lifecycleScope.launch {
