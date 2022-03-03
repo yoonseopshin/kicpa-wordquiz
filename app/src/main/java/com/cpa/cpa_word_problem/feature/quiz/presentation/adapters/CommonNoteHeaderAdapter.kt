@@ -13,34 +13,53 @@ class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.Ite
             notifyDataSetChanged()
             field = value
         }
+    var isToggleable = false
+        set(value) {
+            notifyDataSetChanged()
+            field = value
+        }
+    var isOpened = true
+        set(value) {
+            notifyDataSetChanged()
+            field = value
+        }
+    var onHeaderClick: (() -> Unit)? = null
     var onHeaderLongClick: (() -> Unit)? = null
 
     class ItemViewHolder(
         private val binding: LayoutCommonNoteHeaderBinding,
+        onHeaderClick: (() -> Unit)? = null,
         onHeaderLongClick: (() -> Unit)? = null,
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
+            binding.setOnClickListener {
+                onHeaderClick?.invoke()
+            }
+
             binding.setOnLongClickListener {
                 onHeaderLongClick?.invoke()
                 true
             }
         }
 
-        fun bind(title: String) {
+        fun bind(title: String, isToggleable: Boolean, isOpened: Boolean) {
             binding.headerTitle = title
+            binding.isToggleable = isToggleable
+            binding.isOpened = isOpened
             binding.executePendingBindings()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
         LayoutCommonNoteHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+        onHeaderClick,
         onHeaderLongClick
     )
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(headerTitle)
+        holder.bind(headerTitle, isToggleable, isOpened)
     }
 
     override fun getItemCount() = if (isShowing) 1 else 0

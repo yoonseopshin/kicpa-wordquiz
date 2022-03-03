@@ -41,6 +41,10 @@ class NoteFragment : BaseFragment() {
     private val wrongNoteHeaderAdapter: CommonNoteHeaderAdapter by lazy {
         CommonNoteHeaderAdapter().apply {
             headerTitle = getString(R.string.wrong_note)
+            isToggleable = true
+            onHeaderClick = {
+                viewModel.toggleWrongNotes()
+            }
             onHeaderLongClick = {
                 AlertDialog.Builder(requireActivity())
                     .setMessage("모든 오답문제를 삭제하시겠습니까?")
@@ -49,7 +53,6 @@ class NoteFragment : BaseFragment() {
                     }
                     .setNegativeButton("취소") { _, _ -> }
                     .create().show()
-
             }
         }
     }
@@ -291,6 +294,19 @@ class NoteFragment : BaseFragment() {
                         searchedProblemsAdapter.submitList(problems.map { problem ->
                             UserSolvedProblemModel(problem = problem)
                         })
+                    }
+                }
+
+                launch {
+                    viewModel.isWrongNoteOpened.collectLatest { isOpened ->
+                        wrongNoteHeaderAdapter.isOpened = isOpened
+                        if (isOpened) {
+                            wrongNoteAdapter.submitList(viewModel.wrongProblems.value.map { problem ->
+                                UserSolvedProblemModel(problem = problem)
+                            })
+                        } else {
+                            wrongNoteAdapter.submitList(emptyList())
+                        }
                     }
                 }
             }

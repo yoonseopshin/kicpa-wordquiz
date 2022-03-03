@@ -1,7 +1,9 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.util
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -115,4 +117,13 @@ fun Toolbar.bindProblems(solved: Int?, total: Int?) {
     if (solved.isNullOrDefault() || total.isNullOrDefault()) return
 
     subtitle = "${solved}/${total}"
+}
+
+@BindingAdapter("opened")
+fun ImageView.bindOpened(isOpened: Boolean) {
+    if (isOpened) {
+        animate().rotation(0f).start()
+    } else {
+        animate().rotation(180f).start()
+    }
 }

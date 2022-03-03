@@ -32,6 +32,12 @@ class NoteViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
+    val isWrongNoteOpened = MutableStateFlow(true)
+
+    fun toggleWrongNotes() {
+        isWrongNoteOpened.update { isOpened -> isOpened.not() }
+    }
+
     private val _searchedProblems = MutableStateFlow(emptyList<Problem>())
     val searchedProblems = _searchedProblems.asStateFlow()
 
