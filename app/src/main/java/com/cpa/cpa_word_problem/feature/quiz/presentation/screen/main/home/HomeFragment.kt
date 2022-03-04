@@ -19,6 +19,7 @@ import com.cpa.cpa_word_problem.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentHomeBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
+import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
 import com.cpa.cpa_word_problem.utils.invisible
 import com.cpa.cpa_word_problem.utils.setOnThrottleClick
 import com.cpa.cpa_word_problem.utils.visibleOrGone
@@ -84,9 +85,11 @@ class HomeFragment : BaseFragment() {
         initView()
         observeViewModel()
         viewModel.requestNextExamDate()
+        loadAd()
+    }
 
-        // 네이티브 광고
-        adLoader = AdLoader.Builder(requireContext(), "ca-app-pub-3940256099942544/2247696110")
+    private fun loadAd() {
+        adLoader = AdLoader.Builder(requireContext(), AdConstants.QUIZ_HOME_NATIVE_AD)
             .forNativeAd { nativeAd ->
                 val styles = NativeTemplateStyle.Builder()
                     .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
@@ -113,7 +116,6 @@ class HomeFragment : BaseFragment() {
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     // TODO: Handle AdError
-
                 }
 
                 override fun onAdClicked() {
