@@ -18,7 +18,7 @@ class MainFragmentStateAdapter(fragmentManager: FragmentManager, lifecycle: Life
     private val tabFragmentsCreators = mapOf(
         HOME_PAGE_INDEX to { HomeFragment() },
         NOTE_PAGE_INDEX to { NoteFragment() },
-        SETTINGS_PAGE_INDEX to { SettingsFragment() }
+//        SETTINGS_PAGE_INDEX to { SettingsFragment() }
     )
 
     override fun getItemCount() = tabFragmentsCreators.size

@@ -46,7 +46,7 @@ class QuizStatisticsViewModel @Inject constructor(
     }
 
     companion object {
-        const val SOLVED_QUIZ_THRESHOLD = 10
+        const val SOLVED_QUIZ_THRESHOLD = 5
     }
 
 }

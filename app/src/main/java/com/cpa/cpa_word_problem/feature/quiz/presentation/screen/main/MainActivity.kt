@@ -27,7 +27,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initView() {
-        val tabIcons = listOf(R.drawable.ic_home, R.drawable.ic_note, R.drawable.ic_settings)
+        // TODO: 설정 페이지 완성 후 추가
+//        val tabIcons = listOf(R.drawable.ic_home, R.drawable.ic_note, R.drawable.ic_settings)
+        val tabIcons = listOf(R.drawable.ic_home, R.drawable.ic_note)
 
         with(binding) {
             viewPager.adapter = MainFragmentStateAdapter(

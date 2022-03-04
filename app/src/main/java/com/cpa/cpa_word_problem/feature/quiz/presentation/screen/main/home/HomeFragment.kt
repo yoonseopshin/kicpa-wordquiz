@@ -95,8 +95,6 @@ class HomeFragment : BaseFragment() {
                     .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
                     .withCallToActionBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryDarkColor)))
                     .withCallToActionTypefaceColor(colorAsInt(R.color.secondaryTextColor))
-                    .withPrimaryTextBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryTextColor)))
-                    .withSecondaryTextBackgroundColor(ColorDrawable(colorAsInt(R.color.secondaryTextColor)))
                     .build()
                 binding.adTemplateView.setStyles(styles)
                 binding.adTemplateView.setNativeAd(nativeAd)

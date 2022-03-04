@@ -66,7 +66,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
-                        android:layout_marginVertical="16dp" />
+                        android:layout_marginTop="16dp" />
 
                     <include
                         android:id="@+id/lay_commercial_law"
@@ -74,13 +74,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
-                        android:layout_marginBottom="16dp" />
+                        android:layout_marginTop="16dp" />
 
                     <com.google.android.ads.nativetemplates.TemplateView
                         android:id="@+id/ad_template_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:gnt_template_type="@layout/gnt_small_template_view" />
+                        android:layout_marginVertical="16dp"
+                        app:gnt_template_type="@layout/gnt_medium_template_view" />
 
                 </LinearLayout>
 
