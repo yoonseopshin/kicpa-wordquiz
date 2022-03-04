@@ -2,7 +2,6 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.mapper
 
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
-import com.cpa.cpa_word_problem.feature.quiz.presentation.model.UserSolvedProblemModel
 
 fun Problem.toModel() = ProblemModel(
     year = year,

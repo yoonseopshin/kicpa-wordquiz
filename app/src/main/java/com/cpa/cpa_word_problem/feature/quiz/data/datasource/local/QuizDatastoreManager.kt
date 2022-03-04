@@ -16,12 +16,14 @@ class QuizDatastoreManager @Inject constructor(private val dataStore: DataStore<
 
     companion object {
         const val DEFAULT_QUIZ_NUMBER = 3
-        const val USE_TIMER = true
+        const val DEFAULT_USE_TIMER = true
+        const val DEFAULT_SOLVED_QUIZ = 0
     }
 
     object Key {
         const val QUIZ_NUMBER = "quiz_number"
         const val USE_TIMER = "use_timer"
+        const val SOLVED_QUIZ = "SOLVED_QUIZ"
     }
 
     private val quizNumberKey = intPreferencesKey(Key.QUIZ_NUMBER)
@@ -32,10 +34,19 @@ class QuizDatastoreManager @Inject constructor(private val dataStore: DataStore<
     }
 
     private val useTimerKey = booleanPreferencesKey(Key.USE_TIMER)
-    val useTimer = dataStore.data.map { pref -> pref[useTimerKey] ?: USE_TIMER }
+    val useTimer = dataStore.data.map { pref -> pref[useTimerKey] ?: DEFAULT_USE_TIMER }
 
     suspend fun setTimer(value: Boolean) {
         dataStore.edit { pref -> pref[useTimerKey] = value }
+    }
+
+    private val solvedQuizKey = intPreferencesKey(Key.SOLVED_QUIZ)
+    val solvedQuiz = dataStore.data.map { pref -> pref[solvedQuizKey] ?: DEFAULT_SOLVED_QUIZ }
+
+    suspend fun increaseSolvedQuiz() {
+        dataStore.edit { pref ->
+            pref[solvedQuizKey] = (pref[solvedQuizKey] ?: DEFAULT_SOLVED_QUIZ) + 1
+        }
     }
 
 }

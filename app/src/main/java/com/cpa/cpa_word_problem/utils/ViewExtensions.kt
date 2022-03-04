@@ -122,3 +122,5 @@ fun EditText.showKeyboard() {
 
 fun Context.color(@ColorRes resId: Int) =
     ColorStateList.valueOf(ContextCompat.getColor(this, resId))
+
+fun Context.colorAsInt(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)

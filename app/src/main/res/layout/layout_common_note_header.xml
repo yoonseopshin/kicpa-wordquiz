@@ -28,47 +28,60 @@
             type="android.view.View.OnLongClickListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/daynight_gray050s"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/background_common_ripple"
-        android:onClick="@{onClickListener}"
-        android:onLongClick="@{onLongClickListener}"
-        android:padding="12dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_note_header"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@{headerTitle}"
-            android:textColor="@color/daynight_gray600s"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/total_note" />
-
-        <ImageView
-            android:id="@+id/iv_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/background_common_ripple_unbounded"
+            android:background="@color/daynight_gray050s"
             android:clickable="true"
-            android:contentDescription="@string/toggle"
             android:focusable="true"
+            android:foreground="@drawable/background_common_ripple"
             android:onClick="@{onClickListener}"
-            android:src="@drawable/ic_expand_more"
-            android:visibility="@{isToggleable ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:opened="@{isOpened}"
-            app:tint="@color/daynight_gray600s" />
+            android:onLongClick="@{onLongClickListener}"
+            android:paddingVertical="12dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_note_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{headerTitle}"
+                android:textColor="@color/daynight_gray600s"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/total_note" />
+
+            <ImageView
+                android:id="@+id/iv_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/background_common_ripple_unbounded"
+                android:clickable="true"
+                android:contentDescription="@string/toggle"
+                android:focusable="true"
+                android:onClick="@{onClickListener}"
+                android:src="@drawable/ic_expand_more"
+                android:visibility="@{isToggleable ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:opened="@{isOpened}"
+                app:tint="@color/daynight_gray600s" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/daynight_gray300s" />
+
+    </LinearLayout>
+
 </layout>

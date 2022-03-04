@@ -32,6 +32,6 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideQuizUseCases(repository: QuizRepository) =
-        QuizUseCases(GetNextExamDate(repository),)
+        QuizUseCases(GetNextExamDate(repository))
 
 }

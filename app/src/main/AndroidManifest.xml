@@ -9,10 +9,16 @@
     <application
         android:name=".CpaQuizApp"
         android:allowBackup="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5004953701825085~4821510866" />
+
         <activity
             android:name=".feature.quiz.presentation.screen.statistics.QuizStatisticsActivity"
             android:exported="false"
@@ -46,6 +52,9 @@
                 android:value="androidx.startup" />
             <meta-data
                 android:name="com.cpa.cpa_word_problem.initializers.FlipperInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="com.cpa.cpa_word_problem.initializers.AdMobInitializer"
                 android:value="androidx.startup" />
         </provider>
     </application>

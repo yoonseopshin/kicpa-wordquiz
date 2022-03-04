@@ -1,6 +1,5 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.util
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView

@@ -118,7 +118,7 @@ class ProblemDetailActivity : BaseActivity() {
                 binding.fabNext.isEnabled = false
                 viewModel.onEnd {
                     lifecycleScope.launch {
-                        delay(1000L)
+                        delay(500L)
                         startActivity(
                             QuizStatisticsActivity.newIntent(
                                 context = this@ProblemDetailActivity,

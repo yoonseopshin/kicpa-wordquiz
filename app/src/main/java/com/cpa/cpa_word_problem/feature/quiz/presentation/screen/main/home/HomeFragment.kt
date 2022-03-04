@@ -1,6 +1,7 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,12 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDet
 import com.cpa.cpa_word_problem.utils.invisible
 import com.cpa.cpa_word_problem.utils.setOnThrottleClick
 import com.cpa.cpa_word_problem.utils.visibleOrGone
+import com.google.android.ads.nativetemplates.NativeTemplateStyle
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -36,6 +43,7 @@ class HomeFragment : BaseFragment() {
         BottomSheetBehavior.from(binding.bsQuiz.root)
     }
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+    lateinit var adLoader: AdLoader
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -45,6 +53,7 @@ class HomeFragment : BaseFragment() {
                     bsQuizBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     return
                 }
+
                 requireActivity().finish()
             }
         }
@@ -75,6 +84,62 @@ class HomeFragment : BaseFragment() {
         initView()
         observeViewModel()
         viewModel.requestNextExamDate()
+
+        // 네이티브 광고
+        adLoader = AdLoader.Builder(requireContext(), "ca-app-pub-3940256099942544/2247696110")
+            .forNativeAd { nativeAd ->
+                val styles = NativeTemplateStyle.Builder()
+                    .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
+                    .withCallToActionBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryDarkColor)))
+                    .withCallToActionTypefaceColor(colorAsInt(R.color.secondaryTextColor))
+                    .withPrimaryTextBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryTextColor)))
+                    .withSecondaryTextBackgroundColor(ColorDrawable(colorAsInt(R.color.secondaryTextColor)))
+                    .build()
+                binding.adTemplateView.setStyles(styles)
+                binding.adTemplateView.setNativeAd(nativeAd)
+
+
+                if (adLoader.isLoading) {
+
+                } else {
+
+                }
+
+                if (isDetached) {
+                    nativeAd.destroy()
+                    return@forNativeAd
+                }
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    // TODO: Handle AdError
+
+                }
+
+                override fun onAdClicked() {
+                    super.onAdClicked()
+                }
+
+                override fun onAdClosed() {
+                    super.onAdClosed()
+                }
+
+                override fun onAdImpression() {
+                    super.onAdImpression()
+                }
+
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                }
+
+                override fun onAdOpened() {
+                    super.onAdOpened()
+                }
+            })
+            .withNativeAdOptions(NativeAdOptions.Builder().build())
+            .build()
+
+        adLoader.loadAd(AdRequest.Builder().build())
     }
 
     override fun onDestroyView() {

@@ -43,7 +43,7 @@ class NoteFragment : BaseFragment() {
             headerTitle = getString(R.string.wrong_note)
             isToggleable = true
             onHeaderClick = {
-                viewModel.toggleWrongNotes()
+                viewModel.toggleWrongNote()
             }
             onHeaderLongClick = {
                 AlertDialog.Builder(requireActivity())
@@ -78,9 +78,14 @@ class NoteFragment : BaseFragment() {
             }
         }
     }
+    private val adBannerAboveTotalNoteAdapter: AdBannerAdapter by lazy { AdBannerAdapter() }
     private val totalNoteHeaderAdapter: CommonNoteHeaderAdapter by lazy {
         CommonNoteHeaderAdapter().apply {
             headerTitle = getString(R.string.total_note)
+            isToggleable = true
+            onHeaderClick = {
+                viewModel.toggleTotalNote()
+            }
         }
     }
     private val totalNoteAdapter: NoteAdapter by lazy {
@@ -212,6 +217,7 @@ class NoteFragment : BaseFragment() {
         binding.recyclerView.adapter = ConcatAdapter(
             wrongNoteHeaderAdapter,
             wrongNoteAdapter,
+            adBannerAboveTotalNoteAdapter,
             totalNoteHeaderAdapter,
             totalNoteAdapter,
             searchedProblemsHeaderAdapter,
@@ -300,6 +306,7 @@ class NoteFragment : BaseFragment() {
                 launch {
                     viewModel.isWrongNoteOpened.collectLatest { isOpened ->
                         wrongNoteHeaderAdapter.isOpened = isOpened
+
                         if (isOpened) {
                             wrongNoteAdapter.submitList(viewModel.wrongProblems.value.map { problem ->
                                 UserSolvedProblemModel(problem = problem)
@@ -307,6 +314,22 @@ class NoteFragment : BaseFragment() {
                         } else {
                             wrongNoteAdapter.submitList(emptyList())
                         }
+                    }
+                }
+
+                launch {
+                    viewModel.isTotalNoteOpened.collectLatest { isOpened ->
+                        totalNoteHeaderAdapter.isOpened = isOpened
+
+                        if (isOpened) {
+                            totalNoteAdapter.submitList(viewModel.problems.value.map { problem ->
+                                UserSolvedProblemModel(problem = problem)
+                            })
+                        } else {
+                            totalNoteAdapter.submitList(emptyList())
+                        }
+
+                        scrollToTopAdapter.showOrHide(isOpened)
                     }
                 }
             }

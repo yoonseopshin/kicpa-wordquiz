@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = QuizDatastoreManager.USE_TIMER
+            initialValue = QuizDatastoreManager.DEFAULT_USE_TIMER
         )
 
     val accountingCount = problemUseCases.getProblemCount(QuizType.Accounting)

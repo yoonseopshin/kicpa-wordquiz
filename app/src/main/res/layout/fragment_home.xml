@@ -76,6 +76,12 @@
                         android:layout_marginHorizontal="24dp"
                         android:layout_marginBottom="16dp" />
 
+                    <com.google.android.ads.nativetemplates.TemplateView
+                        android:id="@+id/ad_template_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:gnt_template_type="@layout/gnt_small_template_view" />
+
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

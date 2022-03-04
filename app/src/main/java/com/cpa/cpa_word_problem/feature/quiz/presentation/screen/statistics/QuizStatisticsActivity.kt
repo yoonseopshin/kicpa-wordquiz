@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityQuizStatisticsBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
+import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.AdBannerAdapter
 import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.NoteAdapter
 import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.NoteResultHeaderAdapter
 import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.TimerAdapter
@@ -23,8 +27,17 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.MainActivi
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.MainTab
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
+import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -33,6 +46,7 @@ class QuizStatisticsActivity : BaseActivity() {
     private lateinit var binding: ActivityQuizStatisticsBinding
     private val viewModel: QuizStatisticsViewModel by viewModels()
     private val timerAdapter: TimerAdapter by lazy { TimerAdapter() }
+    private val adBannerAboveNoteResultAdapter: AdBannerAdapter by lazy { AdBannerAdapter() }
     private val noteResultHeaderAdapter: NoteResultHeaderAdapter by lazy {
         NoteResultHeaderAdapter().also { adapter ->
             adapter.onNoteResultHeaderClick = {
@@ -60,6 +74,9 @@ class QuizStatisticsActivity : BaseActivity() {
             }
         }
     }
+    private val adBannerBelowNoteAdapter: AdBannerAdapter by lazy { AdBannerAdapter() }
+
+    private var interstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +84,51 @@ class QuizStatisticsActivity : BaseActivity() {
         binding.lifecycleOwner = this
         setContentView(binding.root)
         initView()
+        observeViewModel()
         parseIntent()
+    }
+
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.solvedQuiz.collect { solvedQuiz ->
+                    if (viewModel.shouldShowAd(solvedQuiz)) {
+                        showInterstitialAd()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            this,
+            AdConstants.QUIZ_END_INTERSTITIAL_AD,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                }
+
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    interstitialAd = ad
+                    ad.show(this@QuizStatisticsActivity)
+                }
+            })
+
+        interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                interstitialAd = null
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -92,8 +153,10 @@ class QuizStatisticsActivity : BaseActivity() {
 
         binding.recyclerView.adapter = ConcatAdapter(
             timerAdapter,
+            adBannerAboveNoteResultAdapter,
             noteResultHeaderAdapter,
-            noteAdapter
+            noteAdapter,
+            adBannerBelowNoteAdapter
         )
     }
 
@@ -120,7 +183,6 @@ class QuizStatisticsActivity : BaseActivity() {
             }
 
             viewModel.setWrongProblems(problems, userSelectedIndices)
-
 
             noteAdapter.submitList(
                 listOf<UserSolvedProblemModel>().from(
