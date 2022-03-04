@@ -7,14 +7,43 @@
 
 ## Tech stack & Open-source libraries
 
-### MVVM Architecture
-- [ ] Repository pattern
+### Clean Architecture + MVVM Architecture
+
+- Clean Architecture: 3 layer(`presentation`, `domain`, `data`)
+- MVVM Architecture
+- Repository pattern
 
 ### Jetpack
-- [ ] AAC ViewModel
-- [ ] AAC LiveData
-- [x] AAC Room
-- [ ] Navigation Component
+
+- Databinding
+- StateFlow, SharedFlow
+- ViewModel
+- Room
+- DataStore
 
 ### DI Framework
-- [ ] Hilt
+
+- Hilt
+
+### Network
+
+- Retrofit, OkHttp
+
+### Image Loading
+
+- Glide
+
+### Debugging tools
+
+- Timber
+- LeakCanary
+- Flipper
+
+### UI
+
+- Material Components
+
+### Google Play Core
+
+- In-app updates
+- In-app reviews
