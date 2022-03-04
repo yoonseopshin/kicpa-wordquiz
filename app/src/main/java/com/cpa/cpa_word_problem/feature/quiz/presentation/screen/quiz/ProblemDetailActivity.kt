@@ -19,6 +19,7 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.statistics.Quiz
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
 import com.cpa.cpa_word_problem.utils.blink
 import com.cpa.cpa_word_problem.utils.scrollToView
+import com.cpa.cpa_word_problem.utils.setOnDoubleClick
 import com.cpa.cpa_word_problem.utils.setOnThrottleClick
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,14 +65,27 @@ class ProblemDetailActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        binding.fabNext.setOnThrottleClick { fab ->
-            if (binding.layProblemDetail.rgQuestions.checkedRadioButtonId > 0) {
-                viewModel.calculate()
-                viewModel.next()
-            } else {
-                Snackbar.make(fab, getString(R.string.msg_need_answer), Snackbar.LENGTH_SHORT)
-                    .setAnchorView(fab).show()
-            }
+        binding.fabNext.setOnThrottleClick { calculate() }
+
+        with(binding.layProblemDetail) {
+            rb0.setOnDoubleClick { calculate() }
+            rb1.setOnDoubleClick { calculate() }
+            rb2.setOnDoubleClick { calculate() }
+            rb3.setOnDoubleClick { calculate() }
+            rb4.setOnDoubleClick { calculate() }
+        }
+    }
+
+    private fun calculate() {
+        if (binding.layProblemDetail.rgQuestions.checkedRadioButtonId > 0) {
+            viewModel.calculate()
+            viewModel.next()
+        } else {
+            Snackbar.make(
+                binding.fabNext,
+                getString(R.string.msg_need_answer),
+                Snackbar.LENGTH_SHORT
+            ).setAnchorView(binding.fabNext).show()
         }
     }
 

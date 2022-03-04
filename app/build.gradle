@@ -8,6 +8,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('keystore/cpawordproblem.jks')
+            storePassword 'tls897412!'
+            keyAlias 'cpawordproblem'
+            keyPassword 'tls897412!'
+        }
+    }
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
@@ -28,6 +36,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 

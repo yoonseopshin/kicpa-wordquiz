@@ -49,10 +49,19 @@ fun View.slideView(newHeight: Int, duration: Long = 300L) {
 fun View.setOnThrottleClick(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     interval: Long = 500L,
-    action: (view: View) -> Unit = {}
+    action: Consumer<View> = {}
 ) {
     val listener = View.OnClickListener { action(it) }
     setOnClickListener(OnThrottleClickListener(dispatcher, listener, interval))
+}
+
+fun View.setOnDoubleClick(
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
+    interval: Long = 500L,
+    action: Consumer<View> = {}
+) {
+    val listener = View.OnClickListener { action(it) }
+    setOnClickListener(OnDoubleClickListener(dispatcher, listener, interval))
 }
 
 fun View.visible() {
