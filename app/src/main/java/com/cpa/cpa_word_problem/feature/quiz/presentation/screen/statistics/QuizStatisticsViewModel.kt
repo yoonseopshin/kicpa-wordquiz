@@ -29,6 +29,14 @@ class QuizStatisticsViewModel @Inject constructor(
             initialValue = QuizDatastoreManager.DEFAULT_SOLVED_QUIZ
         )
 
+    val shouldShowInAppReview = quizDatastoreManager.shouldRequestInAppReview
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
     fun shouldShowAd(solvedQuiz: Int): Boolean {
         return solvedQuiz > 0 && solvedQuiz % SOLVED_QUIZ_THRESHOLD == 0
     }

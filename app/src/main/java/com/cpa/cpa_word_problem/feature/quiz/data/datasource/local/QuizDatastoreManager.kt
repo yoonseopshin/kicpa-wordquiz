@@ -18,6 +18,8 @@ class QuizDatastoreManager @Inject constructor(private val dataStore: DataStore<
         const val DEFAULT_QUIZ_NUMBER = 3
         const val DEFAULT_USE_TIMER = true
         const val DEFAULT_SOLVED_QUIZ = 0
+        const val DEFAULT_IN_APP_REVIEW_THRESHOLD = 12
+        const val DEFAULT_SOLVED_QUIZ_THRESHOLD = 5
     }
 
     object Key {
@@ -47,6 +49,16 @@ class QuizDatastoreManager @Inject constructor(private val dataStore: DataStore<
         dataStore.edit { pref ->
             pref[solvedQuizKey] = (pref[solvedQuizKey] ?: DEFAULT_SOLVED_QUIZ) + 1
         }
+    }
+
+    val shouldRequestInAppReview = dataStore.data.map { pref ->
+        val solvedQuiz = pref[solvedQuizKey] ?: DEFAULT_SOLVED_QUIZ
+
+        if (solvedQuiz == DEFAULT_SOLVED_QUIZ) {
+            return@map false
+        }
+
+        return@map solvedQuiz % DEFAULT_IN_APP_REVIEW_THRESHOLD == 0 && solvedQuiz % DEFAULT_SOLVED_QUIZ_THRESHOLD != 0
     }
 
 }

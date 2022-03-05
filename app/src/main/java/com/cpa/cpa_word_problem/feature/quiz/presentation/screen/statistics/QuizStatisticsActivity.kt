@@ -32,8 +32,11 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -42,6 +45,8 @@ class QuizStatisticsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityQuizStatisticsBinding
     private val viewModel: QuizStatisticsViewModel by viewModels()
+    private val reviewManager: ReviewManager by lazy { ReviewManagerFactory.create(this) }
+
     private val timerAdapter: TimerAdapter by lazy { TimerAdapter() }
     private val adNativeBannerAboveNoteResultAdapter: AdNativeBannerAdapter by lazy { AdNativeBannerAdapter() }
     private val noteResultHeaderAdapter: NoteResultHeaderAdapter by lazy {
@@ -88,11 +93,31 @@ class QuizStatisticsActivity : BaseActivity() {
     private fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.solvedQuiz.collect { solvedQuiz ->
-                    if (viewModel.shouldShowAd(solvedQuiz)) {
-                        showInterstitialAd()
+                launch {
+                    viewModel.solvedQuiz.collect { solvedQuiz ->
+                        if (viewModel.shouldShowAd(solvedQuiz)) {
+                            showInterstitialAd()
+                        }
                     }
                 }
+
+                launch {
+                    viewModel.shouldShowInAppReview.collectLatest { shouldShowInAppReview ->
+                        if (shouldShowInAppReview) {
+                            showInAppReview()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showInAppReview() {
+        val request = reviewManager.requestReviewFlow()
+        request.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val reviewInfo = it.result
+                reviewManager.launchReviewFlow(this, reviewInfo)
             }
         }
     }
