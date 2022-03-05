@@ -14,10 +14,7 @@ import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityQuizStatisticsBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
-import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.AdBannerAdapter
-import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.NoteAdapter
-import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.NoteResultHeaderAdapter
-import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.TimerAdapter
+import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.*
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toDomain
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
@@ -46,7 +43,7 @@ class QuizStatisticsActivity : BaseActivity() {
     private lateinit var binding: ActivityQuizStatisticsBinding
     private val viewModel: QuizStatisticsViewModel by viewModels()
     private val timerAdapter: TimerAdapter by lazy { TimerAdapter() }
-    private val adBannerAboveNoteResultAdapter: AdBannerAdapter by lazy { AdBannerAdapter() }
+    private val adNativeBannerAboveNoteResultAdapter: AdNativeBannerAdapter by lazy { AdNativeBannerAdapter() }
     private val noteResultHeaderAdapter: NoteResultHeaderAdapter by lazy {
         NoteResultHeaderAdapter().also { adapter ->
             adapter.onNoteResultHeaderClick = {
@@ -74,7 +71,7 @@ class QuizStatisticsActivity : BaseActivity() {
             }
         }
     }
-    private val adBannerBelowNoteAdapter: AdBannerAdapter by lazy { AdBannerAdapter() }
+    private val adSmartBannerBelowNoteAdapter: AdSmartBannerAdapter by lazy { AdSmartBannerAdapter() }
 
     private var interstitialAd: InterstitialAd? = null
 
@@ -153,10 +150,10 @@ class QuizStatisticsActivity : BaseActivity() {
 
         binding.recyclerView.adapter = ConcatAdapter(
             timerAdapter,
-            adBannerAboveNoteResultAdapter,
+            adNativeBannerAboveNoteResultAdapter,
             noteResultHeaderAdapter,
             noteAdapter,
-            adBannerBelowNoteAdapter
+            adSmartBannerBelowNoteAdapter
         )
     }
 

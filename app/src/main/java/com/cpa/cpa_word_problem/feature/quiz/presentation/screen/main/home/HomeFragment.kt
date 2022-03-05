@@ -89,7 +89,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun loadAd() {
-        adLoader = AdLoader.Builder(requireContext(), AdConstants.QUIZ_HOME_NATIVE_AD)
+        adLoader = AdLoader.Builder(requireContext(), AdConstants.QUIZ_NATIVE_AD_MEDIUM)
             .forNativeAd { nativeAd ->
                 val styles = NativeTemplateStyle.Builder()
                     .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))

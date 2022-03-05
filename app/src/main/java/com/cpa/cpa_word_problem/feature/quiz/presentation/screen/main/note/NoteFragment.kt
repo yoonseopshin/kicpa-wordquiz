@@ -38,6 +38,7 @@ class NoteFragment : BaseFragment() {
         BottomSheetBehavior.from(binding.bsSearch.layout)
     }
 
+    private val adNativeBannerAboveWrongNoteAdapter: AdNativeBannerAdapter by lazy { AdNativeBannerAdapter() }
     private val wrongNoteHeaderAdapter: CommonNoteHeaderAdapter by lazy {
         CommonNoteHeaderAdapter().apply {
             headerTitle = getString(R.string.wrong_note)
@@ -78,7 +79,6 @@ class NoteFragment : BaseFragment() {
             }
         }
     }
-    private val adBannerAboveTotalNoteAdapter: AdBannerAdapter by lazy { AdBannerAdapter() }
     private val totalNoteHeaderAdapter: CommonNoteHeaderAdapter by lazy {
         CommonNoteHeaderAdapter().apply {
             headerTitle = getString(R.string.total_note)
@@ -215,9 +215,9 @@ class NoteFragment : BaseFragment() {
         }
 
         binding.recyclerView.adapter = ConcatAdapter(
+            adNativeBannerAboveWrongNoteAdapter,
             wrongNoteHeaderAdapter,
             wrongNoteAdapter,
-            adBannerAboveTotalNoteAdapter,
             totalNoteHeaderAdapter,
             totalNoteAdapter,
             searchedProblemsHeaderAdapter,

@@ -3,12 +3,12 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.cpa.cpa_word_problem.databinding.LayoutAdBannerBinding
+import com.cpa.cpa_word_problem.databinding.LayoutAdSmartBannerBinding
 import com.google.android.gms.ads.AdRequest
 
-class AdBannerAdapter : RecyclerView.Adapter<AdBannerAdapter.AdBannerViewHolder>() {
+class AdSmartBannerAdapter : RecyclerView.Adapter<AdSmartBannerAdapter.AdBannerViewHolder>() {
 
-    class AdBannerViewHolder(private val binding: LayoutAdBannerBinding) :
+    class AdBannerViewHolder(private val binding: LayoutAdSmartBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
@@ -17,7 +17,7 @@ class AdBannerAdapter : RecyclerView.Adapter<AdBannerAdapter.AdBannerViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AdBannerViewHolder(
-        LayoutAdBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        LayoutAdSmartBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: AdBannerViewHolder, position: Int) {
