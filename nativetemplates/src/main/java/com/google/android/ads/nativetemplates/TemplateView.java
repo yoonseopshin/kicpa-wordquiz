@@ -68,11 +68,6 @@ public class TemplateView extends FrameLayout {
     initView(context, attrs);
   }
 
-  public TemplateView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-    super(context, attrs, defStyleAttr, defStyleRes);
-    initView(context, attrs);
-  }
-
   public void setStyles(NativeTemplateStyle styles) {
     this.styles = styles;
     this.applyStyles();
@@ -196,7 +191,6 @@ public class TemplateView extends FrameLayout {
     String headline = nativeAd.getHeadline();
     String body = nativeAd.getBody();
     String cta = nativeAd.getCallToAction();
-    Double starRating = nativeAd.getStarRating();
     NativeAd.Image icon = nativeAd.getIcon();
 
     String secondaryText;
@@ -218,18 +212,9 @@ public class TemplateView extends FrameLayout {
     primaryView.setText(headline);
     callToActionView.setText(cta);
 
-    //  Set the secondary view to be the star rating if available.
-    if (starRating != null && starRating > 0) {
-      secondaryView.setVisibility(GONE);
-      ratingBar.setVisibility(VISIBLE);
-      ratingBar.setRating(starRating.floatValue());
-
-      nativeAdView.setStarRatingView(ratingBar);
-    } else {
-      secondaryView.setText(secondaryText);
-      secondaryView.setVisibility(VISIBLE);
-      ratingBar.setVisibility(GONE);
-    }
+    secondaryView.setText(secondaryText);
+    secondaryView.setVisibility(VISIBLE);
+    ratingBar.setVisibility(GONE);
 
     if (icon != null) {
       iconView.setVisibility(VISIBLE);
@@ -288,10 +273,6 @@ public class TemplateView extends FrameLayout {
     primaryView = (TextView) findViewById(R.id.primary);
     secondaryView = (TextView) findViewById(R.id.secondary);
     tertiaryView = (TextView) findViewById(R.id.body);
-
-    ratingBar = (RatingBar) findViewById(R.id.rating_bar);
-    ratingBar.setEnabled(false);
-
     callToActionView = (Button) findViewById(R.id.cta);
     iconView = (ImageView) findViewById(R.id.icon);
     mediaView = (MediaView) findViewById(R.id.media_view);
