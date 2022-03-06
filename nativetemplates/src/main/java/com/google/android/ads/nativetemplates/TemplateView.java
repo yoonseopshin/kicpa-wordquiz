@@ -24,7 +24,6 @@ import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -44,7 +43,6 @@ public class TemplateView extends FrameLayout {
 
   private TextView primaryView;
   private TextView secondaryView;
-  private RatingBar ratingBar;
   private TextView tertiaryView;
   private ImageView iconView;
   private MediaView mediaView;
@@ -214,7 +212,6 @@ public class TemplateView extends FrameLayout {
 
     secondaryView.setText(secondaryText);
     secondaryView.setVisibility(VISIBLE);
-    ratingBar.setVisibility(GONE);
 
     if (icon != null) {
       iconView.setVisibility(VISIBLE);
