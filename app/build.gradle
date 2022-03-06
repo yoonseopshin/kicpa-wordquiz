@@ -129,6 +129,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
 
+    // leakcanary
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
+
     implementation project(':nativetemplates')
 
 }
