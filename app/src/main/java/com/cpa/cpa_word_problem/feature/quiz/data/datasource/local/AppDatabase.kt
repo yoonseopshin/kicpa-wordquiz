@@ -10,7 +10,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 @ExperimentalSerializationApi
 @Database(
     entities = [ProblemEntity::class, WrongProblemEntity::class],
-    version = 1,
+    version = 10,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
