@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.NumberPicker
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,6 +29,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -247,7 +247,7 @@ class HomeFragment : BaseFragment() {
                     value = viewModel.quizNumber.value
                 }
 
-                AlertDialog.Builder(requireActivity())
+                MaterialAlertDialogBuilder(requireActivity())
                     .setMessage("문제 수를 고르세요.")
                     .setView(numberPicker)
                     .setPositiveButton("확인") { _, _ ->

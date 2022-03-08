@@ -6,7 +6,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -24,6 +23,7 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDet
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.cpa.cpa_word_problem.utils.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -47,7 +47,7 @@ class NoteFragment : BaseFragment() {
                 viewModel.toggleWrongNote()
             }
             onHeaderLongClick = {
-                AlertDialog.Builder(requireActivity())
+                MaterialAlertDialogBuilder(requireActivity())
                     .setMessage("모든 오답문제를 삭제하시겠습니까?")
                     .setPositiveButton("확인") { _, _ ->
                         viewModel.deleteAllWrongProblems()
@@ -69,7 +69,7 @@ class NoteFragment : BaseFragment() {
                 )
             }
             adapter.onProblemLongClick = { problem ->
-                AlertDialog.Builder(requireActivity())
+                MaterialAlertDialogBuilder(requireActivity())
                     .setMessage("선택한 오답문제를 삭제하시겠습니까?")
                     .setPositiveButton("확인") { _, _ ->
                         viewModel.deleteWrongProblem(problem.year, problem.pid, problem.type)
