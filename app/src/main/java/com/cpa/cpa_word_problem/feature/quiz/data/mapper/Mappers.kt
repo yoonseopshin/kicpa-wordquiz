@@ -16,6 +16,7 @@ fun ProblemEntity.toDomain() = Problem(
     questions = questions,
     answer = answer,
     type = type,
+    source = source
 )
 
 @JvmName("problemEntityListToDomain")
@@ -29,6 +30,7 @@ fun Problem.toLocalData() = ProblemEntity(
     questions = questions,
     answer = answer,
     type = type,
+    source = source
 )
 
 @JvmName("problemListToLocalData")
@@ -42,11 +44,11 @@ fun ProblemResponse.toDomain() = Problem(
     questions = questions,
     answer = answer,
     type = type,
+    source = source
 )
 
 @JvmName("problemResponseListToDomain")
 fun List<ProblemResponse>.toDomain() = map { it.toDomain() }
-
 
 fun ScheduledDateResponse.toDomain() = ScheduledDate(date = date)
 

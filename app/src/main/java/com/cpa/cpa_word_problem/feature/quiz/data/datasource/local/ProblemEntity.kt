@@ -3,6 +3,7 @@ package com.cpa.cpa_word_problem.feature.quiz.data.datasource.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem
+import com.cpa.cpa_word_problem.feature.quiz.domain.model.ProblemSource
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import java.util.*
 
@@ -17,7 +18,8 @@ data class ProblemEntity(
     @ColumnInfo(name = Problem.SUB_DESCRIPTION) val subDescriptions: List<String> = emptyList(),
     @ColumnInfo(name = Problem.QUESTIONS) val questions: List<String> = emptyList(),
     @ColumnInfo(name = Problem.ANSWER) val answer: Int = 0,
-    @ColumnInfo(name = Problem.TYPE) val type: QuizType = QuizType.None
+    @ColumnInfo(name = Problem.TYPE) val type: QuizType = QuizType.None,
+    @ColumnInfo(name = Problem.SOURCE) val source: ProblemSource = ProblemSource.None
 ) {
     override fun equals(other: Any?): Boolean {
         (other as? ProblemEntity)?.let {

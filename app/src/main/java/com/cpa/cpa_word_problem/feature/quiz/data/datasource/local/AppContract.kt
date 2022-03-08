@@ -13,10 +13,12 @@ object AppContract {
         const val QUESTIONS = "questions"
         const val ANSWER = "answer"
         const val TYPE = "type"
+        const val SOURCE = "source"
     }
 
     object WrongProblem {
         const val TABLE_NAME = "wrong_problems"
         const val CREATED_AT = "created_at"
     }
+
 }

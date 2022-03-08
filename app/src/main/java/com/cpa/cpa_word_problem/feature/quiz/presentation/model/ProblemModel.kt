@@ -1,6 +1,7 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.model
 
 import android.os.Parcelable
+import com.cpa.cpa_word_problem.feature.quiz.domain.model.ProblemSource
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.utils.DEFAULT_INT
 import com.cpa.cpa_word_problem.utils.DEFAULT_STRING
@@ -16,4 +17,5 @@ data class ProblemModel(
     val questions: List<String> = DEFAULT_STRING_LIST,
     val answer: Int = DEFAULT_INT,
     val type: QuizType = QuizType.None,
+    val source: ProblemSource = ProblemSource.None,
 ) : Parcelable

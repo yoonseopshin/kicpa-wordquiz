@@ -12,6 +12,7 @@ data class Problem(
     val questions: List<String> = DEFAULT_STRING_LIST,
     val answer: Int = DEFAULT_INT,
     val type: QuizType = QuizType.None,
+    val source: ProblemSource = ProblemSource.None,
 )
 
 fun Problem.isValid(): Boolean =
@@ -22,3 +23,4 @@ fun Problem.isValid(): Boolean =
             || questions != DEFAULT_STRING_LIST
             || answer != DEFAULT_INT
             || type != QuizType.None
+            || source != ProblemSource.None

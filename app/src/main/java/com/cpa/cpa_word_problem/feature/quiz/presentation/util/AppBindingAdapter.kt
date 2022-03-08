@@ -8,12 +8,10 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.BindingAdapter
 import com.cpa.cpa_word_problem.R
+import com.cpa.cpa_word_problem.feature.quiz.domain.model.ProblemSource
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
-import com.cpa.cpa_word_problem.utils.TimeFormatter
-import com.cpa.cpa_word_problem.utils.color
-import com.cpa.cpa_word_problem.utils.isNullOrDefault
-import com.cpa.cpa_word_problem.utils.visibleOrGone
+import com.cpa.cpa_word_problem.utils.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.Duration
@@ -28,6 +26,26 @@ fun TextView.bindYearAndPid(year: Int?, pid: Int?) {
 
     visibility = if (year == 0 || pid == 0) View.GONE else View.VISIBLE
     text = "${year}년 ${pid}번"
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("source")
+fun Chip.bindSource(source: ProblemSource?) {
+    source?.let { problemSource ->
+        text = when (problemSource) {
+            ProblemSource.CPA, ProblemSource.CTA -> {
+                visible()
+                problemSource.name
+            }
+            else -> {
+                gone()
+                ""
+            }
+        }
+        visible()
+    } ?: run {
+        gone()
+    }
 }
 
 @BindingAdapter("sub_descriptions")

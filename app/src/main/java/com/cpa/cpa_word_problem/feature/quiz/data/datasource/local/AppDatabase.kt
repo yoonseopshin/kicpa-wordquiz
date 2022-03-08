@@ -5,12 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppMigration.ALL_MIGRATIONS
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
 @Database(
     entities = [ProblemEntity::class, WrongProblemEntity::class],
-    version = 10,
+    version = 11,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -29,6 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context, AppDatabase::class.java, AppContract.DATABASE_NAME)
+                .addMigrations(*ALL_MIGRATIONS)
                 .fallbackToDestructiveMigration()
                 .build()
     }

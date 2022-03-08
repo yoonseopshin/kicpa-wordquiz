@@ -56,6 +56,20 @@
             tools:text="2019년 24번" />
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/ch_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp"
+            android:clickable="false"
+            android:focusable="false"
+            app:chipBackgroundColor="@color/daynight_gray050s"
+            app:layout_constraintStart_toEndOf="@id/ch_year_pid"
+            app:layout_constraintTop_toTopOf="parent"
+            app:source="@{problem.source}"
+            tools:text="CPA" />
+
+        <com.google.android.material.chip.Chip
             android:id="@+id/ch_elapsed_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +80,7 @@
             android:text="@{TimeFormatter.INSTANCE.formatKorean(elapsedTime)}"
             android:visibility="@{elapsedTime > 0 ? View.VISIBLE : View.GONE}"
             app:chipBackgroundColor="@color/daynight_gray050s"
-            app:layout_constraintStart_toEndOf="@id/ch_year_pid"
+            app:layout_constraintStart_toEndOf="@id/ch_source"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1분 23초" />
 
