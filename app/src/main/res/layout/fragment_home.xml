@@ -52,6 +52,52 @@
                     android:orientation="vertical"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_time_picker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/time_picker_title"
+                            android:textColor="@color/daynight_gray800s"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toTopOf="@id/tv_time_picker_desc"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_time_picker_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="4dp"
+                            android:bufferType="spannable"
+                            android:textColor="@color/daynight_gray500s"
+                            android:textSize="12sp"
+                            app:alarm_hour_of_day="@{viewModel.alarmHourOfDay}"
+                            app:alarm_minute="@{viewModel.alarmMinute}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_time_picker"
+                            app:use_alarm="@{viewModel.useAlarm}"
+                            tools:text="매일 알람을 보내드릴게요." />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/sw_time_picker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:checked="false"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <include
                         android:id="@+id/lay_accounting"
                         layout="@layout/layout_home_subject_card"

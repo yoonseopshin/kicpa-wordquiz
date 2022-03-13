@@ -1,6 +1,10 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +21,8 @@ import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentHomeBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
+import com.cpa.cpa_word_problem.feature.quiz.presentation.notifications.AlarmNotification
+import com.cpa.cpa_word_problem.feature.quiz.presentation.receivers.AlarmReceiver
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
 import com.cpa.cpa_word_problem.utils.invisible
@@ -31,8 +37,10 @@ import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
@@ -163,6 +171,10 @@ class HomeFragment : BaseFragment() {
             }
         }
 
+        binding.swTimePicker.setOnCheckedChangeListener { button, isChecked ->
+            viewModel.setAlarm(isChecked)
+        }
+
         bsQuizBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -266,11 +278,74 @@ class HomeFragment : BaseFragment() {
             }
         }
 
+        binding.tvTimePickerDesc.setOnThrottleClick {
+            if (viewModel.isAlarmSet().not()) return@setOnThrottleClick
+            viewModel.showTimePicker()
+        }
+
     }
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
+                launch {
+                    viewModel.homeState.collect { state ->
+                        when (state) {
+                            is HomeState.ShowTimePicker -> {
+                                val calendar = Calendar.getInstance().apply {
+                                    timeInMillis = System.currentTimeMillis()
+                                }
+
+                                val alarmManager =
+                                    requireContext().getSystemService(AlarmManager::class.java)
+                                        ?: return@collect
+
+                                val alarmIntent = Intent(
+                                    context,
+                                    AlarmReceiver::class.java
+                                ).let { intent ->
+                                    PendingIntent.getBroadcast(
+                                        context,
+                                        AlarmNotification.REQUEST_CODE,
+                                        intent,
+                                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                                    )
+                                }
+
+                                val listener =
+                                    TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                                        calendar.set(Calendar.MINUTE, minute)
+
+                                        viewModel.setAlarmTime(hourOfDay, minute)
+
+                                        alarmManager.setInexactRepeating(
+                                            AlarmManager.RTC_WAKEUP,
+                                            calendar.timeInMillis,
+                                            AlarmManager.INTERVAL_DAY,
+                                            alarmIntent
+                                        )
+                                    }
+
+                                TimePickerDialog(
+                                    requireActivity(),
+                                    listener,
+                                    calendar.get(Calendar.HOUR_OF_DAY),
+                                    calendar.get(Calendar.MINUTE),
+                                    true
+                                ).apply {
+                                    setOnCancelListener {
+                                        if (viewModel.isAlarmSet().not()) {
+                                            binding.swTimePicker.isChecked = false
+                                            alarmManager.cancel(alarmIntent)
+                                        }
+                                    }
+                                }.show()
+                            }
+                        }
+                    }
+                }
+
                 launch {
                     viewModel.quizNumber.collectLatest { quizNumbers ->
                         binding.bsQuiz.tvQuizNumResult.text = quizNumbers.toString()
@@ -280,6 +355,12 @@ class HomeFragment : BaseFragment() {
                 launch {
                     viewModel.useTimer.collectLatest { useTimer ->
                         binding.bsQuiz.swTimer.isChecked = useTimer
+                    }
+                }
+
+                launch {
+                    viewModel.useAlarm.collectLatest { useAlarm ->
+                        binding.swTimePicker.isChecked = useAlarm
                     }
                 }
 

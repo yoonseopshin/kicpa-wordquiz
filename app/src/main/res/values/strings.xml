@@ -36,7 +36,12 @@
     <string name="title_activity_problem_list">ProblemListActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="accounting">회계학</string>
+    <string name="time_picker_title">알림 설정</string>
+    <string name="time_picker_desc">매일 알림을 보내드릴게요.</string>
+    <string name="time_picker_desc_with_hour_only">매일 %1$d시에 알림을 보내드릴게요.</string>
+    <string name="time_picker_desc_with_time">매일 %1$d시 %2$d분에 알림을 보내드릴게요.</string>
     <string name="business">경영학</string>
+    <string name="noti_channel_id">notichannelid</string>
     <string name="commercial_law">상법</string>
     <string name="close">닫기</string>
     <string name="clear">삭제</string>

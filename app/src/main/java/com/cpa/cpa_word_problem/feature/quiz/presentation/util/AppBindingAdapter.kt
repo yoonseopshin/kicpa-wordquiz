@@ -1,6 +1,11 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.RadioGroup
@@ -143,4 +148,31 @@ fun ImageView.bindOpened(isOpened: Boolean) {
     } else {
         animate().rotation(180f).start()
     }
+}
+
+@BindingAdapter("use_alarm", "alarm_hour_of_day", "alarm_minute", requireAll = true)
+fun TextView.bindAlarmTime(useAlarm: Boolean?, hourOfDay: Int?, minute: Int?) {
+    if (useAlarm == null || useAlarm.not()) {
+        text = context.getString(R.string.time_picker_desc)
+        return
+    }
+
+    if (hourOfDay == null || hourOfDay < 0L || minute == null || minute < 0L) {
+        text = context.getString(R.string.time_picker_desc)
+        return
+    }
+
+    val description = if (minute == 0) {
+        context.getString(R.string.time_picker_desc_with_hour_only, hourOfDay)
+    } else {
+        context.getString(R.string.time_picker_desc_with_time, hourOfDay, minute)
+    }
+    val spannable = SpannableString(description)
+
+    val start = 3
+    val end = description.indexOf("에")
+
+    spannable.setSpan(ForegroundColorSpan(Color.BLUE), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+    text = spannable
 }
