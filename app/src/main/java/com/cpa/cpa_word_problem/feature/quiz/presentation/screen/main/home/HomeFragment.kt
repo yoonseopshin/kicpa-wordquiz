@@ -279,7 +279,7 @@ class HomeFragment : BaseFragment() {
         }
 
         binding.tvTimePickerDesc.setOnThrottleClick {
-            if (viewModel.isAlarmSet().not()) return@setOnThrottleClick
+            if (viewModel.useAlarm.value.not()) return@setOnThrottleClick
             viewModel.showTimePicker()
         }
 
