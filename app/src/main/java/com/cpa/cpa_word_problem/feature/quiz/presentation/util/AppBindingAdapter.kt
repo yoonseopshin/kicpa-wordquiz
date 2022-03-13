@@ -172,7 +172,7 @@ fun TextView.bindAlarmTime(useAlarm: Boolean?, hourOfDay: Int?, minute: Int?) {
     val start = 3
     val end = description.indexOf("에")
 
-    spannable.setSpan(ForegroundColorSpan(Color.BLUE), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    spannable.setSpan(ForegroundColorSpan(context.getColor(R.color.secondaryColor)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
     text = spannable
 }
