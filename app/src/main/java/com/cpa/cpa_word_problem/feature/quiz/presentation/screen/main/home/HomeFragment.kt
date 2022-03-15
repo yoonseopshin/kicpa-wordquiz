@@ -296,35 +296,11 @@ class HomeFragment : BaseFragment() {
                                     timeInMillis = System.currentTimeMillis()
                                 }
 
-                                val alarmManager =
-                                    requireContext().getSystemService(AlarmManager::class.java)
-                                        ?: return@collect
-
-                                val alarmIntent = Intent(
-                                    context,
-                                    AlarmReceiver::class.java
-                                ).let { intent ->
-                                    PendingIntent.getBroadcast(
-                                        context,
-                                        AlarmNotification.REQUEST_CODE,
-                                        intent,
-                                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                                    )
-                                }
-
                                 val listener =
                                     TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                                         calendar.set(Calendar.MINUTE, minute)
-
                                         viewModel.setAlarmTime(hourOfDay, minute)
-
-                                        alarmManager.setInexactRepeating(
-                                            AlarmManager.RTC_WAKEUP,
-                                            calendar.timeInMillis,
-                                            AlarmManager.INTERVAL_DAY,
-                                            alarmIntent
-                                        )
                                     }
 
                                 TimePickerDialog(
@@ -336,8 +312,7 @@ class HomeFragment : BaseFragment() {
                                 ).apply {
                                     setOnCancelListener {
                                         if (viewModel.isAlarmSet().not()) {
-                                            binding.swTimePicker.isChecked = false
-                                            alarmManager.cancel(alarmIntent)
+                                            viewModel.setAlarm(false)
                                         }
                                     }
                                 }.show()
@@ -361,6 +336,7 @@ class HomeFragment : BaseFragment() {
                 launch {
                     viewModel.useAlarm.collectLatest { useAlarm ->
                         binding.swTimePicker.isChecked = useAlarm
+                        handleAlarm(useAlarm)
                     }
                 }
 
@@ -388,6 +364,42 @@ class HomeFragment : BaseFragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun handleAlarm(useAlarm: Boolean) {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+        }
+
+        val alarmManager = requireContext().getSystemService(AlarmManager::class.java)
+
+        val alarmIntent = Intent(
+            context,
+            AlarmReceiver::class.java
+        ).let { intent ->
+            PendingIntent.getBroadcast(
+                context,
+                AlarmNotification.REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
+
+        if (useAlarm) {
+            alarmManager.cancel(alarmIntent)
+
+            calendar.set(Calendar.HOUR_OF_DAY, viewModel.alarmHourOfDay.value)
+            calendar.set(Calendar.MINUTE, viewModel.alarmMinute.value)
+
+            alarmManager.setInexactRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                alarmIntent
+            )
+        } else {
+            alarmManager.cancel(alarmIntent)
         }
     }
 }
