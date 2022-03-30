@@ -21,8 +21,6 @@ import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentHomeBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
-import com.cpa.cpa_word_problem.feature.quiz.presentation.notifications.AlarmNotification
-import com.cpa.cpa_word_problem.feature.quiz.presentation.receivers.AlarmReceiver
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
 import com.cpa.cpa_word_problem.utils.invisible
@@ -171,10 +169,6 @@ class HomeFragment : BaseFragment() {
             }
         }
 
-        binding.swTimePicker.setOnCheckedChangeListener { button, isChecked ->
-            viewModel.setAlarm(isChecked)
-        }
-
         bsQuizBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -254,7 +248,7 @@ class HomeFragment : BaseFragment() {
         with(binding.bsQuiz) {
             layQuizNum.setOnThrottleClick {
                 val numberPicker = NumberPicker(requireActivity()).apply {
-                    minValue = 3
+                    minValue = 5
                     maxValue = 25
                     value = viewModel.quizNumber.value
                 }
@@ -278,49 +272,11 @@ class HomeFragment : BaseFragment() {
             }
         }
 
-        binding.tvTimePickerDesc.setOnThrottleClick {
-            if (viewModel.useAlarm.value.not()) return@setOnThrottleClick
-            viewModel.showTimePicker()
-        }
-
     }
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
-                launch {
-                    viewModel.homeState.collect { state ->
-                        when (state) {
-                            is HomeState.ShowTimePicker -> {
-                                val calendar = Calendar.getInstance().apply {
-                                    timeInMillis = System.currentTimeMillis()
-                                }
-
-                                val listener =
-                                    TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                                        calendar.set(Calendar.MINUTE, minute)
-                                        viewModel.setAlarmTime(hourOfDay, minute)
-                                    }
-
-                                TimePickerDialog(
-                                    requireActivity(),
-                                    listener,
-                                    calendar.get(Calendar.HOUR_OF_DAY),
-                                    calendar.get(Calendar.MINUTE),
-                                    true
-                                ).apply {
-                                    setOnCancelListener {
-                                        if (viewModel.isAlarmSet().not()) {
-                                            viewModel.setAlarm(false)
-                                        }
-                                    }
-                                }.show()
-                            }
-                        }
-                    }
-                }
-
                 launch {
                     viewModel.quizNumber.collectLatest { quizNumbers ->
                         binding.bsQuiz.tvQuizNumResult.text = quizNumbers.toString()
@@ -330,13 +286,6 @@ class HomeFragment : BaseFragment() {
                 launch {
                     viewModel.useTimer.collectLatest { useTimer ->
                         binding.bsQuiz.swTimer.isChecked = useTimer
-                    }
-                }
-
-                launch {
-                    viewModel.useAlarm.collectLatest { useAlarm ->
-                        binding.swTimePicker.isChecked = useAlarm
-                        handleAlarm(useAlarm)
                     }
                 }
 
@@ -364,42 +313,6 @@ class HomeFragment : BaseFragment() {
                     }
                 }
             }
-        }
-    }
-
-    private fun handleAlarm(useAlarm: Boolean) {
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-        }
-
-        val alarmManager = requireContext().getSystemService(AlarmManager::class.java)
-
-        val alarmIntent = Intent(
-            context,
-            AlarmReceiver::class.java
-        ).let { intent ->
-            PendingIntent.getBroadcast(
-                context,
-                AlarmNotification.REQUEST_CODE,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-        }
-
-        if (useAlarm) {
-            alarmManager.cancel(alarmIntent)
-
-            calendar.set(Calendar.HOUR_OF_DAY, viewModel.alarmHourOfDay.value)
-            calendar.set(Calendar.MINUTE, viewModel.alarmMinute.value)
-
-            alarmManager.setInexactRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                alarmIntent
-            )
-        } else {
-            alarmManager.cancel(alarmIntent)
         }
     }
 }

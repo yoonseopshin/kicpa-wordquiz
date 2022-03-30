@@ -19,9 +19,6 @@ class HomeViewModel @Inject constructor(
     private val quizDatastoreManager: QuizDatastoreManager,
 ) : BaseViewModel() {
 
-    private val _homeState = MutableSharedFlow<HomeState>()
-    val homeState = _homeState.asSharedFlow()
-
     val nextExamDate = MutableStateFlow("")
 
     val quizNumber = quizDatastoreManager.quizNumber
@@ -38,30 +35,6 @@ class HomeViewModel @Inject constructor(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = QuizDatastoreManager.DEFAULT_USE_TIMER
-        )
-
-    val useAlarm = quizDatastoreManager.useAlarm
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = QuizDatastoreManager.DEFAULT_USE_ALARM
-        )
-
-    val alarmHourOfDay = quizDatastoreManager.alarmHourOfDay
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = QuizDatastoreManager.DEFAULT_ALARM_TIME
-        )
-
-    val alarmMinute = quizDatastoreManager.alarmMinute
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = QuizDatastoreManager.DEFAULT_ALARM_TIME
         )
 
     val accountingCount = problemUseCases.getProblemCount(QuizType.Accounting)
@@ -103,31 +76,6 @@ class HomeViewModel @Inject constructor(
     fun setTimer(value: Boolean) {
         viewModelScope.launch {
             quizDatastoreManager.setTimer(value)
-        }
-    }
-
-    fun setAlarm(value: Boolean) {
-        viewModelScope.launch {
-            if (useAlarm.value != value && value) {
-                showTimePicker()
-            }
-
-            quizDatastoreManager.setAlarm(value)
-        }
-    }
-
-    fun showTimePicker() {
-        viewModelScope.launch {
-            _homeState.emit(HomeState.ShowTimePicker)
-        }
-    }
-
-    fun isAlarmSet() = alarmHourOfDay.value >= 0L && alarmMinute.value >= 0L
-
-    fun setAlarmTime(hourOfDay: Int, minute: Int) {
-        viewModelScope.launch {
-            quizDatastoreManager.setAlarmHourOfDay(hourOfDay)
-            quizDatastoreManager.setAlarmMinute(minute)
         }
     }
 

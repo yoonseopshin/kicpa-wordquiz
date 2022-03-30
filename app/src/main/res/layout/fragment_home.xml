@@ -42,96 +42,44 @@
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
+                <include
+                    android:id="@+id/lay_accounting"
+                    layout="@layout/layout_home_subject_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="16dp" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingVertical="8dp">
+                <include
+                    android:id="@+id/lay_business"
+                    layout="@layout/layout_home_subject_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="16dp" />
 
-                        <TextView
-                            android:id="@+id/tv_time_picker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="@string/time_picker_title"
-                            android:textColor="@color/daynight_gray800s"
-                            android:textSize="16sp"
-                            app:layout_constraintBottom_toTopOf="@id/tv_time_picker_desc"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                <include
+                    android:id="@+id/lay_commercial_law"
+                    layout="@layout/layout_home_subject_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="16dp" />
 
-                        <TextView
-                            android:id="@+id/tv_time_picker_desc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="4dp"
-                            android:bufferType="spannable"
-                            android:textColor="@color/daynight_gray500s"
-                            android:textSize="12sp"
-                            app:alarm_hour_of_day="@{viewModel.alarmHourOfDay}"
-                            app:alarm_minute="@{viewModel.alarmMinute}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_time_picker"
-                            app:use_alarm="@{viewModel.useAlarm}"
-                            tools:text="매일 알람을 보내드릴게요." />
+                <com.google.android.ads.nativetemplates.TemplateView
+                    android:id="@+id/ad_template_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="16dp"
+                    app:gnt_template_type="@layout/gnt_medium_template_view" />
 
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/sw_time_picker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:checked="false"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <include
-                        android:id="@+id/lay_accounting"
-                        layout="@layout/layout_home_subject_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginTop="16dp" />
-
-                    <include
-                        android:id="@+id/lay_business"
-                        layout="@layout/layout_home_subject_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginTop="16dp" />
-
-                    <include
-                        android:id="@+id/lay_commercial_law"
-                        layout="@layout/layout_home_subject_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginTop="16dp" />
-
-                    <com.google.android.ads.nativetemplates.TemplateView
-                        android:id="@+id/ad_template_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginVertical="16dp"
-                        app:gnt_template_type="@layout/gnt_medium_template_view" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 

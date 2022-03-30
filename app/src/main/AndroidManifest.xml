@@ -40,10 +40,6 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".feature.quiz.presentation.receivers.AlarmReceiver"
-            android:enabled="true" />
-
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
