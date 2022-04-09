@@ -1,10 +1,6 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.app.TimePickerDialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,15 +23,12 @@ import com.cpa.cpa_word_problem.utils.invisible
 import com.cpa.cpa_word_problem.utils.setOnThrottleClick
 import com.cpa.cpa_word_problem.utils.visibleOrGone
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
@@ -50,7 +43,7 @@ class HomeFragment : BaseFragment() {
         BottomSheetBehavior.from(binding.bsQuiz.root)
     }
     private lateinit var onBackPressedCallback: OnBackPressedCallback
-    lateinit var adLoader: AdLoader
+    private lateinit var adLoader: AdLoader
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -105,43 +98,11 @@ class HomeFragment : BaseFragment() {
                 binding.adTemplateView.setStyles(styles)
                 binding.adTemplateView.setNativeAd(nativeAd)
 
-
-                if (adLoader.isLoading) {
-
-                } else {
-
-                }
-
                 if (isDetached) {
                     nativeAd.destroy()
                     return@forNativeAd
                 }
             }
-            .withAdListener(object : AdListener() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    // TODO: Handle AdError
-                }
-
-                override fun onAdClicked() {
-                    super.onAdClicked()
-                }
-
-                override fun onAdClosed() {
-                    super.onAdClosed()
-                }
-
-                override fun onAdImpression() {
-                    super.onAdImpression()
-                }
-
-                override fun onAdLoaded() {
-                    super.onAdLoaded()
-                }
-
-                override fun onAdOpened() {
-                    super.onAdOpened()
-                }
-            })
             .withNativeAdOptions(NativeAdOptions.Builder().build())
             .build()
 
