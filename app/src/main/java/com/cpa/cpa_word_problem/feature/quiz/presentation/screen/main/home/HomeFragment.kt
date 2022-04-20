@@ -37,7 +37,7 @@ import java.util.*
 class HomeFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private val binding get() = requireNotNull(_binding)
+    private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
     private val bsQuizBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.bsQuiz.root)
