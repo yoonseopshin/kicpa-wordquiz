@@ -10,14 +10,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('keystore/cpawordproblem.jks')
-            storePassword 'tls897412!'
-            keyAlias 'cpawordproblemkey'
-            keyPassword 'tls897412!'
-        }
-    }
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
@@ -31,6 +23,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('keystore/cpawordproblem.jks')
+            storePassword 'tls897412!'
+            keyAlias 'cpawordproblemkey'
+            keyPassword 'tls897412!'
         }
     }
 

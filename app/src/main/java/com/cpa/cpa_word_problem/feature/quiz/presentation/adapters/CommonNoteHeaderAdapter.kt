@@ -7,22 +7,10 @@ import com.cpa.cpa_word_problem.databinding.LayoutCommonNoteHeaderBinding
 
 class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
 
-    var headerTitle: String = ""
-    var isShowing: Boolean = true
-        set(value) {
-            notifyDataSetChanged()
-            field = value
-        }
+    var headerTitle = ""
+    var isShowing = true
     var isToggleable = false
-        set(value) {
-            notifyDataSetChanged()
-            field = value
-        }
     var isOpened = true
-        set(value) {
-            notifyDataSetChanged()
-            field = value
-        }
     var onHeaderClick: (() -> Unit)? = null
     var onHeaderLongClick: (() -> Unit)? = null
 
@@ -35,6 +23,10 @@ class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.Ite
         init {
             binding.setOnClickListener {
                 onHeaderClick?.invoke()
+                if (binding.isToggleable) {
+                    binding.isOpened = binding.isOpened.not()
+                    binding.executePendingBindings()
+                }
             }
 
             binding.setOnLongClickListener {

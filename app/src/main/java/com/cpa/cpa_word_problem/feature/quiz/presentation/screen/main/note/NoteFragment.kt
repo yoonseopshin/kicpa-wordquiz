@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsAnimationCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +24,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class NoteFragment : BaseFragment() {
@@ -320,8 +316,6 @@ class NoteFragment : BaseFragment() {
                         } else {
                             totalNoteAdapter.submitList(emptyList())
                         }
-
-                        scrollToTopAdapter.showOrHide(isOpened)
                     }
                 }
             }
