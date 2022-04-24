@@ -20,7 +20,8 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
     class AdBannerViewHolder(private val binding: LayoutAdNativeBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var adLoader: AdLoader
+        private val adLoader: AdLoader
+        private var adLoaded = false
 
         init {
             val context = binding.root.context
@@ -33,42 +34,11 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
                         .build()
                     binding.adTemplateView.setStyles(styles)
                     binding.adTemplateView.setNativeAd(nativeAd)
-
-
-                    if (adLoader.isLoading) {
-
-                    } else {
-
-                    }
-//
-//                    if (isDetached) {
-//                        nativeAd.destroy()
-//                        return@forNativeAd
-//                    }
                 }
                 .withAdListener(object : AdListener() {
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        // TODO: Handle AdError
-                    }
-
-                    override fun onAdClicked() {
-                        super.onAdClicked()
-                    }
-
-                    override fun onAdClosed() {
-                        super.onAdClosed()
-                    }
-
-                    override fun onAdImpression() {
-                        super.onAdImpression()
-                    }
-
                     override fun onAdLoaded() {
                         super.onAdLoaded()
-                    }
-
-                    override fun onAdOpened() {
-                        super.onAdOpened()
+                        adLoaded = true
                     }
                 })
                 .withNativeAdOptions(NativeAdOptions.Builder().build())
@@ -76,7 +46,9 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
         }
 
         fun bind() {
-            adLoader.loadAd(AdRequest.Builder().build())
+            if (adLoaded.not()) {
+                adLoader.loadAd(AdRequest.Builder().build())
+            }
         }
     }
 
