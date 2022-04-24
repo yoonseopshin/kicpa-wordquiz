@@ -167,8 +167,6 @@ class NoteFragment : BaseFragment() {
             }
         }
 
-        keyboardAnimation()
-
         bsSearchBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -228,53 +226,6 @@ class NoteFragment : BaseFragment() {
                     }
                 }
             }
-        })
-    }
-
-    private fun keyboardAnimation() {
-        val view = binding.root
-
-        ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
-            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-            Timber.d("ysshin $imeVisible")
-            Timber.d("ysshin $imeHeight")
-            insets
-        }
-
-        var startBottom = 0f
-        var endBottom = 0f
-
-        ViewCompat.setWindowInsetsAnimationCallback(view, object :
-            WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
-
-            override fun onPrepare(animation: WindowInsetsAnimationCompat) {
-                super.onPrepare(animation)
-                startBottom = view.bottom.toFloat()
-            }
-
-            override fun onStart(
-                animation: WindowInsetsAnimationCompat,
-                bounds: WindowInsetsAnimationCompat.BoundsCompat
-            ): WindowInsetsAnimationCompat.BoundsCompat {
-                endBottom = view.bottom.toFloat()
-                return bounds
-            }
-
-            override fun onProgress(
-                insets: WindowInsetsCompat,
-                runningAnimations: MutableList<WindowInsetsAnimationCompat>
-            ): WindowInsetsCompat {
-                val imeAnimation = runningAnimations.find {
-                    it.typeMask and WindowInsetsCompat.Type.ime() != 0
-                } ?: return insets
-
-                view.translationY =
-                    (startBottom - endBottom) * (1 - imeAnimation.interpolatedFraction)
-
-                return insets
-            }
-
         })
     }
 
