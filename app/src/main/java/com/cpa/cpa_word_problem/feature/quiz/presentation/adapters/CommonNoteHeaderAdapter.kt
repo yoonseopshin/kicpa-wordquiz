@@ -30,8 +30,7 @@ class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.Ite
         private val binding: LayoutCommonNoteHeaderBinding,
         onHeaderClick: (() -> Unit)? = null,
         onHeaderLongClick: (() -> Unit)? = null,
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.setOnClickListener {

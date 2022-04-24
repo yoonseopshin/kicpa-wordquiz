@@ -1,12 +1,12 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.note
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +27,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class NoteFragment : BaseFragment() {
@@ -166,6 +167,8 @@ class NoteFragment : BaseFragment() {
             }
         }
 
+        keyboardAnimation()
+
         bsSearchBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -189,8 +192,8 @@ class NoteFragment : BaseFragment() {
             bsSearchBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-        with(binding.bsSearch.etSearch) {
-            setOnEditorActionListener { _, actionId, _ ->
+        with(binding.bsSearch) {
+            etSearch.setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
                         bsSearchBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -200,17 +203,8 @@ class NoteFragment : BaseFragment() {
                 }
             }
 
-            setOnTouchListener { _, event ->
-                val drawableRight = 2
-
-                if (event.action == MotionEvent.ACTION_UP) {
-                    if (event.rawX >= right - compoundDrawables[drawableRight].bounds.width()) {
-                        text.clear()
-                        performClick()
-                    }
-                }
-
-                false
+            ivClear.setOnThrottleClick {
+                etSearch.text.clear()
             }
         }
 
@@ -234,6 +228,53 @@ class NoteFragment : BaseFragment() {
                     }
                 }
             }
+        })
+    }
+
+    private fun keyboardAnimation() {
+        val view = binding.root
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
+            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            Timber.d("ysshin $imeVisible")
+            Timber.d("ysshin $imeHeight")
+            insets
+        }
+
+        var startBottom = 0f
+        var endBottom = 0f
+
+        ViewCompat.setWindowInsetsAnimationCallback(view, object :
+            WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
+
+            override fun onPrepare(animation: WindowInsetsAnimationCompat) {
+                super.onPrepare(animation)
+                startBottom = view.bottom.toFloat()
+            }
+
+            override fun onStart(
+                animation: WindowInsetsAnimationCompat,
+                bounds: WindowInsetsAnimationCompat.BoundsCompat
+            ): WindowInsetsAnimationCompat.BoundsCompat {
+                endBottom = view.bottom.toFloat()
+                return bounds
+            }
+
+            override fun onProgress(
+                insets: WindowInsetsCompat,
+                runningAnimations: MutableList<WindowInsetsAnimationCompat>
+            ): WindowInsetsCompat {
+                val imeAnimation = runningAnimations.find {
+                    it.typeMask and WindowInsetsCompat.Type.ime() != 0
+                } ?: return insets
+
+                view.translationY =
+                    (startBottom - endBottom) * (1 - imeAnimation.interpolatedFraction)
+
+                return insets
+            }
+
         })
     }
 
