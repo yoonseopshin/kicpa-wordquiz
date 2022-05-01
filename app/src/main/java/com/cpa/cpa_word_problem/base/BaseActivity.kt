@@ -11,7 +11,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
     override fun onPause() {
