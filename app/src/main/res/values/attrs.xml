@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ZigzagView">
+        <attr name="zigzagHeight" format="dimension" />
+        <attr name="zigzagBackgroundColor" format="color" />
+        <attr name="zigzagPaddingContent" format="dimension" />
+        <attr name="zigzagPaddingContentLeft" format="dimension" />
+        <attr name="zigzagPaddingContentRight" format="dimension" />
+        <attr name="zigzagPaddingContentTop" format="dimension" />
+        <attr name="zigzagPaddingContentBottom" format="dimension" />
+        <attr name="zigzagPadding" format="dimension" />
+        <attr name="zigzagPaddingLeft" format="dimension" />
+        <attr name="zigzagPaddingRight" format="dimension" />
+        <attr name="zigzagPaddingBottom" format="dimension" />
+        <attr name="zigzagPaddingTop" format="dimension" />
+        <attr name="zigzagSides">
+            <flag name="top" value="1" />
+            <flag name="bottom" value="2" />
+            <flag name="right" value="4" />
+            <flag name="left" value="8" />
+        </attr>
+    </declare-styleable>
+</resources>

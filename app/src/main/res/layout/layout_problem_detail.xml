@@ -20,78 +20,92 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/ch_year_pid"
-            android:layout_width="wrap_content"
+        <com.cpa.cpa_word_problem.common.ui.zigzag.ZigzagView
+            android:id="@+id/layout_zigzag"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:clickable="false"
-            android:focusable="false"
-            app:chipBackgroundColor="@color/daynight_gray050s"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:pid="@{problem.pid}"
-            app:year="@{problem.year}"
-            tools:text="2019년 24번" />
+            app:zigzagBackgroundColor="@color/daynight_gray050s"
+            app:zigzagHeight="8dp"
+            app:zigzagPaddingContentBottom="28dp"
+            app:zigzagSides="bottom">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/ch_source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="4dp"
-            android:clickable="false"
-            android:focusable="false"
-            app:chipBackgroundColor="@color/daynight_gray050s"
-            app:layout_constraintStart_toEndOf="@id/ch_year_pid"
-            app:layout_constraintTop_toTopOf="parent"
-            app:source="@{problem.source}"
-            tools:text="CPA" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ch_year_pid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:clickable="false"
+                android:focusable="false"
+                app:chipBackgroundColor="@color/daynight_gray070s"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:pid="@{problem.pid}"
+                app:year="@{problem.year}"
+                tools:text="2020년 12번" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/ch_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:clickable="false"
-            android:focusable="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:problem_type="@{problem.type}"
-            tools:text="@string/accounting" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ch_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="4dp"
+                android:clickable="false"
+                android:focusable="false"
+                app:chipBackgroundColor="@color/daynight_gray070s"
+                app:layout_constraintStart_toEndOf="@id/ch_year_pid"
+                app:layout_constraintTop_toTopOf="parent"
+                app:source="@{problem.source}"
+                tools:text="CPA" />
 
-        <TextView
-            android:id="@+id/tv_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="8dp"
-            android:text="@{problem.description}"
-            android:textColor="@color/daynight_gray700s"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ch_year_pid"
-            tools:text="기업회계기준서 제1116호 '리스'에 대한 설명 중 옳은 것은?" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ch_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="false"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:problem_type="@{problem.type}"
+                tools:chipBackgroundColor="@color/business_highlight_color_0_20"
+                tools:text="@string/business" />
 
-        <TextView
-            android:id="@+id/tv_sub_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/daynight_gray070s"
-            android:padding="8dp"
-            android:textColor="@color/daynight_gray700s"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_description"
-            app:sub_descriptions="@{problem.subDescriptions}" />
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="8dp"
+                android:text="@{problem.description}"
+                android:textColor="@color/daynight_gray700s"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ch_year_pid"
+                tools:text="소비자가 의사결정 이후 성과가 기대에 부정적으로 불일치하다고 느낄 때, 이 불일치를 외적귀인(external attribution)하도록 하는 상황만을 모두 선택한 것은?" />
+
+            <TextView
+                android:id="@+id/tv_sub_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/daynight_gray070s"
+                android:padding="8dp"
+                android:textColor="@color/daynight_gray700s"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_description"
+                app:sub_descriptions="@{problem.subDescriptions}"
+                tools:text="a. 결과의 원인이 지속적일 때\nb. 결과가 소비자 자신에 의해 유발되었을 때\nc. 발생한 결과가 기업에 의해 통제 가능했다고 판단할 때" />
+
+        </com.cpa.cpa_word_problem.common.ui.zigzag.ZigzagView>
 
         <RadioGroup
             android:id="@+id/rg_questions"
@@ -101,7 +115,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_sub_description"
+            app:layout_constraintTop_toBottomOf="@id/layout_zigzag"
             app:problem_detail_mode="@{mode}">
 
             <RadioButton
@@ -109,45 +123,55 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 0}"
+                android:minHeight="48dp"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(0) : null}"
-                android:textColor="@color/daynight_gray600s" />
+                android:textColor="@color/daynight_gray600s"
+                tools:text="a" />
 
             <RadioButton
                 android:id="@+id/rb1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 1}"
+                android:minHeight="48dp"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(1) : null}"
-                android:textColor="@color/daynight_gray600s" />
+                android:textColor="@color/daynight_gray600s"
+                tools:text="c" />
 
             <RadioButton
                 android:id="@+id/rb2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 2}"
+                android:minHeight="48dp"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(2) : null}"
-                android:textColor="@color/daynight_gray600s" />
+                android:textColor="@color/daynight_gray600s"
+                tools:text="a, c" />
 
             <RadioButton
                 android:id="@+id/rb3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 3}"
+                android:minHeight="48dp"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(3) : null}"
-                android:textColor="@color/daynight_gray600s" />
+                android:textColor="@color/daynight_gray600s"
+                tools:text="b, c" />
 
             <RadioButton
                 android:id="@+id/rb4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="@{mode == ProblemDetailMode.Detail &amp;&amp; problem.answer == 4}"
+                android:minHeight="48dp"
                 android:paddingVertical="4dp"
                 android:text="@{!problem.questions.empty ? problem.questions.get(4) : null}"
-                android:textColor="@color/daynight_gray600s" />
+                android:textColor="@color/daynight_gray600s"
+                tools:text="a, b, c" />
 
         </RadioGroup>
 

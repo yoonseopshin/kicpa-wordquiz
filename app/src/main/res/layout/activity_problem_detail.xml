@@ -27,12 +27,15 @@
                 android:id="@+id/toolbar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@color/daynight_gray050s"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:solved="@{viewModel.solvedProblemNumbers}"
-                app:total="@{viewModel.totalProblemNumbers}" />
+                app:total="@{viewModel.totalProblemNumbers}"
+                tools:subtitle="7/25"
+                tools:title="퀴즈" />
 
             <include
                 android:id="@+id/lay_problem_detail"
