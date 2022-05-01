@@ -35,7 +35,7 @@ class ZigzagView @JvmOverloads constructor(
     private var zigzagPaddingBottom = 0f
     private var zigzagSides = 0
 
-    private val pathZigzag = Path()
+    private var pathZigzag = Path()
     private val paintZigzag by lazy {
         Paint().apply {
             color = ContextCompat.getColor(context, R.color.black)
@@ -155,6 +155,7 @@ class ZigzagView @JvmOverloads constructor(
         val top = rectZigzag.top
         val bottom = rectZigzag.bottom
 
+        pathZigzag.reset()
         pathZigzag.moveTo(right, bottom)
 
         if (zigzagSides.containsSide(ZIGZAG_RIGHT) && zigzagHeight > 0) {
@@ -216,7 +217,9 @@ class ZigzagView @JvmOverloads constructor(
                 } else if (i == count - 1) {
                     endSeed += sideDiff
                 }
+                Timber.d("ysshin [${startSeed + halfSeed}, $innerHeight]")
                 path.lineTo(startSeed + halfSeed, innerHeight)
+                Timber.d("ysshin [${endSeed}, $y]")
                 path.lineTo(endSeed, y)
             }
         }
