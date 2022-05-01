@@ -7,12 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.LayoutAdNativeBannerBinding
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
-import com.cpa.cpa_word_problem.utils.colorAsInt
+import com.cpa.cpa_word_problem.utils.color
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAdOptions
 
 class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBannerViewHolder>() {
@@ -28,9 +27,9 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
             adLoader = AdLoader.Builder(context, AdConstants.QUIZ_NATIVE_AD_SMALL)
                 .forNativeAd { nativeAd ->
                     val styles = NativeTemplateStyle.Builder()
-                        .withMainBackgroundColor(ColorDrawable(context.colorAsInt(R.color.theme_color)))
-                        .withCallToActionBackgroundColor(ColorDrawable(context.colorAsInt(R.color.primaryDarkColor)))
-                        .withCallToActionTypefaceColor(context.colorAsInt(R.color.secondaryTextColor))
+                        .withMainBackgroundColor(ColorDrawable(context.color(R.color.theme_color)))
+                        .withCallToActionBackgroundColor(ColorDrawable(context.color(R.color.primaryDarkColor)))
+                        .withCallToActionTypefaceColor(context.color(R.color.secondaryTextColor))
                         .build()
                     binding.adTemplateView.setStyles(styles)
                     binding.adTemplateView.setNativeAd(nativeAd)

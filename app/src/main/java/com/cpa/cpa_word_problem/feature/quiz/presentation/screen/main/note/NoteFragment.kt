@@ -153,7 +153,6 @@ class NoteFragment : BaseFragment() {
                     when (bsSearchBehavior.state) {
                         BottomSheetBehavior.STATE_COLLAPSED -> {
                             bsSearchBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                            binding.bsSearch.etSearch.showKeyboard()
                         }
                         else -> Unit
                     }
@@ -173,6 +172,7 @@ class NoteFragment : BaseFragment() {
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         binding.fabCloseBsSearch.show()
+                        binding.bsSearch.etSearch.showKeyboard()
                     }
                     else -> Unit
                 }

@@ -1,10 +1,8 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
-import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
@@ -94,17 +92,17 @@ fun Chip.bindByType(type: QuizType?) {
         QuizType.Accounting -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.accounting)
-            chipBackgroundColor = context.color(R.color.accounting_highlight_color_0_20)
+            chipBackgroundColor = context.colorStateList(R.color.accounting_highlight_color_0_20)
         }
         QuizType.Business -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.business)
-            chipBackgroundColor = context.color(R.color.business_highlight_color_0_20)
+            chipBackgroundColor = context.colorStateList(R.color.business_highlight_color_0_20)
         }
         QuizType.CommercialLaw -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.commercial_law)
-            chipBackgroundColor = context.color(R.color.commercial_law_highlight_color_0_20)
+            chipBackgroundColor = context.colorStateList(R.color.commercial_law_highlight_color_0_20)
         }
         QuizType.None -> {
             visibility = View.GONE

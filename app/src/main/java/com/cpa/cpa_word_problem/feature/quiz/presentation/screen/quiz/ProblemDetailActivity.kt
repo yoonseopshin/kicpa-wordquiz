@@ -3,16 +3,13 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.base.BaseActivity
-import com.cpa.cpa_word_problem.common.ui.zigzag.blink
+import com.cpa.cpa_word_problem.common.ui.zigzag.blinkZigzag
 import com.cpa.cpa_word_problem.databinding.ActivityProblemDetailBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toDomain
@@ -20,14 +17,10 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
-import com.cpa.cpa_word_problem.utils.blink
-import com.cpa.cpa_word_problem.utils.scrollToView
-import com.cpa.cpa_word_problem.utils.setOnDoubleClick
-import com.cpa.cpa_word_problem.utils.setOnThrottleClick
+import com.cpa.cpa_word_problem.utils.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -115,36 +108,35 @@ class ProblemDetailActivity : BaseActivity() {
             is QuizState.Calculating -> viewModel.onCalculating(binding.getUserAnswerIndex())
             is QuizState.Correct -> {
                 binding.root.blink(
-                    ContextCompat.getColor(this, R.color.theme_color),
-                    ContextCompat.getColor(this, R.color.color_on_correct)
+                    color(R.color.theme_color),
+                    color(R.color.color_on_correct)
                 )
                 binding.toolbar.blink(
-                    ContextCompat.getColor(this, R.color.daynight_gray050s),
-                    ContextCompat.getColor(this, R.color.color_on_correct)
+                    color(R.color.daynight_gray050s),
+                    color(R.color.color_on_correct),
                 )
-                binding.layProblemDetail.layoutZigzag.blink(
-                    ContextCompat.getColor(this, R.color.daynight_gray050s),
-                    ContextCompat.getColor(this, R.color.color_on_correct)
+                binding.layProblemDetail.layoutZigzag.blinkZigzag(
+                    color(R.color.daynight_gray050s),
+                    color(R.color.color_on_correct),
                 )
             }
             is QuizState.Incorrect -> {
                 binding.root.blink(
-                    ContextCompat.getColor(this, R.color.theme_color),
-                    ContextCompat.getColor(this, R.color.color_on_incorrect)
+                    color(R.color.theme_color),
+                    color(R.color.color_on_incorrect)
                 )
                 binding.toolbar.blink(
-                    ContextCompat.getColor(this, R.color.daynight_gray050s),
-                    ContextCompat.getColor(this, R.color.color_on_incorrect)
+                    color(R.color.daynight_gray050s),
+                    color(R.color.color_on_incorrect),
                 )
-                binding.layProblemDetail.layoutZigzag.blink(
-                    ContextCompat.getColor(this, R.color.daynight_gray050s),
-                    ContextCompat.getColor(this, R.color.color_on_incorrect)
+                binding.layProblemDetail.layoutZigzag.blinkZigzag(
+                    color(R.color.daynight_gray050s),
+                    color(R.color.color_on_incorrect),
                 )
             }
             is QuizState.Next -> {
                 viewModel.onNext {
                     binding.layProblemDetail.rgQuestions.clearCheck()
-                    binding.layProblemDetail.layoutZigzag.forceLayout()
                     binding.scrollView.scrollToView(binding.toolbar)
                 }
             }

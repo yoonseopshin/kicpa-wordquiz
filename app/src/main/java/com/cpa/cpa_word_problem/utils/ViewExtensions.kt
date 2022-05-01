@@ -119,17 +119,15 @@ fun ScrollView.scrollToView(view: View, maxDuration: Long = 500L) {
 
 fun EditText.showKeyboard() {
     requestFocus()
-    postDelayed({
-        (context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager).also { imm ->
-            imm.showSoftInput(
-                this,
-                0
-            )
-        }
-    }, 300L)
+    (context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager).also { imm ->
+        imm.showSoftInput(
+            this,
+            0
+        )
+    }
 }
 
-fun Context.color(@ColorRes resId: Int) =
+fun Context.colorStateList(@ColorRes resId: Int) =
     ColorStateList.valueOf(ContextCompat.getColor(this, resId))
 
-fun Context.colorAsInt(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
+fun Context.color(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)

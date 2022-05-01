@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.LayoutResultTimerBinding
 import com.cpa.cpa_word_problem.utils.TimeFormatter
-import com.cpa.cpa_word_problem.utils.color
+import com.cpa.cpa_word_problem.utils.colorStateList
 import com.cpa.cpa_word_problem.utils.gone
 import com.cpa.cpa_word_problem.utils.visible
 
@@ -20,8 +20,8 @@ class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
         init {
             val context = binding.root.context
             binding.btnTimer.backgroundTintList =
-                context.color(R.color.timer_result_highlight_color)
-            binding.root.setCardBackgroundColor(context.color(R.color.timer_result_highlight_color_0_20))
+                context.colorStateList(R.color.timer_result_highlight_color)
+            binding.root.setCardBackgroundColor(context.colorStateList(R.color.timer_result_highlight_color_0_20))
         }
 
         fun bind(timesPerProblem: List<Int>) {
