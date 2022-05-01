@@ -31,10 +31,10 @@ class QuizRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getLocalProblem(type: QuizType): Problem {
-        val problem: Problem
+        var problem: Problem
 
         withContext(Dispatchers.IO) {
-            problem = problemDao.get(type).toDomain()
+            problem = problemDao.get(type)?.toDomain() ?: Problem()
         }
 
         return problem

@@ -134,7 +134,7 @@ class NoteFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentNoteBinding.inflate(layoutInflater).also {
+    ) = FragmentNoteBinding.inflate(layoutInflater, container, false).also {
         _binding = it
         binding.viewModel = viewModel
         binding.lifecycleOwner = this

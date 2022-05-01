@@ -26,7 +26,7 @@ interface ProblemDao {
         ORDER BY RANDOM() 
         LIMIT 1"""
     )
-    fun get(type: QuizType): ProblemEntity
+    fun get(type: QuizType): ProblemEntity?
 
     @Query(
         """

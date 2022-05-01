@@ -73,7 +73,7 @@ class HomeFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentHomeBinding.inflate(layoutInflater).also {
+    ) = FragmentHomeBinding.inflate(layoutInflater, container, false).also {
         _binding = it
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
