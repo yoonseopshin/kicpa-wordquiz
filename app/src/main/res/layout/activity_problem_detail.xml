@@ -21,6 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/secondaryColor_0.06"
             tools:context=".feature.quiz.presentation.screen.quiz.ProblemDetailActivity">
 
             <androidx.appcompat.widget.Toolbar
@@ -68,6 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:backgroundTint="@color/secondaryColor"
                 android:contentDescription="@string/next"
                 android:src="@drawable/ic_done"
                 app:borderWidth="0dp"
