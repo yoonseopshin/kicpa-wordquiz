@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.common.ui.zigzag
+package com.ysshin.shared.common.ui.zigzag
 
 import android.animation.ObjectAnimator
 import androidx.annotation.Keep

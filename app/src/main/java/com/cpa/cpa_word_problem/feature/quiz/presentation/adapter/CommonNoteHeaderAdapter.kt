@@ -4,70 +4,59 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.LayoutCommonNoteHeaderBinding
+import com.ysshin.shared.common.ui.adapter.ToggleableAdapter
+import com.ysshin.shared.util.Action
+import com.ysshin.shared.util.Supplier
 
-class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
+class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
 
     var headerTitle = ""
-    var isShowing = true
-    var isToggleable = false
-    var isOpened = true
-    var onHeaderClick: (() -> Unit)? = null
-    var onHeaderLongClick: (() -> Unit)? = null
 
-    class ItemViewHolder(
-        private val binding: LayoutCommonNoteHeaderBinding,
-        onHeaderClick: (() -> Unit)? = null,
-        onHeaderLongClick: (() -> Unit)? = null,
-    ) : RecyclerView.ViewHolder(binding.root) {
+    var onHeaderClick: Action = {}
+    var onHeaderLongClick: Action = {}
+
+    class ItemViewHolder(private val binding: LayoutCommonNoteHeaderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        var onHeaderClick: Action = {}
+        var onHeaderLongClick: Action = {}
 
         init {
             binding.setOnClickListener {
-                onHeaderClick?.invoke()
+                onHeaderClick()
                 if (binding.isToggleable) {
-                    binding.isOpened = binding.isOpened.not()
+                    binding.isShowing = binding.isShowing.not()
                     binding.executePendingBindings()
                 }
             }
 
             binding.setOnLongClickListener {
-                onHeaderLongClick?.invoke()
+                onHeaderLongClick()
                 true
             }
         }
 
-        fun bind(title: String, isToggleable: Boolean, isOpened: Boolean) {
+        fun bind(title: String, isToggleable: Boolean, isShowing: Boolean) {
             binding.headerTitle = title
             binding.isToggleable = isToggleable
-            binding.isOpened = isOpened
+            binding.isShowing = isShowing
             binding.executePendingBindings()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-        LayoutCommonNoteHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-        onHeaderClick,
-        onHeaderLongClick
-    )
-
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(headerTitle, isToggleable, isOpened)
+        LayoutCommonNoteHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    ).also { viewHolder ->
+        viewHolder.onHeaderClick = onHeaderClick
+        viewHolder.onHeaderLongClick = onHeaderLongClick
     }
 
-    override fun getItemCount() = if (isShowing) 1 else 0
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        holder.bind(headerTitle, isToggleable, isShowing)
+    }
 
-}
+    override var itemCountSupplier: Supplier<Int>
+        get() = { 1 }
+        set(value) {}
 
-fun CommonNoteHeaderAdapter.show() {
-    isShowing = true
-    notifyDataSetChanged()
-}
-
-fun CommonNoteHeaderAdapter.hide() {
-    isShowing = false
-    notifyDataSetChanged()
-}
-
-fun CommonNoteHeaderAdapter.showOrHide(shouldBeShowing: Boolean) {
-    isShowing = shouldBeShowing
-    notifyDataSetChanged()
 }

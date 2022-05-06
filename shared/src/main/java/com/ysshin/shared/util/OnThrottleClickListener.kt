@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.util
+package com.ysshin.shared.util
 
 import android.view.View
 import androidx.lifecycle.coroutineScope
@@ -7,35 +7,24 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class OnDoubleClickListener(
+class OnThrottleClickListener(
     private val dispatcher: CoroutineDispatcher,
     private val onClickListener: View.OnClickListener,
     private val interval: Long,
 ) : View.OnClickListener {
 
-    private var isBusy = false
-    private var count = 0
+    private var isClickable = true
 
     override fun onClick(view: View) {
-        if (isBusy) {
-            if (count == 1) {
-                onClickListener.onClick(view)
-            }
-        }
-
-        count++
-
-        if (isBusy.not()) {
-            isBusy = true
-
+        if (isClickable) {
+            isClickable = false
             view.findViewTreeLifecycleOwner()?.let { lifecycleOwner ->
                 lifecycleOwner.lifecycle.coroutineScope.launch(dispatcher) {
+                    onClickListener.onClick(view)
                     delay(interval)
-                    isBusy = false
-                    count = 0
+                    isClickable = true
                 }
             }
         }
     }
-
 }

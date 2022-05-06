@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.LayoutAdNativeBannerBinding
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
-import com.cpa.cpa_word_problem.util.color
+import com.ysshin.shared.util.color
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader

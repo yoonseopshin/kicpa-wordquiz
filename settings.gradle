@@ -1,3 +1,4 @@
 rootProject.name = "cpa-word-problem"
 include ':app'
 include ':nativetemplates'
+include ':shared'

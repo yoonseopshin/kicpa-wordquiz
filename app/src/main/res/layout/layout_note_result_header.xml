@@ -12,52 +12,60 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/daynight_gray050s"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="@drawable/background_common_ripple"
         android:onClick="@{onClickListener}"
+        android:paddingHorizontal="16dp"
         android:paddingVertical="16dp">
 
-        <TextView
-            android:id="@+id/tv_note_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="@string/solved_problems"
-            android:textColor="@color/daynight_gray800s"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_radius12_gray050s"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="20dp">
 
-        <TextView
-            android:id="@+id/tv_note_header_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/note_header_description"
-            android:textColor="@color/daynight_gray700s"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_note_header" />
+            <TextView
+                android:id="@+id/tv_note_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/solved_problems"
+                android:textColor="@color/daynight_gray800s"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_move_to_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/background_common_ripple"
-            android:onClick="@{onClickListener}"
-            android:padding="4dp"
-            android:text="@string/move"
-            android:textColor="@color/daynight_pastel_blue"
-            android:textSize="16sp"
-            app:drawableEndCompat="@drawable/ic_navigate_next"
-            app:drawableTint="@color/daynight_pastel_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tv_note_header_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/note_header_description"
+                android:textColor="@color/daynight_gray700s"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_note_header" />
+
+            <TextView
+                android:id="@+id/tv_move_to_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/background_common_ripple"
+                android:onClick="@{onClickListener}"
+                android:padding="4dp"
+                android:text="@string/move"
+                android:textColor="@color/daynight_pastel_blue"
+                android:textSize="16sp"
+                app:drawableEndCompat="@drawable/ic_navigate_next"
+                app:drawableTint="@color/daynight_pastel_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,5 +1,6 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,32 +9,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.ListItemProblemBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.UserSolvedProblemModel
+import com.ysshin.shared.util.Consumer
 
 class NoteAdapter :
     ListAdapter<UserSolvedProblemModel, NoteAdapter.ProblemViewHolder>(UserSolvedProblemDiffCallback()) {
 
     var isShowing = true
-    var onProblemClick: ((Problem) -> Unit)? = null
-    var onProblemLongClick: ((Problem) -> Unit)? = null
+    var onProblemClick: Consumer<Problem> = {}
+    var onProblemLongClick: Consumer<Problem> = {}
 
     override fun getItemCount() = if (isShowing) super.getItemCount() else 0
 
-    class ProblemViewHolder(
-        private val binding: ListItemProblemBinding,
-        onProblemClick: ((Problem) -> Unit)? = null,
-        onProblemLongClick: ((Problem) -> Unit)? = null,
-    ) : RecyclerView.ViewHolder(binding.root) {
+    class ProblemViewHolder(private val binding: ListItemProblemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        var onProblemClick: Consumer<Problem> = {}
+        var onProblemLongClick: Consumer<Problem> = {}
 
         init {
             binding.setOnClickListener {
                 binding.problem?.let { problem ->
-                    onProblemClick?.invoke(problem)
+                    onProblemClick(problem)
                 }
             }
 
             binding.setOnLongClickListener {
                 binding.problem?.let { problem ->
-                    onProblemLongClick?.invoke(problem)
+                    onProblemLongClick(problem)
                 }
                 true
             }
@@ -52,10 +54,11 @@ class NoteAdapter :
             LayoutInflater.from(parent.context),
             parent,
             false
-        ),
-        onProblemClick,
-        onProblemLongClick
-    )
+        )
+    ).also { viewHolder ->
+        viewHolder.onProblemClick = onProblemClick
+        viewHolder.onProblemLongClick = onProblemLongClick
+    }
 
     override fun onBindViewHolder(holder: ProblemViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -74,17 +77,14 @@ private class UserSolvedProblemDiffCallback : DiffUtil.ItemCallback<UserSolvedPr
     ) = areItemsTheSame(oldItem, newItem)
 }
 
+@SuppressLint("NotifyDataSetChanged")
 fun NoteAdapter.show() {
     isShowing = true
     notifyDataSetChanged()
 }
 
+@SuppressLint("NotifyDataSetChanged")
 fun NoteAdapter.hide() {
     isShowing = false
-    notifyDataSetChanged()
-}
-
-fun NoteAdapter.showOrHide(shouldBeShowing: Boolean) {
-    isShowing = shouldBeShowing
     notifyDataSetChanged()
 }

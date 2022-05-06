@@ -1,9 +1,6 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.RadioGroup
@@ -14,9 +11,9 @@ import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.ProblemSource
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
-import com.cpa.cpa_word_problem.util.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ysshin.shared.util.*
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -146,31 +143,4 @@ fun ImageView.bindOpened(isOpened: Boolean) {
     } else {
         animate().rotation(180f).start()
     }
-}
-
-@BindingAdapter("use_alarm", "alarm_hour_of_day", "alarm_minute", requireAll = true)
-fun TextView.bindAlarmTime(useAlarm: Boolean?, hourOfDay: Int?, minute: Int?) {
-    if (useAlarm == null || useAlarm.not()) {
-        text = context.getString(R.string.time_picker_desc)
-        return
-    }
-
-    if (hourOfDay == null || hourOfDay < 0L || minute == null || minute < 0L) {
-        text = context.getString(R.string.time_picker_desc)
-        return
-    }
-
-    val description = if (minute == 0) {
-        context.getString(R.string.time_picker_desc_with_hour_only, hourOfDay)
-    } else {
-        context.getString(R.string.time_picker_desc_with_time, hourOfDay, minute)
-    }
-    val spannable = SpannableString(description)
-
-    val start = 3
-    val end = description.indexOf("에")
-
-    spannable.setSpan(ForegroundColorSpan(context.getColor(R.color.secondaryColor)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-    text = spannable
 }

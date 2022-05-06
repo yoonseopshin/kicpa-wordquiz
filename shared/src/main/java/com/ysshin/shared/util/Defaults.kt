@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.util
+package com.ysshin.shared.util
 
 const val DEFAULT_INT = 0
 const val DEFAULT_INVALID_INT = -1

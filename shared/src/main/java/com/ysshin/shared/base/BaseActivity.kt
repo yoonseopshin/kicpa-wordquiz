@@ -1,11 +1,9 @@
-package com.cpa.cpa_word_problem.base
+package com.ysshin.shared.base
 
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import com.cpa.cpa_word_problem.util.hideKeyboard
+import com.ysshin.shared.util.hideKeyboard
 
 abstract class BaseActivity : AppCompatActivity() {
 

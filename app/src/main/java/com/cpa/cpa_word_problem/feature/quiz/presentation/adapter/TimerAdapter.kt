@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.LayoutResultTimerBinding
-import com.cpa.cpa_word_problem.util.TimeFormatter
-import com.cpa.cpa_word_problem.util.colorStateList
-import com.cpa.cpa_word_problem.util.gone
-import com.cpa.cpa_word_problem.util.visible
+import com.ysshin.shared.util.TimeFormatter
+import com.ysshin.shared.util.colorStateList
+import com.ysshin.shared.util.gone
+import com.ysshin.shared.util.visible
 
 class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
 

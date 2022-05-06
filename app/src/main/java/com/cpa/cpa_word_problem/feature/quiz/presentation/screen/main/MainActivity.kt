@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.cpa.cpa_word_problem.R
-import com.cpa.cpa_word_problem.base.BaseActivity
+import com.ysshin.shared.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityMainBinding
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
 import com.google.android.material.tabs.TabLayoutMediator

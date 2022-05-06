@@ -1,7 +1,7 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main
 
 import androidx.lifecycle.viewModelScope
-import com.cpa.cpa_word_problem.base.BaseViewModel
+import com.ysshin.shared.base.BaseViewModel
 import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem.ProblemUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

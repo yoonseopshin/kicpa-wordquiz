@@ -16,7 +16,7 @@
             type="boolean" />
 
         <variable
-            name="isOpened"
+            name="isShowing"
             type="boolean" />
 
         <variable
@@ -73,7 +73,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:opened="@{isOpened}"
+                app:opened="@{isShowing}"
                 app:tint="@color/daynight_gray600s" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

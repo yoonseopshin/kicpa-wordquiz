@@ -1,13 +1,11 @@
-package com.cpa.cpa_word_problem.common.ui.zigzag
+package com.ysshin.shared.common.ui.zigzag
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import com.cpa.cpa_word_problem.R
-import timber.log.Timber
+import com.ysshin.shared.R
 
 class ZigzagView @JvmOverloads constructor(
     context: Context,
@@ -22,7 +20,7 @@ class ZigzagView @JvmOverloads constructor(
     private var zigzagPaddingContentRight = 0f
     private var zigzagPaddingContentTop = 0f
     private var zigzagPaddingContentBottom = 0f
-    private var zigzagBackgroundColor = ContextCompat.getColor(context, R.color.white)
+    private var zigzagBackgroundColor = Color.parseColor("#FFFFFF")
         set(@ColorInt value) {
             field = value
             paintZigzag.color = value
@@ -38,7 +36,7 @@ class ZigzagView @JvmOverloads constructor(
     private var pathZigzag = Path()
     private val paintZigzag by lazy {
         Paint().apply {
-            color = ContextCompat.getColor(context, R.color.black)
+            color = Color.parseColor("#000000")
             style = Paint.Style.FILL
         }
     }
@@ -85,8 +83,6 @@ class ZigzagView @JvmOverloads constructor(
                 zigzagPaddingBottom =
                     getDimension(R.styleable.ZigzagView_zigzagPaddingBottom, zigzagPadding)
                 zigzagSides = getInt(R.styleable.ZigzagView_zigzagSides, ZIGZAG_BOTTOM)
-            } catch (e: Exception) {
-                Timber.e(e)
             } finally {
                 recycle()
             }

@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.cpa.cpa_word_problem.R
-import com.cpa.cpa_word_problem.base.BaseActivity
+import com.ysshin.shared.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityQuizStatisticsBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.presentation.adapter.*

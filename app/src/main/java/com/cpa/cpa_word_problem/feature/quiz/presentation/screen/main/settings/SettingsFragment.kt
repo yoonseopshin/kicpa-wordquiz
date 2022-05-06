@@ -3,7 +3,7 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.settings
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.cpa.cpa_word_problem.base.BaseFragment
+import com.ysshin.shared.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
 

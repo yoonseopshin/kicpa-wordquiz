@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.util
+package com.ysshin.shared.util
 
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity

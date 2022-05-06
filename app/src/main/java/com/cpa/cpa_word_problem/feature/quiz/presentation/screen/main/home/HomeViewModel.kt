@@ -1,7 +1,7 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home
 
 import androidx.lifecycle.viewModelScope
-import com.cpa.cpa_word_problem.base.BaseViewModel
+import com.ysshin.shared.base.BaseViewModel
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.QuizDatastoreManager
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem.ProblemUseCases

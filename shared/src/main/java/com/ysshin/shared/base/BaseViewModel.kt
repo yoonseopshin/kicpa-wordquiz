@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.base
+package com.ysshin.shared.base
 
 import androidx.lifecycle.ViewModel
 

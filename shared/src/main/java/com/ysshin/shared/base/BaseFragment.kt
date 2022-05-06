@@ -1,9 +1,9 @@
-package com.cpa.cpa_word_problem.base
+package com.ysshin.shared.base
 
 import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
-import com.cpa.cpa_word_problem.util.colorStateList
-import com.cpa.cpa_word_problem.util.color
+import com.ysshin.shared.util.color
+import com.ysshin.shared.util.colorStateList
 
 abstract class BaseFragment : Fragment() {
 

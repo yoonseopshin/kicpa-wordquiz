@@ -11,16 +11,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
-import com.cpa.cpa_word_problem.base.BaseFragment
+import com.ysshin.shared.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentNoteBinding
 import com.cpa.cpa_word_problem.feature.quiz.presentation.adapter.*
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
-import com.cpa.cpa_word_problem.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ysshin.shared.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -293,7 +293,7 @@ class NoteFragment : BaseFragment() {
 
                 launch {
                     viewModel.isWrongNoteOpened.collectLatest { isOpened ->
-                        wrongNoteHeaderAdapter.isOpened = isOpened
+                        wrongNoteHeaderAdapter.isShowing = isOpened
 
                         if (isOpened) {
                             wrongNoteAdapter.submitList(viewModel.wrongProblems.value.map { problem ->
@@ -307,7 +307,7 @@ class NoteFragment : BaseFragment() {
 
                 launch {
                     viewModel.isTotalNoteOpened.collectLatest { isOpened ->
-                        totalNoteHeaderAdapter.isOpened = isOpened
+                        totalNoteHeaderAdapter.isShowing = isOpened
 
                         if (isOpened) {
                             totalNoteAdapter.submitList(viewModel.problems.value.map { problem ->

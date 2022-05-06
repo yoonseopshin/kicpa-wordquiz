@@ -4,20 +4,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.LayoutScrollToTopBinding
+import com.ysshin.shared.common.ui.adapter.ToggleableAdapter
+import com.ysshin.shared.util.Action
+import com.ysshin.shared.util.Supplier
 
-class ScrollToTopAdapter : RecyclerView.Adapter<ScrollToTopAdapter.ItemViewHolder>() {
+class ScrollToTopAdapter : ToggleableAdapter<ScrollToTopAdapter.ItemViewHolder>() {
 
-    var isShowing = true
-    var onScrollToTopClick: (() -> Unit)? = null
+    var onScrollToTopClick: Action = {}
 
-    class ItemViewHolder(
-        private val binding: LayoutScrollToTopBinding,
-        onScrollToTopClick: (() -> Unit)? = null
-    ) : RecyclerView.ViewHolder(binding.root) {
+    class ItemViewHolder(private val binding: LayoutScrollToTopBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        var onScrollToTopClick: Action = {}
 
         init {
             binding.setOnClickListener {
-                onScrollToTopClick?.invoke()
+                onScrollToTopClick()
             }
         }
 
@@ -28,29 +30,17 @@ class ScrollToTopAdapter : RecyclerView.Adapter<ScrollToTopAdapter.ItemViewHolde
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-        LayoutScrollToTopBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-        onScrollToTopClick
-    )
+        LayoutScrollToTopBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    ).also { viewHolder ->
+        viewHolder.onScrollToTopClick = onScrollToTopClick
+    }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind()
     }
 
-    override fun getItemCount() = if (isShowing) 1 else 0
+    override var itemCountSupplier: Supplier<Int>
+        get() = { 1 }
+        set(value) = Unit
 
-}
-
-fun ScrollToTopAdapter.show() {
-    isShowing = true
-    notifyDataSetChanged()
-}
-
-fun ScrollToTopAdapter.hide() {
-    isShowing = false
-    notifyDataSetChanged()
-}
-
-fun ScrollToTopAdapter.showOrHide(shouldBeShowing: Boolean) {
-    isShowing = shouldBeShowing
-    notifyDataSetChanged()
 }

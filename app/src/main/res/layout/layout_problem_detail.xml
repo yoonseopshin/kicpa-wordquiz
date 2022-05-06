@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.cpa.cpa_word_problem.common.ui.zigzag.ZigzagView
+        <com.ysshin.shared.common.ui.zigzag.ZigzagView
             android:id="@+id/layout_zigzag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                 app:sub_descriptions="@{problem.subDescriptions}"
                 tools:text="a. 결과의 원인이 지속적일 때\nb. 결과가 소비자 자신에 의해 유발되었을 때\nc. 발생한 결과가 기업에 의해 통제 가능했다고 판단할 때" />
 
-        </com.cpa.cpa_word_problem.common.ui.zigzag.ZigzagView>
+        </com.ysshin.shared.common.ui.zigzag.ZigzagView>
 
         <RadioGroup
             android:id="@+id/rg_questions"

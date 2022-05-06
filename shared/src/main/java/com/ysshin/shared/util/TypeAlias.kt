@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.util
+package com.ysshin.shared.util
 
 typealias Action = () -> Unit
 typealias Supplier<T> = () -> T

@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.util
+package com.ysshin.shared.util
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
