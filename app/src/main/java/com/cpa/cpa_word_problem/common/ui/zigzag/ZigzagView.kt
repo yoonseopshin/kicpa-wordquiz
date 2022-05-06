@@ -159,32 +159,31 @@ class ZigzagView @JvmOverloads constructor(
         pathZigzag.moveTo(right, bottom)
 
         if (zigzagSides.containsSide(ZIGZAG_RIGHT) && zigzagHeight > 0) {
-            drawVerticalSide(pathZigzag, top, right, bottom, isLeft = false)
+            pathZigzag.drawVerticalSide(top, right, bottom, isLeft = false)
         } else {
             pathZigzag.lineTo(right, top)
         }
 
         if (zigzagSides.containsSide(ZIGZAG_TOP) && zigzagHeight > 0) {
-            drawHorizontalSide(pathZigzag, left, top, right, isTop = true)
+            pathZigzag.drawHorizontalSide(left, top, right, isTop = true)
         } else {
             pathZigzag.lineTo(left, top)
         }
 
         if (zigzagSides.containsSide(ZIGZAG_LEFT) && zigzagHeight > 0) {
-            drawVerticalSide(pathZigzag, top, left, bottom, isLeft = true)
+            pathZigzag.drawVerticalSide(top, left, bottom, isLeft = true)
         } else {
             pathZigzag.lineTo(left, bottom)
         }
 
         if (zigzagSides.containsSide(ZIGZAG_BOTTOM) && zigzagHeight > 0) {
-            drawHorizontalSide(pathZigzag, left, bottom, right, isTop = false)
+            pathZigzag.drawHorizontalSide(left, bottom, right, isTop = false)
         } else {
             pathZigzag.lineTo(right, bottom)
         }
     }
 
-    private fun drawHorizontalSide(
-        path: Path,
+    private fun Path.drawHorizontalSide(
         left: Float,
         y: Float,
         right: Float,
@@ -198,6 +197,7 @@ class ZigzagView @JvmOverloads constructor(
         val sideDiff = diff / 2
         val halfSeed = seed / 2
         val innerHeight = if (isTop) y + h else y - h
+
         if (isTop) {
             for (i in count downTo 1) {
                 val startSeed = i * seed + sideDiff + left.toInt()
@@ -205,8 +205,8 @@ class ZigzagView @JvmOverloads constructor(
                 if (i == 1) {
                     endSeed -= sideDiff
                 }
-                path.lineTo(startSeed - halfSeed, innerHeight)
-                path.lineTo(endSeed, y)
+                lineTo(startSeed - halfSeed, innerHeight)
+                lineTo(endSeed, y)
             }
         } else {
             for (i in 0 until count) {
@@ -217,15 +217,13 @@ class ZigzagView @JvmOverloads constructor(
                 } else if (i == count - 1) {
                     endSeed += sideDiff
                 }
-                Timber.d("ysshin [${startSeed + halfSeed}, $innerHeight]")
-                path.lineTo(startSeed + halfSeed, innerHeight)
-                Timber.d("ysshin [${endSeed}, $y]")
-                path.lineTo(endSeed, y)
+                lineTo(startSeed + halfSeed, innerHeight)
+                lineTo(endSeed, y)
             }
         }
     }
 
-    private fun drawVerticalSide(path: Path, top: Float, x: Float, bottom: Float, isLeft: Boolean) {
+    private fun Path.drawVerticalSide(top: Float, x: Float, bottom: Float, isLeft: Boolean) {
         val h = zigzagHeight
         val seed = 2 * h
         val width = bottom - top
@@ -234,6 +232,7 @@ class ZigzagView @JvmOverloads constructor(
         val sideDiff = diff / 2
         val halfSeed = seed / 2
         val innerHeight = if (isLeft) x + h else x - h
+
         if (!isLeft) {
             for (i in count downTo 1) {
                 val startSeed = i * seed + sideDiff + top.toInt()
@@ -241,8 +240,8 @@ class ZigzagView @JvmOverloads constructor(
                 if (i == 1) {
                     endSeed -= sideDiff
                 }
-                path.lineTo(innerHeight, startSeed - halfSeed)
-                path.lineTo(x, endSeed)
+                lineTo(innerHeight, startSeed - halfSeed)
+                lineTo(x, endSeed)
             }
         } else {
             for (i in 0 until count) {
@@ -253,8 +252,8 @@ class ZigzagView @JvmOverloads constructor(
                 } else if (i == count - 1) {
                     endSeed += sideDiff
                 }
-                path.lineTo(innerHeight, startSeed + halfSeed)
-                path.lineTo(x, endSeed)
+                lineTo(innerHeight, startSeed + halfSeed)
+                lineTo(x, endSeed)
             }
         }
     }
