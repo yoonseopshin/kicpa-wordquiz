@@ -1,8 +1,8 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.model
 
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
-import com.cpa.cpa_word_problem.utils.DEFAULT_INT
-import com.cpa.cpa_word_problem.utils.DEFAULT_INVALID_INT
+import com.cpa.cpa_word_problem.util.DEFAULT_INT
+import com.cpa.cpa_word_problem.util.DEFAULT_INVALID_INT
 
 data class UserSolvedProblemModel(
     val elapsedTime: Int = DEFAULT_INT,

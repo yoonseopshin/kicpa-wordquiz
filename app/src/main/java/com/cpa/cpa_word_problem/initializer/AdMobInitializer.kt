@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.initializers
+package com.cpa.cpa_word_problem.initializer
 
 import android.content.Context
 import androidx.startup.Initializer

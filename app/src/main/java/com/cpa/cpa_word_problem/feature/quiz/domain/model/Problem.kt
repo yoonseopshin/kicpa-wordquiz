@@ -1,8 +1,8 @@
 package com.cpa.cpa_word_problem.feature.quiz.domain.model
 
-import com.cpa.cpa_word_problem.utils.DEFAULT_INT
-import com.cpa.cpa_word_problem.utils.DEFAULT_STRING
-import com.cpa.cpa_word_problem.utils.DEFAULT_STRING_LIST
+import com.cpa.cpa_word_problem.util.DEFAULT_INT
+import com.cpa.cpa_word_problem.util.DEFAULT_STRING
+import com.cpa.cpa_word_problem.util.DEFAULT_STRING_LIST
 
 data class Problem(
     val year: Int = DEFAULT_INT,

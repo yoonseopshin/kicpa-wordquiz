@@ -25,11 +25,6 @@ class QuizRepositoryImpl @Inject constructor(
     private val wrongProblemDao: WrongProblemDao,
 ) : QuizRepository {
 
-    override suspend fun getLocalProblem(year: Int, pid: Int, type: QuizType): Problem {
-        // FIXME: 테스트 중
-        return Problem(year = 2022, pid = 1, description = "1번")
-    }
-
     override suspend fun getLocalProblem(type: QuizType): Problem {
         var problem: Problem
 
@@ -61,25 +56,22 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun searchProblems(text: String) =
         problemDao.search(text).map { it.toDomain() }
 
-    override suspend fun insertWrongProblems(wrongProblems: List<WrongProblem>) {
+    override suspend fun insertWrongProblems(wrongProblems: List<WrongProblem>) =
         withContext(Dispatchers.IO) {
             wrongProblemDao.insert(wrongProblems.toLocalData())
         }
-    }
 
-    override suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType) {
+    override suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType) =
         withContext(Dispatchers.IO) {
             wrongProblemDao.delete(year, pid, type)
         }
-    }
 
-    override suspend fun deleteAllWrongProblems() {
+    override suspend fun deleteAllWrongProblems() =
         withContext(Dispatchers.IO) {
             wrongProblemDao.deleteAll()
         }
-    }
 
-    override suspend fun syncRemoteProblems() {
+    override suspend fun syncRemoteProblems() =
         withContext(Dispatchers.IO) {
             try {
                 val problems = quizService.getCpaProblems().toDomain().toLocalData()
@@ -88,7 +80,6 @@ class QuizRepositoryImpl @Inject constructor(
                 Timber.e(e)
             }
         }
-    }
 
     override suspend fun getNextExamDate(): String {
         var nextExam = ""

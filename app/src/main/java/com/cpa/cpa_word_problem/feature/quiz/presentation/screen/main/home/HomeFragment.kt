@@ -19,9 +19,9 @@ import com.cpa.cpa_word_problem.databinding.FragmentHomeBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
-import com.cpa.cpa_word_problem.utils.invisible
-import com.cpa.cpa_word_problem.utils.setOnThrottleClick
-import com.cpa.cpa_word_problem.utils.visibleOrGone
+import com.cpa.cpa_word_problem.util.invisible
+import com.cpa.cpa_word_problem.util.setOnThrottleClick
+import com.cpa.cpa_word_problem.util.visibleOrGone
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest

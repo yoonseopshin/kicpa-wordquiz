@@ -1,6 +1,6 @@
 package com.cpa.cpa_word_problem.feature.quiz.domain.model
 
-import com.cpa.cpa_word_problem.utils.DEFAULT_INT
+import com.cpa.cpa_word_problem.util.DEFAULT_INT
 
 data class WrongProblem(
     val year: Int = DEFAULT_INT,

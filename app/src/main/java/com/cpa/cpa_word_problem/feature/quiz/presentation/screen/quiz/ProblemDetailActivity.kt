@@ -17,7 +17,7 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
-import com.cpa.cpa_word_problem.utils.*
+import com.cpa.cpa_word_problem.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

@@ -5,7 +5,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import com.cpa.cpa_word_problem.utils.hideKeyboard
+import com.cpa.cpa_word_problem.util.hideKeyboard
 
 abstract class BaseActivity : AppCompatActivity() {
 

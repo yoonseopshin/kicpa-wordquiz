@@ -7,8 +7,8 @@ import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.isValid
 import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem.ProblemUseCases
-import com.cpa.cpa_word_problem.utils.Action
-import com.cpa.cpa_word_problem.utils.DEFAULT_INT
+import com.cpa.cpa_word_problem.util.Action
+import com.cpa.cpa_word_problem.util.DEFAULT_INT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

@@ -138,7 +138,7 @@
                         android:id="@+id/cta"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/gnt_no_size"
-                        android:background="@color/gnt_blue"
+                        android:background="@color/gnt_gray_0.25"
                         android:lines="1"
                         android:textColor="@color/gnt_white"
                         app:layout_constraintBottom_toBottomOf="parent"

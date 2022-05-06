@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.utils
+package com.cpa.cpa_word_problem.util
 
 import android.content.res.Resources
 

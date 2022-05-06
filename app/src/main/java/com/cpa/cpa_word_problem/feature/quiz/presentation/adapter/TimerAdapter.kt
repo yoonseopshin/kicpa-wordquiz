@@ -1,14 +1,14 @@
-package com.cpa.cpa_word_problem.feature.quiz.presentation.adapters
+package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.LayoutResultTimerBinding
-import com.cpa.cpa_word_problem.utils.TimeFormatter
-import com.cpa.cpa_word_problem.utils.colorStateList
-import com.cpa.cpa_word_problem.utils.gone
-import com.cpa.cpa_word_problem.utils.visible
+import com.cpa.cpa_word_problem.util.TimeFormatter
+import com.cpa.cpa_word_problem.util.colorStateList
+import com.cpa.cpa_word_problem.util.gone
+import com.cpa.cpa_word_problem.util.visible
 
 class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
 

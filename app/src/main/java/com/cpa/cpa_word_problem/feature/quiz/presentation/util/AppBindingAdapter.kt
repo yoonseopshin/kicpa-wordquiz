@@ -14,7 +14,7 @@ import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.ProblemSource
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
-import com.cpa.cpa_word_problem.utils.*
+import com.cpa.cpa_word_problem.util.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.Duration

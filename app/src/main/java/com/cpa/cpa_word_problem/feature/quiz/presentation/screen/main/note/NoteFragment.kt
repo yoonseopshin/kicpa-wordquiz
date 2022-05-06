@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentNoteBinding
-import com.cpa.cpa_word_problem.feature.quiz.presentation.adapters.*
+import com.cpa.cpa_word_problem.feature.quiz.presentation.adapter.*
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
-import com.cpa.cpa_word_problem.utils.*
+import com.cpa.cpa_word_problem.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint

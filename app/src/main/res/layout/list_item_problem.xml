@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.cpa.cpa_word_problem.utils.TimeFormatter" />
+        <import type="com.cpa.cpa_word_problem.util.TimeFormatter" />
 
         <import type="android.view.View" />
 

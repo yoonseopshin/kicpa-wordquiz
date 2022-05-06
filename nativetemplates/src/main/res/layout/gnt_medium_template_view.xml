@@ -30,6 +30,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/gnt_cover"
+                app:layout_constraintBottom_toBottomOf="@id/media_view"
+                app:layout_constraintEnd_toEndOf="@id/media_view"
+                app:layout_constraintStart_toStartOf="@id/media_view"
+                app:layout_constraintTop_toTopOf="@id/media_view" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/middle"
                 android:layout_width="match_parent"
@@ -182,7 +191,7 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:background="@color/gnt_blue"
+                android:background="@color/gnt_gray_0.25"
                 android:gravity="center"
                 android:lines="1"
                 android:textColor="@color/gnt_white"

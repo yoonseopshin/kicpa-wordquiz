@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.feature.quiz.presentation.adapters
+package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

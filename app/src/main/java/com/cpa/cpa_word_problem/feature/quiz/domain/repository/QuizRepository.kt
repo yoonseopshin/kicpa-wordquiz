@@ -7,8 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface QuizRepository {
 
-    suspend fun getLocalProblem(year: Int, pid: Int, type: QuizType): Problem
-
     suspend fun getLocalProblem(type: QuizType): Problem
 
     fun getLocalProblems(): Flow<List<Problem>>

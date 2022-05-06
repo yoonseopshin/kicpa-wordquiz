@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.utils
+package com.cpa.cpa_word_problem.util
 
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager

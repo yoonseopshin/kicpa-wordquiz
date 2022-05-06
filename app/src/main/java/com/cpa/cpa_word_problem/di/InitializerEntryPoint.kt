@@ -1,7 +1,7 @@
 package com.cpa.cpa_word_problem.di
 
 import android.content.Context
-import com.cpa.cpa_word_problem.initializers.FlipperInitializer
+import com.cpa.cpa_word_problem.initializer.FlipperInitializer
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
