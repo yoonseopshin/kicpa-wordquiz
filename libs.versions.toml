@@ -1,0 +1,33 @@
+[versions]
+kotlin = "1.6.10"
+androidx-core-ktx = "1.7.0"
+androidx-appcompat = "1.4.1"
+androidx-legacy-support-v4 = "1.0.0"
+androidx-activity-ktx = "1.6.0-alpha03"
+androidx-fragment-ktx = "1.4.1"
+material = "1.5.0"
+room = "2.4.2"
+datastore = "1.0.0"
+hilt = "2.41"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "androidx-legacy-support-v4" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity-ktx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+firebase-bom = "com.google.firebase:firebase-bom:29.1.0"
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+
+[bundles]
+androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-support-v4", "androidx-activity-ktx", "androidx-fragment-ktx"]
+
+room = ["room-runtime", "room-ktx"]

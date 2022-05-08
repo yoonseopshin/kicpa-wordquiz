@@ -1,6 +1,7 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.ImageView
 import android.widget.RadioGroup
@@ -13,7 +14,9 @@ import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ysshin.shared.common.ui.span.AlphabetLeadingMarginSpan
 import com.ysshin.shared.util.*
+import timber.log.Timber
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -50,18 +53,13 @@ fun Chip.bindSource(source: ProblemSource?) {
 
 @BindingAdapter("sub_descriptions")
 fun TextView.bindSubDescription(subDescriptions: List<String>?) {
-    if (subDescriptions.isNullOrEmpty()) {
-        visibility = View.GONE
-        return
+    val joinedDescription = subDescriptions?.joinToString(separator = "\n") { description ->
+        description.trim()
     }
 
-    visibility = View.VISIBLE
-
-    val builder = StringBuilder()
-    subDescriptions.map { subDescription ->
-        builder.append(subDescription.trim()).append("\n")
-    }
-    text = builder.toString().trim()
+    text = SpannableStringBuilder(joinedDescription).apply {
+        setSpan(AlphabetLeadingMarginSpan(), 0, length, 0)
+    }.trim()
 }
 
 @BindingAdapter("problem_detail_mode")
@@ -99,7 +97,8 @@ fun Chip.bindByType(type: QuizType?) {
         QuizType.CommercialLaw -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.commercial_law)
-            chipBackgroundColor = context.colorStateList(R.color.commercial_law_highlight_color_0_20)
+            chipBackgroundColor =
+                context.colorStateList(R.color.commercial_law_highlight_color_0_20)
         }
         QuizType.None -> {
             visibility = View.GONE

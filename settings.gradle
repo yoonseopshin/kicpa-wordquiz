@@ -2,3 +2,13 @@ rootProject.name = "cpa-word-problem"
 include ':app'
 include ':nativetemplates'
 include ':shared'
+
+enableFeaturePreview("VERSION_CATALOGS")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            from(files("libs.versions.toml"))
+        }
+    }
+}

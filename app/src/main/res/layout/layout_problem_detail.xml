@@ -5,6 +5,8 @@
 
         <import type="com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode" />
 
+        <import type="android.view.View" />
+
         <variable
             name="problem"
             type="com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem" />
@@ -89,21 +91,33 @@
                 app:layout_constraintTop_toBottomOf="@id/ch_year_pid"
                 tools:text="소비자가 의사결정 이후 성과가 기대에 부정적으로 불일치하다고 느낄 때, 이 불일치를 외적귀인(external attribution)하도록 하는 상황만을 모두 선택한 것은?" />
 
-            <TextView
-                android:id="@+id/tv_sub_description"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lay_sub_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/background_sub_description"
                 android:padding="8dp"
-                android:textColor="@color/daynight_gray700s"
-                android:textSize="13sp"
+                android:visibility="@{problem.subDescriptions.isEmpty() ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_description"
-                app:sub_descriptions="@{problem.subDescriptions}"
-                tools:text="a. 결과의 원인이 지속적일 때\nb. 결과가 소비자 자신에 의해 유발되었을 때\nc. 발생한 결과가 기업에 의해 통제 가능했다고 판단할 때" />
+                app:layout_constraintTop_toBottomOf="@id/tv_description">
+
+                <TextView
+                    android:id="@+id/tv_sub_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/daynight_gray700s"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:sub_descriptions="@{problem.subDescriptions}"
+                    tools:text="a. 결과의 원인이 지속적일 때\nb. 결과가 소비자 자신에 의해 유발되었을 때\nc. 발생한 결과가 기업에 의해 통제 가능했다고 판단할 때" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.ysshin.shared.common.ui.zigzag.ZigzagView>
 
