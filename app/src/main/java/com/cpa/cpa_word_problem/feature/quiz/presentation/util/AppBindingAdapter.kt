@@ -61,9 +61,6 @@ fun TextView.bindSubDescription(subDescriptions: List<String>?) {
     text = SpannableStringBuilder(joinedDescription).apply {
         setSpan(AlphabetLeadingMarginSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }.trim()
-
-    requestLayout()
-    invalidate()
 }
 
 @BindingAdapter("problem_detail_mode")
