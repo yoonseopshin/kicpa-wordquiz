@@ -17,7 +17,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ysshin.shared.common.ui.span.AlphabetLeadingMarginSpan
 import com.ysshin.shared.util.*
-import timber.log.Timber
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -56,11 +55,11 @@ fun Chip.bindSource(source: ProblemSource?) {
 fun TextView.bindSubDescription(subDescriptions: List<String>?) {
     val joinedDescription = subDescriptions?.joinToString(separator = "\n") { description ->
         description.trim()
-    }
+    } ?: return
 
     text = SpannableStringBuilder(joinedDescription).apply {
         setSpan(AlphabetLeadingMarginSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-    }.trim()
+    }
 }
 
 @BindingAdapter("problem_detail_mode")

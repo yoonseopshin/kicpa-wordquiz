@@ -9,7 +9,9 @@ class AlphabetLeadingMarginSpan : LeadingMarginSpan {
 
     private var indentMargin: Int = 0
 
-    override fun getLeadingMargin(first: Boolean): Int = if (first) 0 else indentMargin
+    override fun getLeadingMargin(first: Boolean): Int {
+        return if (first) 0 else indentMargin
+    }
 
     override fun drawLeadingMargin(
         canvas: Canvas,
@@ -32,7 +34,7 @@ class AlphabetLeadingMarginSpan : LeadingMarginSpan {
         val lineStartText = runCatching { text.substring(start, start + 3) }.getOrNull() ?: return
 
         indentMargin = if (ALPHABET_INDENT_REGEX.matches(lineStartText)) {
-            paint.measureText(lineStartText).toInt()
+            (paint.measureText(lineStartText) + .5f).toInt()
         } else {
             0
         }

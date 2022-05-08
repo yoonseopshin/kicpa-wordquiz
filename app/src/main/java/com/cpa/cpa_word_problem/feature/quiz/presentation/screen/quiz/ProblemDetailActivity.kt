@@ -8,8 +8,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cpa.cpa_word_problem.R
-import com.ysshin.shared.base.BaseActivity
-import com.ysshin.shared.common.ui.zigzag.blinkZigzag
 import com.cpa.cpa_word_problem.databinding.ActivityProblemDetailBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toDomain
@@ -18,6 +16,8 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
 import com.google.android.material.snackbar.Snackbar
+import com.ysshin.shared.base.BaseActivity
+import com.ysshin.shared.common.ui.zigzag.blinkZigzag
 import com.ysshin.shared.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
