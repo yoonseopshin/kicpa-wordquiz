@@ -29,16 +29,16 @@ class AlphabetLeadingMarginSpan : LeadingMarginSpan {
             return
         }
 
-        val lineStartText = runCatching { text.substring(start, start + 2) }.getOrNull() ?: return
+        val lineStartText = runCatching { text.substring(start, start + 3) }.getOrNull() ?: return
 
         indentMargin = if (ALPHABET_INDENT_REGEX.matches(lineStartText)) {
-            paint.measureText("$lineStartText ").toInt()
+            paint.measureText(lineStartText).toInt()
         } else {
             0
         }
     }
 
     companion object {
-        private val ALPHABET_INDENT_REGEX = "[A-Za-z].".toRegex()
+        private val ALPHABET_INDENT_REGEX = "[A-Za-z]. ".toRegex()
     }
 }

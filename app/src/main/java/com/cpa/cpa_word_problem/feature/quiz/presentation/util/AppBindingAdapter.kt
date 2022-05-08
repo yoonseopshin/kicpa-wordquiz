@@ -1,6 +1,7 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
+import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.ImageView
@@ -58,8 +59,11 @@ fun TextView.bindSubDescription(subDescriptions: List<String>?) {
     }
 
     text = SpannableStringBuilder(joinedDescription).apply {
-        setSpan(AlphabetLeadingMarginSpan(), 0, length, 0)
+        setSpan(AlphabetLeadingMarginSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }.trim()
+
+    requestLayout()
+    invalidate()
 }
 
 @BindingAdapter("problem_detail_mode")
