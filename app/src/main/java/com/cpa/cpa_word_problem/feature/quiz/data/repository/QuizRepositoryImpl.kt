@@ -25,15 +25,14 @@ class QuizRepositoryImpl @Inject constructor(
     private val wrongProblemDao: WrongProblemDao,
 ) : QuizRepository {
 
-    override suspend fun getLocalProblem(type: QuizType): Problem {
-        var problem: Problem
-
+    override suspend fun getLocalProblem(type: QuizType): Problem =
         withContext(Dispatchers.IO) {
-            problem = problemDao.get(type)?.toDomain() ?: Problem()
+            runCatching {
+                problemDao.get(type)
+            }.map {
+                it?.toDomain()
+            }.getOrNull() ?: Problem()
         }
-
-        return problem
-    }
 
     override fun getLocalProblems(): Flow<List<Problem>> = problemDao.getAll().map { it.toDomain() }
 
@@ -73,32 +72,41 @@ class QuizRepositoryImpl @Inject constructor(
 
     override suspend fun syncRemoteProblems() =
         withContext(Dispatchers.IO) {
-            try {
-                val problems = quizService.getCpaProblems().toDomain().toLocalData()
+            runCatching {
+                quizService.getCpaProblems()
+            }.map { problems ->
+                problems.toDomain().toLocalData()
+            }.onSuccess { problems ->
                 problemDao.insert(problems)
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+            }.onFailure { throwable ->
+                Timber.e(throwable)
+            }.fold(
+                onSuccess = { },
+                onFailure = { }
+            )
         }
 
-    override suspend fun getNextExamDate(): String {
-        var nextExam = ""
-        val now = LocalDate.now().toString()
-
+    override suspend fun getNextExamDate() =
         withContext(Dispatchers.IO) {
-            try {
-                quizService.getCpaScheduledDate().toDomain().find { scheduledDate ->
-                    now < scheduledDate.date
-                }?.let {
-                    nextExam = it.date
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
+            var nextExam = ""
 
-        return nextExam
-    }
+            runCatching {
+                quizService.getCpaScheduledDate()
+            }.map { scheduledDates ->
+                scheduledDates.toDomain()
+            }.onSuccess { scheduledDates ->
+                scheduledDates.find { scheduledDate ->
+                    LocalDate.now().toString() < scheduledDate.date
+                }?.run {
+                    nextExam = date
+                }
+            }.onFailure { throwable ->
+                Timber.e(throwable)
+            }.fold(
+                onSuccess = { nextExam },
+                onFailure = { nextExam }
+            )
+        }
 
     override fun getProblemCountByType(type: QuizType): Flow<Int> =
         problemDao.getProblemCountByType(type)

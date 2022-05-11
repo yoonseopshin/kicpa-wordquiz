@@ -14,20 +14,20 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cpa.cpa_word_problem.R
-import com.ysshin.shared.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentHomeBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
-import com.ysshin.shared.util.invisible
-import com.ysshin.shared.util.setOnThrottleClick
-import com.ysshin.shared.util.visibleOrGone
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ysshin.shared.base.BaseFragment
+import com.ysshin.shared.util.invisible
+import com.ysshin.shared.util.setOnThrottleClick
+import com.ysshin.shared.util.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -88,25 +88,27 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun loadAd() {
-        adLoader = AdLoader.Builder(requireContext(), AdConstants.QUIZ_NATIVE_AD_MEDIUM)
-            .forNativeAd { nativeAd ->
-                val styles = NativeTemplateStyle.Builder()
-                    .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
-                    .withCallToActionBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryDarkColor)))
-                    .withCallToActionTypefaceColor(colorAsInt(R.color.secondaryTextColor))
-                    .build()
-                binding.adTemplateView.setStyles(styles)
-                binding.adTemplateView.setNativeAd(nativeAd)
+        runCatching {
+            adLoader = AdLoader.Builder(requireContext(), AdConstants.QUIZ_NATIVE_AD_MEDIUM)
+                .forNativeAd { nativeAd ->
+                    val styles = NativeTemplateStyle.Builder()
+                        .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
+                        .withCallToActionBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryDarkColor)))
+                        .withCallToActionTypefaceColor(colorAsInt(R.color.secondaryTextColor))
+                        .build()
+                    binding.adTemplateView.setStyles(styles)
+                    binding.adTemplateView.setNativeAd(nativeAd)
 
-                if (isDetached) {
-                    nativeAd.destroy()
-                    return@forNativeAd
+                    if (isDetached) {
+                        nativeAd.destroy()
+                        return@forNativeAd
+                    }
                 }
-            }
-            .withNativeAdOptions(NativeAdOptions.Builder().build())
-            .build()
-
-        adLoader.loadAd(AdRequest.Builder().build())
+                .withNativeAdOptions(NativeAdOptions.Builder().build())
+                .build()
+        }.onSuccess {
+            adLoader.loadAd(AdRequest.Builder().build())
+        }
     }
 
     override fun onDestroyView() {
