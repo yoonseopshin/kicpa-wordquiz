@@ -17,7 +17,7 @@ android {
         applicationId "com.cpa.cpa_word_problem"
         minSdkVersion 26
         targetSdkVersion 31
-        versionCode 36
+        versionCode 37
         versionName "1.5.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
