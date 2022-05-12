@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    problemUseCases: ProblemUseCases,
+    private val problemUseCases: ProblemUseCases,
     private val quizUseCases: QuizUseCases,
     private val quizDatastoreManager: QuizDatastoreManager,
 ) : BaseViewModel() {
@@ -76,6 +76,12 @@ class HomeViewModel @Inject constructor(
     fun setTimer(value: Boolean) {
         viewModelScope.launch {
             quizDatastoreManager.setTimer(value)
+        }
+    }
+
+    fun syncRemoteProblems() {
+        viewModelScope.launch {
+            problemUseCases.syncRemoteProblems()
         }
     }
 

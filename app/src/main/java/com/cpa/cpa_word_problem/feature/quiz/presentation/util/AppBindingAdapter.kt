@@ -27,27 +27,27 @@ fun TextView.bindYearAndPid(year: Int?, pid: Int?) {
     year ?: return
     pid ?: return
 
-    visibility = if (year == 0 || pid == 0) View.GONE else View.VISIBLE
+    visibleOrGone(year > 0 && pid > 0)
     text = "${year}년 ${pid}번"
 }
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("source")
 fun Chip.bindSource(source: ProblemSource?) {
-    source?.let { problemSource ->
-        text = when (problemSource) {
-            ProblemSource.CPA, ProblemSource.CTA -> {
-                visible()
-                problemSource.name
-            }
-            else -> {
-                gone()
-                ""
-            }
-        }
-        visible()
-    } ?: run {
+    source ?: run {
         gone()
+        return
+    }
+
+    text = when (source) {
+        ProblemSource.CPA, ProblemSource.CTA -> {
+            visible()
+            source.name
+        }
+        ProblemSource.None -> {
+            gone()
+            ""
+        }
     }
 }
 
@@ -137,9 +137,5 @@ fun Toolbar.bindProblems(solved: Int?, total: Int?) {
 
 @BindingAdapter("opened")
 fun ImageView.bindOpened(isOpened: Boolean) {
-    if (isOpened) {
-        animate().rotation(0f).start()
-    } else {
-        animate().rotation(180f).start()
-    }
+    animate().rotation(if (isOpened) 0f else 180f).start()
 }

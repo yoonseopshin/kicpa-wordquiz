@@ -1,14 +1,13 @@
-package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main
+package com.cpa.cpa_word_problem.presentation
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.cpa.cpa_word_problem.R
-import com.ysshin.shared.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityMainBinding
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
 import com.google.android.material.tabs.TabLayoutMediator
+import com.ysshin.shared.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,28 +21,19 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initView()
-        syncRemoteProblems()
         parseIntent()
     }
 
     private fun initView() {
-        // TODO: 설정 페이지 완성 후 추가
-//        val tabIcons = listOf(R.drawable.ic_home, R.drawable.ic_note, R.drawable.ic_settings)
-        val tabIcons = listOf(R.drawable.ic_home, R.drawable.ic_note)
-
         with(binding) {
             viewPager.adapter = MainFragmentStateAdapter(
                 fragmentManager = supportFragmentManager,
                 lifecycle = lifecycle
             )
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.setIcon(tabIcons[position])
+                tab.setIcon(MainTab.getIcon(position))
             }.attach()
         }
-    }
-
-    private fun syncRemoteProblems() {
-        viewModel.syncRemoteProblems()
     }
 
     private fun parseIntent() {
@@ -55,8 +45,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (binding.tabLayout.selectedTabPosition != HOME_PAGE_INDEX) {
-            binding.viewPager.setCurrentItem(HOME_PAGE_INDEX, true)
+        if (binding.tabLayout.selectedTabPosition != MainTab.Home.ordinal) {
+            binding.viewPager.setCurrentItem(MainTab.Home.ordinal, true)
             return
         }
 

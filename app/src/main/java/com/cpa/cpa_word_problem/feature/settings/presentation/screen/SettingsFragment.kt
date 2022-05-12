@@ -1,10 +1,10 @@
-package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.settings
+package com.cpa.cpa_word_problem.feature.settings.presentation.screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.ysshin.shared.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentSettingsBinding
+import com.ysshin.shared.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main
+package com.cpa.cpa_word_problem.presentation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -6,19 +6,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home.HomeFragment
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.note.NoteFragment
-import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.settings.SettingsFragment
-
-const val HOME_PAGE_INDEX = 0
-const val NOTE_PAGE_INDEX = 1
-const val SETTINGS_PAGE_INDEX = 2
+import com.cpa.cpa_word_problem.feature.settings.presentation.screen.SettingsFragment
+import com.ysshin.shared.util.newInstance
 
 class MainFragmentStateAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
     private val tabFragmentsCreators = mapOf(
-        HOME_PAGE_INDEX to { HomeFragment() },
-        NOTE_PAGE_INDEX to { NoteFragment() },
-//        SETTINGS_PAGE_INDEX to { SettingsFragment() }
+        MainTab.Home.ordinal to { newInstance<HomeFragment>() },
+        MainTab.Note.ordinal to { newInstance<NoteFragment>() },
+        MainTab.Settings.ordinal to { newInstance<SettingsFragment>() }
     )
 
     override fun getItemCount() = tabFragmentsCreators.size

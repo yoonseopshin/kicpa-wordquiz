@@ -227,7 +227,7 @@ class NoteFragment : BaseFragment() {
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 launch {
                     viewModel.wrongProblems.collectLatest { wrongProblems ->
                         wrongProblems.map { wrongProblem ->

@@ -1,4 +1,13 @@
 [versions]
+targetSdk = "32"
+compileSdk = "32"
+minSdk = "26"
+buildToolsVersion = "30.0.3"
+
+applicationId = "com.cpa.cpa_word_problem"
+versionCode = "37"
+versionName = "1.5.2"
+
 kotlin = "1.6.10"
 androidx-core-ktx = "1.7.0"
 androidx-appcompat = "1.4.1"

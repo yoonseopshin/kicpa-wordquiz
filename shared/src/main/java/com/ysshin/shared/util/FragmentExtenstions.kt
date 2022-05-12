@@ -2,6 +2,7 @@ package com.ysshin.shared.util
 
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 
 fun Fragment.hideKeyboard() {
@@ -14,3 +15,8 @@ fun Fragment.hideKeyboard() {
         imm.hideSoftInputFromWindow(activity.window.decorView.rootView.windowToken, 0)
     }
 }
+
+inline fun <reified T : Fragment> newInstance(vararg params: Pair<String, Any>): Fragment =
+    T::class.java.newInstance().apply {
+        arguments = bundleOf(*params)
+    }

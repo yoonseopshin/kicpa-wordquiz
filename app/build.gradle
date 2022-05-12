@@ -10,15 +10,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "30.0.3"
+    compileSdk libs.versions.compileSdk.get() as Integer
+    buildToolsVersion libs.versions.buildToolsVersion.get()
 
     defaultConfig {
-        applicationId "com.cpa.cpa_word_problem"
-        minSdkVersion 26
-        targetSdkVersion 32
-        versionCode 37
-        versionName "1.5.2"
+        applicationId libs.versions.applicationId.get()
+        minSdk libs.versions.minSdk.get() as Integer
+        targetSdk libs.versions.targetSdk.get() as Integer
+        versionCode libs.versions.versionCode.get() as Integer
+        versionName libs.versions.versionName.get()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

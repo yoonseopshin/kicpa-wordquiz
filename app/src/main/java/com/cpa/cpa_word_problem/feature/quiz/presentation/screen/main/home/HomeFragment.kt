@@ -81,6 +81,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.syncRemoteProblems()
         initView()
         observeViewModel()
         viewModel.requestNextExamDate()
@@ -239,7 +240,7 @@ class HomeFragment : BaseFragment() {
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 launch {
                     viewModel.quizNumber.collectLatest { quizNumbers ->
                         binding.bsQuiz.tvQuizNumResult.text = quizNumbers.toString()
@@ -278,4 +279,5 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
+
 }

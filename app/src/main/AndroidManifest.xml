@@ -30,7 +30,7 @@
             android:exported="false"
             android:theme="@style/Theme.CPAQuiz" />
         <activity
-            android:name=".feature.quiz.presentation.screen.main.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.CPAQuiz"
             android:windowSoftInputMode="adjustResize">

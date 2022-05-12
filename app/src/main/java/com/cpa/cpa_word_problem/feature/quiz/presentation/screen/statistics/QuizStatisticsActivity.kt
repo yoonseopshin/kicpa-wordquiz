@@ -20,8 +20,8 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.from
-import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.MainActivity
-import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.MainTab
+import com.cpa.cpa_word_problem.presentation.MainActivity
+import com.cpa.cpa_word_problem.presentation.MainTab
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
