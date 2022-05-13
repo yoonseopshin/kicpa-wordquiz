@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType" />
+        <import type="com.ysshin.cpaquiz.domain.model.QuizType" />
 
         <import type="android.view.View" />
 

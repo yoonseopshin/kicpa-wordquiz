@@ -4,7 +4,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem.SOURCE
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem.TABLE_NAME
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.ProblemSource
+import com.ysshin.cpaquiz.domain.model.ProblemSource
 
 object AppMigration {
 

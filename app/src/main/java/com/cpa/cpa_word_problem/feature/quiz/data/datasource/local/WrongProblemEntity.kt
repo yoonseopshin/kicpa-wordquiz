@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.WrongProblem
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.QuizType
 import java.util.*
 
 @Entity(

@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.ActivityProblemDetailBinding
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toDomain
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel

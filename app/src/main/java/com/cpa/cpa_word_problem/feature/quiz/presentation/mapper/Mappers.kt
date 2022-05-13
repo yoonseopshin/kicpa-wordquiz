@@ -1,6 +1,6 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.mapper
 
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
 
 fun Problem.toModel() = ProblemModel(

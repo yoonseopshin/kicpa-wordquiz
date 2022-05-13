@@ -5,10 +5,10 @@ import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.WrongProblemD
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.remote.api.QuizService
 import com.cpa.cpa_word_problem.feature.quiz.data.mapper.toDomain
 import com.cpa.cpa_word_problem.feature.quiz.data.mapper.toLocalData
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.WrongProblem
-import com.cpa.cpa_word_problem.feature.quiz.domain.repository.QuizRepository
+import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.WrongProblem
+import com.ysshin.cpaquiz.domain.repository.QuizRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

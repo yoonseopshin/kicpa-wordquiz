@@ -2,9 +2,9 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.note
 
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
-import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

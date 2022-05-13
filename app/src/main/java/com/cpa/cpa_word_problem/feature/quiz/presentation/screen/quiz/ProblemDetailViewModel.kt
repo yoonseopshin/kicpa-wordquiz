@@ -2,10 +2,10 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz
 
 import androidx.lifecycle.viewModelScope
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.QuizDatastoreManager
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.isValid
-import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.isValid
+import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.DEFAULT_INT

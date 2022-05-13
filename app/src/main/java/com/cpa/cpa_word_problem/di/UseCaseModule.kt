@@ -1,9 +1,9 @@
 package com.cpa.cpa_word_problem.di
 
-import com.cpa.cpa_word_problem.feature.quiz.domain.repository.QuizRepository
-import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem.*
-import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.quiz.GetNextExamDate
-import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.quiz.QuizUseCases
+import com.ysshin.cpaquiz.domain.repository.QuizRepository
+import com.ysshin.cpaquiz.domain.usecase.problem.*
+import com.ysshin.cpaquiz.domain.usecase.quiz.GetNextExamDate
+import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

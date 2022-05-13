@@ -11,7 +11,7 @@
 
         <variable
             name="problem"
-            type="com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem" />
+            type="com.ysshin.cpaquiz.domain.model.Problem" />
 
         <variable
             name="elapsedTime"

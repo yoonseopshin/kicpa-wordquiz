@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem.PID
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem.TYPE
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem.YEAR
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.QuizType
 import kotlinx.coroutines.flow.Flow
 
 @Dao

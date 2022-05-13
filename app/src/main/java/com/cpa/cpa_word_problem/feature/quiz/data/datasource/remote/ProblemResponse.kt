@@ -1,7 +1,7 @@
 package com.cpa.cpa_word_problem.feature.quiz.data.datasource.remote
 
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.ProblemSource
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.ProblemSource
+import com.ysshin.cpaquiz.domain.model.QuizType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

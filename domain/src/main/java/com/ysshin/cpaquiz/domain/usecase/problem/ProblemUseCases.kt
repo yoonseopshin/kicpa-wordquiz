@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem
+package com.ysshin.cpaquiz.domain.usecase.problem
 
 data class ProblemUseCases(
     val getLocalProblems: GetLocalProblems,

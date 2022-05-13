@@ -10,7 +10,7 @@ import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.P
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem.SUB_DESCRIPTION
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem.TYPE
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.AppContract.Problem.YEAR
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.QuizType
 import kotlinx.coroutines.flow.Flow
 
 @Dao

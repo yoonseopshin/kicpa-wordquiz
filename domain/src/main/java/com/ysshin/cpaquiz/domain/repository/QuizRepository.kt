@@ -1,8 +1,8 @@
-package com.cpa.cpa_word_problem.feature.quiz.domain.repository
+package com.ysshin.cpaquiz.domain.repository
 
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.WrongProblem
+import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.WrongProblem
 import kotlinx.coroutines.flow.Flow
 
 interface QuizRepository {

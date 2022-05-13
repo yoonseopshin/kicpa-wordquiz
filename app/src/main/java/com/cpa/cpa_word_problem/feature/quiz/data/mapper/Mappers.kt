@@ -4,9 +4,9 @@ import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.ProblemEntity
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.WrongProblemEntity
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.remote.ProblemResponse
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.remote.ScheduledDateResponse
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.ScheduledDate
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.WrongProblem
+import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.ScheduledDate
+import com.ysshin.cpaquiz.domain.model.WrongProblem
 
 fun ProblemEntity.toDomain() = Problem(
     year = year,

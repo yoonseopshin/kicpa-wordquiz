@@ -3,9 +3,9 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.QuizDatastoreManager
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
-import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem.ProblemUseCases
-import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.quiz.QuizUseCases
+import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

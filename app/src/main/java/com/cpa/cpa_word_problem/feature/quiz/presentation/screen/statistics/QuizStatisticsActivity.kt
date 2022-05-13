@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import com.cpa.cpa_word_problem.R
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityQuizStatisticsBinding
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.presentation.adapter.*
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toDomain
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel

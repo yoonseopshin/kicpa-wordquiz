@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.feature.quiz.domain.util
+package com.ysshin.cpaquiz.domain.util
 
 sealed class OrderType {
     object Ascending : OrderType()

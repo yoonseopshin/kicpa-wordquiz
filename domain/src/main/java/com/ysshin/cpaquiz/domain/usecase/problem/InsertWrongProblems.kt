@@ -1,7 +1,7 @@
-package com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem
+package com.ysshin.cpaquiz.domain.usecase.problem
 
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.WrongProblem
-import com.cpa.cpa_word_problem.feature.quiz.domain.repository.QuizRepository
+import com.ysshin.cpaquiz.domain.model.WrongProblem
+import com.ysshin.cpaquiz.domain.repository.QuizRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

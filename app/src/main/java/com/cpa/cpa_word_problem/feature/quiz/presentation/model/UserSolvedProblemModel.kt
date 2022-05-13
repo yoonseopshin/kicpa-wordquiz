@@ -1,6 +1,6 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.model
 
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
 import com.ysshin.cpaquiz.shared.base.DEFAULT_INVALID_INT
 

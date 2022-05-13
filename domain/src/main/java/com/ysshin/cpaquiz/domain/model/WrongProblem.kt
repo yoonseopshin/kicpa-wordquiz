@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.feature.quiz.domain.model
+package com.ysshin.cpaquiz.domain.model
 
 import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
 

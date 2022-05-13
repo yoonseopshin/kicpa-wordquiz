@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.FragmentHomeBinding
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
 import com.google.android.ads.nativetemplates.NativeTemplateStyle

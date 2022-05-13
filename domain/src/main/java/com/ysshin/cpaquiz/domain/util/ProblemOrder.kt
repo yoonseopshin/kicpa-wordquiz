@@ -1,6 +1,6 @@
-package com.cpa.cpa_word_problem.feature.quiz.domain.util
+package com.ysshin.cpaquiz.domain.util
 
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.Problem
 
 sealed class ProblemOrder(private val orderType: OrderType) {
 

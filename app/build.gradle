@@ -78,6 +78,7 @@ dependencies {
     implementation project(":nativetemplates")
     implementation project(":shared_android")
     implementation project(":shared_base")
+    implementation project(":domain")
 
     implementation(libs.bundles.androidx.shared)
     implementation(libs.material)

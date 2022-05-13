@@ -1,8 +1,8 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.model
 
 import android.os.Parcelable
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.ProblemSource
-import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.model.ProblemSource
+import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
 import com.ysshin.cpaquiz.shared.base.DEFAULT_STRING
 import com.ysshin.cpaquiz.shared.base.DEFAULT_STRING_LIST
