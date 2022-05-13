@@ -1,10 +1,10 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.LayoutNoteResultHeaderBinding
 import com.ysshin.shared.util.Action
+import com.ysshin.shared.util.inflate
 
 class NoteResultHeaderAdapter : RecyclerView.Adapter<NoteResultHeaderAdapter.ItemViewHolder>() {
 
@@ -23,7 +23,7 @@ class NoteResultHeaderAdapter : RecyclerView.Adapter<NoteResultHeaderAdapter.Ite
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-        LayoutNoteResultHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        parent.inflate(LayoutNoteResultHeaderBinding::inflate)
     ).also { viewHolder ->
         viewHolder.onNoteResultHeaderClick = onNoteResultHeaderClick
     }

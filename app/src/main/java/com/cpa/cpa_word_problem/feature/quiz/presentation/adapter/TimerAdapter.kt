@@ -5,10 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.LayoutResultTimerBinding
-import com.ysshin.shared.util.TimeFormatter
-import com.ysshin.shared.util.colorStateList
-import com.ysshin.shared.util.gone
-import com.ysshin.shared.util.visible
+import com.ysshin.shared.util.*
 
 class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
 
@@ -37,7 +34,7 @@ class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-        LayoutResultTimerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        parent.inflate(LayoutResultTimerBinding::inflate)
     )
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {

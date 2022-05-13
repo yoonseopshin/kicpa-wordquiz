@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.LayoutAdSmartBannerBinding
 import com.google.android.gms.ads.AdRequest
+import com.ysshin.shared.util.inflate
 
 class AdSmartBannerAdapter : RecyclerView.Adapter<AdSmartBannerAdapter.AdBannerViewHolder>() {
 
@@ -17,7 +18,7 @@ class AdSmartBannerAdapter : RecyclerView.Adapter<AdSmartBannerAdapter.AdBannerV
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AdBannerViewHolder(
-        LayoutAdSmartBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        parent.inflate(LayoutAdSmartBannerBinding::inflate)
     )
 
     override fun onBindViewHolder(holder: AdBannerViewHolder, position: Int) {

@@ -7,6 +7,7 @@ import com.cpa.cpa_word_problem.databinding.LayoutCommonNoteHeaderBinding
 import com.ysshin.shared.common.ui.adapter.ToggleableAdapter
 import com.ysshin.shared.util.Action
 import com.ysshin.shared.util.Supplier
+import com.ysshin.shared.util.inflate
 
 class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
 
@@ -45,7 +46,7 @@ class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemVi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-        LayoutCommonNoteHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        parent.inflate(LayoutCommonNoteHeaderBinding::inflate)
     ).also { viewHolder ->
         viewHolder.onHeaderClick = onHeaderClick
         viewHolder.onHeaderLongClick = onHeaderLongClick

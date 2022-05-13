@@ -5,7 +5,9 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Rect
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -131,3 +133,6 @@ fun Context.colorStateList(@ColorRes resId: Int) =
     ColorStateList.valueOf(ContextCompat.getColor(this, resId))
 
 fun Context.color(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
+
+inline fun <T> ViewGroup.inflate(inflater: (LayoutInflater, ViewGroup, Boolean) -> T) =
+    inflater(LayoutInflater.from(context), this, false)

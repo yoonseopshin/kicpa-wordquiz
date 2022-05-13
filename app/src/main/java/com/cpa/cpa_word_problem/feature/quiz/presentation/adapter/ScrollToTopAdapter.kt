@@ -7,6 +7,7 @@ import com.cpa.cpa_word_problem.databinding.LayoutScrollToTopBinding
 import com.ysshin.shared.common.ui.adapter.ToggleableAdapter
 import com.ysshin.shared.util.Action
 import com.ysshin.shared.util.Supplier
+import com.ysshin.shared.util.inflate
 
 class ScrollToTopAdapter : ToggleableAdapter<ScrollToTopAdapter.ItemViewHolder>() {
 
@@ -30,7 +31,7 @@ class ScrollToTopAdapter : ToggleableAdapter<ScrollToTopAdapter.ItemViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-        LayoutScrollToTopBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        parent.inflate(LayoutScrollToTopBinding::inflate)
     ).also { viewHolder ->
         viewHolder.onScrollToTopClick = onScrollToTopClick
     }

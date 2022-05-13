@@ -13,6 +13,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
+import com.ysshin.shared.util.inflate
 
 class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBannerViewHolder>() {
 
@@ -52,7 +53,7 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AdBannerViewHolder(
-        LayoutAdNativeBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        parent.inflate(LayoutAdNativeBannerBinding::inflate)
     )
 
     override fun onBindViewHolder(holder: AdBannerViewHolder, position: Int) {
