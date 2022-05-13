@@ -1,14 +1,18 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home
 
 import androidx.lifecycle.viewModelScope
-import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
-import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.QuizDatastoreManager
+import com.ysshin.cpaquiz.domain.model.DEFAULT_QUIZ_NUMBER
+import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
+import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,25 +20,24 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
     private val quizUseCases: QuizUseCases,
-    private val quizDatastoreManager: QuizDatastoreManager,
 ) : BaseViewModel() {
 
     val nextExamDate = MutableStateFlow("")
 
-    val quizNumber = quizDatastoreManager.quizNumber
+    val quizNumber = quizUseCases.getQuizNumber()
         .flowOn(Dispatchers.IO)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = QuizDatastoreManager.DEFAULT_QUIZ_NUMBER
+            initialValue = DEFAULT_QUIZ_NUMBER
         )
 
-    val useTimer = quizDatastoreManager.useTimer
+    val useTimer = quizUseCases.getUseTimer()
         .flowOn(Dispatchers.IO)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = QuizDatastoreManager.DEFAULT_USE_TIMER
+            initialValue = DEFAULT_USE_TIMER
         )
 
     val accountingCount = problemUseCases.getProblemCount(QuizType.Accounting)
@@ -69,13 +72,13 @@ class HomeViewModel @Inject constructor(
 
     fun setQuizNumber(value: Int) {
         viewModelScope.launch {
-            quizDatastoreManager.setQuizNumber(value)
+            quizUseCases.setQuizNumber(value)
         }
     }
 
     fun setTimer(value: Boolean) {
         viewModelScope.launch {
-            quizDatastoreManager.setTimer(value)
+            quizUseCases.setUseTimer(value)
         }
     }
 

@@ -1,11 +1,12 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.statistics
 
 import androidx.lifecycle.viewModelScope
-import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
-import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.QuizDatastoreManager
+import com.ysshin.cpaquiz.domain.model.DEFAULT_SOLVED_QUIZ
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.WrongProblem
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
+import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,20 +17,20 @@ import javax.inject.Inject
 @HiltViewModel
 class QuizStatisticsViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
-    quizDatastoreManager: QuizDatastoreManager,
+    quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
     private val wrongProblems = mutableListOf<WrongProblem>()
 
-    val solvedQuiz = quizDatastoreManager.solvedQuiz
+    val solvedQuiz = quizUseCases.getSolvedQuiz()
         .flowOn(Dispatchers.IO)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = QuizDatastoreManager.DEFAULT_SOLVED_QUIZ
+            initialValue = DEFAULT_SOLVED_QUIZ
         )
 
-    val shouldShowInAppReview = quizDatastoreManager.shouldRequestInAppReview
+    val shouldShowInAppReview = quizUseCases.getShouldRequestInAppReview()
         .flowOn(Dispatchers.IO)
         .stateIn(
             scope = viewModelScope,

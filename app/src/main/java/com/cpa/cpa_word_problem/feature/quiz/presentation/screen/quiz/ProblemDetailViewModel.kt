@@ -1,11 +1,11 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz
 
 import androidx.lifecycle.viewModelScope
-import com.cpa.cpa_word_problem.feature.quiz.data.datasource.local.QuizDatastoreManager
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.isValid
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProblemDetailViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
-    private val quizDatastoreManager: QuizDatastoreManager,
+    private val quizUseCases: QuizUseCases
 ) : BaseViewModel() {
 
     val useTimer = MutableStateFlow(false)
@@ -167,7 +167,7 @@ class ProblemDetailViewModel @Inject constructor(
         stopTimer()
 
         viewModelScope.launch {
-            quizDatastoreManager.increaseSolvedQuiz()
+            quizUseCases.increaseSolvedQuiz()
         }
 
         onEndResult()

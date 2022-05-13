@@ -2,8 +2,7 @@ package com.cpa.cpa_word_problem.di
 
 import com.ysshin.cpaquiz.domain.repository.QuizRepository
 import com.ysshin.cpaquiz.domain.usecase.problem.*
-import com.ysshin.cpaquiz.domain.usecase.quiz.GetNextExamDate
-import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
+import com.ysshin.cpaquiz.domain.usecase.quiz.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +31,15 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideQuizUseCases(repository: QuizRepository) =
-        QuizUseCases(GetNextExamDate(repository))
+        QuizUseCases(
+            GetNextExamDate(repository),
+            GetQuizNumber(repository),
+            GetUseTimer(repository),
+            SetQuizNumber(repository),
+            SetUseTimer(repository),
+            IncreaseSolvedQuiz(repository),
+            GetSolvedQuiz(repository),
+            GetShouldRequestInAppReview(repository),
+        )
 
 }

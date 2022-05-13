@@ -1,9 +1,4 @@
 rootProject.name = "cpa-word-problem"
-include(":app")
-include(":nativetemplates")
-include(":domain")
-include(":shared_android")
-include(":shared_base")
 
 enableFeaturePreview("VERSION_CATALOGS")
 
@@ -14,3 +9,13 @@ dependencyResolutionManagement {
         }
     }
 }
+
+include(":app")
+include(":nativetemplates")
+include(":domain")
+include(":data-database")
+include(":shared-android")
+include(":shared-base")
+include(":data")
+include(":data-network")
+include(":data-datastore")

@@ -27,4 +27,18 @@ interface QuizRepository {
 
     fun getProblemCountByType(type: QuizType): Flow<Int>
 
+    fun getQuizNumber(): Flow<Int>
+
+    fun getUseTimer(): Flow<Boolean>
+
+    suspend fun setQuizNumber(value: Int)
+
+    suspend fun setUseTimer(value: Boolean)
+
+    suspend fun increaseSolvedQuiz()
+
+    fun getShouldRequestInAppReview(): Flow<Boolean>
+
+    fun getSolvedQuiz(): Flow<Int>
+
 }
