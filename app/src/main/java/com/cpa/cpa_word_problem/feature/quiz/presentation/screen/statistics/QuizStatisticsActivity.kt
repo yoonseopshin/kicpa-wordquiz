@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.cpa.cpa_word_problem.R
-import com.ysshin.shared.base.BaseActivity
+import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import com.cpa.cpa_word_problem.databinding.ActivityQuizStatisticsBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.presentation.adapter.*
@@ -144,7 +144,7 @@ class QuizStatisticsActivity : BaseActivity() {
             override fun onAdDismissedFullScreenContent() {
             }
 
-            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
             }
 
             override fun onAdShowedFullScreenContent() {

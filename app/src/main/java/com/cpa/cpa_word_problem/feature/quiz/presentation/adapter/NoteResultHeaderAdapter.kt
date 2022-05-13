@@ -3,8 +3,8 @@ package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.LayoutNoteResultHeaderBinding
-import com.ysshin.shared.util.Action
-import com.ysshin.shared.util.inflate
+import com.ysshin.cpaquiz.shared.base.Action
+import com.ysshin.cpaquiz.shared.android.util.inflate
 
 class NoteResultHeaderAdapter : RecyclerView.Adapter<NoteResultHeaderAdapter.ItemViewHolder>() {
 

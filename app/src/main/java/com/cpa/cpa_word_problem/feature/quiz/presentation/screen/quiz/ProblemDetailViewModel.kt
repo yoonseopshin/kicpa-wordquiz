@@ -6,9 +6,9 @@ import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.isValid
 import com.cpa.cpa_word_problem.feature.quiz.domain.usecase.problem.ProblemUseCases
-import com.ysshin.shared.base.BaseViewModel
-import com.ysshin.shared.util.Action
-import com.ysshin.shared.util.DEFAULT_INT
+import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
+import com.ysshin.cpaquiz.shared.base.Action
+import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

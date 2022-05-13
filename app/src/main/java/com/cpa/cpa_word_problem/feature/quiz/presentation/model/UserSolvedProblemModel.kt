@@ -1,8 +1,8 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.model
 
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
-import com.ysshin.shared.util.DEFAULT_INT
-import com.ysshin.shared.util.DEFAULT_INVALID_INT
+import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
+import com.ysshin.cpaquiz.shared.base.DEFAULT_INVALID_INT
 
 data class UserSolvedProblemModel(
     val elapsedTime: Int = DEFAULT_INT,

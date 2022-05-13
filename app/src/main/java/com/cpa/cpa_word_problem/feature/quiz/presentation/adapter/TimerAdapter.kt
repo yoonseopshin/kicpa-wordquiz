@@ -1,11 +1,10 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.LayoutResultTimerBinding
-import com.ysshin.shared.util.*
+import com.ysshin.cpaquiz.shared.android.util.*
 
 class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
 

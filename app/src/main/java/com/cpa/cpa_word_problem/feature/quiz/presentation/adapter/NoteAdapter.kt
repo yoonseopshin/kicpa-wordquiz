@@ -1,7 +1,6 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.ListItemProblemBinding
 import com.cpa.cpa_word_problem.feature.quiz.domain.model.Problem
 import com.cpa.cpa_word_problem.feature.quiz.presentation.model.UserSolvedProblemModel
-import com.ysshin.shared.util.Consumer
-import com.ysshin.shared.util.inflate
+import com.ysshin.cpaquiz.shared.base.Consumer
+import com.ysshin.cpaquiz.shared.android.util.inflate
 
 class NoteAdapter :
     ListAdapter<UserSolvedProblemModel, NoteAdapter.ProblemViewHolder>(UserSolvedProblemDiffCallback()) {

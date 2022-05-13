@@ -1,13 +1,12 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.LayoutScrollToTopBinding
-import com.ysshin.shared.common.ui.adapter.ToggleableAdapter
-import com.ysshin.shared.util.Action
-import com.ysshin.shared.util.Supplier
-import com.ysshin.shared.util.inflate
+import com.ysshin.cpaquiz.shared.android.ui.adapter.ToggleableAdapter
+import com.ysshin.cpaquiz.shared.base.Action
+import com.ysshin.cpaquiz.shared.base.Supplier
+import com.ysshin.cpaquiz.shared.android.util.inflate
 
 class ScrollToTopAdapter : ToggleableAdapter<ScrollToTopAdapter.ItemViewHolder>() {
 

@@ -1,11 +1,10 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.databinding.LayoutAdSmartBannerBinding
 import com.google.android.gms.ads.AdRequest
-import com.ysshin.shared.util.inflate
+import com.ysshin.cpaquiz.shared.android.util.inflate
 
 class AdSmartBannerAdapter : RecyclerView.Adapter<AdSmartBannerAdapter.AdBannerViewHolder>() {
 

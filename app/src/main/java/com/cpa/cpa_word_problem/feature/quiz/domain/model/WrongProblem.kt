@@ -1,6 +1,6 @@
 package com.cpa.cpa_word_problem.feature.quiz.domain.model
 
-import com.ysshin.shared.util.DEFAULT_INT
+import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
 
 data class WrongProblem(
     val year: Int = DEFAULT_INT,

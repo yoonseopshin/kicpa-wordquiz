@@ -15,8 +15,9 @@ import com.cpa.cpa_word_problem.feature.quiz.domain.model.QuizType
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.ysshin.shared.common.ui.span.AlphabetLeadingMarginSpan
-import com.ysshin.shared.util.*
+import com.ysshin.cpaquiz.shared.android.ui.span.AlphabetLeadingMarginSpan
+import com.ysshin.cpaquiz.shared.android.util.*
+import com.ysshin.cpaquiz.shared.base.isNullOrDefault
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

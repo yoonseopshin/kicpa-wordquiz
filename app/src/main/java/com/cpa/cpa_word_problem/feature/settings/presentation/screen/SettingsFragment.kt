@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.cpa.cpa_word_problem.databinding.FragmentSettingsBinding
-import com.ysshin.shared.base.BaseFragment
+import com.ysshin.cpaquiz.shared.android.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

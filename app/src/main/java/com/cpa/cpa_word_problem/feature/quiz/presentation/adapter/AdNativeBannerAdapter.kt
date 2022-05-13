@@ -1,19 +1,18 @@
 package com.cpa.cpa_word_problem.feature.quiz.presentation.adapter
 
 import android.graphics.drawable.ColorDrawable
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.databinding.LayoutAdNativeBannerBinding
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.AdConstants
-import com.ysshin.shared.util.color
+import com.ysshin.cpaquiz.shared.android.util.color
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
-import com.ysshin.shared.util.inflate
+import com.ysshin.cpaquiz.shared.android.util.inflate
 
 class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBannerViewHolder>() {
 

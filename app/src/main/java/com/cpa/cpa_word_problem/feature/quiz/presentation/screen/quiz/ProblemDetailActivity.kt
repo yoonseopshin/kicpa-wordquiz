@@ -16,9 +16,9 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.model.ProblemModel
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
 import com.google.android.material.snackbar.Snackbar
-import com.ysshin.shared.base.BaseActivity
-import com.ysshin.shared.common.ui.zigzag.blinkZigzag
-import com.ysshin.shared.util.*
+import com.ysshin.cpaquiz.shared.android.base.BaseActivity
+import com.ysshin.cpaquiz.shared.android.ui.zigzag.blinkZigzag
+import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update

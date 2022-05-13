@@ -24,10 +24,10 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ysshin.shared.base.BaseFragment
-import com.ysshin.shared.util.invisible
-import com.ysshin.shared.util.setOnThrottleClick
-import com.ysshin.shared.util.visibleOrGone
+import com.ysshin.cpaquiz.shared.android.base.BaseFragment
+import com.ysshin.cpaquiz.shared.android.util.invisible
+import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
+import com.ysshin.cpaquiz.shared.android.util.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

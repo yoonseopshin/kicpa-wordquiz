@@ -11,7 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cpa.cpa_word_problem.R
-import com.ysshin.shared.base.BaseFragment
+import com.ysshin.cpaquiz.shared.android.base.BaseFragment
 import com.cpa.cpa_word_problem.databinding.FragmentNoteBinding
 import com.cpa.cpa_word_problem.feature.quiz.presentation.adapter.*
 import com.cpa.cpa_word_problem.feature.quiz.presentation.mapper.toModel
@@ -20,7 +20,7 @@ import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDet
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ysshin.shared.util.*
+import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

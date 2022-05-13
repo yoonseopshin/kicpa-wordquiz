@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.home.HomeFragment
 import com.cpa.cpa_word_problem.feature.quiz.presentation.screen.main.note.NoteFragment
 import com.cpa.cpa_word_problem.feature.settings.presentation.screen.SettingsFragment
-import com.ysshin.shared.util.newInstance
+import com.ysshin.cpaquiz.shared.android.util.newInstance
 
 class MainFragmentStateAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {

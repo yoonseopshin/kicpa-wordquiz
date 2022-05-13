@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import com.cpa.cpa_word_problem.databinding.ActivityMainBinding
 import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
 import com.google.android.material.tabs.TabLayoutMediator
-import com.ysshin.shared.base.BaseActivity
+import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
