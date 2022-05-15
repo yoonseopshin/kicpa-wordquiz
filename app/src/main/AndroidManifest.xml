@@ -15,20 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CPAQuiz"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:dataExtractionRules="@xml/data_extraction_rules">
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5004953701825085~4821510866" />
 
-        <activity
-            android:name=".feature.quiz.presentation.screen.statistics.QuizStatisticsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.CPAQuiz" />
-        <activity
-            android:name=".feature.quiz.presentation.screen.quiz.ProblemDetailActivity"
-            android:exported="false"
-            android:theme="@style/Theme.CPAQuiz" />
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"

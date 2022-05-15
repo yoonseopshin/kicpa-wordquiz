@@ -1,13 +1,11 @@
 package com.cpa.cpa_word_problem.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.cpa.cpa_word_problem.databinding.ActivityMainBinding
-import com.cpa.cpa_word_problem.feature.quiz.presentation.util.Constants
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
+import com.ysshin.cpaquiz.shared.android.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,13 +49,6 @@ class MainActivity : BaseActivity() {
         }
 
         super.onBackPressed()
-    }
-
-    companion object {
-        fun newIntent(context: Context, destination: MainTab = MainTab.Home) =
-            Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, destination)
-            }
     }
 
 }

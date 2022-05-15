@@ -81,6 +81,7 @@ dependencies {
     implementation project(":domain")
     implementation project(":data")
     implementation project(":data-network")
+    implementation project(":feature-quiz")
 
     implementation(libs.bundles.androidx.shared)
     implementation(libs.material)
