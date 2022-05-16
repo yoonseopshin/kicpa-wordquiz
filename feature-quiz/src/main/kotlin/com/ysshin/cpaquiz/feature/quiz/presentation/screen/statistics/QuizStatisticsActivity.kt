@@ -212,6 +212,11 @@ class QuizStatisticsActivity : BaseActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        interstitialAd = null
+    }
+
     companion object {
         fun newIntent(
             context: Context,
