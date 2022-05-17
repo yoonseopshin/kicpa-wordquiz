@@ -101,6 +101,13 @@ fun Chip.bindByType(type: QuizType?) {
             chipBackgroundColor =
                 context.colorStateList(R.color.commercial_law_highlight_color_0_20)
         }
+        QuizType.TawLaw -> {
+            visibility = View.VISIBLE
+            text = context.getString(R.string.tax_law)
+            // TODO 세법 색 작업
+            chipBackgroundColor =
+                context.colorStateList(R.color.commercial_law_highlight_color_0_20)
+        }
         QuizType.None -> {
             visibility = View.GONE
         }

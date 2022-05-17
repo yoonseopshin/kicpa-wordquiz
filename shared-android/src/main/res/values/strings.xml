@@ -43,6 +43,7 @@
     <string name="business">경영학</string>
     <string name="noti_channel_id">notichannelid</string>
     <string name="commercial_law">상법</string>
+    <string name="tax_law">세법</string>
     <string name="close">닫기</string>
     <string name="clear">삭제</string>
     <string name="next">다음</string>

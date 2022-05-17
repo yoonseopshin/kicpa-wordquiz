@@ -24,11 +24,6 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding = true
-        dataBinding = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -37,34 +32,36 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+    }
 }
 
 dependencies {
     implementation(project(":shared-android"))
     implementation(project(":shared-base"))
     implementation(project(":domain"))
-    implementation(project(":nativetemplates"))
+
+    implementation(libs.bundles.androidx.shared)
+    implementation(libs.material)
+
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    implementation(libs.bundles.compose)
+    implementation("androidx.activity:activity-compose:1.4.0")
+    androidTestImplementation(libs.compose.ui.test)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
-    implementation(libs.bundles.androidx.shared)
-    implementation(libs.material)
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-
-    implementation("com.google.android.gms:play-services-ads:20.6.0")
-
-    implementation("com.google.android.play:core:1.10.3")
-    implementation("com.google.android.play:core-ktx:1.8.1")
-
-    implementation("androidx.recyclerview:recyclerview:1.3.0-alpha02")
-
-    implementation("com.jakewharton.timber:timber:5.0.1")
 }

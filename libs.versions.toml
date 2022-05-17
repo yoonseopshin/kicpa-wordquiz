@@ -18,6 +18,7 @@ material = "1.5.0"
 room = "2.4.2"
 datastore = "1.0.0"
 hilt = "2.41"
+compose = "1.2.0-beta01"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
@@ -35,8 +36,13 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 firebase-bom = "com.google.firebase:firebase-bom:29.1.0"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 
 [bundles]
 androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-support-v4", "androidx-activity-ktx", "androidx-fragment-ktx"]
-
 room = ["room-runtime", "room-ktx"]
+compose = ["compose-ui", "compose-ui-tooling-preview", "compose-material"]
