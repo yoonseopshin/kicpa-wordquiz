@@ -1,9 +1,8 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
+    id("kotlin-android")
     id("kotlin-kapt")
-    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -44,17 +43,25 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared-android"))
     implementation(project(":shared-base"))
-    implementation(project(":domain"))
-
     implementation(libs.bundles.androidx.shared)
     implementation(libs.material)
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
 
+    api(libs.bundles.compose)
+    androidTestApi(libs.compose.ui.test)
+    debugApi(libs.compose.ui.tooling)
+    api("androidx.activity:activity-compose:1.4.0")
+    api("androidx.navigation:navigation-compose:2.5.0-rc01")
+    api("androidx.hilt:hilt-navigation-compose:1.0.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
+    debugApi("androidx.customview:customview:1.2.0-alpha01")
+    debugApi("androidx.customview:customview-poolingcontainer:1.0.0-beta01")
 }

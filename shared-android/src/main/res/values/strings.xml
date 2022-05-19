@@ -60,4 +60,5 @@
     <string name="scroll_to_top">상단으로 이동</string>
     <string name="subject_total_count">총 %1$d문제</string>
     <string name="toggle">토글</string>
+    <string name="open_source_license">오픈소스 라이선스</string>
 </resources>
