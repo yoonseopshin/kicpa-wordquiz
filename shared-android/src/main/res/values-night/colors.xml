@@ -3,14 +3,14 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
 
-    <color name="primaryColor">#627d98</color>
-    <color name="primaryLightColor">#91acc9</color>
-    <color name="primaryDarkColor">#35516a</color>
+    <color name="primaryColor">#303F9F</color>
+    <color name="primaryLightColor">#666ad1</color>
+    <color name="primaryDarkColor">#1A237E</color>
     <color name="secondaryColor">#7c4dff</color>
     <color name="secondaryLightColor">#b47cff</color>
     <color name="secondaryDarkColor">#3f1dcb</color>
     <color name="secondaryColor_0.06">#0f7c4dff</color>
-    <color name="primaryTextColor">#000000</color>
+    <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
     <color name="item_highlight_color">@color/white</color>
 

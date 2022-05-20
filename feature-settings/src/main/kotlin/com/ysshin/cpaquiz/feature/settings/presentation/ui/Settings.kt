@@ -3,16 +3,14 @@ package com.ysshin.cpaquiz.feature.settings.presentation.ui
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -59,6 +57,7 @@ fun SettingsContent(padding: PaddingValues) {
 
 @Composable
 fun OpenSourceLicenseItem() {
+    val context = LocalContext.current
     val cornerShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
 
     Row(
@@ -69,11 +68,12 @@ fun OpenSourceLicenseItem() {
                 shape = cornerShape
             )
             .clip(cornerShape)
-            .background(color = colorResource(id = R.color.daynight_gray050a))
+            .background(color = MaterialTheme.colors.primaryVariant.copy(alpha = 0.25f))
             .clickable(onClick = {
                 // TODO: Intent to OSS Activity
+                // context.startActivity()
             })
-            .padding(horizontal = 12.dp, vertical = 16.dp)
+            .padding(horizontal = 20.dp, vertical = 16.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -83,7 +83,7 @@ fun OpenSourceLicenseItem() {
             modifier = Modifier.size(size = 36.dp),
             colorFilter = ColorFilter.tint(colorResource(id = R.color.item_highlight_color))
         )
-        Spacer(modifier = Modifier.size(12.dp))
+        Spacer(modifier = Modifier.size(16.dp))
         Text(
             text = buildAnnotatedString {
                 withStyle(SpanStyle(fontSize = 18.sp)) {

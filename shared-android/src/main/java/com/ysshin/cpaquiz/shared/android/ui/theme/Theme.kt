@@ -1,6 +1,5 @@
 package com.ysshin.cpaquiz.shared.android.ui.theme
 
-import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -10,22 +9,19 @@ import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
-import androidx.core.view.ViewCompat
 import com.ysshin.cpaquiz.shared.android.R
-import dagger.hilt.android.internal.managers.FragmentComponentManager
 
 private val DarkColors = darkColors(
-    primary = Purple80,
-    secondary = PurpleGrey80,
+    primary = MaterialColor.INDIGO_700,
+    primaryVariant = MaterialColor.INDIGO_900,
+    secondary = MaterialColor.DEEP_PURPLE_A200,
 )
 
 private val LightColors = lightColors(
-    primary = Purple40,
-    secondary = PurpleGrey40,
+    primary = MaterialColor.LIGHT_GREEN_700,
+    primaryVariant = MaterialColor.LIGHT_GREEN_900,
+    secondary = MaterialColor.AMBER_A200,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -61,14 +57,6 @@ fun CpaQuizTheme(
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) DarkColors else LightColors
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            (FragmentComponentManager.findActivity(view.context) as Activity).window.statusBarColor =
-                colors.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
-        }
-    }
 
     MaterialTheme(
         colors = colors,
