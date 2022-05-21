@@ -1,5 +1,6 @@
 package com.ysshin.cpaquiz.feature.settings.presentation.ui
 
+import android.content.Intent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 
@@ -68,10 +70,9 @@ fun OpenSourceLicenseItem() {
                 shape = cornerShape
             )
             .clip(cornerShape)
-            .background(color = MaterialTheme.colors.primaryVariant.copy(alpha = 0.25f))
+            .background(color = MaterialTheme.colors.primary.copy(alpha = 0.15f))
             .clickable(onClick = {
-                // TODO: Intent to OSS Activity
-                // context.startActivity()
+                context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
             })
             .padding(horizontal = 20.dp, vertical = 16.dp)
             .fillMaxWidth(),

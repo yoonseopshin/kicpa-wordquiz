@@ -64,6 +64,14 @@ class HomeViewModel @Inject constructor(
             initialValue = 0
         )
 
+    val taxLawCount = problemUseCases.getProblemCount(QuizType.TawLaw)
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = 0
+        )
+
     fun requestNextExamDate() {
         viewModelScope.launch {
             nextExamDate.value = quizUseCases.getNextExamDate()

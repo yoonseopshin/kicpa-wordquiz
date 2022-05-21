@@ -81,7 +81,7 @@
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toStartOf="@id/lay_tax_law"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/lay_accounting" />
+                    app:layout_constraintTop_toBottomOf="@id/lay_business" />
 
                 <include
                     android:id="@+id/lay_tax_law"
@@ -93,7 +93,7 @@
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/lay_commercial_law"
-                    app:layout_constraintTop_toBottomOf="@id/lay_accounting" />
+                    app:layout_constraintTop_toBottomOf="@id/lay_business" />
 
                 <com.google.android.ads.nativetemplates.TemplateView
                     android:id="@+id/ad_template_view"

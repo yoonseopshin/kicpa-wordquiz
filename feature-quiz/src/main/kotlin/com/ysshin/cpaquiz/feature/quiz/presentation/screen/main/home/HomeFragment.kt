@@ -295,6 +295,14 @@ class HomeFragment : BaseFragment() {
                             getString(R.string.subject_total_count, count)
                     }
                 }
+
+                launch {
+                    viewModel.taxLawCount.collectLatest { count ->
+                        binding.layTaxLaw.tvSubjectCount.visibleOrGone(count > 0)
+                        binding.layTaxLaw.tvSubjectCount.text =
+                            getString(R.string.subject_total_count, count)
+                    }
+                }
             }
         }
     }
