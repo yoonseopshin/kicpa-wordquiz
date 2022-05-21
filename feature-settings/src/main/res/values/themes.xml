@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.CpaQuiz.OssLicenses" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/theme_color</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="actionBarTheme">@style/Theme.CpaQuiz.OssLicenses.ActionBar</item>
+        <item name="android:windowAnimationStyle">@style/Theme.CpaQuiz.OssLicenses.ActivityAnimation</item>
+    </style>
+
+    <style name="Theme.CpaQuiz.OssLicenses.ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/daynight_gray900s</item>
+        <item name="colorControlNormal">@color/daynight_gray700s</item>
+    </style>
+
+    <style name="Theme.CpaQuiz.OssLicenses.ActivityAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/enter_slide_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/exit_slide_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/enter_slide_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/exit_slide_left</item>
+    </style>
+
+</resources>

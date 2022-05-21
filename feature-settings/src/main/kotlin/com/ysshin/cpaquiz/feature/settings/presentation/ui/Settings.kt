@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,16 +34,17 @@ fun SettingsScreen() {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(id = R.string.settings),
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    },
-                    elevation = 0.dp,
-                    backgroundColor = colorResource(id = R.color.theme_color)
-                )
+                CompositionLocalProvider(LocalElevationOverlay provides null) {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = stringResource(id = R.string.settings),
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        },
+                        backgroundColor = colorResource(id = R.color.theme_color)
+                    )
+                }
             }
         ) { contentPadding ->
             SettingsContent(padding = contentPadding)
@@ -64,7 +66,7 @@ fun OpenSourceLicenseItem() {
 
     Row(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp)
             .border(
                 border = BorderStroke(width = 0.dp, Color.Transparent),
                 shape = cornerShape

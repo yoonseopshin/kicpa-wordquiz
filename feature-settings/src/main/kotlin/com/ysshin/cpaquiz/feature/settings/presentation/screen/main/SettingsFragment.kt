@@ -20,5 +20,4 @@ class SettingsFragment : BaseFragment() {
                 SettingsScreen()
             }
         }
-
 }
