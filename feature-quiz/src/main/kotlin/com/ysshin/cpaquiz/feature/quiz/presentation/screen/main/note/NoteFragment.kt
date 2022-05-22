@@ -12,8 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ysshin.cpaquiz.feature.quiz.R
@@ -21,6 +19,8 @@ import com.ysshin.cpaquiz.feature.quiz.databinding.FragmentNoteBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.*
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
 import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint

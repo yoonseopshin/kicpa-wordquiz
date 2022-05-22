@@ -18,11 +18,11 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initView()
+        init()
         parseIntent()
     }
 
-    private fun initView() {
+    private fun init() {
         with(binding) {
             viewPager.adapter = MainFragmentStateAdapter(
                 fragmentManager = supportFragmentManager,

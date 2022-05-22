@@ -32,14 +32,18 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMod
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.AdConstants
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
-import com.ysshin.cpaquiz.shared.android.bridge.noteTabIntent
+import com.ysshin.cpaquiz.shared.android.bridge.MainTabNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class QuizStatisticsActivity : BaseActivity() {
+
+    @Inject
+    lateinit var mainTabNavigator: MainTabNavigator
 
     private lateinit var binding: ActivityQuizStatisticsBinding
     private val viewModel: QuizStatisticsViewModel by viewModels()
@@ -51,7 +55,7 @@ class QuizStatisticsActivity : BaseActivity() {
         NoteResultHeaderAdapter().also { adapter ->
             adapter.onNoteResultHeaderClick = {
                 startActivity(
-                    noteTabIntent(
+                    mainTabNavigator.noteTabIntent(
                         context = this,
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                     )
