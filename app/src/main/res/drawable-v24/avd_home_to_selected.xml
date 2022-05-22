@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/ic_home">
-    <target
-        android:name="home"
-        android:animation="@anim/animator_scale_up" />
-</animated-vector>

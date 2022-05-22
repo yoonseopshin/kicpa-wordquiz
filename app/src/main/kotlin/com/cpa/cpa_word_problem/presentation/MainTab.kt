@@ -9,8 +9,8 @@ enum class MainTab {
     companion object {
         fun getIcon(position: Int) =
             when (position) {
-                Home.ordinal -> R.drawable.asld_home
-                Note.ordinal -> R.drawable.asld_note
+                Home.ordinal -> R.drawable.ic_home
+                Note.ordinal -> R.drawable.ic_note
                 Settings.ordinal -> R.drawable.asld_settings
                 else -> throw IndexOutOfBoundsException()
             }

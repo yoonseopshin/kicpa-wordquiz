@@ -3,5 +3,5 @@
     android:drawable="@drawable/ic_settings">
     <target
         android:name="settings"
-        android:animation="@anim/animator_scale_down_settings" />
+        android:animation="@anim/animator_settings_to_unselected" />
 </animated-vector>
