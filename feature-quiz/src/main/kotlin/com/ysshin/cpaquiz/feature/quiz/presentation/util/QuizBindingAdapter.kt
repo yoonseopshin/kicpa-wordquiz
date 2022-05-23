@@ -153,23 +153,27 @@ fun ImageView.bindOpened(isOpened: Boolean) {
     animate().rotation(if (isOpened) 0f else 180f).start()
 }
 
-private val RIGHT_WRONG_REGEX = "옳[가-힣|\\s]{0,3}은".toRegex()
+private val HIGHLIGHT_KEYWORDS = listOf("틀린", "아닌", "옳은", "옳지 않은", "적절한", "적절하지 않은")
 
 @BindingAdapter("quiz_description")
 fun TextView.bindQuizDescription(description: String) {
-    text = RIGHT_WRONG_REGEX.find(description)?.let { result ->
-        val start = result.range.first
-        val end = result.range.last + 1
-
-        SpannableStringBuilder(description).apply {
-            setSpan(UnderlineSpan(), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(StyleSpan(Typeface.BOLD), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(
-                ForegroundColorSpan(ContextCompat.getColor(context, R.color.daynight_gray900s)),
-                start,
-                end,
-                SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+    HIGHLIGHT_KEYWORDS.map { keyword ->
+        if (description.contains(keyword)) {
+            val start = description.indexOf(keyword)
+            val end = start + keyword.length
+            text = SpannableStringBuilder(description).apply {
+                setSpan(UnderlineSpan(), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(StyleSpan(Typeface.BOLD), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(
+                    ForegroundColorSpan(ContextCompat.getColor(context, R.color.daynight_gray900s)),
+                    start,
+                    end,
+                    SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            return
         }
-    } ?: description
+    }
+
+    text = description
 }
