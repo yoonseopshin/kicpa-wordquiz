@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -61,6 +62,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
+
+    api("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
     debugApi("androidx.customview:customview-poolingcontainer:1.0.0-beta01")

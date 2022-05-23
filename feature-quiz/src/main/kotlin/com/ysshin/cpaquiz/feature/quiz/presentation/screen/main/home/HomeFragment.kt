@@ -219,7 +219,7 @@ class HomeFragment : BaseFragment() {
                 startActivity(
                     ProblemDetailActivity.newIntent(
                         context = requireContext(),
-                        quizType = QuizType.TawLaw,
+                        quizType = QuizType.TaxLaw,
                         quizNumbers = viewModel.quizNumber.value,
                         useTimer = viewModel.useTimer.value
                     )

@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(
             initialValue = 0
         )
 
-    val taxLawCount = problemUseCases.getProblemCount(QuizType.TawLaw)
+    val taxLawCount = problemUseCases.getProblemCount(QuizType.TaxLaw)
         .flowOn(Dispatchers.IO)
         .stateIn(
             scope = viewModelScope,
