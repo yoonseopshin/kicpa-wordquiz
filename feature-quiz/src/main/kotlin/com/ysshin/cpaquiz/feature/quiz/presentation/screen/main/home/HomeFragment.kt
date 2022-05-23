@@ -209,18 +209,17 @@ class HomeFragment : BaseFragment() {
             }
         }
 
-        // TODO : 세법 추가
         with(binding.layTaxLaw) {
             tvSubjectTitle.text = getString(R.string.tax_law)
 
-            btnQuiz.backgroundTintList = color(R.color.commercial_law_highlight_color)
-            root.setCardBackgroundColor(color(R.color.commercial_law_highlight_color_0_20))
+            btnQuiz.backgroundTintList = color(R.color.tax_law_highlight_color)
+            root.setCardBackgroundColor(color(R.color.tax_law_highlight_color_0_20))
 
             root.setOnThrottleClick {
                 startActivity(
                     ProblemDetailActivity.newIntent(
                         context = requireContext(),
-                        quizType = QuizType.CommercialLaw,
+                        quizType = QuizType.TawLaw,
                         quizNumbers = viewModel.quizNumber.value,
                         useTimer = viewModel.useTimer.value
                     )
