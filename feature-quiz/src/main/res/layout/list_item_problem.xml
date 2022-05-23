@@ -106,12 +106,12 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{problem.description}"
             android:textColor="@color/daynight_gray700s"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ch_year_pid"
+            app:quiz_description="@{problem.description}"
             tools:text="기업회계기준서 제1116호 '리스'에 대한 설명 중 옳은 것은?" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

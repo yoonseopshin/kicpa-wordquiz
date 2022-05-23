@@ -1,8 +1,12 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.RadioGroup
@@ -145,4 +149,19 @@ fun Toolbar.bindProblems(solved: Int?, total: Int?) {
 @BindingAdapter("opened")
 fun ImageView.bindOpened(isOpened: Boolean) {
     animate().rotation(if (isOpened) 0f else 180f).start()
+}
+
+private val RIGHT_WRONG_REGEX = "옳[가-힣|\\s]{0,3}은".toRegex()
+
+@BindingAdapter("quiz_description")
+fun TextView.bindQuizDescription(description: String) {
+    text = RIGHT_WRONG_REGEX.find(description)?.let { result ->
+        val start = result.range.first
+        val end = result.range.last + 1
+
+        SpannableStringBuilder(description).apply {
+            setSpan(UnderlineSpan(), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(StyleSpan(Typeface.BOLD), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    } ?: description
 }

@@ -83,12 +83,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="8dp"
-                android:text="@{problem.description}"
                 android:textColor="@color/daynight_gray700s"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ch_year_pid"
+                app:quiz_description="@{problem.description}"
                 tools:text="소비자가 의사결정 이후 성과가 기대에 부정적으로 불일치하다고 느낄 때, 이 불일치를 외적귀인(external attribution)하도록 하는 상황만을 모두 선택한 것은?" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
