@@ -79,6 +79,12 @@
                 app:layout_constraintVertical_bias="1.0"
                 app:problem_detail_mode="@{viewModel.mode}" />
 
+            <FrameLayout
+                android:id="@+id/cover_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

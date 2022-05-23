@@ -7,17 +7,16 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.feature.quiz.R
+import com.ysshin.cpaquiz.feature.quiz.databinding.ActivityProblemDetailBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
-import com.google.android.material.snackbar.Snackbar
-import com.ysshin.cpaquiz.feature.quiz.R
-import com.ysshin.cpaquiz.feature.quiz.databinding.ActivityProblemDetailBinding
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
-import com.ysshin.cpaquiz.shared.android.ui.zigzag.blinkZigzag
 import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -107,31 +106,15 @@ class ProblemDetailActivity : BaseActivity() {
             is QuizState.Resumed -> viewModel.onResume()
             is QuizState.Calculating -> viewModel.onCalculating(binding.getUserAnswerIndex())
             is QuizState.Correct -> {
-                binding.root.blink(
-                    color(R.color.theme_color),
+                binding.coverView.blink(
+                    color(android.R.color.transparent),
                     color(R.color.color_on_correct)
-                )
-                binding.toolbar.blink(
-                    color(R.color.daynight_gray050s),
-                    color(R.color.color_on_correct),
-                )
-                binding.layProblemDetail.layoutZigzag.blinkZigzag(
-                    color(R.color.daynight_gray050s),
-                    color(R.color.color_on_correct),
                 )
             }
             is QuizState.Incorrect -> {
-                binding.root.blink(
-                    color(R.color.theme_color),
+                binding.coverView.blink(
+                    color(android.R.color.transparent),
                     color(R.color.color_on_incorrect)
-                )
-                binding.toolbar.blink(
-                    color(R.color.daynight_gray050s),
-                    color(R.color.color_on_incorrect),
-                )
-                binding.layProblemDetail.layoutZigzag.blinkZigzag(
-                    color(R.color.daynight_gray050s),
-                    color(R.color.color_on_incorrect),
                 )
             }
             is QuizState.Next -> {
