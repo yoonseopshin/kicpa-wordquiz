@@ -81,7 +81,7 @@ fun OpenSourceLicenseItem() {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_note),
+            painter = painterResource(id = R.drawable.ic_note_outlined),
             contentDescription = "",
             modifier = Modifier.size(size = 36.dp),
             colorFilter = ColorFilter.tint(colorResource(id = R.color.item_highlight_color))

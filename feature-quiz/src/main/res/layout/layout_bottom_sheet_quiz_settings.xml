@@ -24,7 +24,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:contentDescription="@string/icon"
-            android:src="@drawable/ic_note"
+            android:src="@drawable/ic_note_outlined"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

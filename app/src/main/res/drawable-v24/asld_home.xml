@@ -3,22 +3,17 @@
 
     <item
         android:id="@+id/selected"
-        android:drawable="@drawable/ic_settings_filled"
+        android:drawable="@drawable/ic_home_filled"
         android:state_selected="true" />
 
     <item
         android:id="@+id/unselected"
-        android:drawable="@drawable/ic_settings_outlined"
+        android:drawable="@drawable/ic_home_outlined"
         android:state_selected="false" />
 
     <transition
-        android:drawable="@drawable/avd_settings_to_selected"
+        android:drawable="@drawable/avd_home_to_selected"
         android:fromId="@id/unselected"
         android:toId="@id/selected" />
-
-    <transition
-        android:drawable="@drawable/avd_settings_to_unselected"
-        android:fromId="@id/selected"
-        android:toId="@id/unselected" />
 
 </animated-selector>
