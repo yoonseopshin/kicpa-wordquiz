@@ -31,7 +31,6 @@ import com.ysshin.cpaquiz.shared.android.util.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
