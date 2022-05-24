@@ -56,6 +56,8 @@ interface ProblemDao {
         WHERE $DESCRIPTION LIKE '%' || :text || '%'
         OR $SUB_DESCRIPTION LIKE '%' || :text || '%'
         OR $QUESTIONS LIKE '%' || :text || '%'
+        OR $YEAR LIKE '%' || :text || '%'
+        OR $PID LIKE '%' || :text || '%'
         """
     )
     suspend fun search(text: String): List<ProblemEntity>
