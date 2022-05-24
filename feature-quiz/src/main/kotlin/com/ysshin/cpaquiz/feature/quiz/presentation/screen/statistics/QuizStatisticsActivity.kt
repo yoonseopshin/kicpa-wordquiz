@@ -21,7 +21,10 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.ActivityQuizStatisticsBinding
-import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.*
+import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.AdNativeBannerAdapter
+import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.NoteAdapter
+import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.NoteResultHeaderAdapter
+import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.TimerAdapter
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
@@ -76,7 +79,6 @@ class QuizStatisticsActivity : BaseActivity() {
             }
         }
     }
-    private val adSmartBannerBelowNoteAdapter: AdSmartBannerAdapter by lazy { AdSmartBannerAdapter() }
 
     private var interstitialAd: InterstitialAd? = null
 
@@ -177,8 +179,7 @@ class QuizStatisticsActivity : BaseActivity() {
             timerAdapter,
             adNativeBannerAboveNoteResultAdapter,
             noteResultHeaderAdapter,
-            noteAdapter,
-            adSmartBannerBelowNoteAdapter
+            noteAdapter
         )
     }
 
