@@ -153,7 +153,7 @@ fun ImageView.bindOpened(isOpened: Boolean) {
     animate().rotation(if (isOpened) 0f else 180f).start()
 }
 
-private val HIGHLIGHT_KEYWORDS = listOf("틀린", "아닌", "옳은", "옳지 않은", "적절한", "적절하지 않은")
+private val HIGHLIGHT_KEYWORDS = listOf("틀린", "아닌", "옳은", "옳지 않은", "적절한", "적절하지 않은", "모두")
 
 @BindingAdapter("quiz_description")
 fun TextView.bindQuizDescription(description: String) {
