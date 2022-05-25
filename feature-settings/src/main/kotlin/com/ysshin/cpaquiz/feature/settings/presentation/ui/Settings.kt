@@ -30,8 +30,8 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 import com.ysshin.cpaquiz.shared.android.BuildConfig
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogType
+import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.base.Action
 
@@ -98,6 +98,23 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
                     settingsText = stringResource(id = R.string.open_source_license),
                     onClick = {
                         context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+                    }
+                )
+
+                SettingsItem(
+                    settingsIcon = painterResource(id = R.drawable.ic_mail),
+                    settingsText = stringResource(id = R.string.mail_to_developer),
+                    onClick = {
+                        val emailIntent = Intent(Intent.ACTION_SEND).apply {
+                            putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.mail_to_developer_title))
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf(context.getString(R.string.developer_email)))
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                context.getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
+                            )
+                            type = "message/rfc822"
+                        }
+                        context.startActivity(Intent.createChooser(emailIntent, "이메일:"))
                     }
                 )
             }
