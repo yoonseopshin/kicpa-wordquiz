@@ -6,7 +6,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
+        // FIXME: Gradle 7.2.0과 Coroutine 1.6.1이 호환되지 않음
+        classpath 'com.android.tools.build:gradle:7.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.41'
         classpath "org.jetbrains.kotlin:kotlin-serialization:1.6.21"

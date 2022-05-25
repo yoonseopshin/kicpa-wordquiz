@@ -72,4 +72,6 @@ dependencies {
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
     debugApi("androidx.customview:customview-poolingcontainer:1.0.0-beta01")
+
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
 }
