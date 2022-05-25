@@ -13,8 +13,8 @@ import androidx.compose.ui.res.colorResource
 import com.ysshin.cpaquiz.shared.android.R
 
 private val DarkColors = darkColors(
-    primary = MaterialColor.INDIGO_700,
-    primaryVariant = MaterialColor.INDIGO_900,
+    primary = MaterialColor.INDIGO_500,
+    primaryVariant = MaterialColor.INDIGO_700,
     secondary = MaterialColor.DEEP_PURPLE_A200,
 )
 

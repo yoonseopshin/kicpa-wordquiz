@@ -57,15 +57,15 @@ class ProblemDetailViewModel @Inject constructor(
     private val _solvedProblemNumbers = MutableStateFlow(DEFAULT_INT)
     val solvedProblemNumbers = _solvedProblemNumbers.asStateFlow()
 
-    private val _quizState = MutableSharedFlow<QuizState>()
-    val quizState = _quizState.asSharedFlow()
+    private val _quizEvent = MutableSharedFlow<QuizEvent>()
+    val quizState = _quizEvent.asSharedFlow()
 
     fun start(quizNumbers: Int) {
         if (_totalProblemNumbers.value == quizNumbers) return
 
         viewModelScope.launch {
             _totalProblemNumbers.value = quizNumbers
-            _quizState.emit(QuizState.Started)
+            _quizEvent.emit(QuizEvent.Started)
         }
     }
 
@@ -99,13 +99,13 @@ class ProblemDetailViewModel @Inject constructor(
 
     fun resume() {
         viewModelScope.launch {
-            _quizState.emit(QuizState.Resumed)
+            _quizEvent.emit(QuizEvent.Resumed)
         }
     }
 
     fun pause() {
         viewModelScope.launch {
-            _quizState.emit(QuizState.Paused)
+            _quizEvent.emit(QuizEvent.Paused)
         }
     }
 
@@ -123,7 +123,7 @@ class ProblemDetailViewModel @Inject constructor(
 
     fun calculate() {
         viewModelScope.launch {
-            _quizState.emit(QuizState.Calculating)
+            _quizEvent.emit(QuizEvent.Calculating)
         }
     }
 
@@ -131,16 +131,16 @@ class ProblemDetailViewModel @Inject constructor(
         viewModelScope.launch {
             _selected.add(selectedIndexByUser)
             if (problem.value.answer == selectedIndexByUser) {
-                _quizState.emit(QuizState.Correct)
+                _quizEvent.emit(QuizEvent.Correct)
             } else {
-                _quizState.emit(QuizState.Incorrect)
+                _quizEvent.emit(QuizEvent.Incorrect)
             }
         }
     }
 
     fun next() {
         viewModelScope.launch {
-            _quizState.emit(QuizState.Next)
+            _quizEvent.emit(QuizEvent.Next)
             laps.add(timeMillis.value)
             lastLapTime.update { laps.last() }
         }
@@ -158,7 +158,7 @@ class ProblemDetailViewModel @Inject constructor(
                     }
                 }
             } else {
-                _quizState.emit(QuizState.Ended)
+                _quizEvent.emit(QuizEvent.Ended)
             }
         }
     }

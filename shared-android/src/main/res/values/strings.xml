@@ -1,16 +1,9 @@
 <resources>
     <string name="app_name">CPA 말문제</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="START_YEAR">2016</string>
-    <string name="END_YEAR">2020</string>
     <string name="submit">제출</string>
     <string name="start">시작</string>
-    <string name="quiz_description">2016~2020 CPA 1차 기출문제 중 눈으로 풀 수 있는 문제들만 모아두었습니다.\n틀린 문제는 오답노트에 저장됩니다. \n문제의 정답은 오답노트에서 확인하세요.</string>
-    <string name="email">sys09270883@gmail.com</string>
-    <string name="email_subject">[CPA 회계학 말문제 앱 건의사항]</string>
     <string name="settings">설정</string>
     <string name="search">검색</string>
-    <string name="confirm">확인</string>
     <string name="home">홈</string>
     <string name="note">노트</string>
     <string name="quiz_amount">문제 수</string>
@@ -61,4 +54,11 @@
     <string name="subject_total_count">총 %1$d문제</string>
     <string name="toggle">토글</string>
     <string name="open_source_license">오픈소스 라이선스</string>
+    <string name="delete_wrong_note">오답노트 초기화</string>
+    <string name="question_delete_wrong_note">오답노트를 초기화할까요?</string>
+    <string name="confirm">확인</string>
+    <string name="cancel">취소</string>
+    <string name="success_delete_all_wrong_note">오답노트를 초기화했습니다.</string>
+    <string name="app_version">버전정보</string>
+    <string name="app_version_name_and_code">현재 버전 %1$s\n버전 코드 %2$s</string>
 </resources>

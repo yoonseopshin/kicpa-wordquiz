@@ -36,7 +36,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/daynight_gray050s"
+            android:background="@color/secondaryColor_0.15"
             android:clickable="true"
             android:focusable="true"
             android:foreground="@drawable/background_common_ripple"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@{headerTitle}"
-                android:textColor="@color/daynight_gray600s"
+                android:textColor="@color/daynight_gray700s"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/daynight_gray300s" />
+            android:background="@color/daynight_gray150a" />
 
     </LinearLayout>
 

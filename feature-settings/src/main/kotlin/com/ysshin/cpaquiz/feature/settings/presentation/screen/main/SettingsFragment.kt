@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.viewModels
 import com.ysshin.cpaquiz.feature.settings.presentation.ui.SettingsScreen
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
-import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

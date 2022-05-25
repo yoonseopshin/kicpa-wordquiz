@@ -13,6 +13,9 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
 
+        buildConfigField("String", "APP_VERSION_NAME", "\"${libs.versions.versionName.get()}\"")
+        buildConfigField("String", "APP_VERSION_CODE", "\"${libs.versions.versionCode.get()}\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -57,6 +60,7 @@ dependencies {
     api("androidx.activity:activity-compose:1.4.0")
     api("androidx.navigation:navigation-compose:2.5.0-rc01")
     api("androidx.hilt:hilt-navigation-compose:1.0.0")
+    api("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

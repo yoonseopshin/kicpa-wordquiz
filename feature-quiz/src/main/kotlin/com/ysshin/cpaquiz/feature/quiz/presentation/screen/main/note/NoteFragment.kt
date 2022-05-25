@@ -47,11 +47,12 @@ class NoteFragment : BaseFragment() {
             }
             onHeaderLongClick = {
                 MaterialAlertDialogBuilder(requireActivity())
-                    .setMessage("모든 오답문제를 삭제하시겠습니까?")
-                    .setPositiveButton("확인") { _, _ ->
+                    .setTitle(R.string.delete_wrong_note)
+                    .setMessage(R.string.question_delete_wrong_note)
+                    .setPositiveButton(R.string.confirm) { _, _ ->
                         viewModel.deleteAllWrongProblems()
                     }
-                    .setNegativeButton("취소") { _, _ -> }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
                     .create().show()
             }
         }

@@ -95,35 +95,35 @@ class ProblemDetailActivity : BaseActivity() {
         }
     }
 
-    private fun handleEvent(state: QuizState) {
+    private fun handleEvent(state: QuizEvent) {
         when (state) {
-            is QuizState.Started -> {
+            is QuizEvent.Started -> {
                 viewModel.onStart {
                     viewModel.next()
                 }
             }
-            is QuizState.Paused -> viewModel.onPause()
-            is QuizState.Resumed -> viewModel.onResume()
-            is QuizState.Calculating -> viewModel.onCalculating(binding.getUserAnswerIndex())
-            is QuizState.Correct -> {
+            is QuizEvent.Paused -> viewModel.onPause()
+            is QuizEvent.Resumed -> viewModel.onResume()
+            is QuizEvent.Calculating -> viewModel.onCalculating(binding.getUserAnswerIndex())
+            is QuizEvent.Correct -> {
                 binding.coverView.blink(
                     color(android.R.color.transparent),
                     color(R.color.color_on_correct)
                 )
             }
-            is QuizState.Incorrect -> {
+            is QuizEvent.Incorrect -> {
                 binding.coverView.blink(
                     color(android.R.color.transparent),
                     color(R.color.color_on_incorrect)
                 )
             }
-            is QuizState.Next -> {
+            is QuizEvent.Next -> {
                 viewModel.onNext {
                     binding.layProblemDetail.rgQuestions.clearCheck()
                     binding.scrollView.scrollToView(binding.toolbar)
                 }
             }
-            is QuizState.Ended -> {
+            is QuizEvent.Ended -> {
                 binding.fabNext.isEnabled = false
                 viewModel.onEnd {
                     lifecycleScope.launch {
