@@ -9,6 +9,8 @@ interface QuizRepository {
 
     suspend fun getLocalProblem(type: QuizType): Problem
 
+    suspend fun getLocalProblems(type: QuizType, size: Int): List<Problem>
+
     fun getLocalProblems(): Flow<List<Problem>>
 
     fun getWrongProblems(): Flow<List<Problem>>

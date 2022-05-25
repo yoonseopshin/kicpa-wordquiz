@@ -36,6 +36,15 @@ class QuizRepositoryImpl @Inject constructor(
             }.getOrNull() ?: Problem()
         }
 
+    override suspend fun getLocalProblems(type: QuizType, size: Int): List<Problem> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                problemDao.get(type, size)
+            }.map {
+                it.toDomain()
+            }.getOrNull() ?: emptyList()
+        }
+
     override fun getLocalProblems(): Flow<List<Problem>> = problemDao.getAll().map { it.toDomain() }
 
     override fun getWrongProblems(): Flow<List<Problem>> =

@@ -3,17 +3,14 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
-import com.ysshin.cpaquiz.domain.model.isValid
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -65,6 +62,11 @@ class ProblemDetailViewModel @Inject constructor(
 
         viewModelScope.launch {
             _totalProblemNumbers.value = quizNumbers
+            withContext(Dispatchers.IO) {
+                problemUseCases.getProblems(quizType.value, quizNumbers, this) {
+                    _problems.addAll(it)
+                }
+            }
             _quizEvent.emit(QuizEvent.Started)
         }
     }
@@ -149,14 +151,11 @@ class ProblemDetailViewModel @Inject constructor(
     fun onNext(onNextResult: Action) {
         viewModelScope.launch {
             if (totalProblemNumbers.value > solvedProblemNumbers.value) {
-                problemUseCases.getProblem(quizType.value, this) { newProblem ->
-                    if (newProblem.isValid()) {
-                        problem.value = newProblem
-                        _problems.add(newProblem)
-                        _solvedProblemNumbers.update { solved -> solved + 1 }
-                        onNextResult()
-                    }
+                _solvedProblemNumbers.update { solved ->
+                    problem.value = _problems[solved]
+                    solved + 1
                 }
+                onNextResult()
             } else {
                 _quizEvent.emit(QuizEvent.Ended)
             }

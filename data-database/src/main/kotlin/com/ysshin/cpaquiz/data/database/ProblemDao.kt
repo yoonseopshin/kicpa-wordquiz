@@ -30,6 +30,16 @@ interface ProblemDao {
 
     @Query(
         """
+        SELECT DISTINCT * 
+        FROM ${AppContract.Problem.TABLE_NAME} 
+        WHERE $TYPE = :type 
+        ORDER BY RANDOM() 
+        LIMIT :size"""
+    )
+    fun get(type: QuizType, size: Int): List<ProblemEntity>
+
+    @Query(
+        """
             SELECT *
             FROM ${AppContract.Problem.TABLE_NAME}
             WHERE $TYPE = :type
