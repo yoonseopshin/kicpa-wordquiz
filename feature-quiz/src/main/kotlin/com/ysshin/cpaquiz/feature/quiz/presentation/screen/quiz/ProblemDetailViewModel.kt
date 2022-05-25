@@ -62,7 +62,7 @@ class ProblemDetailViewModel @Inject constructor(
 
         viewModelScope.launch {
             _totalProblemNumbers.value = quizNumbers
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
                 problemUseCases.getProblems(quizType.value, quizNumbers, this) {
                     _problems.addAll(it)
                 }
