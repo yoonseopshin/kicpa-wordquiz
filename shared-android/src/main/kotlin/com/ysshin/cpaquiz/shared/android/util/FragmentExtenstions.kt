@@ -16,7 +16,7 @@ fun Fragment.hideKeyboard() {
     }
 }
 
-inline fun <reified T : Fragment> newInstance(vararg params: Pair<String, Any>): Fragment =
+inline fun <reified T : Fragment> newInstance(vararg params: Pair<String, Any>): T =
     T::class.java.newInstance().apply {
         arguments = bundleOf(*params)
     }

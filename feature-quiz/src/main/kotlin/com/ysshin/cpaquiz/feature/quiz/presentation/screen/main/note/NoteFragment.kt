@@ -22,13 +22,15 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
+import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogActionListener
+import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogFragment
 import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NoteFragment : BaseFragment() {
+class NoteFragment : BaseFragment(), AppDialogActionListener {
 
     private var _binding: FragmentNoteBinding? = null
     private val binding get() = requireNotNull(_binding)
@@ -46,14 +48,11 @@ class NoteFragment : BaseFragment() {
                 viewModel.toggleWrongNote()
             }
             onHeaderLongClick = {
-                MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle(R.string.delete_wrong_note)
-                    .setMessage(R.string.question_delete_wrong_note)
-                    .setPositiveButton(R.string.confirm) { _, _ ->
-                        viewModel.deleteAllWrongProblems()
-                    }
-                    .setNegativeButton(R.string.cancel) { _, _ -> }
-                    .create().show()
+                newInstance<AppDialogFragment>(
+                    Pair(Constants.icon, R.drawable.ic_delete),
+                    Pair(Constants.title, getString(R.string.delete_wrong_note)),
+                    Pair(Constants.description, getString(R.string.question_delete_wrong_note)),
+                ).show(childFragmentManager, AppDialogFragment::class.java.simpleName)
             }
         }
     }
@@ -329,5 +328,11 @@ class NoteFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onAppDialogConfirm() {
+        viewModel.deleteAllWrongProblems()
+    }
+
+    override fun onAppDialogDismiss() = Unit
 
 }
