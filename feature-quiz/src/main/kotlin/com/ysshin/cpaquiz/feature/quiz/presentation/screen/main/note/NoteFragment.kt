@@ -23,7 +23,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailAct
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogActionListener
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogFragment
+import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialogFragment
 import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -48,11 +48,11 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
                 viewModel.toggleWrongNote()
             }
             onHeaderLongClick = {
-                newInstance<AppDialogFragment>(
+                newInstance<AppInfoDialogFragment>(
                     Pair(Constants.icon, R.drawable.ic_delete),
                     Pair(Constants.title, getString(R.string.delete_wrong_note)),
                     Pair(Constants.description, getString(R.string.question_delete_wrong_note)),
-                ).show(childFragmentManager, AppDialogFragment::class.java.simpleName)
+                ).show(childFragmentManager, AppInfoDialogFragment::class.java.simpleName)
             }
         }
     }

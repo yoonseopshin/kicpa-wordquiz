@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.util.Constants
 
-class AppDialogFragment : DialogFragment() {
+class AppInfoDialogFragment : DialogFragment() {
 
     private var listener: AppDialogActionListener? = null
 
