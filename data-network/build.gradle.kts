@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlinx-serialization")
+//    id("cpawordquiz.spotless")
 }
 
 android {
@@ -40,6 +41,9 @@ dependencies {
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.androidx.test)
 
     debugImplementation("com.facebook.flipper:flipper:0.142.0")
     debugImplementation("com.facebook.soloader:soloader:0.10.3")

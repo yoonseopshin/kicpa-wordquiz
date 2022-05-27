@@ -145,6 +145,7 @@
 -keepattributes LineNumberTable,SourceFile
 -renamesourcefileattribute SourceFile
 
+
 # Allow R8 to optimize away the FastServiceLoader.
 # Together with ServiceLoader optimization in R8
 # this results in direct instantiation when loading Dispatchers.Main

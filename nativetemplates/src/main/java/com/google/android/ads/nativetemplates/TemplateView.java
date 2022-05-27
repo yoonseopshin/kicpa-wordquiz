@@ -249,12 +249,12 @@ public class TemplateView extends FrameLayout {
   private void initView(Context context, AttributeSet attributeSet) {
 
     TypedArray attributes =
-        context.getTheme().obtainStyledAttributes(attributeSet, R.styleable.TemplateView, 0, 0);
+        context.getTheme().obtainStyledAttributes(attributeSet, R.styleable.GntTemplateView, 0, 0);
 
     try {
       templateType =
           attributes.getResourceId(
-              R.styleable.TemplateView_gnt_template_type, R.layout.gnt_medium_template_view);
+              R.styleable.GntTemplateView_gnt_template_type, R.layout.gnt_medium_template_view);
     } finally {
       attributes.recycle();
     }

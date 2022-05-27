@@ -3,9 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlinx-serialization")
+//    id("cpawordquiz.spotless")
 }
-
-//apply(from=rootProject.file("./gradle/android-library.gradle.kts"))
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -41,4 +40,6 @@ dependencies {
     kapt(libs.room.compiler)
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.androidx.test)
 }

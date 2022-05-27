@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlinx-serialization")
+//    id("cpawordquiz.spotless")
 }
 
 android {
@@ -65,8 +66,8 @@ dependencies {
     api("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     api("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
-    testApi(libs.junit)
-    androidTestApi(libs.bundles.androidx.test)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.androidx.test)
 
     api(libs.kotlinx.serialization)
 

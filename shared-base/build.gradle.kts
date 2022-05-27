@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
+//    id("cpawordquiz.spotless")
 }
 
 java {
@@ -9,5 +10,5 @@ java {
 }
 
 dependencies {
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    api(libs.coroutines.core)
 }

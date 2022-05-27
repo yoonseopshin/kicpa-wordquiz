@@ -4,6 +4,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+//    id("cpawordquiz.spotless")
 }
 
 android {
@@ -47,6 +48,9 @@ dependencies {
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.androidx.test)
 
     implementation("com.google.android.gms:play-services-ads:20.6.0")
 

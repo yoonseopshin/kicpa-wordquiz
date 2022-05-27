@@ -7,7 +7,11 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'com.google.android.gms.oss-licenses-plugin'
+//    id 'cpawordquiz.spotless'
 }
+
+def secretProperties = new Properties()
+secretProperties.load(new FileInputStream(rootProject.file("secrets.properties")))
 
 android {
     compileSdk libs.versions.compileSdk.get() as Integer
@@ -27,10 +31,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(APP_KEYSTORE_FILE)
-            storePassword APP_KEYSTORE_PASSWORD
-            keyAlias APP_KEY_ALIAS
-            keyPassword APP_KEY_PASSWORD
+            storeFile file(secretProperties["APP_KEYSTORE_FILE"])
+            storePassword secretProperties["APP_KEYSTORE_PASSWORD"]
+            keyAlias secretProperties["APP_KEY_ALIAS"]
+            keyPassword secretProperties["APP_KEY_PASSWORD"]
         }
     }
 
@@ -100,6 +104,9 @@ dependencies {
 
     implementation("com.google.android.play:core:1.10.3")
     implementation("com.google.android.play:core-ktx:1.8.1")
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.androidx.test)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)

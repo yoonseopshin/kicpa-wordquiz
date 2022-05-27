@@ -1,15 +1,23 @@
-rootProject.name = "cpa-word-problem"
-
-enableFeaturePreview("VERSION_CATALOGS")
-
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("libs") {
-            from(files("libs.versions.toml"))
-        }
+pluginManagement {
+    includeBuild("build-logic")
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven(url = "https://jitpack.io")
+        maven(url = "https://kotlin.bintray.com/kotlinx")
+    }
+}
+
+rootProject.name = "cpa-word-problem"
 include(":app")
 include(":nativetemplates")
 include(":domain")
