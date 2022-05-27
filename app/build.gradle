@@ -15,7 +15,6 @@ secretProperties.load(new FileInputStream(rootProject.file("secrets.properties")
 
 android {
     compileSdk libs.versions.compileSdk.get() as Integer
-    buildToolsVersion libs.versions.buildToolsVersion.get()
 
     defaultConfig {
         applicationId libs.versions.applicationId.get()
