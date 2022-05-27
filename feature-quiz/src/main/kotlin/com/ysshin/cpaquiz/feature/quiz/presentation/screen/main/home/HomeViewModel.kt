@@ -18,59 +18,59 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val problemUseCases: ProblemUseCases,
-    private val quizUseCases: QuizUseCases,
+        private val problemUseCases: ProblemUseCases,
+        private val quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
     val nextExamDate = MutableStateFlow("")
 
     val quizNumber = quizUseCases.getQuizNumber()
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = DEFAULT_QUIZ_NUMBER
-        )
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = DEFAULT_QUIZ_NUMBER
+            )
 
     val useTimer = quizUseCases.getUseTimer()
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = DEFAULT_USE_TIMER
-        )
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = DEFAULT_USE_TIMER
+            )
 
     val accountingCount = problemUseCases.getProblemCount(QuizType.Accounting)
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = 0
-        )
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = 0
+            )
 
     val businessCount = problemUseCases.getProblemCount(QuizType.Business)
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = 0
-        )
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = 0
+            )
 
     val commercialLawCount = problemUseCases.getProblemCount(QuizType.CommercialLaw)
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = 0
-        )
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = 0
+            )
 
     val taxLawCount = problemUseCases.getProblemCount(QuizType.TaxLaw)
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = 0
-        )
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = 0
+            )
 
     fun requestNextExamDate() {
         viewModelScope.launch {

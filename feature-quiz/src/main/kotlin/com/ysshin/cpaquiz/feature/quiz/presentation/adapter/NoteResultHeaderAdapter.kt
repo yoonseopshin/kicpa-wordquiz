@@ -11,7 +11,7 @@ class NoteResultHeaderAdapter : RecyclerView.Adapter<NoteResultHeaderAdapter.Ite
     var onNoteResultHeaderClick: Action = {}
 
     class ItemViewHolder(binding: LayoutNoteResultHeaderBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            RecyclerView.ViewHolder(binding.root) {
 
         var onNoteResultHeaderClick: Action = {}
 
@@ -23,7 +23,7 @@ class NoteResultHeaderAdapter : RecyclerView.Adapter<NoteResultHeaderAdapter.Ite
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-        parent.inflate(LayoutNoteResultHeaderBinding::inflate)
+            parent.inflate(LayoutNoteResultHeaderBinding::inflate)
     ).also { viewHolder ->
         viewHolder.onNoteResultHeaderClick = onNoteResultHeaderClick
     }

@@ -17,7 +17,7 @@ import com.ysshin.cpaquiz.shared.android.util.inflate
 class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBannerViewHolder>() {
 
     class AdBannerViewHolder(private val binding: LayoutAdNativeBannerBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            RecyclerView.ViewHolder(binding.root) {
 
         private val adLoader: AdLoader
         private var adLoaded = false
@@ -25,23 +25,23 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
         init {
             val context = binding.root.context
             adLoader = AdLoader.Builder(context, AdConstants.QUIZ_NATIVE_AD_SMALL)
-                .forNativeAd { nativeAd ->
-                    val styles = NativeTemplateStyle.Builder()
-                        .withMainBackgroundColor(ColorDrawable(context.color(R.color.theme_color)))
-                        .withCallToActionBackgroundColor(ColorDrawable(context.color(R.color.primaryDarkColor)))
-                        .withCallToActionTypefaceColor(context.color(R.color.secondaryTextColor))
-                        .build()
-                    binding.adTemplateView.setStyles(styles)
-                    binding.adTemplateView.setNativeAd(nativeAd)
-                }
-                .withAdListener(object : AdListener() {
-                    override fun onAdLoaded() {
-                        super.onAdLoaded()
-                        adLoaded = true
+                    .forNativeAd { nativeAd ->
+                        val styles = NativeTemplateStyle.Builder()
+                                .withMainBackgroundColor(ColorDrawable(context.color(R.color.theme_color)))
+                                .withCallToActionBackgroundColor(ColorDrawable(context.color(R.color.primaryDarkColor)))
+                                .withCallToActionTypefaceColor(context.color(R.color.secondaryTextColor))
+                                .build()
+                        binding.adTemplateView.setStyles(styles)
+                        binding.adTemplateView.setNativeAd(nativeAd)
                     }
-                })
-                .withNativeAdOptions(NativeAdOptions.Builder().build())
-                .build()
+                    .withAdListener(object : AdListener() {
+                        override fun onAdLoaded() {
+                            super.onAdLoaded()
+                            adLoaded = true
+                        }
+                    })
+                    .withNativeAdOptions(NativeAdOptions.Builder().build())
+                    .build()
         }
 
         fun bind() {
@@ -52,7 +52,7 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AdBannerViewHolder(
-        parent.inflate(LayoutAdNativeBannerBinding::inflate)
+            parent.inflate(LayoutAdNativeBannerBinding::inflate)
     )
 
     override fun onBindViewHolder(holder: AdBannerViewHolder, position: Int) {

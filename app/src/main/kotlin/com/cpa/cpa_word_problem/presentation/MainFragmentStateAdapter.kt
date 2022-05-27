@@ -10,16 +10,16 @@ import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsFrag
 import com.ysshin.cpaquiz.shared.android.util.newInstance
 
 class MainFragmentStateAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
-    FragmentStateAdapter(fragmentManager, lifecycle) {
+        FragmentStateAdapter(fragmentManager, lifecycle) {
 
     private val tabFragmentsCreators = mapOf(
-        MainTab.Home.ordinal to { newInstance<HomeFragment>() },
-        MainTab.Note.ordinal to { newInstance<NoteFragment>() },
-        MainTab.Settings.ordinal to { newInstance<SettingsFragment>() }
+            MainTab.Home.ordinal to { newInstance<HomeFragment>() },
+            MainTab.Note.ordinal to { newInstance<NoteFragment>() },
+            MainTab.Settings.ordinal to { newInstance<SettingsFragment>() }
     )
 
     override fun getItemCount() = tabFragmentsCreators.size
 
     override fun createFragment(position: Int): Fragment =
-        tabFragmentsCreators[position]?.invoke() ?: throw IndexOutOfBoundsException()
+            tabFragmentsCreators[position]?.invoke() ?: throw IndexOutOfBoundsException()
 }

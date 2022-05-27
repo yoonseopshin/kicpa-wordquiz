@@ -15,7 +15,7 @@ sealed class ProblemOrder(private val orderType: OrderType) {
         is OrderType.Descending -> {
             when (this) {
                 is Time -> problems.sortedWith(compareBy({ it.year }, { it.pid }, { it.type }))
-                    .asReversed()
+                        .asReversed()
             }
         }
     }

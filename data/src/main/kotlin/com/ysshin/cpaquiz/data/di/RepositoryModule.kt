@@ -21,10 +21,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideQuizRepository(
-        quizService: QuizService,
-        problemDao: ProblemDao,
-        wrongProblemDao: WrongProblemDao,
-        quizDataStoreManager: QuizDatastoreManager,
+            quizService: QuizService,
+            problemDao: ProblemDao,
+            wrongProblemDao: WrongProblemDao,
+            quizDataStoreManager: QuizDatastoreManager,
     ): QuizRepository = QuizRepositoryImpl(quizService, problemDao, wrongProblemDao, quizDataStoreManager)
 
 }

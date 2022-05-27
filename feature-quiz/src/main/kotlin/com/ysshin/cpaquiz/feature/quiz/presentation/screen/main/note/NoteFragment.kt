@@ -49,9 +49,9 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
             }
             onHeaderLongClick = {
                 newInstance<AppInfoDialogFragment>(
-                    Pair(Constants.icon, R.drawable.ic_delete),
-                    Pair(Constants.title, getString(R.string.delete_wrong_note)),
-                    Pair(Constants.description, getString(R.string.question_delete_wrong_note)),
+                        Pair(Constants.icon, R.drawable.ic_delete),
+                        Pair(Constants.title, getString(R.string.delete_wrong_note)),
+                        Pair(Constants.description, getString(R.string.question_delete_wrong_note)),
                 ).show(childFragmentManager, AppInfoDialogFragment::class.java.simpleName)
             }
         }
@@ -60,21 +60,21 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
         NoteAdapter().also { adapter ->
             adapter.onProblemClick = { problem ->
                 startActivity(
-                    ProblemDetailActivity.newIntent(
-                        requireContext(),
-                        ProblemDetailMode.Detail,
-                        problem.toModel()
-                    ),
+                        ProblemDetailActivity.newIntent(
+                                requireContext(),
+                                ProblemDetailMode.Detail,
+                                problem.toModel()
+                        ),
                 )
             }
             adapter.onProblemLongClick = { problem ->
                 MaterialAlertDialogBuilder(requireActivity())
-                    .setMessage("선택한 오답문제를 삭제하시겠습니까?")
-                    .setPositiveButton("확인") { _, _ ->
-                        viewModel.deleteWrongProblem(problem.year, problem.pid, problem.type)
-                    }
-                    .setNegativeButton("취소") { _, _ -> }
-                    .create().show()
+                        .setMessage("선택한 오답문제를 삭제하시겠습니까?")
+                        .setPositiveButton("확인") { _, _ ->
+                            viewModel.deleteWrongProblem(problem.year, problem.pid, problem.type)
+                        }
+                        .setNegativeButton("취소") { _, _ -> }
+                        .create().show()
             }
         }
     }
@@ -91,11 +91,11 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
         NoteAdapter().also { adapter ->
             adapter.onProblemClick = { problem ->
                 startActivity(
-                    ProblemDetailActivity.newIntent(
-                        requireContext(),
-                        ProblemDetailMode.Detail,
-                        problem.toModel()
-                    ),
+                        ProblemDetailActivity.newIntent(
+                                requireContext(),
+                                ProblemDetailMode.Detail,
+                                problem.toModel()
+                        ),
                 )
             }
         }
@@ -110,11 +110,11 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
         NoteAdapter().also { adapter ->
             adapter.onProblemClick = { problem ->
                 startActivity(
-                    ProblemDetailActivity.newIntent(
-                        requireContext(),
-                        ProblemDetailMode.Detail,
-                        problem.toModel()
-                    ),
+                        ProblemDetailActivity.newIntent(
+                                requireContext(),
+                                ProblemDetailMode.Detail,
+                                problem.toModel()
+                        ),
                 )
             }
             adapter.isShowing = false
@@ -134,8 +134,8 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ) = FragmentNoteBinding.inflate(layoutInflater, container, false).also {
         _binding = it
         binding.viewModel = viewModel
@@ -165,7 +165,7 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
         }
 
         bsSearchBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
+                BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
@@ -205,14 +205,14 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
         }
 
         binding.recyclerView.adapter = ConcatAdapter(
-            adNativeBannerAboveWrongNoteAdapter,
-            wrongNoteHeaderAdapter,
-            wrongNoteAdapter,
-            totalNoteHeaderAdapter,
-            totalNoteAdapter,
-            searchedProblemsHeaderAdapter,
-            searchedProblemsAdapter,
-            scrollToTopAdapter
+                adNativeBannerAboveWrongNoteAdapter,
+                wrongNoteHeaderAdapter,
+                wrongNoteAdapter,
+                totalNoteHeaderAdapter,
+                totalNoteAdapter,
+                searchedProblemsHeaderAdapter,
+                searchedProblemsAdapter,
+                scrollToTopAdapter
         )
 
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -253,7 +253,7 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
                     viewModel.userInputText.collectLatest { userInputText ->
                         if (userInputText.isBlank()) {
                             binding.toolbar.menu.findItem(R.id.search).iconTintList =
-                                color(R.color.daynight_gray700s)
+                                    color(R.color.daynight_gray700s)
 
                             wrongNoteHeaderAdapter.showOrHide(viewModel.wrongProblems.value.isNotEmpty())
                             wrongNoteAdapter.show()
@@ -264,7 +264,7 @@ class NoteFragment : BaseFragment(), AppDialogActionListener {
                             scrollToTopAdapter.show()
                         } else {
                             binding.toolbar.menu.findItem(R.id.search).iconTintList =
-                                color(R.color.daynight_pastel_blue)
+                                    color(R.color.daynight_pastel_blue)
 
                             viewModel.search(userInputText.trim())
                             wrongNoteHeaderAdapter.hide()

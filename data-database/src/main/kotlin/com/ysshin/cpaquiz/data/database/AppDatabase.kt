@@ -10,9 +10,9 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
 @Database(
-    entities = [ProblemEntity::class, WrongProblemEntity::class],
-    version = 11,
-    exportSchema = false
+        entities = [ProblemEntity::class, WrongProblemEntity::class],
+        version = 11,
+        exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -24,14 +24,14 @@ abstract class AppDatabase : RoomDatabase() {
         private var instance: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase =
-            instance ?: synchronized(this) {
-                instance ?: buildDatabase(context).also { instance = it }
-            }
+                instance ?: synchronized(this) {
+                    instance ?: buildDatabase(context).also { instance = it }
+                }
 
         private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context, AppDatabase::class.java, AppContract.DATABASE_NAME)
-                .addMigrations(*ALL_MIGRATIONS)
-                .fallbackToDestructiveMigration()
-                .build()
+                Room.databaseBuilder(context, AppDatabase::class.java, AppContract.DATABASE_NAME)
+                        .addMigrations(*ALL_MIGRATIONS)
+                        .fallbackToDestructiveMigration()
+                        .build()
     }
 }

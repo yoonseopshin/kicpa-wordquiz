@@ -15,8 +15,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideProblemUseCases(repository: QuizRepository) =
-        ProblemUseCases(
+    fun provideProblemUseCases(repository: QuizRepository) = ProblemUseCases(
             GetLocalProblems(repository),
             GetWrongProblems(repository),
             SearchProblems(repository),
@@ -27,20 +26,20 @@ object UseCaseModule {
             GetProblems(repository),
             SyncRemoteProblems(repository),
             GetProblemCount(repository),
-        )
+    )
 
     @Provides
     @Singleton
     fun provideQuizUseCases(repository: QuizRepository) =
-        QuizUseCases(
-            GetNextExamDate(repository),
-            GetQuizNumber(repository),
-            GetUseTimer(repository),
-            SetQuizNumber(repository),
-            SetUseTimer(repository),
-            IncreaseSolvedQuiz(repository),
-            GetSolvedQuiz(repository),
-            GetShouldRequestInAppReview(repository),
-        )
+            QuizUseCases(
+                    GetNextExamDate(repository),
+                    GetQuizNumber(repository),
+                    GetUseTimer(repository),
+                    SetQuizNumber(repository),
+                    SetUseTimer(repository),
+                    IncreaseSolvedQuiz(repository),
+                    GetSolvedQuiz(repository),
+                    GetShouldRequestInAppReview(repository),
+            )
 
 }

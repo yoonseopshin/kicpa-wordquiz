@@ -19,7 +19,7 @@ interface ProblemDao {
     fun getAll(): Flow<List<ProblemEntity>>
 
     @Query(
-        """
+            """
         SELECT * 
         FROM ${AppContract.Problem.TABLE_NAME} 
         WHERE $TYPE = :type 
@@ -29,7 +29,7 @@ interface ProblemDao {
     fun get(type: QuizType): ProblemEntity?
 
     @Query(
-        """
+            """
         SELECT DISTINCT * 
         FROM ${AppContract.Problem.TABLE_NAME} 
         WHERE $TYPE = :type 
@@ -39,7 +39,7 @@ interface ProblemDao {
     fun get(type: QuizType, size: Int): List<ProblemEntity>
 
     @Query(
-        """
+            """
             SELECT *
             FROM ${AppContract.Problem.TABLE_NAME}
             WHERE $TYPE = :type
@@ -51,7 +51,7 @@ interface ProblemDao {
     fun get(year: Int, pid: Int, type: QuizType): ProblemEntity
 
     @Query(
-        """
+            """
             SELECT COUNT(*)
             FROM ${AppContract.Problem.TABLE_NAME}
             WHERE $TYPE = :type
@@ -60,7 +60,7 @@ interface ProblemDao {
     fun getProblemCountByType(type: QuizType): Flow<Int>
 
     @Query(
-        """
+            """
         SELECT *
         FROM ${AppContract.Problem.TABLE_NAME}
         WHERE $DESCRIPTION LIKE '%' || :text || '%'

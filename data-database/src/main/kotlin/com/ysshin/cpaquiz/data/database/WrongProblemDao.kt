@@ -16,7 +16,7 @@ interface WrongProblemDao {
     fun getAll(): Flow<List<WrongProblemEntity>>
 
     @Query(
-        """
+            """
         DELETE FROM
         ${AppContract.WrongProblem.TABLE_NAME} 
         WHERE $YEAR = :year

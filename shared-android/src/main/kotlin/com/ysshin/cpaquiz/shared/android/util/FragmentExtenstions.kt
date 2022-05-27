@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 fun Fragment.hideKeyboard() {
     val activity = requireActivity()
     val imm =
-        activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+            activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
     activity.currentFocus?.let {
         imm.hideSoftInputFromWindow(it.windowToken, 0)
     } ?: run {
@@ -17,6 +17,6 @@ fun Fragment.hideKeyboard() {
 }
 
 inline fun <reified T : Fragment> newInstance(vararg params: Pair<String, Any>): T =
-    T::class.java.newInstance().apply {
-        arguments = bundleOf(*params)
-    }
+        T::class.java.newInstance().apply {
+            arguments = bundleOf(*params)
+        }

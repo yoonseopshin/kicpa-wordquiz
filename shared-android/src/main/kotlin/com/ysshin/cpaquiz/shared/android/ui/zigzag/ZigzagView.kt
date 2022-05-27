@@ -8,9 +8,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.ysshin.cpaquiz.shared.android.R
 
 class ZigzagView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttrs: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttrs: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttrs) {
 
     private var zigzagHeight = 0f
@@ -50,38 +50,38 @@ class ZigzagView @JvmOverloads constructor(
             try {
                 zigzagHeight = getDimension(R.styleable.ZigzagView_zigzagHeight, 0.0f)
                 zigzagPaddingContent =
-                    getDimension(R.styleable.ZigzagView_zigzagPaddingContent, 0.0f)
+                        getDimension(R.styleable.ZigzagView_zigzagPaddingContent, 0.0f)
                 zigzagPaddingContentLeft =
-                    getDimension(
-                        R.styleable.ZigzagView_zigzagPaddingContentLeft,
-                        zigzagPaddingContent
-                    )
+                        getDimension(
+                                R.styleable.ZigzagView_zigzagPaddingContentLeft,
+                                zigzagPaddingContent
+                        )
                 zigzagPaddingContentRight =
-                    getDimension(
-                        R.styleable.ZigzagView_zigzagPaddingContentRight,
-                        zigzagPaddingContent
-                    )
+                        getDimension(
+                                R.styleable.ZigzagView_zigzagPaddingContentRight,
+                                zigzagPaddingContent
+                        )
                 zigzagPaddingContentTop =
-                    getDimension(
-                        R.styleable.ZigzagView_zigzagPaddingContentTop,
-                        zigzagPaddingContent
-                    )
+                        getDimension(
+                                R.styleable.ZigzagView_zigzagPaddingContentTop,
+                                zigzagPaddingContent
+                        )
                 zigzagPaddingContentBottom =
-                    getDimension(
-                        R.styleable.ZigzagView_zigzagPaddingContentBottom,
-                        zigzagPaddingContent
-                    )
+                        getDimension(
+                                R.styleable.ZigzagView_zigzagPaddingContentBottom,
+                                zigzagPaddingContent
+                        )
                 zigzagBackgroundColor =
-                    getColor(R.styleable.ZigzagView_zigzagBackgroundColor, zigzagBackgroundColor)
+                        getColor(R.styleable.ZigzagView_zigzagBackgroundColor, zigzagBackgroundColor)
                 zigzagPadding = getDimension(R.styleable.ZigzagView_zigzagPadding, zigzagElevation)
                 zigzagPaddingLeft =
-                    getDimension(R.styleable.ZigzagView_zigzagPaddingLeft, zigzagPadding)
+                        getDimension(R.styleable.ZigzagView_zigzagPaddingLeft, zigzagPadding)
                 zigzagPaddingRight =
-                    getDimension(R.styleable.ZigzagView_zigzagPaddingRight, zigzagPadding)
+                        getDimension(R.styleable.ZigzagView_zigzagPaddingRight, zigzagPadding)
                 zigzagPaddingTop =
-                    getDimension(R.styleable.ZigzagView_zigzagPaddingTop, zigzagPadding)
+                        getDimension(R.styleable.ZigzagView_zigzagPaddingTop, zigzagPadding)
                 zigzagPaddingBottom =
-                    getDimension(R.styleable.ZigzagView_zigzagPaddingBottom, zigzagPadding)
+                        getDimension(R.styleable.ZigzagView_zigzagPaddingBottom, zigzagPadding)
                 zigzagSides = getInt(R.styleable.ZigzagView_zigzagSides, ZIGZAG_BOTTOM)
             } finally {
                 recycle()
@@ -101,32 +101,32 @@ class ZigzagView @JvmOverloads constructor(
 
         // 입력받은 패딩 포함하여 지그재그 뷰 크기 계산
         rectZigzag.set(
-            rectMain.left + zigzagPaddingLeft,
-            rectMain.top + zigzagPaddingTop,
-            rectMain.right - zigzagPaddingRight,
-            rectMain.bottom - zigzagPaddingBottom
+                rectMain.left + zigzagPaddingLeft,
+                rectMain.top + zigzagPaddingTop,
+                rectMain.right - zigzagPaddingRight,
+                rectMain.bottom - zigzagPaddingBottom
         )
 
         // 지그재그 뷰의 패딩만큼 영역을 조정
         rectContent.set(
-            rectZigzag.left + zigzagPaddingContentLeft + (if (zigzagSides.containsSide(ZIGZAG_LEFT)) zigzagHeight else 0f),
-            rectZigzag.top + zigzagPaddingContentTop + (if (zigzagSides.containsSide(ZIGZAG_TOP)) zigzagHeight else 0f),
-            rectZigzag.right - zigzagPaddingContentRight + (if (zigzagSides.containsSide(
-                    ZIGZAG_RIGHT
-                )
-            ) zigzagHeight else 0f),
-            rectZigzag.bottom - zigzagPaddingContentBottom + (if (zigzagSides.containsSide(
-                    ZIGZAG_BOTTOM
-                )
-            ) zigzagHeight else 0f),
+                rectZigzag.left + zigzagPaddingContentLeft + (if (zigzagSides.containsSide(ZIGZAG_LEFT)) zigzagHeight else 0f),
+                rectZigzag.top + zigzagPaddingContentTop + (if (zigzagSides.containsSide(ZIGZAG_TOP)) zigzagHeight else 0f),
+                rectZigzag.right - zigzagPaddingContentRight + (if (zigzagSides.containsSide(
+                                ZIGZAG_RIGHT
+                        )
+                ) zigzagHeight else 0f),
+                rectZigzag.bottom - zigzagPaddingContentBottom + (if (zigzagSides.containsSide(
+                                ZIGZAG_BOTTOM
+                        )
+                ) zigzagHeight else 0f),
         )
 
         // 상하좌우 패딩 설정
         setPadding(
-            rectContent.left.toInt(),
-            rectContent.top.toInt(),
-            (rectMain.right - rectContent.right).toInt(),
-            (rectMain.bottom - rectContent.bottom).toInt()
+                rectContent.left.toInt(),
+                rectContent.top.toInt(),
+                (rectMain.right - rectContent.right).toInt(),
+                (rectMain.bottom - rectContent.bottom).toInt()
         )
     }
 
@@ -180,10 +180,10 @@ class ZigzagView @JvmOverloads constructor(
     }
 
     private fun Path.drawHorizontalSide(
-        left: Float,
-        y: Float,
-        right: Float,
-        isTop: Boolean
+            left: Float,
+            y: Float,
+            right: Float,
+            isTop: Boolean
     ) {
         val h = zigzagHeight
         val seed = 2 * h

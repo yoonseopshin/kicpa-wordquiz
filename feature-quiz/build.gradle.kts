@@ -4,7 +4,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
     id("kotlin-parcelize")
-//    id("cpawordquiz.spotless")
+    id("cpaquiz.spotless")
 }
 
 android {

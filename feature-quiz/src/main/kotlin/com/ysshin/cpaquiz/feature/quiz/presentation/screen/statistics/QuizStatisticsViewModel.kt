@@ -16,27 +16,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuizStatisticsViewModel @Inject constructor(
-    private val problemUseCases: ProblemUseCases,
-    quizUseCases: QuizUseCases,
+        private val problemUseCases: ProblemUseCases,
+        quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
     private val wrongProblems = mutableListOf<WrongProblem>()
 
     val solvedQuiz = quizUseCases.getSolvedQuiz()
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = DEFAULT_SOLVED_QUIZ
-        )
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = DEFAULT_SOLVED_QUIZ
+            )
 
     val shouldShowInAppReview = quizUseCases.getShouldRequestInAppReview()
-        .flowOn(Dispatchers.IO)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = false
-        )
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = false
+            )
 
     fun shouldShowAd(solvedQuiz: Int): Boolean {
         return solvedQuiz > 0 && solvedQuiz % SOLVED_QUIZ_THRESHOLD == 0

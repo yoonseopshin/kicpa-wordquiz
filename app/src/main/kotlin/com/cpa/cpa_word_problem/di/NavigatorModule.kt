@@ -20,22 +20,22 @@ object NavigatorModule {
     @Singleton
     fun provideMainTabNavigator() = object : MainTabNavigator {
         override fun homeTabIntent(context: Context, flags: Int?) =
-            Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, MainTab.Home)
-                flags?.let { addFlags(it) }
-            }
+                Intent(context, MainActivity::class.java).apply {
+                    putExtra(Constants.destination, MainTab.Home)
+                    flags?.let { addFlags(it) }
+                }
 
         override fun noteTabIntent(context: Context, flags: Int?) =
-            Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, MainTab.Note)
-                flags?.let { addFlags(it) }
-            }
+                Intent(context, MainActivity::class.java).apply {
+                    putExtra(Constants.destination, MainTab.Note)
+                    flags?.let { addFlags(it) }
+                }
 
         override fun settingsTabIntent(context: Context, flags: Int?) =
-            Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, MainTab.Settings)
-                flags?.let { addFlags(it) }
-            }
+                Intent(context, MainActivity::class.java).apply {
+                    putExtra(Constants.destination, MainTab.Settings)
+                    flags?.let { addFlags(it) }
+                }
 
     }
 

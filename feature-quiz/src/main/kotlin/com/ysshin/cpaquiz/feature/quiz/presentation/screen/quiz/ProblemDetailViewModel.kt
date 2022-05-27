@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProblemDetailViewModel @Inject constructor(
-    private val problemUseCases: ProblemUseCases,
-    private val quizUseCases: QuizUseCases
+        private val problemUseCases: ProblemUseCases,
+        private val quizUseCases: QuizUseCases
 ) : BaseViewModel() {
 
     val useTimer = MutableStateFlow(false)

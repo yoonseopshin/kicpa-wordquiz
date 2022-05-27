@@ -22,8 +22,8 @@ import kotlin.math.abs
 
 fun View.expand(duration: Long = 300L) {
     measure(
-        View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     )
     slideView(measuredHeight, duration)
 }
@@ -34,8 +34,8 @@ fun View.collapse(duration: Long = 300L, height: Int = 0) {
 
 fun View.slideView(newHeight: Int, duration: Long = 300L) {
     val slideAnimator = ValueAnimator
-        .ofInt(height, newHeight)
-        .setDuration(duration)
+            .ofInt(height, newHeight)
+            .setDuration(duration)
 
     slideAnimator.addUpdateListener {
         val currentHeight = it.animatedValue as Int
@@ -50,18 +50,18 @@ fun View.slideView(newHeight: Int, duration: Long = 300L) {
 }
 
 fun View.setOnThrottleClick(
-    dispatcher: CoroutineDispatcher = Dispatchers.Main,
-    interval: Long = 500L,
-    action: Consumer<View> = {}
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        interval: Long = 500L,
+        action: Consumer<View> = {}
 ) {
     val listener = View.OnClickListener { action(it) }
     setOnClickListener(OnThrottleClickListener(dispatcher, listener, interval))
 }
 
 fun View.setOnDoubleClick(
-    dispatcher: CoroutineDispatcher = Dispatchers.Main,
-    interval: Long = 500L,
-    action: Consumer<View> = {}
+        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        interval: Long = 500L,
+        action: Consumer<View> = {}
 ) {
     val listener = View.OnClickListener { action(it) }
     setOnClickListener(OnDoubleClickListener(dispatcher, listener, interval))
@@ -98,10 +98,10 @@ private fun calculateRectOnScreen(view: View): Rect {
     val location = IntArray(2)
     view.getLocationOnScreen(location)
     return Rect(
-        location[0],
-        location[1],
-        location[0] + view.measuredWidth,
-        location[1] + view.measuredHeight
+            location[0],
+            location[1],
+            location[0] + view.measuredWidth,
+            location[1] + view.measuredHeight
     )
 }
 
@@ -124,16 +124,16 @@ fun EditText.showKeyboard() {
     requestFocus()
     (context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager).also { imm ->
         imm.showSoftInput(
-            this,
-            0
+                this,
+                0
         )
     }
 }
 
 fun Context.colorStateList(@ColorRes resId: Int) =
-    ColorStateList.valueOf(ContextCompat.getColor(this, resId))
+        ColorStateList.valueOf(ContextCompat.getColor(this, resId))
 
 fun Context.color(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
 
 inline fun <T> ViewGroup.inflate(inflater: (LayoutInflater, ViewGroup, Boolean) -> T) =
-    inflater(LayoutInflater.from(context), this, false)
+        inflater(LayoutInflater.from(context), this, false)

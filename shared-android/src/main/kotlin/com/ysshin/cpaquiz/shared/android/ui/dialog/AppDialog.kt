@@ -28,78 +28,78 @@ enum class AppDialogType {
 
 @Composable
 fun AppInfoDialog(
-    modifier: Modifier = Modifier,
-    onConfirm: Action = {},
-    onDismiss: Action = {},
-    icon: Painter,
-    title: String,
-    description: String,
-    confirmText: String = stringResource(id = R.string.confirm),
-    dismissText: String = stringResource(id = R.string.cancel),
-    dialogType: AppDialogType = AppDialogType.ConfirmDismiss,
+        modifier: Modifier = Modifier,
+        onConfirm: Action = {},
+        onDismiss: Action = {},
+        icon: Painter,
+        title: String,
+        description: String,
+        confirmText: String = stringResource(id = R.string.confirm),
+        dismissText: String = stringResource(id = R.string.cancel),
+        dialogType: AppDialogType = AppDialogType.ConfirmDismiss,
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Card(
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp),
-            elevation = 4.dp
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp),
+                elevation = 4.dp
         ) {
             Column(
-                modifier.background(MaterialTheme.colors.surface)
+                    modifier.background(MaterialTheme.colors.surface)
             ) {
                 Image(
-                    painter = icon,
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
-                    modifier = Modifier
-                        .padding(top = 36.dp)
-                        .height(48.dp)
-                        .fillMaxWidth(),
+                        painter = icon,
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
+                        modifier = Modifier
+                                .padding(top = 36.dp)
+                                .height(48.dp)
+                                .fillMaxWidth(),
                 )
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = title,
-                        modifier = Modifier
-                            .padding(top = 4.dp)
-                            .fillMaxWidth(),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.h6
+                            text = title,
+                            modifier = Modifier
+                                    .padding(top = 4.dp)
+                                    .fillMaxWidth(),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h6
                     )
                     Text(
-                        text = description,
-                        modifier = Modifier
-                            .padding(top = 12.dp, start = 24.dp, end = 24.dp)
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.body2
+                            text = description,
+                            modifier = Modifier
+                                    .padding(top = 12.dp, start = 24.dp, end = 24.dp)
+                                    .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.body2
                     )
                 }
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp)
-                        .background(MaterialTheme.colors.primary.copy(alpha = 0.15f)),
-                    horizontalArrangement = Arrangement.SpaceAround
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 12.dp)
+                                .background(MaterialTheme.colors.primary.copy(alpha = 0.15f)),
+                        horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {
                         TextButton(onClick = onDismiss) {
                             Text(
-                                text = dismissText,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colors.onSurface,
-                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                                    text = dismissText,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colors.onSurface,
+                                    modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                             )
                         }
                     }
                     TextButton(onClick = onConfirm) {
                         Text(
-                            text = confirmText,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colors.onSurface,
-                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                                text = confirmText,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colors.onSurface,
+                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                         )
                     }
                 }

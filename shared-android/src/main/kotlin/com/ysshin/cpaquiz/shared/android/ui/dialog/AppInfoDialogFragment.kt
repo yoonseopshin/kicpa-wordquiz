@@ -29,33 +29,33 @@ class AppInfoDialogFragment : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        ComposeView(requireContext()).apply {
-            val iconResId = arguments?.getInt(Constants.icon) ?: return@apply
-            val title = arguments?.getString(Constants.title) ?: return@apply
-            val description = arguments?.getString(Constants.description) ?: return@apply
+            ComposeView(requireContext()).apply {
+                val iconResId = arguments?.getInt(Constants.icon) ?: return@apply
+                val title = arguments?.getString(Constants.title) ?: return@apply
+                val description = arguments?.getString(Constants.description) ?: return@apply
 
-            setContent {
-                CpaQuizTheme {
-                    val openDialog = remember { mutableStateOf(true) }
+                setContent {
+                    CpaQuizTheme {
+                        val openDialog = remember { mutableStateOf(true) }
 
-                    if (openDialog.value) {
-                        AppInfoDialog(
-                            icon = painterResource(id = iconResId),
-                            title = title,
-                            description = description,
-                            onConfirm = {
-                                listener?.onAppDialogConfirm()
-                                dismiss()
-                            },
-                            onDismiss = {
-                                listener?.onAppDialogDismiss()
-                                dismiss()
-                            }
-                        )
+                        if (openDialog.value) {
+                            AppInfoDialog(
+                                    icon = painterResource(id = iconResId),
+                                    title = title,
+                                    description = description,
+                                    onConfirm = {
+                                        listener?.onAppDialogConfirm()
+                                        dismiss()
+                                    },
+                                    onDismiss = {
+                                        listener?.onAppDialogDismiss()
+                                        dismiss()
+                                    }
+                            )
+                        }
                     }
                 }
             }
-        }
 
     override fun onDetach() {
         super.onDetach()

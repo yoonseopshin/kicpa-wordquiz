@@ -10,10 +10,10 @@ import kotlinx.coroutines.launch
 class GetProblems(private val repository: QuizRepository) {
 
     suspend operator fun invoke(
-        type: QuizType,
-        size: Int,
-        scope: CoroutineScope,
-        onResult: Consumer<List<Problem>>
+            type: QuizType,
+            size: Int,
+            scope: CoroutineScope,
+            onResult: Consumer<List<Problem>>
     ) {
         scope.launch {
             onResult(repository.getLocalProblems(type, size))

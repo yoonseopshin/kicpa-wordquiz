@@ -77,9 +77,9 @@ class ProblemDetailActivity : BaseActivity() {
             viewModel.next()
         } else {
             Snackbar.make(
-                binding.fabNext,
-                getString(R.string.msg_need_answer),
-                Snackbar.LENGTH_SHORT
+                    binding.fabNext,
+                    getString(R.string.msg_need_answer),
+                    Snackbar.LENGTH_SHORT
             ).setAnchorView(binding.fabNext).show()
         }
     }
@@ -107,14 +107,14 @@ class ProblemDetailActivity : BaseActivity() {
             is QuizEvent.Calculating -> viewModel.onCalculating(binding.getUserAnswerIndex())
             is QuizEvent.Correct -> {
                 binding.coverView.blink(
-                    color(android.R.color.transparent),
-                    color(R.color.color_on_correct)
+                        color(android.R.color.transparent),
+                        color(R.color.color_on_correct)
                 )
             }
             is QuizEvent.Incorrect -> {
                 binding.coverView.blink(
-                    color(android.R.color.transparent),
-                    color(R.color.color_on_incorrect)
+                        color(android.R.color.transparent),
+                        color(R.color.color_on_incorrect)
                 )
             }
             is QuizEvent.Next -> {
@@ -129,12 +129,12 @@ class ProblemDetailActivity : BaseActivity() {
                     lifecycleScope.launch {
                         delay(500L)
                         startActivity(
-                            QuizStatisticsActivity.newIntent(
-                                context = this@ProblemDetailActivity,
-                                problems = viewModel.problems.toModel(),
-                                selected = viewModel.selected,
-                                timesPerProblem = viewModel.timesPerProblem,
-                            )
+                                QuizStatisticsActivity.newIntent(
+                                        context = this@ProblemDetailActivity,
+                                        problems = viewModel.problems.toModel(),
+                                        selected = viewModel.selected,
+                                        timesPerProblem = viewModel.timesPerProblem,
+                                )
                         )
                         finish()
                     }
@@ -185,9 +185,9 @@ class ProblemDetailActivity : BaseActivity() {
     companion object {
         // From Detail
         fun newIntent(
-            context: Context,
-            mode: ProblemDetailMode = ProblemDetailMode.Detail,
-            problemModel: ProblemModel? = null,
+                context: Context,
+                mode: ProblemDetailMode = ProblemDetailMode.Detail,
+                problemModel: ProblemModel? = null,
         ) = Intent(context, ProblemDetailActivity::class.java).apply {
             putExtra(QuizConstants.mode, mode)
             problemModel?.let { problemModel -> putExtra(QuizConstants.problemModel, problemModel) }
@@ -195,11 +195,11 @@ class ProblemDetailActivity : BaseActivity() {
 
         // From Quiz
         fun newIntent(
-            context: Context,
-            mode: ProblemDetailMode = ProblemDetailMode.Quiz,
-            quizType: QuizType,
-            quizNumbers: Int,
-            useTimer: Boolean = false,
+                context: Context,
+                mode: ProblemDetailMode = ProblemDetailMode.Quiz,
+                quizType: QuizType,
+                quizNumbers: Int,
+                useTimer: Boolean = false,
         ) = Intent(context, ProblemDetailActivity::class.java).apply {
             putExtra(QuizConstants.mode, mode)
             putExtra(QuizConstants.quizType, quizType)
@@ -210,11 +210,11 @@ class ProblemDetailActivity : BaseActivity() {
 }
 
 private fun ActivityProblemDetailBinding.getUserAnswerIndex(): Int =
-    when (layProblemDetail.rgQuestions.checkedRadioButtonId) {
-        R.id.rb0 -> 0
-        R.id.rb1 -> 1
-        R.id.rb2 -> 2
-        R.id.rb3 -> 3
-        R.id.rb4 -> 4
-        else -> throw IndexOutOfBoundsException("Invalid index for radio group.")
-    }
+        when (layProblemDetail.rgQuestions.checkedRadioButtonId) {
+            R.id.rb0 -> 0
+            R.id.rb1 -> 1
+            R.id.rb2 -> 2
+            R.id.rb3 -> 3
+            R.id.rb4 -> 4
+            else -> throw IndexOutOfBoundsException("Invalid index for radio group.")
+        }

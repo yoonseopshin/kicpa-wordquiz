@@ -105,13 +105,13 @@ fun Chip.bindByType(type: QuizType?) {
             visibility = View.VISIBLE
             text = context.getString(R.string.commercial_law)
             chipBackgroundColor =
-                context.colorStateList(R.color.commercial_law_highlight_color_0_20)
+                    context.colorStateList(R.color.commercial_law_highlight_color_0_20)
         }
         QuizType.TaxLaw -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.tax_law)
             chipBackgroundColor =
-                context.colorStateList(R.color.tax_law_highlight_color_0_20)
+                    context.colorStateList(R.color.tax_law_highlight_color_0_20)
         }
         QuizType.None -> {
             visibility = View.GONE
@@ -165,10 +165,10 @@ fun TextView.bindQuizDescription(description: String) {
                 setSpan(UnderlineSpan(), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
                 setSpan(StyleSpan(Typeface.BOLD), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
                 setSpan(
-                    ForegroundColorSpan(ContextCompat.getColor(context, R.color.daynight_gray900s)),
-                    start,
-                    end,
-                    SPAN_EXCLUSIVE_EXCLUSIVE
+                        ForegroundColorSpan(ContextCompat.getColor(context, R.color.daynight_gray900s)),
+                        start,
+                        end,
+                        SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
             return

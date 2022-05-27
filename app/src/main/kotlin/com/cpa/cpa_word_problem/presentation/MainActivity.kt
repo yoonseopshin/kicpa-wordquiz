@@ -25,8 +25,8 @@ class MainActivity : BaseActivity() {
     private fun init() {
         with(binding) {
             viewPager.adapter = MainFragmentStateAdapter(
-                fragmentManager = supportFragmentManager,
-                lifecycle = lifecycle
+                    fragmentManager = supportFragmentManager,
+                    lifecycle = lifecycle
             )
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.setIcon(MainTab.getIcon(position))

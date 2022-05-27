@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val problemUseCases: ProblemUseCases
+        private val problemUseCases: ProblemUseCases
 ) : BaseViewModel() {
 
     private val _isDeleteWrongProblemDialogOpened = MutableStateFlow(false)
@@ -36,10 +36,10 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             problemUseCases.deleteAllWrongProblems.invoke()
             _uiEvent.emit(
-                UiEvent.ShowSnackbar(
-                    UiText.StringResource(resId = R.string.success_delete_all_wrong_note),
-                    UiText.StringResource(resId = R.string.confirm)
-                )
+                    UiEvent.ShowSnackbar(
+                            UiText.StringResource(resId = R.string.success_delete_all_wrong_note),
+                            UiText.StringResource(resId = R.string.confirm)
+                    )
             )
         }
     }

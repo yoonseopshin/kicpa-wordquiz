@@ -13,7 +13,7 @@ class ScrollToTopAdapter : ToggleableAdapter<ScrollToTopAdapter.ItemViewHolder>(
     var onScrollToTopClick: Action = {}
 
     class ItemViewHolder(private val binding: LayoutScrollToTopBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            RecyclerView.ViewHolder(binding.root) {
 
         var onScrollToTopClick: Action = {}
 
@@ -30,7 +30,7 @@ class ScrollToTopAdapter : ToggleableAdapter<ScrollToTopAdapter.ItemViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-        parent.inflate(LayoutScrollToTopBinding::inflate)
+            parent.inflate(LayoutScrollToTopBinding::inflate)
     ).also { viewHolder ->
         viewHolder.onScrollToTopClick = onScrollToTopClick
     }
