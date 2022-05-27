@@ -19,7 +19,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -45,18 +45,8 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":nativetemplates"))
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
-
-    implementation(libs.bundles.androidx.shared)
-    implementation(libs.material)
-
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     implementation("com.google.android.gms:play-services-ads:20.6.0")
 
@@ -65,5 +55,4 @@ dependencies {
 
     implementation("androidx.recyclerview:recyclerview:1.3.0-alpha02")
 
-    implementation("com.jakewharton.timber:timber:5.0.1")
 }

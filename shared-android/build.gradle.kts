@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -48,8 +48,8 @@ android {
 
 dependencies {
     implementation(project(":shared-base"))
-    implementation(libs.bundles.androidx.shared)
-    implementation(libs.material)
+    api(libs.bundles.androidx.shared)
+    api(libs.material)
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
@@ -62,16 +62,17 @@ dependencies {
     api("androidx.hilt:hilt-navigation-compose:1.0.0")
     api("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+    api("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
-    api("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+    testApi(libs.junit)
+    androidTestApi(libs.bundles.androidx.test)
+
+    api(libs.kotlinx.serialization)
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
-    debugApi("androidx.customview:customview-poolingcontainer:1.0.0-beta01")
+    debugApi("androidx.customview:customview-poolingcontainer:1.0.0-beta02")
 
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    api(libs.timber)
 }
