@@ -10,8 +10,8 @@ plugins {
     id 'cpaquiz.spotless'
 }
 
-def secretProperties = new Properties()
-secretProperties.load(new FileInputStream(rootProject.file("secrets.properties")))
+def Secrets = new Properties()
+Secrets.load(new FileInputStream(rootProject.file("secrets.properties")))
 
 android {
     compileSdk libs.versions.compileSdk.get() as Integer
@@ -30,10 +30,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(secretProperties["APP_KEYSTORE_FILE"])
-            storePassword secretProperties["APP_KEYSTORE_PASSWORD"]
-            keyAlias secretProperties["APP_KEY_ALIAS"]
-            keyPassword secretProperties["APP_KEY_PASSWORD"]
+            storeFile file(Secrets["APP_KEYSTORE_FILE"])
+            storePassword Secrets["APP_KEYSTORE_PASSWORD"]
+            keyAlias Secrets["APP_KEY_ALIAS"]
+            keyPassword Secrets["APP_KEY_PASSWORD"]
         }
     }
 
