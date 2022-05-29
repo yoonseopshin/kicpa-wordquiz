@@ -18,7 +18,6 @@ android {
         buildConfigField("String", "APP_VERSION_CODE", "\"${libs.versions.versionCode.get()}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -69,7 +68,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidx.test)
 
-    api(libs.kotlinx.serialization)
+    api(libs.kotlinx.serialization.json)
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
     debugApi("androidx.customview:customview-poolingcontainer:1.0.0-beta02")
