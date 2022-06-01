@@ -14,6 +14,7 @@ buildscript {
         classpath(libs.spotless.gradle.plugin)
         classpath("com.google.gms:google-services:4.3.10")
         classpath("com.google.android.gms:oss-licenses-plugin:0.10.5")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
     }
 }
 

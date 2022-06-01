@@ -70,8 +70,8 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ) = FragmentHomeBinding.inflate(layoutInflater, container, false).also {
         _binding = it
         binding.viewModel = viewModel
@@ -80,7 +80,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.syncRemoteProblems()
+//        viewModel.syncRemoteProblems()
         initView()
         observeViewModel()
         viewModel.requestNextExamDate()
@@ -90,22 +90,22 @@ class HomeFragment : BaseFragment() {
     private fun loadAd() {
         runCatching {
             adLoader = AdLoader.Builder(requireContext(), AdConstants.QUIZ_NATIVE_AD_MEDIUM)
-                    .forNativeAd { nativeAd ->
-                        val styles = NativeTemplateStyle.Builder()
-                                .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
-                                .withCallToActionBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryDarkColor)))
-                                .withCallToActionTypefaceColor(colorAsInt(R.color.secondaryTextColor))
-                                .build()
-                        binding.adTemplateView.setStyles(styles)
-                        binding.adTemplateView.setNativeAd(nativeAd)
+                .forNativeAd { nativeAd ->
+                    val styles = NativeTemplateStyle.Builder()
+                        .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
+                        .withCallToActionBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryDarkColor)))
+                        .withCallToActionTypefaceColor(colorAsInt(R.color.secondaryTextColor))
+                        .build()
+                    binding.adTemplateView.setStyles(styles)
+                    binding.adTemplateView.setNativeAd(nativeAd)
 
-                        if (isDetached) {
-                            nativeAd.destroy()
-                            return@forNativeAd
-                        }
+                    if (isDetached) {
+                        nativeAd.destroy()
+                        return@forNativeAd
                     }
-                    .withNativeAdOptions(NativeAdOptions.Builder().build())
-                    .build()
+                }
+                .withNativeAdOptions(NativeAdOptions.Builder().build())
+                .build()
         }.onSuccess {
             adLoader.loadAd(AdRequest.Builder().build())
         }
@@ -133,7 +133,7 @@ class HomeFragment : BaseFragment() {
         }
 
         bsQuizBehavior.addBottomSheetCallback(object :
-                BottomSheetBehavior.BottomSheetCallback() {
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
@@ -162,12 +162,12 @@ class HomeFragment : BaseFragment() {
 
             root.setOnThrottleClick {
                 startActivity(
-                        ProblemDetailActivity.newIntent(
-                                context = requireContext(),
-                                quizType = QuizType.Accounting,
-                                quizNumbers = viewModel.quizNumber.value,
-                                useTimer = viewModel.useTimer.value
-                        )
+                    ProblemDetailActivity.newIntent(
+                        context = requireContext(),
+                        quizType = QuizType.Accounting,
+                        quizNumbers = viewModel.quizNumber.value,
+                        useTimer = viewModel.useTimer.value
+                    )
                 )
             }
         }
@@ -180,12 +180,12 @@ class HomeFragment : BaseFragment() {
 
             root.setOnThrottleClick {
                 startActivity(
-                        ProblemDetailActivity.newIntent(
-                                context = requireContext(),
-                                quizType = QuizType.Business,
-                                quizNumbers = viewModel.quizNumber.value,
-                                useTimer = viewModel.useTimer.value
-                        )
+                    ProblemDetailActivity.newIntent(
+                        context = requireContext(),
+                        quizType = QuizType.Business,
+                        quizNumbers = viewModel.quizNumber.value,
+                        useTimer = viewModel.useTimer.value
+                    )
                 )
             }
         }
@@ -198,12 +198,12 @@ class HomeFragment : BaseFragment() {
 
             root.setOnThrottleClick {
                 startActivity(
-                        ProblemDetailActivity.newIntent(
-                                context = requireContext(),
-                                quizType = QuizType.CommercialLaw,
-                                quizNumbers = viewModel.quizNumber.value,
-                                useTimer = viewModel.useTimer.value
-                        )
+                    ProblemDetailActivity.newIntent(
+                        context = requireContext(),
+                        quizType = QuizType.CommercialLaw,
+                        quizNumbers = viewModel.quizNumber.value,
+                        useTimer = viewModel.useTimer.value
+                    )
                 )
             }
         }
@@ -216,12 +216,12 @@ class HomeFragment : BaseFragment() {
 
             root.setOnThrottleClick {
                 startActivity(
-                        ProblemDetailActivity.newIntent(
-                                context = requireContext(),
-                                quizType = QuizType.TaxLaw,
-                                quizNumbers = viewModel.quizNumber.value,
-                                useTimer = viewModel.useTimer.value
-                        )
+                    ProblemDetailActivity.newIntent(
+                        context = requireContext(),
+                        quizType = QuizType.TaxLaw,
+                        quizNumbers = viewModel.quizNumber.value,
+                        useTimer = viewModel.useTimer.value
+                    )
                 )
             }
         }
@@ -235,13 +235,13 @@ class HomeFragment : BaseFragment() {
                 }
 
                 MaterialAlertDialogBuilder(requireActivity())
-                        .setMessage("문제 수를 고르세요.")
-                        .setView(numberPicker)
-                        .setPositiveButton("확인") { _, _ ->
-                            viewModel.setQuizNumber(numberPicker.value)
-                        }
-                        .setNegativeButton("취소") { _, _ -> }
-                        .create().show()
+                    .setMessage("문제 수를 고르세요.")
+                    .setView(numberPicker)
+                    .setPositiveButton("확인") { _, _ ->
+                        viewModel.setQuizNumber(numberPicker.value)
+                    }
+                    .setNegativeButton("취소") { _, _ -> }
+                    .create().show()
             }
 
             layTimer.setOnClickListener {
@@ -274,7 +274,7 @@ class HomeFragment : BaseFragment() {
                     viewModel.accountingCount.collectLatest { count ->
                         binding.layAccounting.tvSubjectCount.visibleOrGone(count > 0)
                         binding.layAccounting.tvSubjectCount.text =
-                                getString(R.string.subject_total_count, count)
+                            getString(R.string.subject_total_count, count)
                     }
                 }
 
@@ -282,7 +282,7 @@ class HomeFragment : BaseFragment() {
                     viewModel.businessCount.collectLatest { count ->
                         binding.layBusiness.tvSubjectCount.visibleOrGone(count > 0)
                         binding.layBusiness.tvSubjectCount.text =
-                                getString(R.string.subject_total_count, count)
+                            getString(R.string.subject_total_count, count)
                     }
                 }
 
@@ -290,7 +290,7 @@ class HomeFragment : BaseFragment() {
                     viewModel.commercialLawCount.collectLatest { count ->
                         binding.layCommercialLaw.tvSubjectCount.visibleOrGone(count > 0)
                         binding.layCommercialLaw.tvSubjectCount.text =
-                                getString(R.string.subject_total_count, count)
+                            getString(R.string.subject_total_count, count)
                     }
                 }
 
@@ -298,7 +298,7 @@ class HomeFragment : BaseFragment() {
                     viewModel.taxLawCount.collectLatest { count ->
                         binding.layTaxLaw.tvSubjectCount.visibleOrGone(count > 0)
                         binding.layTaxLaw.tvSubjectCount.text =
-                                getString(R.string.subject_total_count, count)
+                            getString(R.string.subject_total_count, count)
                     }
                 }
             }
