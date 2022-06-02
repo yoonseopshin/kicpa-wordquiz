@@ -13,15 +13,15 @@ import androidx.compose.ui.res.colorResource
 import com.ysshin.cpaquiz.shared.android.R
 
 private val DarkColors = darkColors(
-        primary = MaterialColor.INDIGO_500,
-        primaryVariant = MaterialColor.INDIGO_700,
-        secondary = MaterialColor.DEEP_PURPLE_A200,
+    primary = MaterialColor.INDIGO_500,
+    primaryVariant = MaterialColor.INDIGO_700,
+    secondary = MaterialColor.DEEP_PURPLE_A200,
 )
 
 private val LightColors = lightColors(
-        primary = MaterialColor.LIGHT_GREEN_700,
-        primaryVariant = MaterialColor.LIGHT_GREEN_900,
-        secondary = MaterialColor.AMBER_A200,
+    primary = MaterialColor.LIGHT_GREEN_700,
+    primaryVariant = MaterialColor.LIGHT_GREEN_900,
+    secondary = MaterialColor.AMBER_A200,
 
         /* Other default colors to override
         background = Color(0xFFFFFBFE),
@@ -37,30 +37,29 @@ private val LightColors = lightColors(
 private object CpaQuizRippleTheme : RippleTheme {
     @Composable
     override fun defaultColor() = RippleTheme.defaultRippleColor(
-            contentColor = colorResource(id = R.color.reverse_theme_color),
-            lightTheme = isSystemInDarkTheme().not()
+        contentColor = colorResource(id = R.color.reverse_theme_color),
+        lightTheme = isSystemInDarkTheme().not()
     )
 
     @Composable
     override fun rippleAlpha() = RippleAlpha(
-            focusedAlpha = 0.12f,
-            draggedAlpha = 0.12f,
-            hoveredAlpha = 0.12f,
-            pressedAlpha = 0.12f
+        focusedAlpha = 0.12f,
+        draggedAlpha = 0.12f,
+        hoveredAlpha = 0.12f,
+        pressedAlpha = 0.12f
     )
-
 }
 
 @Composable
 fun CpaQuizTheme(
-        darkTheme: Boolean = isSystemInDarkTheme(),
-        content: @Composable () -> Unit
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) DarkColors else LightColors
 
     MaterialTheme(
-            colors = colors,
-            typography = Typography
+        colors = colors,
+        typography = Typography
     ) {
         CompositionLocalProvider(LocalRippleTheme provides CpaQuizRippleTheme, content = content)
     }

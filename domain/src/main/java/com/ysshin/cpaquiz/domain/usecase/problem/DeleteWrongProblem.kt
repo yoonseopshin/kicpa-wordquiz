@@ -12,5 +12,4 @@ class DeleteWrongProblem(private val repository: QuizRepository) {
             repository.deleteWrongProblem(year, pid, type)
         }
     }
-
 }

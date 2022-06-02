@@ -6,31 +6,31 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
-        private val problemUseCases: ProblemUseCases
+    private val problemUseCases: ProblemUseCases
 ) : BaseViewModel() {
 
     val problems: StateFlow<List<Problem>> = problemUseCases.getLocalProblems()
-            .flowOn(Dispatchers.IO)
-            .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.Lazily,
-                    initialValue = emptyList()
-            )
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
 
     val wrongProblems: StateFlow<List<Problem>> = problemUseCases.getWrongProblems()
-            .flowOn(Dispatchers.IO)
-            .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.Lazily,
-                    initialValue = emptyList()
-            )
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
 
     val isWrongNoteOpened = MutableStateFlow(true)
     val isTotalNoteOpened = MutableStateFlow(true)
@@ -63,5 +63,4 @@ class NoteViewModel @Inject constructor(
     }
 
     fun isSearching() = userInputText.value.isNotBlank()
-
 }

@@ -8,5 +8,4 @@ import kotlinx.coroutines.flow.map
 class GetWrongProblems(private val repository: QuizRepository) {
 
     operator fun invoke(): Flow<List<Problem>> = repository.getWrongProblems().map { it.reversed() }
-
 }

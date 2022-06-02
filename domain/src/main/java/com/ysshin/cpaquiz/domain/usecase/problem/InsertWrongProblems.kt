@@ -12,5 +12,4 @@ class InsertWrongProblems(private val repository: QuizRepository) {
             repository.insertWrongProblems(wrongProblems)
         }
     }
-
 }

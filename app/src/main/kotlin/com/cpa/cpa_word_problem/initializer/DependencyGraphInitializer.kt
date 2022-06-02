@@ -11,5 +11,4 @@ class DependencyGraphInitializer : Initializer<Unit> {
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()
-
 }

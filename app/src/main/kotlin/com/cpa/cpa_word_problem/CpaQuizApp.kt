@@ -11,5 +11,4 @@ class CpaQuizApp : Application() {
         super.onCreate()
         Sync.initialize(context = this)
     }
-
 }

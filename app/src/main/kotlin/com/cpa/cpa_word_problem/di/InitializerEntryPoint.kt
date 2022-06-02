@@ -16,10 +16,9 @@ interface InitializerEntryPoint {
     companion object {
         fun resolve(context: Context): InitializerEntryPoint {
             return EntryPointAccessors.fromApplication(
-                    context.applicationContext,
-                    InitializerEntryPoint::class.java
+                context.applicationContext,
+                InitializerEntryPoint::class.java
             )
         }
     }
-
 }

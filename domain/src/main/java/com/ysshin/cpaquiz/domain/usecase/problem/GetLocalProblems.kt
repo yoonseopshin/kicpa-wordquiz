@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.map
 
 class GetLocalProblems(private val repository: QuizRepository) {
 
-    operator fun invoke(problemOrder: ProblemOrder = ProblemOrder.Time(OrderType.Ascending)): Flow<List<Problem>> =
-            repository.getLocalProblems().map { problemOrder(it) }
-
+    operator fun invoke(
+        problemOrder: ProblemOrder = ProblemOrder.Time(OrderType.Ascending)
+    ): Flow<List<Problem>> =
+        repository.getLocalProblems().map { problemOrder(it) }
 }

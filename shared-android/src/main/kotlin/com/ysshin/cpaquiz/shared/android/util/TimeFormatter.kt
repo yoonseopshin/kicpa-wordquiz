@@ -10,9 +10,9 @@ object TimeFormatter {
             "$seconds"
         } else {
             if (seconds >= 10) {
-                "${minutes}:${seconds}"
+                "$minutes:$seconds"
             } else {
-                "${minutes}:0${seconds}"
+                "$minutes:0$seconds"
             }
         }
     }
@@ -32,5 +32,4 @@ object TimeFormatter {
     }
 
     fun formatKorean(millis: Int): String = formatKorean(millis.toLong())
-
 }

@@ -119,13 +119,15 @@
             app:fabSize="mini"
             app:layout_anchor="@id/bs_quiz"
             app:layout_anchorGravity="top|end"
-            app:rippleColor="@color/rippleColor" />
+            app:rippleColor="@color/rippleColor"
+            tools:visibility="visible" />
 
         <include
             android:id="@+id/bs_quiz"
             layout="@layout/layout_bottom_sheet_quiz_settings"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             app:layout_behavior="@string/bottom_sheet_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

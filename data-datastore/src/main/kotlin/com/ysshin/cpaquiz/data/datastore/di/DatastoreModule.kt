@@ -25,7 +25,5 @@ object DatastoreModule {
     @Singleton
     @Provides
     fun provideQuizDataStoreManager(@Named("QuizDataStore") dataStore: DataStore<Preferences>) =
-            QuizDatastoreManager(dataStore)
-
+        QuizDatastoreManager(dataStore)
 }
-

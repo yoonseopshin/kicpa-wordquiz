@@ -10,8 +10,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
+import kotlinx.serialization.ExperimentalSerializationApi
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -21,10 +21,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideQuizRepository(
-            quizService: QuizService,
-            problemDao: ProblemDao,
-            wrongProblemDao: WrongProblemDao,
-            quizDataStoreManager: QuizDatastoreManager,
-    ): QuizRepository = QuizRepositoryImpl(quizService, problemDao, wrongProblemDao, quizDataStoreManager)
-
+        quizService: QuizService,
+        problemDao: ProblemDao,
+        wrongProblemDao: WrongProblemDao,
+        quizDataStoreManager: QuizDatastoreManager,
+    ): QuizRepository =
+        QuizRepositoryImpl(quizService, problemDao, wrongProblemDao, quizDataStoreManager)
 }

@@ -15,5 +15,4 @@ class DeleteAllWrongProblems(private val repository: QuizRepository) {
             repository.deleteAllWrongProblems()
         }
     }
-
 }

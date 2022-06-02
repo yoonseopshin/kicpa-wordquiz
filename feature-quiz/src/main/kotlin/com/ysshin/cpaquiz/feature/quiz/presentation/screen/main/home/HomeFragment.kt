@@ -70,7 +70,8 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentHomeBinding.inflate(layoutInflater, container, false).also {
         _binding = it
@@ -133,21 +134,21 @@ class HomeFragment : BaseFragment() {
         }
 
         bsQuizBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        binding.fabCloseBsQuiz.invisible()
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when (newState) {
+                        BottomSheetBehavior.STATE_COLLAPSED -> {
+                            binding.fabCloseBsQuiz.invisible()
+                        }
+                        BottomSheetBehavior.STATE_EXPANDED -> {
+                            binding.fabCloseBsQuiz.show()
+                        }
+                        else -> Unit
                     }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        binding.fabCloseBsQuiz.show()
-                    }
-                    else -> Unit
                 }
-            }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
-        })
+                override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
+            })
         bsQuizBehavior.peekHeight = 0
 
         binding.fabCloseBsQuiz.setOnThrottleClick {
@@ -252,7 +253,6 @@ class HomeFragment : BaseFragment() {
                 viewModel.setTimer(isChecked)
             }
         }
-
     }
 
     private fun observeViewModel() {
@@ -304,5 +304,4 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
-
 }

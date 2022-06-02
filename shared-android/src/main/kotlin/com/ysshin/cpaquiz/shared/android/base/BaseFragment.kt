@@ -10,5 +10,4 @@ abstract class BaseFragment : Fragment() {
     fun color(@ColorRes resId: Int) = requireContext().colorStateList(resId)
 
     fun colorAsInt(@ColorRes resId: Int) = requireContext().color(resId)
-
 }

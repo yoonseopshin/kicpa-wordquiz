@@ -6,5 +6,4 @@ import com.ysshin.cpaquiz.domain.repository.QuizRepository
 class GetProblemCount(private val repository: QuizRepository) {
 
     operator fun invoke(type: QuizType) = repository.getProblemCountByType(type)
-
 }

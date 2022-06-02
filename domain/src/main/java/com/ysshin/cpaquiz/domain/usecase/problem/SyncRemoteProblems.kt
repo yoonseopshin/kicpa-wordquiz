@@ -7,5 +7,4 @@ class SyncRemoteProblems(private val repository: QuizRepository) {
     suspend operator fun invoke() {
         repository.syncRemoteProblems()
     }
-
 }

@@ -15,18 +15,18 @@ class AlphabetLeadingMarginSpan : LeadingMarginSpan {
     }
 
     override fun drawLeadingMargin(
-            canvas: Canvas,
-            paint: Paint,
-            x: Int,
-            dir: Int,
-            top: Int,
-            baseline: Int,
-            bottom: Int,
-            text: CharSequence,
-            start: Int,
-            end: Int,
-            first: Boolean,
-            layout: Layout
+        canvas: Canvas,
+        paint: Paint,
+        x: Int,
+        dir: Int,
+        top: Int,
+        baseline: Int,
+        bottom: Int,
+        text: CharSequence,
+        start: Int,
+        end: Int,
+        first: Boolean,
+        layout: Layout
     ) {
         if (first.not()) {
             return
@@ -36,7 +36,8 @@ class AlphabetLeadingMarginSpan : LeadingMarginSpan {
         Timber.d(lineStartText)
 
         indentMargin = when {
-            ALPHABET_INDENT_REGEX.matches(lineStartText) || HANGUL_INDEX_REGEX.matches(lineStartText) -> {
+            ALPHABET_INDENT_REGEX.matches(lineStartText) ||
+                HANGUL_INDEX_REGEX.matches(lineStartText) -> {
                 (paint.measureText(lineStartText) + .5f).toInt()
             }
             HANGUL_INDEX_REGEX_2.matches(lineStartText) -> {

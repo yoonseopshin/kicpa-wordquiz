@@ -81,7 +81,6 @@ object MaterialColor {
     val DEEP_PURPLE_A400 = Color(0xff651FFF)
     val DEEP_PURPLE_A700 = Color(0xff6200EA)
 
-
     // INDIGO MATERIAL COLORS
     val INDIGO = Color(0xff3F51B5)
     val INDIGO_50 = Color(0xffE8EAF6)

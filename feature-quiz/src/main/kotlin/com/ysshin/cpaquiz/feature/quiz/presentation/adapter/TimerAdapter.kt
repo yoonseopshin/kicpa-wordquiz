@@ -11,13 +11,15 @@ class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
     var timesPerProblem: List<Int> = emptyList()
 
     class ItemViewHolder(private val binding: LayoutResultTimerBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             val context = binding.root.context
             binding.btnTimer.backgroundTintList =
-                    context.colorStateList(R.color.timer_result_highlight_color)
-            binding.root.setCardBackgroundColor(context.colorStateList(R.color.timer_result_highlight_color_0_20))
+                context.colorStateList(R.color.timer_result_highlight_color)
+            binding.root.setCardBackgroundColor(
+                context.colorStateList(R.color.timer_result_highlight_color_0_20)
+            )
         }
 
         fun bind(timesPerProblem: List<Int>) {
@@ -29,11 +31,10 @@ class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
                 binding.root.gone()
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-            parent.inflate(LayoutResultTimerBinding::inflate)
+        parent.inflate(LayoutResultTimerBinding::inflate)
     )
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -41,5 +42,4 @@ class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
     }
 
     override fun getItemCount() = if (timesPerProblem.sum() > 0) 1 else 0
-
 }

@@ -12,7 +12,7 @@ import com.ysshin.cpaquiz.shared.android.util.inflate
 import com.ysshin.cpaquiz.shared.base.Consumer
 
 class NoteAdapter :
-        ListAdapter<UserSolvedProblemModel, NoteAdapter.ProblemViewHolder>(UserSolvedProblemDiffCallback()) {
+    ListAdapter<UserSolvedProblemModel, NoteAdapter.ProblemViewHolder>(UserSolvedProblemDiffCallback()) {
 
     var isShowing = true
     var onProblemClick: Consumer<Problem> = {}
@@ -21,7 +21,7 @@ class NoteAdapter :
     override fun getItemCount() = if (isShowing) super.getItemCount() else 0
 
     class ProblemViewHolder(private val binding: ListItemProblemBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         var onProblemClick: Consumer<Problem> = {}
         var onProblemLongClick: Consumer<Problem> = {}
@@ -50,7 +50,7 @@ class NoteAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ProblemViewHolder(
-            parent.inflate(ListItemProblemBinding::inflate)
+        parent.inflate(ListItemProblemBinding::inflate)
     ).also { viewHolder ->
         viewHolder.onProblemClick = onProblemClick
         viewHolder.onProblemLongClick = onProblemLongClick
@@ -59,17 +59,16 @@ class NoteAdapter :
     override fun onBindViewHolder(holder: ProblemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }
 
 private class UserSolvedProblemDiffCallback : DiffUtil.ItemCallback<UserSolvedProblemModel>() {
 
     override fun areItemsTheSame(oldItem: UserSolvedProblemModel, newItem: UserSolvedProblemModel) =
-            (oldItem.problem == newItem.problem)
+        (oldItem.problem == newItem.problem)
 
     override fun areContentsTheSame(
-            oldItem: UserSolvedProblemModel,
-            newItem: UserSolvedProblemModel
+        oldItem: UserSolvedProblemModel,
+        newItem: UserSolvedProblemModel
     ) = areItemsTheSame(oldItem, newItem)
 }
 

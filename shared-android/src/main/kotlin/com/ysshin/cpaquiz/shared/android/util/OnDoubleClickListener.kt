@@ -8,9 +8,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class OnDoubleClickListener(
-        private val dispatcher: CoroutineDispatcher,
-        private val onClickListener: View.OnClickListener,
-        private val interval: Long,
+    private val dispatcher: CoroutineDispatcher,
+    private val onClickListener: View.OnClickListener,
+    private val interval: Long,
 ) : View.OnClickListener {
 
     private var isBusy = false
@@ -37,5 +37,4 @@ class OnDoubleClickListener(
             }
         }
     }
-
 }

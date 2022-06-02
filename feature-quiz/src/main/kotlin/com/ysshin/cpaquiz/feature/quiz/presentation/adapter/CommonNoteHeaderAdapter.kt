@@ -16,7 +16,7 @@ class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemVi
     var onHeaderLongClick: Action = {}
 
     class ItemViewHolder(private val binding: LayoutCommonNoteHeaderBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         var onHeaderClick: Action = {}
         var onHeaderLongClick: Action = {}
@@ -45,7 +45,7 @@ class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemVi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemViewHolder(
-            parent.inflate(LayoutCommonNoteHeaderBinding::inflate)
+        parent.inflate(LayoutCommonNoteHeaderBinding::inflate)
     ).also { viewHolder ->
         viewHolder.onHeaderClick = onHeaderClick
         viewHolder.onHeaderLongClick = onHeaderLongClick
@@ -58,5 +58,4 @@ class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemVi
     override var itemCountSupplier: Supplier<Int>
         get() = { 1 }
         set(value) {}
-
 }

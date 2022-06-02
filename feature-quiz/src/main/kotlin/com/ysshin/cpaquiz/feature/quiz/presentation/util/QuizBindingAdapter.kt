@@ -105,13 +105,13 @@ fun Chip.bindByType(type: QuizType?) {
             visibility = View.VISIBLE
             text = context.getString(R.string.commercial_law)
             chipBackgroundColor =
-                    context.colorStateList(R.color.commercial_law_highlight_color_0_20)
+                context.colorStateList(R.color.commercial_law_highlight_color_0_20)
         }
         QuizType.TaxLaw -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.tax_law)
             chipBackgroundColor =
-                    context.colorStateList(R.color.tax_law_highlight_color_0_20)
+                context.colorStateList(R.color.tax_law_highlight_color_0_20)
         }
         QuizType.None -> {
             visibility = View.GONE
@@ -128,7 +128,7 @@ fun Toolbar.bindDDay(nextExamDate: String?) {
     val target = LocalDate.parse(nextExamDate, DateTimeFormatter.ISO_DATE)
 
     val dDay = Duration.between(now.atStartOfDay(), target.atStartOfDay()).toDays()
-    title = "D-${dDay}"
+    title = "D-$dDay"
 }
 
 @BindingAdapter("timer", "last_lap_time", requireAll = true)
@@ -145,7 +145,7 @@ fun TextView.bindTimer(timeMillis: Long?, lastLapTime: Long?) {
 fun Toolbar.bindProblems(solved: Int?, total: Int?) {
     if (solved.isNullOrDefault() || total.isNullOrDefault()) return
 
-    subtitle = "${solved}/${total}"
+    subtitle = "$solved/$total"
 }
 
 @BindingAdapter("opened")
@@ -165,10 +165,10 @@ fun TextView.bindQuizDescription(description: String) {
                 setSpan(UnderlineSpan(), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
                 setSpan(StyleSpan(Typeface.BOLD), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
                 setSpan(
-                        ForegroundColorSpan(ContextCompat.getColor(context, R.color.daynight_gray900s)),
-                        start,
-                        end,
-                        SPAN_EXCLUSIVE_EXCLUSIVE
+                    ForegroundColorSpan(ContextCompat.getColor(context, R.color.daynight_gray900s)),
+                    start,
+                    end,
+                    SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
             return

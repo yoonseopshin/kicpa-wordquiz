@@ -37,10 +37,9 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import com.ysshin.cpaquiz.shared.android.bridge.MainTabNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class QuizStatisticsActivity : BaseActivity() {
@@ -58,10 +57,10 @@ class QuizStatisticsActivity : BaseActivity() {
         NoteResultHeaderAdapter().also { adapter ->
             adapter.onNoteResultHeaderClick = {
                 startActivity(
-                        mainTabNavigator.noteTabIntent(
-                                context = this,
-                                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                        )
+                    mainTabNavigator.noteTabIntent(
+                        context = this,
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    )
                 )
             }
         }
@@ -70,11 +69,11 @@ class QuizStatisticsActivity : BaseActivity() {
         NoteAdapter().also { adapter ->
             adapter.onProblemClick = { problem ->
                 startActivity(
-                        ProblemDetailActivity.newIntent(
-                                this,
-                                ProblemDetailMode.Detail,
-                                problem.toModel()
-                        )
+                    ProblemDetailActivity.newIntent(
+                        this,
+                        ProblemDetailMode.Detail,
+                        problem.toModel()
+                    )
                 )
             }
         }
@@ -128,19 +127,20 @@ class QuizStatisticsActivity : BaseActivity() {
         val adRequest = AdRequest.Builder().build()
 
         InterstitialAd.load(
-                this,
-                AdConstants.QUIZ_END_INTERSTITIAL_AD,
-                adRequest,
-                object : InterstitialAdLoadCallback() {
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        interstitialAd = null
-                    }
+            this,
+            AdConstants.QUIZ_END_INTERSTITIAL_AD,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                }
 
-                    override fun onAdLoaded(ad: InterstitialAd) {
-                        interstitialAd = ad
-                        ad.show(this@QuizStatisticsActivity)
-                    }
-                })
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    interstitialAd = ad
+                    ad.show(this@QuizStatisticsActivity)
+                }
+            }
+        )
 
         interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
@@ -176,10 +176,10 @@ class QuizStatisticsActivity : BaseActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         binding.recyclerView.adapter = ConcatAdapter(
-                timerAdapter,
-                adNativeBannerAboveNoteResultAdapter,
-                noteResultHeaderAdapter,
-                noteAdapter
+            timerAdapter,
+            adNativeBannerAboveNoteResultAdapter,
+            noteResultHeaderAdapter,
+            noteAdapter
         )
     }
 
@@ -208,11 +208,11 @@ class QuizStatisticsActivity : BaseActivity() {
             viewModel.setWrongProblems(problems, userSelectedIndices)
 
             noteAdapter.submitList(
-                    listOf<UserSolvedProblemModel>().from(
-                            times,
-                            userSelectedIndices,
-                            problems
-                    )
+                listOf<UserSolvedProblemModel>().from(
+                    times,
+                    userSelectedIndices,
+                    problems
+                )
             )
         }
     }
@@ -224,15 +224,14 @@ class QuizStatisticsActivity : BaseActivity() {
 
     companion object {
         fun newIntent(
-                context: Context,
-                problems: List<ProblemModel> = listOf(),
-                selected: List<Int> = listOf(),
-                timesPerProblem: List<Long> = listOf(),
+            context: Context,
+            problems: List<ProblemModel> = listOf(),
+            selected: List<Int> = listOf(),
+            timesPerProblem: List<Long> = listOf(),
         ) = Intent(context, QuizStatisticsActivity::class.java).apply {
             putParcelableArrayListExtra(QuizConstants.problems, ArrayList(problems))
             putExtra(QuizConstants.selected, ArrayList(selected))
             putExtra(QuizConstants.timesPerProblem, ArrayList(timesPerProblem))
         }
     }
-
 }

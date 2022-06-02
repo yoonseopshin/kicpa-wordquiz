@@ -30,5 +30,4 @@ abstract class ToggleableAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Ad
         isShowing = shouldBeShowing
         notifyDataSetChanged()
     }
-
 }

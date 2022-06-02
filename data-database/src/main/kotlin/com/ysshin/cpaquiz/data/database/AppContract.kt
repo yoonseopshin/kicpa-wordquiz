@@ -20,5 +20,4 @@ object AppContract {
         const val TABLE_NAME = "wrong_problems"
         const val CREATED_AT = "created_at"
     }
-
 }

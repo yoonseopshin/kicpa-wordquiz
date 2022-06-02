@@ -8,8 +8,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.ysshin.cpaquiz.domain.model.*
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlinx.coroutines.flow.map
 
 val Context.quizDataStore: DataStore<Preferences> by preferencesDataStore(name = "quiz_prefs")
 
@@ -53,5 +53,4 @@ class QuizDatastoreManager @Inject constructor(private val dataStore: DataStore<
 
         return@map solvedQuiz % DEFAULT_IN_APP_REVIEW_THRESHOLD == 0 && solvedQuiz % DEFAULT_SOLVED_QUIZ_THRESHOLD != 0
     }
-
 }

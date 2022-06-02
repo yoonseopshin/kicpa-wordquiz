@@ -8,35 +8,35 @@ import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
 
 @HiltViewModel
 class QuizStatisticsViewModel @Inject constructor(
-        private val problemUseCases: ProblemUseCases,
-        quizUseCases: QuizUseCases,
+    private val problemUseCases: ProblemUseCases,
+    quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
     private val wrongProblems = mutableListOf<WrongProblem>()
 
     val solvedQuiz = quizUseCases.getSolvedQuiz()
-            .flowOn(Dispatchers.IO)
-            .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.Lazily,
-                    initialValue = DEFAULT_SOLVED_QUIZ
-            )
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = DEFAULT_SOLVED_QUIZ
+        )
 
     val shouldShowInAppReview = quizUseCases.getShouldRequestInAppReview()
-            .flowOn(Dispatchers.IO)
-            .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.Lazily,
-                    initialValue = false
-            )
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
 
     fun shouldShowAd(solvedQuiz: Int): Boolean {
         return solvedQuiz > 0 && solvedQuiz % SOLVED_QUIZ_THRESHOLD == 0
@@ -57,5 +57,4 @@ class QuizStatisticsViewModel @Inject constructor(
     companion object {
         const val SOLVED_QUIZ_THRESHOLD = 5
     }
-
 }

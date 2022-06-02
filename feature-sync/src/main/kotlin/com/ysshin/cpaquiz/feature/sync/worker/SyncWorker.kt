@@ -38,5 +38,4 @@ class SyncWorker @AssistedInject constructor(
             .setInputData(SyncWorker::class.delegatedData())
             .build()
     }
-
 }

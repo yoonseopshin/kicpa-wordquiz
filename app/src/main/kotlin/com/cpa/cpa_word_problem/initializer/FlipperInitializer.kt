@@ -23,8 +23,8 @@ class FlipperInitializer : Initializer<Unit> {
         if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(context)) {
             val client = AndroidFlipperClient.getInstance(context)
             val plugins = listOf(
-                    InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()),
-                    networkFlipperPlugin,
+                InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()),
+                networkFlipperPlugin,
             )
             plugins.map { plugin -> client.addPlugin(plugin) }
             client.start()
@@ -32,6 +32,5 @@ class FlipperInitializer : Initializer<Unit> {
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> =
-            listOf(DependencyGraphInitializer::class.java)
-
+        listOf(DependencyGraphInitializer::class.java)
 }

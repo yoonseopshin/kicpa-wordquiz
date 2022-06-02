@@ -9,14 +9,14 @@ import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import javax.inject.Inject
 
 @HiltViewModel
 class ProblemDetailViewModel @Inject constructor(
-        private val problemUseCases: ProblemUseCases,
-        private val quizUseCases: QuizUseCases
+    private val problemUseCases: ProblemUseCases,
+    private val quizUseCases: QuizUseCases
 ) : BaseViewModel() {
 
     val useTimer = MutableStateFlow(false)
@@ -171,5 +171,4 @@ class ProblemDetailViewModel @Inject constructor(
 
         onEndResult()
     }
-
 }

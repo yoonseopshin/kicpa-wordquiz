@@ -8,14 +8,14 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import java.util.*
 
 @Entity(
-        tableName = WrongProblem.TABLE_NAME,
-        primaryKeys = [Problem.PID, Problem.YEAR, Problem.TYPE]
+    tableName = WrongProblem.TABLE_NAME,
+    primaryKeys = [Problem.PID, Problem.YEAR, Problem.TYPE]
 )
 data class WrongProblemEntity(
-        @ColumnInfo(name = Problem.PID) val pid: Int = 0,
-        @ColumnInfo(name = Problem.YEAR) val year: Int = 0,
-        @ColumnInfo(name = Problem.TYPE) val type: QuizType = QuizType.None,
-        @ColumnInfo(name = WrongProblem.CREATED_AT) val createdAt: Long = System.currentTimeMillis()
+    @ColumnInfo(name = Problem.PID) val pid: Int = 0,
+    @ColumnInfo(name = Problem.YEAR) val year: Int = 0,
+    @ColumnInfo(name = Problem.TYPE) val type: QuizType = QuizType.None,
+    @ColumnInfo(name = WrongProblem.CREATED_AT) val createdAt: Long = System.currentTimeMillis()
 ) {
     override fun equals(other: Any?): Boolean {
         (other as? WrongProblemEntity)?.let {
