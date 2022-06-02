@@ -22,7 +22,6 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogActionListener
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialogFragment
 import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NoteFragment : BaseFragment(), AppDialogActionListener {
+class NoteFragment : BaseFragment(), AppInfoDialogFragment.DialogActionListener {
 
     private var _binding: FragmentNoteBinding? = null
     private val binding get() = requireNotNull(_binding)

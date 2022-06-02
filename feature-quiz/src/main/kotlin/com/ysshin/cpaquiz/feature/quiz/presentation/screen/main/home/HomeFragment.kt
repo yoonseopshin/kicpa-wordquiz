@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.NumberPicker
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
@@ -18,14 +17,16 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.FragmentHomeBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.AdConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
+import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialogFragment
+import com.ysshin.cpaquiz.shared.android.util.Constants
 import com.ysshin.cpaquiz.shared.android.util.invisible
+import com.ysshin.cpaquiz.shared.android.util.newInstance
 import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
 import com.ysshin.cpaquiz.shared.android.util.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), AppNumberPickerDialogFragment.DialogActionListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = requireNotNull(_binding)
@@ -81,7 +82,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel.syncRemoteProblems()
         initView()
         observeViewModel()
         viewModel.requestNextExamDate()
@@ -229,20 +229,14 @@ class HomeFragment : BaseFragment() {
 
         with(binding.bsQuiz) {
             layQuizNum.setOnThrottleClick {
-                val numberPicker = NumberPicker(requireActivity()).apply {
-                    minValue = 5
-                    maxValue = 25
-                    value = viewModel.quizNumber.value
-                }
-
-                MaterialAlertDialogBuilder(requireActivity())
-                    .setMessage("문제 수를 고르세요.")
-                    .setView(numberPicker)
-                    .setPositiveButton("확인") { _, _ ->
-                        viewModel.setQuizNumber(numberPicker.value)
-                    }
-                    .setNegativeButton("취소") { _, _ -> }
-                    .create().show()
+                newInstance<AppNumberPickerDialogFragment>(
+                    Pair(Constants.minNumber, 5),
+                    Pair(Constants.maxNumber, 25),
+                    Pair(Constants.defaultNumber, viewModel.quizNumber.value),
+                    Pair(Constants.icon, R.drawable.ic_note_outlined),
+                    Pair(Constants.title, getString(R.string.quiz_number_picker_title)),
+                    Pair(Constants.description, getString(R.string.quiz_number_picker_description)),
+                ).show(childFragmentManager, AppNumberPickerDialogFragment::class.java.simpleName)
             }
 
             layTimer.setOnClickListener {
@@ -304,4 +298,10 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
+
+    override fun onAppDialogConfirm(value: Int) {
+        viewModel.setQuizNumber(value)
+    }
+
+    override fun onAppDialogDismiss() = Unit
 }

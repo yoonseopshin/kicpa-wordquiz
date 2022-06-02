@@ -48,6 +48,8 @@
     <string name="open_source_license">오픈소스 라이선스</string>
     <string name="delete_wrong_note">오답노트 초기화</string>
     <string name="question_delete_wrong_note">오답노트를 초기화할까요?</string>
+    <string name="quiz_number_picker_title">문제 수 설정</string>
+    <string name="quiz_number_picker_description">문제 수를 설정하세요.</string>
     <string name="confirm">확인</string>
     <string name="cancel">취소</string>
     <string name="success_delete_all_wrong_note">오답노트를 초기화했습니다.</string>

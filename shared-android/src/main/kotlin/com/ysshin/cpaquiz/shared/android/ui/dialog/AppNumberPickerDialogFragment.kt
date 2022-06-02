@@ -12,10 +12,10 @@ import androidx.fragment.app.DialogFragment
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.util.Constants
 
-class AppInfoDialogFragment : DialogFragment() {
+class AppNumberPickerDialogFragment : DialogFragment() {
 
     interface DialogActionListener {
-        fun onAppDialogConfirm()
+        fun onAppDialogConfirm(value: Int)
         fun onAppDialogDismiss()
     }
 
@@ -35,6 +35,9 @@ class AppInfoDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         ComposeView(requireContext()).apply {
+            val minNumber = arguments?.getInt(Constants.minNumber) ?: return@apply
+            val maxNumber = arguments?.getInt(Constants.maxNumber) ?: return@apply
+            val defaultNumber = arguments?.getInt(Constants.defaultNumber) ?: return@apply
             val iconResId = arguments?.getInt(Constants.icon) ?: return@apply
             val title = arguments?.getString(Constants.title) ?: return@apply
             val description = arguments?.getString(Constants.description) ?: return@apply
@@ -44,12 +47,15 @@ class AppInfoDialogFragment : DialogFragment() {
                     val openDialog = remember { mutableStateOf(true) }
 
                     if (openDialog.value) {
-                        AppInfoDialog(
+                        AppNumberPickerDialog(
+                            minNumber = minNumber,
+                            maxNumber = maxNumber,
+                            defaultNumber = defaultNumber,
                             icon = painterResource(id = iconResId),
                             title = title,
                             description = description,
-                            onConfirm = {
-                                listener?.onAppDialogConfirm()
+                            onConfirm = { value ->
+                                listener?.onAppDialogConfirm(value)
                                 dismiss()
                             },
                             onDismiss = {
