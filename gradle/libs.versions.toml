@@ -33,6 +33,7 @@ retrofit-kotlinx-serialization = "0.8.0"
 spotless = "6.3.0"
 ktlint = "0.43.0"
 firebase-crashlytics-gradle = "2.9.0"
+oss-licenses-plugin = "0.10.5"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
@@ -73,6 +74,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-kotlinx-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-kotlinx-serialization" }
 spotless-gradle-plugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
 
 [bundles]
 androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-support-v4", "androidx-activity-ktx", "androidx-fragment-ktx"]
