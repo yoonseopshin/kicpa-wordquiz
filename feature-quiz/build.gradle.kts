@@ -17,4 +17,5 @@ dependencies {
 
     implementation("androidx.recyclerview:recyclerview:1.3.0-alpha02")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("com.simplecityapps:recyclerview-fastscroll:2.0.1")
 }
