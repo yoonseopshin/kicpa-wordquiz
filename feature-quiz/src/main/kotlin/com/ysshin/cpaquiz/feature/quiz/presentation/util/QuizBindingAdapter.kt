@@ -177,3 +177,9 @@ fun TextView.bindQuizDescription(description: String) {
 
     text = description
 }
+
+@BindingAdapter("subject_total_count")
+fun TextView.bindSubjectTotalCount(count: Int) {
+    visibleOrGone(count > 0)
+    text = context.getString(R.string.subject_total_count, count)
+}

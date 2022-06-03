@@ -78,21 +78,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun setQuizNumber(value: Int) {
-        viewModelScope.launch {
-            quizUseCases.setQuizNumber(value)
-        }
-    }
-
     fun setTimer(value: Boolean) {
         viewModelScope.launch {
             quizUseCases.setUseTimer(value)
-        }
-    }
-
-    fun syncRemoteProblems() {
-        viewModelScope.launch {
-            problemUseCases.syncRemoteProblems()
         }
     }
 }

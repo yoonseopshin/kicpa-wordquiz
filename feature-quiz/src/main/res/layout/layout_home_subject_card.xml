@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="count"
+            type="int" />
+
+        <variable
+            name="buttonBackgroundColor"
+            type="int" />
+
+        <variable
+            name="backgroundColor"
+            type="int" />
+
+    </data>
+
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +28,7 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
     app:cardElevation="0dp"
+    android:background="@{backgroundColor}"
     app:rippleColor="@color/rippleColor">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +45,7 @@
             android:contentDescription="@string/quiz"
             android:elevation="0dp"
             android:src="@drawable/ic_play"
+            android:backgroundTint="@{buttonBackgroundColor}"
             app:elevation="0dp"
             app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,6 +60,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/daynight_gray500s"
             android:textSize="14sp"
+            app:subject_total_count="@{count}"
+            android:text="@string/subject_total_count"
             app:layout_constraintBottom_toTopOf="@id/tv_subject_title"
             app:layout_constraintStart_toStartOf="@id/tv_subject_title"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,6 +76,7 @@
             android:minWidth="64dp"
             android:textColor="@color/daynight_gray800s"
             android:textSize="20sp"
+            android:text="@{title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_quiz"
@@ -59,3 +86,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
+</layout>

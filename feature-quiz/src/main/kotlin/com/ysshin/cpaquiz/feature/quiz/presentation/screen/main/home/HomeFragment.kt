@@ -23,18 +23,16 @@ import com.ysshin.cpaquiz.feature.quiz.databinding.FragmentHomeBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.AdConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialogFragment
 import com.ysshin.cpaquiz.shared.android.util.Constants
 import com.ysshin.cpaquiz.shared.android.util.invisible
 import com.ysshin.cpaquiz.shared.android.util.newInstance
 import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
-import com.ysshin.cpaquiz.shared.android.util.visibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(), AppNumberPickerDialogFragment.DialogActionListener {
+class HomeFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = requireNotNull(_binding)
@@ -156,11 +154,6 @@ class HomeFragment : BaseFragment(), AppNumberPickerDialogFragment.DialogActionL
         }
 
         with(binding.layAccounting) {
-            tvSubjectTitle.text = getString(R.string.accounting)
-
-            btnQuiz.backgroundTintList = color(R.color.accounting_highlight_color)
-            root.setCardBackgroundColor(color(R.color.accounting_highlight_color_0_20))
-
             root.setOnThrottleClick {
                 startActivity(
                     ProblemDetailActivity.newIntent(
@@ -174,11 +167,6 @@ class HomeFragment : BaseFragment(), AppNumberPickerDialogFragment.DialogActionL
         }
 
         with(binding.layBusiness) {
-            tvSubjectTitle.text = getString(R.string.business)
-
-            btnQuiz.backgroundTintList = color(R.color.business_highlight_color)
-            root.setCardBackgroundColor(color(R.color.business_highlight_color_0_20))
-
             root.setOnThrottleClick {
                 startActivity(
                     ProblemDetailActivity.newIntent(
@@ -192,11 +180,6 @@ class HomeFragment : BaseFragment(), AppNumberPickerDialogFragment.DialogActionL
         }
 
         with(binding.layCommercialLaw) {
-            tvSubjectTitle.text = getString(R.string.commercial_law)
-
-            btnQuiz.backgroundTintList = color(R.color.commercial_law_highlight_color)
-            root.setCardBackgroundColor(color(R.color.commercial_law_highlight_color_0_20))
-
             root.setOnThrottleClick {
                 startActivity(
                     ProblemDetailActivity.newIntent(
@@ -210,11 +193,6 @@ class HomeFragment : BaseFragment(), AppNumberPickerDialogFragment.DialogActionL
         }
 
         with(binding.layTaxLaw) {
-            tvSubjectTitle.text = getString(R.string.tax_law)
-
-            btnQuiz.backgroundTintList = color(R.color.tax_law_highlight_color)
-            root.setCardBackgroundColor(color(R.color.tax_law_highlight_color_0_20))
-
             root.setOnThrottleClick {
                 startActivity(
                     ProblemDetailActivity.newIntent(
@@ -229,14 +207,14 @@ class HomeFragment : BaseFragment(), AppNumberPickerDialogFragment.DialogActionL
 
         with(binding.bsQuiz) {
             layQuizNum.setOnThrottleClick {
-                newInstance<AppNumberPickerDialogFragment>(
-                    Pair(Constants.minNumber, 5),
-                    Pair(Constants.maxNumber, 25),
-                    Pair(Constants.defaultNumber, viewModel.quizNumber.value),
-                    Pair(Constants.icon, R.drawable.ic_note_outlined),
-                    Pair(Constants.title, getString(R.string.quiz_number_picker_title)),
-                    Pair(Constants.description, getString(R.string.quiz_number_picker_description)),
-                ).show(childFragmentManager, AppNumberPickerDialogFragment::class.java.simpleName)
+                newInstance<QuizNumberPickerDialogFragment>(
+                    Constants.minNumber to 5,
+                    Constants.maxNumber to 25,
+                    Constants.defaultNumber to viewModel.quizNumber.value,
+                    Constants.icon to R.drawable.ic_note_outlined,
+                    Constants.title to getString(R.string.quiz_number_picker_title),
+                    Constants.description to getString(R.string.quiz_number_picker_description)
+                ).show(childFragmentManager, QuizNumberPickerDialogFragment::class.java.simpleName)
             }
 
             layTimer.setOnClickListener {
@@ -263,45 +241,7 @@ class HomeFragment : BaseFragment(), AppNumberPickerDialogFragment.DialogActionL
                         binding.bsQuiz.swTimer.isChecked = useTimer
                     }
                 }
-
-                launch {
-                    viewModel.accountingCount.collectLatest { count ->
-                        binding.layAccounting.tvSubjectCount.visibleOrGone(count > 0)
-                        binding.layAccounting.tvSubjectCount.text =
-                            getString(R.string.subject_total_count, count)
-                    }
-                }
-
-                launch {
-                    viewModel.businessCount.collectLatest { count ->
-                        binding.layBusiness.tvSubjectCount.visibleOrGone(count > 0)
-                        binding.layBusiness.tvSubjectCount.text =
-                            getString(R.string.subject_total_count, count)
-                    }
-                }
-
-                launch {
-                    viewModel.commercialLawCount.collectLatest { count ->
-                        binding.layCommercialLaw.tvSubjectCount.visibleOrGone(count > 0)
-                        binding.layCommercialLaw.tvSubjectCount.text =
-                            getString(R.string.subject_total_count, count)
-                    }
-                }
-
-                launch {
-                    viewModel.taxLawCount.collectLatest { count ->
-                        binding.layTaxLaw.tvSubjectCount.visibleOrGone(count > 0)
-                        binding.layTaxLaw.tvSubjectCount.text =
-                            getString(R.string.subject_total_count, count)
-                    }
-                }
             }
         }
     }
-
-    override fun onAppDialogConfirm(value: Int) {
-        viewModel.setQuizNumber(value)
-    }
-
-    override fun onAppDialogDismiss() = Unit
 }

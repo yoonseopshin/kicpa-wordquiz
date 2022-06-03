@@ -1,6 +1,5 @@
 package com.ysshin.cpaquiz.shared.android.ui.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,19 +18,7 @@ class AppInfoDialogFragment : DialogFragment() {
         fun onAppDialogDismiss()
     }
 
-    private var listener: DialogActionListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is DialogActionListener) {
-            listener = context
-        }
-
-        val parent = parentFragment
-        if (parent is DialogActionListener) {
-            listener = parent
-        }
-    }
+    var listener: DialogActionListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         ComposeView(requireContext()).apply {

@@ -1,6 +1,5 @@
 package com.ysshin.cpaquiz.shared.android.ui.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,26 +11,7 @@ import androidx.fragment.app.DialogFragment
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.util.Constants
 
-class AppNumberPickerDialogFragment : DialogFragment() {
-
-    interface DialogActionListener {
-        fun onAppDialogConfirm(value: Int)
-        fun onAppDialogDismiss()
-    }
-
-    private var listener: DialogActionListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is DialogActionListener) {
-            listener = context
-        }
-
-        val parent = parentFragment
-        if (parent is DialogActionListener) {
-            listener = parent
-        }
-    }
+abstract class AppNumberPickerDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         ComposeView(requireContext()).apply {
@@ -55,11 +35,11 @@ class AppNumberPickerDialogFragment : DialogFragment() {
                             title = title,
                             description = description,
                             onConfirm = { value ->
-                                listener?.onAppDialogConfirm(value)
+                                onDialogConfirm(value)
                                 dismiss()
                             },
                             onDismiss = {
-                                listener?.onAppDialogDismiss()
+                                onDialogDismiss()
                                 dismiss()
                             }
                         )
@@ -68,8 +48,6 @@ class AppNumberPickerDialogFragment : DialogFragment() {
             }
         }
 
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
+    abstract fun onDialogConfirm(value: Int)
+    abstract fun onDialogDismiss()
 }

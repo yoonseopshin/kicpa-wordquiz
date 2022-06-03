@@ -6,6 +6,7 @@ import androidx.work.*
 import com.cpa.cpa_word_problem.worker.DelegatingWorker
 import com.cpa.cpa_word_problem.worker.delegatedData
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -20,14 +21,17 @@ private val SyncConstraints
 class SyncWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val problemUseCases: ProblemUseCases
+    private val problemUseCases: ProblemUseCases,
+    private val quizUseCases: QuizUseCases,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         // TODO: sync가 실패할 경우 어떻게 할지 적절한 처리를 해주어야 함.
         // Retry를 몇번할지
         // Fail의 경우 어떤 처리를 보여줄지
+
         problemUseCases.syncRemoteProblems()
+        // TODO: Quiz dday도 로컬에 저장하고 업데이트 하는 형식으로 할까?
         Result.success()
     }
 

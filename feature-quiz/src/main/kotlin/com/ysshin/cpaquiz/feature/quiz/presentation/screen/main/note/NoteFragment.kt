@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NoteFragment : BaseFragment(), AppInfoDialogFragment.DialogActionListener {
+class NoteFragment : BaseFragment() {
 
     private var _binding: FragmentNoteBinding? = null
     private val binding get() = requireNotNull(_binding)
@@ -48,10 +48,18 @@ class NoteFragment : BaseFragment(), AppInfoDialogFragment.DialogActionListener 
             }
             onHeaderLongClick = {
                 newInstance<AppInfoDialogFragment>(
-                    Pair(Constants.icon, R.drawable.ic_delete),
-                    Pair(Constants.title, getString(R.string.delete_wrong_note)),
-                    Pair(Constants.description, getString(R.string.question_delete_wrong_note)),
-                ).show(childFragmentManager, AppInfoDialogFragment::class.java.simpleName)
+                    Constants.icon to R.drawable.ic_delete,
+                    Constants.title to getString(R.string.delete_wrong_note),
+                    Constants.description to getString(R.string.question_delete_wrong_note)
+                ).apply {
+                    listener = object : AppInfoDialogFragment.DialogActionListener {
+                        override fun onAppDialogConfirm() {
+                            viewModel.deleteAllWrongProblems()
+                        }
+
+                        override fun onAppDialogDismiss() = Unit
+                    }
+                }.show(childFragmentManager, AppInfoDialogFragment::class.java.simpleName)
             }
         }
     }
@@ -336,10 +344,4 @@ class NoteFragment : BaseFragment(), AppInfoDialogFragment.DialogActionListener 
         super.onDestroyView()
         _binding = null
     }
-
-    override fun onAppDialogConfirm() {
-        viewModel.deleteAllWrongProblems()
-    }
-
-    override fun onAppDialogDismiss() = Unit
 }
