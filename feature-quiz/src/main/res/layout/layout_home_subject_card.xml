@@ -12,11 +12,11 @@
             type="int" />
 
         <variable
-            name="buttonBackgroundColor"
+            name="backgroundColor"
             type="int" />
 
         <variable
-            name="backgroundColor"
+            name="backgroundColor020"
             type="int" />
 
     </data>
@@ -28,22 +28,23 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
-        app:rippleColor="@color/rippleColor">
+        app:rippleColor="@color/rippleColor"
+        app:strokeColor="@{backgroundColor}"
+        app:strokeWidth="0.5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@{backgroundColor}"
-            tools:background="@color/accounting_highlight_color_0.20"
-            android:paddingVertical="28dp">
+            android:background="@{backgroundColor020}"
+            android:paddingVertical="28dp"
+            tools:background="@color/accounting_highlight_color_0.20">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_quiz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:backgroundTint="@{buttonBackgroundColor}"
-                tools:backgroundTint="@color/accounting_highlight_color"
+                android:backgroundTint="@{backgroundColor}"
                 android:clickable="false"
                 android:contentDescription="@string/quiz"
                 android:elevation="0dp"
@@ -54,7 +55,8 @@
                 app:layout_constraintEnd_toStartOf="@id/tv_subject_title"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:backgroundTint="@color/accounting_highlight_color" />
 
             <TextView
                 android:id="@+id/tv_subject_count"
