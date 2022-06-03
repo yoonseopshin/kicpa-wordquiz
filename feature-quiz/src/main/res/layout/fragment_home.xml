@@ -19,6 +19,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         tools:context=".feature.quiz.presentation.screen.main.home.HomeFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -112,11 +113,11 @@
             android:backgroundTint="@color/daynight_gray070s"
             android:contentDescription="@string/close"
             android:src="@drawable/ic_close"
-            app:quiz_settings_opened="@{viewModel.isQuizSettingsOpened}"
             app:borderWidth="0dp"
             app:fabSize="mini"
             app:layout_anchor="@id/bs_quiz"
             app:layout_anchorGravity="top|end"
+            app:quiz_settings_opened="@{viewModel.isQuizSettingsOpened}"
             app:rippleColor="@color/rippleColor"
             tools:visibility="visible" />
 

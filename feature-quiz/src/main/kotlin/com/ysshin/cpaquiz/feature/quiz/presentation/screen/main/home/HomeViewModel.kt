@@ -19,7 +19,8 @@ class HomeViewModel @Inject constructor(
     private val quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
-    val nextExamDate = MutableStateFlow("")
+    private val _nextExamDate = MutableStateFlow("")
+    val nextExamDate = _nextExamDate.asStateFlow()
 
     private val _isQuizSettingsOpened = MutableStateFlow(false)
     val isQuizSettingsOpened = _isQuizSettingsOpened.asStateFlow()
@@ -74,7 +75,7 @@ class HomeViewModel @Inject constructor(
 
     fun requestNextExamDate() {
         viewModelScope.launch {
-            nextExamDate.value = quizUseCases.getNextExamDate()
+            _nextExamDate.value = quizUseCases.getNextExamDate()
         }
     }
 

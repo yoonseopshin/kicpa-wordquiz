@@ -94,24 +94,26 @@ fun Chip.bindByType(type: QuizType?) {
         QuizType.Accounting -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.accounting)
+            chipStrokeColor = context.colorStateList(R.color.accounting_highlight_color)
             chipBackgroundColor = context.colorStateList(R.color.accounting_highlight_color_0_20)
         }
         QuizType.Business -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.business)
+            chipStrokeColor = context.colorStateList(R.color.business_highlight_color)
             chipBackgroundColor = context.colorStateList(R.color.business_highlight_color_0_20)
         }
         QuizType.CommercialLaw -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.commercial_law)
-            chipBackgroundColor =
-                context.colorStateList(R.color.commercial_law_highlight_color_0_20)
+            chipStrokeColor = context.colorStateList(R.color.commercial_law_highlight_color)
+            chipBackgroundColor = context.colorStateList(R.color.commercial_law_highlight_color_0_20)
         }
         QuizType.TaxLaw -> {
             visibility = View.VISIBLE
             text = context.getString(R.string.tax_law)
-            chipBackgroundColor =
-                context.colorStateList(R.color.tax_law_highlight_color_0_20)
+            chipStrokeColor = context.colorStateList(R.color.tax_law_highlight_color)
+            chipBackgroundColor = context.colorStateList(R.color.tax_law_highlight_color_0_20)
         }
         QuizType.None -> {
             visibility = View.GONE
@@ -127,8 +129,8 @@ fun Toolbar.bindDDay(nextExamDate: String?) {
     val now = LocalDate.now()
     val target = LocalDate.parse(nextExamDate, DateTimeFormatter.ISO_DATE)
 
-    val dDay = Duration.between(now.atStartOfDay(), target.atStartOfDay()).toDays()
-    title = "D-$dDay"
+    val dday = Duration.between(now.atStartOfDay(), target.atStartOfDay()).toDays()
+    title = "D-$dday"
 }
 
 @BindingAdapter("timer", "last_lap_time", requireAll = true)

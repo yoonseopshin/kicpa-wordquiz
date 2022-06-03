@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:zigzagBackgroundColor="@color/daynight_gray050s"
+            app:zigzagBackgroundColor="@color/daynight_gray050a"
             app:zigzagHeight="8dp"
             app:zigzagPaddingContentBottom="28dp"
             app:zigzagSides="bottom">
@@ -42,6 +42,8 @@
                 android:clickable="false"
                 android:focusable="false"
                 app:chipBackgroundColor="@color/daynight_gray070s"
+                app:chipStrokeColor="@color/daynight_gray300s"
+                app:chipStrokeWidth="0.5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:pid="@{problem.pid}"
@@ -57,6 +59,8 @@
                 android:clickable="false"
                 android:focusable="false"
                 app:chipBackgroundColor="@color/daynight_gray070s"
+                app:chipStrokeColor="@color/daynight_gray300s"
+                app:chipStrokeWidth="0.5dp"
                 app:layout_constraintStart_toEndOf="@id/ch_year_pid"
                 app:layout_constraintTop_toTopOf="parent"
                 app:source="@{problem.source}"
@@ -71,9 +75,11 @@
                 android:layout_marginEnd="16dp"
                 android:clickable="false"
                 android:focusable="false"
+                app:chipStrokeWidth="0.5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:problem_type="@{problem.type}"
+                tools:chilStrokeColor="@color/business_highlight_color"
                 tools:chipBackgroundColor="@color/business_highlight_color_0_20"
                 tools:text="@string/business" />
 
