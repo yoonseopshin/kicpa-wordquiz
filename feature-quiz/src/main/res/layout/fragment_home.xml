@@ -41,73 +41,55 @@
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="16dp"
+                app:alignItems="baseline"
+                app:dividerDrawable="@drawable/quiz_flexbox_divider"
+                app:flexWrap="wrap"
+                app:justifyContent="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:showDivider="middle">
 
                 <include
                     android:id="@+id/lay_accounting"
                     layout="@layout/layout_home_subject_card"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
                     app:backgroundColor="@{@color/accounting_highlight_color_0_20}"
                     app:buttonBackgroundColor="@{@color/accounting_highlight_color}"
                     app:count="@{viewModel.accountingCount}"
-                    app:layout_constraintEnd_toStartOf="@id/lay_business"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:title="@{@string/accounting}" />
 
                 <include
                     android:id="@+id/lay_business"
                     layout="@layout/layout_home_subject_card"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
                     app:backgroundColor="@{@color/business_highlight_color_0_20}"
                     app:buttonBackgroundColor="@{@color/business_highlight_color}"
                     app:count="@{viewModel.businessCount}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/lay_accounting"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:title="@{@string/business}" />
 
                 <include
                     android:id="@+id/lay_commercial_law"
                     layout="@layout/layout_home_subject_card"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
                     app:backgroundColor="@{@color/commercial_law_highlight_color_0_20}"
                     app:buttonBackgroundColor="@{@color/commercial_law_highlight_color}"
                     app:count="@{viewModel.commercialLawCount}"
-                    app:layout_constraintEnd_toStartOf="@id/lay_tax_law"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/lay_business"
                     app:title="@{@string/commercial_law}" />
 
                 <include
                     android:id="@+id/lay_tax_law"
                     layout="@layout/layout_home_subject_card"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
                     app:backgroundColor="@{@color/tax_law_highlight_color_0_20}"
                     app:buttonBackgroundColor="@{@color/tax_law_highlight_color}"
                     app:count="@{viewModel.taxLawCount}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/lay_commercial_law"
-                    app:layout_constraintTop_toBottomOf="@id/lay_business"
                     app:title="@{@string/tax_law}" />
 
                 <com.google.android.ads.nativetemplates.TemplateView
@@ -118,7 +100,7 @@
                     app:gnt_template_type="@layout/gnt_medium_template_view"
                     app:layout_constraintTop_toBottomOf="@id/lay_commercial_law" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.flexbox.FlexboxLayout>
 
         </androidx.core.widget.NestedScrollView>
 
