@@ -22,11 +22,7 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.ysshin.cpaquiz.shared.android.ui.span.AlphabetLeadingMarginSpan
-import com.ysshin.cpaquiz.shared.android.util.TimeFormatter
-import com.ysshin.cpaquiz.shared.android.util.colorStateList
-import com.ysshin.cpaquiz.shared.android.util.gone
-import com.ysshin.cpaquiz.shared.android.util.visible
-import com.ysshin.cpaquiz.shared.android.util.visibleOrGone
+import com.ysshin.cpaquiz.shared.android.util.*
 import com.ysshin.cpaquiz.shared.base.isNullOrDefault
 import java.time.Duration
 import java.time.LocalDate
@@ -186,4 +182,9 @@ fun TextView.bindQuizDescription(description: String) {
 fun TextView.bindSubjectTotalCount(count: Int) {
     visibleOrGone(count > 0)
     text = context.getString(R.string.subject_total_count, count)
+}
+
+@BindingAdapter("quiz_settings_opened")
+fun FloatingActionButton.bindQuizSettingsOpened(value: Boolean) {
+    visibleOrInvisible(value)
 }

@@ -10,10 +10,7 @@ import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -23,6 +20,9 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val nextExamDate = MutableStateFlow("")
+
+    private val _isQuizSettingsOpened = MutableStateFlow(false)
+    val isQuizSettingsOpened = _isQuizSettingsOpened.asStateFlow()
 
     val quizNumber = quizUseCases.getQuizNumber()
         .flowOn(Dispatchers.IO)
@@ -82,5 +82,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             quizUseCases.setUseTimer(value)
         }
+    }
+
+    fun setQuizSettingsOpened(value: Boolean) {
+        _isQuizSettingsOpened.value = value
     }
 }

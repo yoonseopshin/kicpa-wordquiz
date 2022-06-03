@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -21,10 +24,11 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailAct
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.AdConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
 import com.ysshin.cpaquiz.shared.android.util.Constants
-import com.ysshin.cpaquiz.shared.android.util.invisible
 import com.ysshin.cpaquiz.shared.android.util.newInstance
 import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
@@ -53,11 +57,6 @@ class HomeFragment : BaseFragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        onBackPressedCallback.remove()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -76,37 +75,19 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        observeViewModel()
         viewModel.requestNextExamDate()
         loadAd()
-    }
-
-    private fun loadAd() {
-        runCatching {
-            adLoader = AdLoader.Builder(requireContext(), AdConstants.QUIZ_NATIVE_AD_MEDIUM)
-                .forNativeAd { nativeAd ->
-                    val styles = NativeTemplateStyle.Builder()
-                        .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
-                        .withCallToActionBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryDarkColor)))
-                        .withCallToActionTypefaceColor(colorAsInt(R.color.secondaryTextColor))
-                        .build()
-                    binding.adTemplateView.setStyles(styles)
-                    binding.adTemplateView.setNativeAd(nativeAd)
-
-                    if (isDetached) {
-                        nativeAd.destroy()
-                        return@forNativeAd
-                    }
-                }
-                .withNativeAdOptions(NativeAdOptions.Builder().build())
-                .build()
-        }.onSuccess {
-            adLoader.loadAd(AdRequest.Builder().build())
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onBackPressedCallback.remove()
     }
 
     private fun initView() {
@@ -130,10 +111,10 @@ class HomeFragment : BaseFragment() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     when (newState) {
                         BottomSheetBehavior.STATE_COLLAPSED -> {
-                            binding.fabCloseBsQuiz.invisible()
+                            viewModel.setQuizSettingsOpened(false)
                         }
                         BottomSheetBehavior.STATE_EXPANDED -> {
-                            binding.fabCloseBsQuiz.show()
+                            viewModel.setQuizSettingsOpened(true)
                         }
                         else -> Unit
                     }
@@ -144,6 +125,7 @@ class HomeFragment : BaseFragment() {
         bsQuizBehavior.peekHeight = 0
 
         binding.fabCloseBsQuiz.setOnThrottleClick {
+            // Invisible after animation
             bsQuizBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
@@ -210,6 +192,49 @@ class HomeFragment : BaseFragment() {
             swTimer.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.setTimer(isChecked)
             }
+        }
+    }
+
+    private fun observeViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                launch {
+                    viewModel.isQuizSettingsOpened.collectLatest { value ->
+                        when (value) {
+                            true -> {
+                                bsQuizBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                            }
+                            false -> {
+                                bsQuizBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadAd() {
+        runCatching {
+            adLoader = AdLoader.Builder(requireContext(), AdConstants.QUIZ_NATIVE_AD_MEDIUM)
+                .forNativeAd { nativeAd ->
+                    val styles = NativeTemplateStyle.Builder()
+                        .withMainBackgroundColor(ColorDrawable(colorAsInt(R.color.theme_color)))
+                        .withCallToActionBackgroundColor(ColorDrawable(colorAsInt(R.color.primaryDarkColor)))
+                        .withCallToActionTypefaceColor(colorAsInt(R.color.secondaryTextColor))
+                        .build()
+                    binding.adTemplateView.setStyles(styles)
+                    binding.adTemplateView.setNativeAd(nativeAd)
+
+                    if (isDetached) {
+                        nativeAd.destroy()
+                        return@forNativeAd
+                    }
+                }
+                .withNativeAdOptions(NativeAdOptions.Builder().build())
+                .build()
+        }.onSuccess {
+            adLoader.loadAd(AdRequest.Builder().build())
         }
     }
 }

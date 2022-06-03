@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@{backgroundColor}"
+            tools:background="@color/accounting_highlight_color_0.20"
             android:paddingVertical="28dp">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:backgroundTint="@{buttonBackgroundColor}"
+                tools:backgroundTint="@color/accounting_highlight_color"
                 android:clickable="false"
                 android:contentDescription="@string/quiz"
                 android:elevation="0dp"
