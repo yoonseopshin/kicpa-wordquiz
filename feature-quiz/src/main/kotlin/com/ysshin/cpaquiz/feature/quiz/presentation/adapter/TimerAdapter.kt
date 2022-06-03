@@ -4,7 +4,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutResultTimerBinding
-import com.ysshin.cpaquiz.shared.android.util.*
+import com.ysshin.cpaquiz.shared.android.util.TimeFormatter
+import com.ysshin.cpaquiz.shared.android.util.colorStateList
+import com.ysshin.cpaquiz.shared.android.util.gone
+import com.ysshin.cpaquiz.shared.android.util.inflate
+import com.ysshin.cpaquiz.shared.android.util.visible
 
 class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
 

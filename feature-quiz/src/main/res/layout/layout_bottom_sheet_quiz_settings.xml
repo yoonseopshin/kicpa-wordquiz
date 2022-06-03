@@ -1,108 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/background_radius12_gray050s_toponly"
-    android:clickable="true"
-    android:focusable="true"
-    android:paddingTop="24dp"
-    android:elevation="2dp"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="0dp">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lay_quiz_num"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/background_common_ripple"
-        android:minWidth="320dp"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
-        app:layout_constraintTop_toTopOf="parent">
+    <data>
 
-        <ImageView
-            android:id="@+id/iv_quiz_num_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_note_outlined"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/item_highlight_color" />
+        <variable
+            name="quizNumber"
+            type="int" />
 
-        <TextView
-            android:id="@+id/tv_quiz_num_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="@string/quiz_amount"
-            android:textColor="@color/daynight_gray700s"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_quiz_num_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+        <variable
+            name="useTimer"
+            type="boolean" />
+    </data>
 
-        <TextView
-            android:id="@+id/tv_quiz_num_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/daynight_gray700s"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@id/tv_quiz_num_title"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_radius12_gray050s_toponly"
+        android:clickable="true"
+        android:elevation="2dp"
+        android:focusable="true"
+        android:paddingTop="24dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lay_quiz_num"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@drawable/background_common_ripple"
+            android:minWidth="320dp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_quiz_num_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/icon"
+                android:src="@drawable/ic_note_outlined"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/item_highlight_color" />
+
+            <TextView
+                android:id="@+id/tv_quiz_num_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/quiz_amount"
+                android:textColor="@color/daynight_gray700s"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_quiz_num_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_quiz_num_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:text="@{String.valueOf(quizNumber)}"
+                android:textColor="@color/daynight_gray700s"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/tv_quiz_num_title"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="12" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lay_timer"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@drawable/background_common_ripple"
+            android:minWidth="320dp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintTop_toBottomOf="@id/lay_quiz_num">
+
+            <ImageView
+                android:id="@+id/iv_timer_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/icon"
+                android:src="@drawable/ic_timer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/item_highlight_color" />
+
+            <TextView
+                android:id="@+id/tv_timer_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/timer"
+                android:textColor="@color/daynight_gray700s"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_timer_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/sw_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{useTimer}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/tv_timer_title"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:checked="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lay_timer"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/background_common_ripple"
-        android:minWidth="320dp"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
-        app:layout_constraintTop_toBottomOf="@id/lay_quiz_num">
-
-        <ImageView
-            android:id="@+id/iv_timer_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_timer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/item_highlight_color" />
-
-        <TextView
-            android:id="@+id/tv_timer_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="@string/timer"
-            android:textColor="@color/daynight_gray700s"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_timer_icon"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@id/tv_timer_title"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

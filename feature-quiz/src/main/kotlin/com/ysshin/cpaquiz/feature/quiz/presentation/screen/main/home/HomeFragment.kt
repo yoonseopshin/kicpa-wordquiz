@@ -9,9 +9,6 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -28,8 +25,6 @@ import com.ysshin.cpaquiz.shared.android.util.invisible
 import com.ysshin.cpaquiz.shared.android.util.newInstance
 import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
@@ -38,7 +33,7 @@ class HomeFragment : BaseFragment() {
     private val binding get() = requireNotNull(_binding)
     private val viewModel: HomeViewModel by viewModels()
     private val bsQuizBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-        BottomSheetBehavior.from(binding.bsQuiz.root)
+        BottomSheetBehavior.from(binding.bsQuiz.layout)
     }
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var adLoader: AdLoader
@@ -81,7 +76,6 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        observeViewModel()
         viewModel.requestNextExamDate()
         loadAd()
     }
@@ -153,56 +147,48 @@ class HomeFragment : BaseFragment() {
             bsQuizBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-        with(binding.layAccounting) {
-            root.setOnThrottleClick {
-                startActivity(
-                    ProblemDetailActivity.newIntent(
-                        context = requireContext(),
-                        quizType = QuizType.Accounting,
-                        quizNumbers = viewModel.quizNumber.value,
-                        useTimer = viewModel.useTimer.value
-                    )
+        binding.layAccounting.root.setOnThrottleClick {
+            startActivity(
+                ProblemDetailActivity.newIntent(
+                    context = requireContext(),
+                    quizType = QuizType.Accounting,
+                    quizNumbers = viewModel.quizNumber.value,
+                    useTimer = viewModel.useTimer.value
                 )
-            }
+            )
         }
 
-        with(binding.layBusiness) {
-            root.setOnThrottleClick {
-                startActivity(
-                    ProblemDetailActivity.newIntent(
-                        context = requireContext(),
-                        quizType = QuizType.Business,
-                        quizNumbers = viewModel.quizNumber.value,
-                        useTimer = viewModel.useTimer.value
-                    )
+        binding.layBusiness.root.setOnThrottleClick {
+            startActivity(
+                ProblemDetailActivity.newIntent(
+                    context = requireContext(),
+                    quizType = QuizType.Business,
+                    quizNumbers = viewModel.quizNumber.value,
+                    useTimer = viewModel.useTimer.value
                 )
-            }
+            )
         }
 
-        with(binding.layCommercialLaw) {
-            root.setOnThrottleClick {
-                startActivity(
-                    ProblemDetailActivity.newIntent(
-                        context = requireContext(),
-                        quizType = QuizType.CommercialLaw,
-                        quizNumbers = viewModel.quizNumber.value,
-                        useTimer = viewModel.useTimer.value
-                    )
+        binding.layCommercialLaw.root.setOnThrottleClick {
+            startActivity(
+                ProblemDetailActivity.newIntent(
+                    context = requireContext(),
+                    quizType = QuizType.CommercialLaw,
+                    quizNumbers = viewModel.quizNumber.value,
+                    useTimer = viewModel.useTimer.value
                 )
-            }
+            )
         }
 
-        with(binding.layTaxLaw) {
-            root.setOnThrottleClick {
-                startActivity(
-                    ProblemDetailActivity.newIntent(
-                        context = requireContext(),
-                        quizType = QuizType.TaxLaw,
-                        quizNumbers = viewModel.quizNumber.value,
-                        useTimer = viewModel.useTimer.value
-                    )
+        binding.layTaxLaw.root.setOnThrottleClick {
+            startActivity(
+                ProblemDetailActivity.newIntent(
+                    context = requireContext(),
+                    quizType = QuizType.TaxLaw,
+                    quizNumbers = viewModel.quizNumber.value,
+                    useTimer = viewModel.useTimer.value
                 )
-            }
+            )
         }
 
         with(binding.bsQuiz) {
@@ -223,24 +209,6 @@ class HomeFragment : BaseFragment() {
 
             swTimer.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.setTimer(isChecked)
-            }
-        }
-    }
-
-    private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                launch {
-                    viewModel.quizNumber.collectLatest { quizNumbers ->
-                        binding.bsQuiz.tvQuizNumResult.text = quizNumbers.toString()
-                    }
-                }
-
-                launch {
-                    viewModel.useTimer.collectLatest { useTimer ->
-                        binding.bsQuiz.swTimer.isChecked = useTimer
-                    }
-                }
             }
         }
     }
