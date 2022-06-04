@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:text="@string/clear_note_searching"
+                    android:textColor="@color/daynight_gray900s"
                     android:visibility="@{viewModel.userInputText.isEmpty() ? View.GONE : View.VISIBLE}"
                     app:chipBackgroundColor="@color/secondaryColor_0.15"
                     app:chipIcon="@drawable/ic_search_off"
