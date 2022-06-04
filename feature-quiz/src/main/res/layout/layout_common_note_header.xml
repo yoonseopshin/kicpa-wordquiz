@@ -68,7 +68,7 @@
                 android:contentDescription="@string/toggle"
                 android:focusable="true"
                 android:onClick="@{onClickListener}"
-                android:src="@drawable/ic_expand_more"
+                android:src="@drawable/ic_arrow_down"
                 android:visibility="@{isToggleable ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

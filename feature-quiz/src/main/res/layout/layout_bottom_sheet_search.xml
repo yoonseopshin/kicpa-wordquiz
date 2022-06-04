@@ -16,7 +16,7 @@
         android:background="@color/daynight_gray050s"
         android:clickable="true"
         android:focusable="true"
-        android:paddingTop="24dp"
+        android:paddingTop="32dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp">
 
@@ -25,14 +25,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/background_radius4_gray070a"
             android:hint="@string/search_hint"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:paddingStart="0dp"
+            android:paddingVertical="6dp"
+            android:paddingStart="6dp"
             android:paddingEnd="36dp"
             android:text="@={viewModel.userInputText}"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,11 +49,12 @@
             android:background="@drawable/background_common_ripple_unbounded"
             android:contentDescription="@string/clear"
             android:padding="4dp"
-            android:src="@drawable/ic_clear"
+            android:src="@drawable/ic_cancel"
             app:layout_constraintBottom_toBottomOf="@id/et_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/et_search"
             app:tint="@color/daynight_gray500s" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

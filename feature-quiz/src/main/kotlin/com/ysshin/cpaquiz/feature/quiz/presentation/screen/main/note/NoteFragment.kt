@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ysshin.cpaquiz.feature.quiz.R
@@ -245,6 +244,10 @@ class NoteFragment : BaseFragment() {
                 }
             }
         })
+
+        binding.chipSearchOff.setOnThrottleClick {
+            viewModel.userInputText.value = ""
+        }
     }
 
     private fun observeViewModel() {

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.note.NoteViewModel" />
@@ -13,6 +15,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         tools:context=".feature.quiz.presentation.screen.main.note.NoteFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -25,7 +28,24 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/theme_color"
                 app:menu="@menu/menu_note_toolbar"
-                app:title="@string/note" />
+                app:title="@string/note">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_search_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:text="@string/clear_note_searching"
+                    android:visibility="@{viewModel.userInputText.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:chipBackgroundColor="@color/secondaryColor_0.15"
+                    app:chipIcon="@drawable/ic_search_off"
+                    app:chipIconTint="@color/secondaryColor"
+                    app:chipStrokeColor="@color/secondaryColor"
+                    app:chipStrokeWidth="0.5dp"
+                    app:iconStartPadding="4dp"
+                    tools:visibility="visible" />
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,7 +61,8 @@
             android:scrollbarTrackVertical="@drawable/scrollbar_track"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/list_item_problem" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_close_bs_search"
@@ -50,13 +71,14 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/daynight_gray070s"
             android:contentDescription="@string/close"
-            android:src="@drawable/ic_close"
+            android:src="@drawable/ic_arrow_down"
             android:visibility="invisible"
             app:borderWidth="0dp"
             app:fabSize="mini"
             app:layout_anchor="@id/bs_search"
             app:layout_anchorGravity="top|end"
-            app:rippleColor="@color/rippleColor" />
+            app:rippleColor="@color/rippleColor"
+            tools:visibility="visible" />
 
         <include
             android:id="@+id/bs_search"

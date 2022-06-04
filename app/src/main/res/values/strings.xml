@@ -15,7 +15,6 @@
     <string name="wrong_note">오답문제</string>
     <string name="total_note">전체문제</string>
     <string name="searched_problem">검색결과</string>
-    <string name="search_hint">키워드</string>
     <string name="etc">기타</string>
     <string name="question">문의하기</string>
     <string name="quiz_setting_text">%s</string>
@@ -23,12 +22,6 @@
     <string name="success">정답입니다!</string>
     <string name="wrong">오답입니다.</string>
     <string name="select_problems">출제년도를 선택하세요.</string>
-    <string name="kakao_app_key">d86daf6bcc68f548400e9cda9016088c</string>
-    <string name="kakao_scheme"></string>
-    <string name="kakaolink_host">kakaolink</string>
-    <string name="share_kakao">카카오톡 공유하기</string>
-    <string name="title_activity_problem_list">ProblemListActivity</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="accounting">회계학</string>
     <string name="time_picker_title">알림 설정</string>
     <string name="time_picker_desc">매일 알림을 보내드릴게요.</string>
