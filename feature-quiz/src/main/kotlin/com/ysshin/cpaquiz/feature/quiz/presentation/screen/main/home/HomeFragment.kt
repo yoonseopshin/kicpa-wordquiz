@@ -76,7 +76,6 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         observeViewModel()
-        loadAd()
     }
 
     override fun onDestroyView() {
@@ -90,6 +89,8 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initView() {
+        loadAd()
+
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.more_vert -> {
