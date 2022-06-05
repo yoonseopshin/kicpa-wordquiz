@@ -13,28 +13,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.FragmentNoteBinding
-import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.AdNativeBannerAdapter
-import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.CommonNoteHeaderAdapter
-import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.NoteAdapter
-import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.ScrollToTopAdapter
-import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.hide
-import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.show
+import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.*
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialogFragment
-import com.ysshin.cpaquiz.shared.android.util.Constants
-import com.ysshin.cpaquiz.shared.android.util.hideKeyboard
-import com.ysshin.cpaquiz.shared.android.util.invisible
-import com.ysshin.cpaquiz.shared.android.util.newInstance
-import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
-import com.ysshin.cpaquiz.shared.android.util.showKeyboard
-import com.ysshin.cpaquiz.shared.android.util.toDp
+import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -58,19 +45,11 @@ class NoteFragment : BaseFragment() {
                 viewModel.toggleWrongNote()
             }
             onHeaderLongClick = {
-                newInstance<AppInfoDialogFragment>(
+                newInstance<DeleteAllWrongProblemDialogFragment>(
                     Constants.icon to R.drawable.ic_delete,
                     Constants.title to getString(R.string.delete_wrong_note),
-                    Constants.description to getString(R.string.question_delete_wrong_note)
-                ).apply {
-                    listener = object : AppInfoDialogFragment.DialogActionListener {
-                        override fun onAppDialogConfirm() {
-                            viewModel.deleteAllWrongProblems()
-                        }
-
-                        override fun onAppDialogDismiss() = Unit
-                    }
-                }.show(childFragmentManager, AppInfoDialogFragment::class.java.simpleName)
+                    Constants.description to getString(R.string.question_delete_all_wrong_note)
+                ).show(childFragmentManager, DeleteAllWrongProblemDialogFragment::class.java.simpleName)
             }
         }
     }
@@ -86,13 +65,14 @@ class NoteFragment : BaseFragment() {
                 )
             }
             adapter.onProblemLongClick = { problem ->
-                MaterialAlertDialogBuilder(requireActivity())
-                    .setMessage("선택한 오답문제를 삭제하시겠습니까?")
-                    .setPositiveButton("확인") { _, _ ->
-                        viewModel.deleteWrongProblem(problem.year, problem.pid, problem.type)
-                    }
-                    .setNegativeButton("취소") { _, _ -> }
-                    .create().show()
+                newInstance<DeleteWrongProblemDialogFragment>(
+                    Constants.icon to R.drawable.ic_delete,
+                    Constants.title to getString(R.string.delete_wrong_problem),
+                    Constants.description to getString(R.string.question_delete_wrong_note),
+                    Constants.targetYear to problem.year,
+                    Constants.targetPid to problem.pid,
+                    Constants.targetType to problem.type,
+                ).show(childFragmentManager, DeleteWrongProblemDialogFragment::class.java.simpleName)
             }
         }
     }

@@ -141,7 +141,7 @@ fun InitSettingsDialog(viewModel: SettingsViewModel = viewModel()) {
             },
             icon = painterResource(id = R.drawable.ic_delete),
             title = stringResource(id = R.string.delete_wrong_note),
-            description = stringResource(id = R.string.question_delete_wrong_note),
+            description = stringResource(id = R.string.question_delete_all_wrong_note),
         )
     }
 

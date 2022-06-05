@@ -11,14 +11,7 @@ import androidx.fragment.app.DialogFragment
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.util.Constants
 
-class AppInfoDialogFragment : DialogFragment() {
-
-    interface DialogActionListener {
-        fun onAppDialogConfirm()
-        fun onAppDialogDismiss()
-    }
-
-    var listener: DialogActionListener? = null
+abstract class AppInfoDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         ComposeView(requireContext()).apply {
@@ -36,11 +29,11 @@ class AppInfoDialogFragment : DialogFragment() {
                             title = title,
                             description = description,
                             onConfirm = {
-                                listener?.onAppDialogConfirm()
+                                onDialogConfirm()
                                 dismiss()
                             },
                             onDismiss = {
-                                listener?.onAppDialogDismiss()
+                                onDialogDismiss()
                                 dismiss()
                             }
                         )
@@ -49,8 +42,6 @@ class AppInfoDialogFragment : DialogFragment() {
             }
         }
 
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
+    abstract fun onDialogConfirm()
+    abstract fun onDialogDismiss()
 }
