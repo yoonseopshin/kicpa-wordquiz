@@ -1,6 +1,5 @@
 package com.ysshin.cpaquiz.data.network.di
 
-import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.ysshin.cpaquiz.data.network.api.QuizService
 import dagger.Module
@@ -24,10 +23,6 @@ object NetworkModule {
     @Provides
     @Named("BaseUrl")
     fun provideBaseUrl() = "https://yoonseopshin.github.io/kicpa-wordquiz/"
-
-    @Singleton
-    @Provides
-    fun provideNetworkFlipperPlugin() = NetworkFlipperPlugin()
 
     @Singleton
     @Provides

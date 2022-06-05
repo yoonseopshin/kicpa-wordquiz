@@ -1,7 +1,6 @@
 package com.cpa.cpa_word_problem.presentation
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import com.cpa.cpa_word_problem.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
@@ -12,7 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,17 +20,15 @@ class MainActivity : BaseActivity() {
         parseIntent()
     }
 
-    private fun init() {
-        with(binding) {
-            viewPager.adapter = MainFragmentStateAdapter(
-                fragmentManager = supportFragmentManager,
-                lifecycle = lifecycle
-            )
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.setIcon(MainTab.getIcon(position))
-            }.attach()
-            viewPager.isUserInputEnabled = false
-        }
+    private fun init() = with(binding) {
+        viewPager.adapter = MainFragmentStateAdapter(
+            fragmentManager = supportFragmentManager,
+            lifecycle = lifecycle
+        )
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.setIcon(MainTab.getIcon(position))
+        }.attach()
+        viewPager.isUserInputEnabled = false
     }
 
     private fun parseIntent() {

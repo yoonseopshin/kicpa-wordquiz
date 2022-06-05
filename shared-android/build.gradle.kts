@@ -47,6 +47,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
     implementation(project(":shared-base"))
     api(libs.bundles.androidx.shared)
     api(libs.material)

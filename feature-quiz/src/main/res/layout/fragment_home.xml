@@ -58,8 +58,8 @@
                     layout="@layout/layout_home_subject_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:backgroundColor020="@{@color/accounting_highlight_color_0_20}"
                     app:backgroundColor="@{@color/accounting_highlight_color}"
+                    app:backgroundColor020="@{@color/accounting_highlight_color_0_20}"
                     app:count="@{viewModel.accountingCount}"
                     app:title="@{@string/accounting}" />
 
@@ -68,8 +68,8 @@
                     layout="@layout/layout_home_subject_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:backgroundColor020="@{@color/business_highlight_color_0_20}"
                     app:backgroundColor="@{@color/business_highlight_color}"
+                    app:backgroundColor020="@{@color/business_highlight_color_0_20}"
                     app:count="@{viewModel.businessCount}"
                     app:title="@{@string/business}" />
 
@@ -78,8 +78,8 @@
                     layout="@layout/layout_home_subject_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:backgroundColor020="@{@color/commercial_law_highlight_color_0_20}"
                     app:backgroundColor="@{@color/commercial_law_highlight_color}"
+                    app:backgroundColor020="@{@color/commercial_law_highlight_color_0_20}"
                     app:count="@{viewModel.commercialLawCount}"
                     app:title="@{@string/commercial_law}" />
 
@@ -88,8 +88,8 @@
                     layout="@layout/layout_home_subject_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:backgroundColor020="@{@color/tax_law_highlight_color_0_20}"
                     app:backgroundColor="@{@color/tax_law_highlight_color}"
+                    app:backgroundColor020="@{@color/tax_law_highlight_color_0_20}"
                     app:count="@{viewModel.taxLawCount}"
                     app:title="@{@string/tax_law}" />
 

@@ -17,11 +17,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
-import com.ysshin.cpaquiz.shared.android.util.blink
-import com.ysshin.cpaquiz.shared.android.util.color
-import com.ysshin.cpaquiz.shared.android.util.scrollToView
-import com.ysshin.cpaquiz.shared.android.util.setOnDoubleClick
-import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
+import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update

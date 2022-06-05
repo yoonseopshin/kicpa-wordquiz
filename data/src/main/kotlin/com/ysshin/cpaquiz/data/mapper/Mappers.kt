@@ -2,8 +2,8 @@ package com.ysshin.cpaquiz.data.mapper
 
 import com.ysshin.cpaquiz.data.database.ProblemEntity
 import com.ysshin.cpaquiz.data.database.WrongProblemEntity
-import com.ysshin.cpaquiz.data.network.ProblemResponse
-import com.ysshin.cpaquiz.data.network.ScheduledDateResponse
+import com.ysshin.cpaquiz.data.network.response.ProblemResponse
+import com.ysshin.cpaquiz.data.network.response.ScheduledDateResponse
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ScheduledDate
 import com.ysshin.cpaquiz.domain.model.WrongProblem

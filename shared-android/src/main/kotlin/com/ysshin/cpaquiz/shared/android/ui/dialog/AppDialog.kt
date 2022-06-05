@@ -134,7 +134,8 @@ fun AppNumberPickerDialog(
 
         Card(
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
+            modifier = Modifier
+                .padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
                 .verticalScroll(scrollState),
             elevation = 4.dp
         ) {

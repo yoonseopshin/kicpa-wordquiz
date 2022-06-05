@@ -39,15 +39,6 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="com.cpa.cpa_word_problem.initializer.DependencyGraphInitializer"
-                android:value="androidx.startup" />
-            <meta-data
-                android:name="com.cpa.cpa_word_problem.initializer.TimberInitializer"
-                android:value="androidx.startup" />
-            <meta-data
-                android:name="com.cpa.cpa_word_problem.initializer.FlipperInitializer"
-                android:value="androidx.startup" />
-            <meta-data
                 android:name="com.cpa.cpa_word_problem.initializer.AdMobInitializer"
                 android:value="androidx.startup" />
         </provider>

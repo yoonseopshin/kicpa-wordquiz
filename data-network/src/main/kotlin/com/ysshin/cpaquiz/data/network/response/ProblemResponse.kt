@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.data.network
+package com.ysshin.cpaquiz.data.network.response
 
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType

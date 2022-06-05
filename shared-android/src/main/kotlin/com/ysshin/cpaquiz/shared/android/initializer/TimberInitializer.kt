@@ -1,9 +1,17 @@
-package com.cpa.cpa_word_problem.initializer
+package com.ysshin.cpaquiz.shared.android.initializer
 
 import android.content.Context
+import androidx.startup.AppInitializer
 import androidx.startup.Initializer
-import com.cpa.cpa_word_problem.BuildConfig
+import com.ysshin.cpaquiz.shared.android.BuildConfig
 import timber.log.Timber
+
+object Timber {
+    fun initialize(context: Context) {
+        AppInitializer.getInstance(context)
+            .initializeComponent(TimberInitializer::class.java)
+    }
+}
 
 class TimberInitializer : Initializer<Unit> {
 

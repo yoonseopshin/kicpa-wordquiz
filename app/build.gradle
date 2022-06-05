@@ -91,17 +91,8 @@ dependencies {
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
-    implementation("androidx.hilt:hilt-work:1.0.0")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.work:work-runtime-ktx:2.7.1")
 
     implementation "androidx.startup:startup-runtime:1.1.1"
-
-    debugImplementation "com.facebook.flipper:flipper:0.145.0"
-    debugImplementation "com.facebook.soloader:soloader:0.10.3"
-    debugImplementation "com.facebook.flipper:flipper-network-plugin:0.142.0"
-    releaseImplementation "com.facebook.flipper:flipper-noop:0.142.0"
-    releaseImplementation "com.github.theGlenn:flipper-android-no-op:0.9.0"
 
     implementation 'com.google.android.gms:play-services-ads:20.6.0'
 

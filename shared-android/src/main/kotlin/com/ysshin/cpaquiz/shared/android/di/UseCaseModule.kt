@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.di
+package com.ysshin.cpaquiz.shared.android.di
 
 import com.ysshin.cpaquiz.domain.repository.QuizRepository
 import com.ysshin.cpaquiz.domain.usecase.problem.*

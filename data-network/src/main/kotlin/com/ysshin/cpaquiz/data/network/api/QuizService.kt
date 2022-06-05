@@ -1,7 +1,7 @@
 package com.ysshin.cpaquiz.data.network.api
 
-import com.ysshin.cpaquiz.data.network.ProblemResponse
-import com.ysshin.cpaquiz.data.network.ScheduledDateResponse
+import com.ysshin.cpaquiz.data.network.response.ProblemResponse
+import com.ysshin.cpaquiz.data.network.response.ScheduledDateResponse
 import retrofit2.http.GET
 
 interface QuizService {
