@@ -170,3 +170,13 @@
     boolean getDEBUG() return false;
     boolean getRECOVER_STACK_TRACES() return false;
 }
+
+-keep class com.google.api.gax.** {*;}
+-keep class com.google.cloud.** {*;}
+-keep class com.google.api.services.translate.** {*;}
+-keep class com.google.api.client.util.** {*;}
+-keep class com.google.api.client.googleapis.** {*;}
+-keep class com.google.cloud.speech.v1.stub.** {*;}
+-keep class io.grpc.** {*;}
+-keep class com.google.auth.oauth2.** {*;}
+-keep class com.google.auth.** {*;}

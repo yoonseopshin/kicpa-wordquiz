@@ -6,6 +6,7 @@ buildscript {
     }
 
     dependencies {
+        classpath(libs.android.r8)
         classpath(libs.android.gradle.plugin)
         classpath(libs.kotlin.gradle.plugin)
         classpath(libs.kotlin.serialization)
