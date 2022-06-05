@@ -2,7 +2,6 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
-import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.style.ForegroundColorSpan
@@ -15,13 +14,14 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.R
+import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.SubDescriptionAdapter
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
-import com.ysshin.cpaquiz.shared.android.ui.span.AlphabetLeadingMarginSpan
 import com.ysshin.cpaquiz.shared.android.util.*
 import com.ysshin.cpaquiz.shared.base.isNullOrDefault
 import java.time.Duration
@@ -59,13 +59,11 @@ fun Chip.bindSource(source: ProblemSource?) {
 }
 
 @BindingAdapter("sub_descriptions")
-fun TextView.bindSubDescription(subDescriptions: List<String>?) {
-    val joinedDescription = subDescriptions?.joinToString(separator = "\n") { description ->
-        description.trim()
-    } ?: return
+fun RecyclerView.bindSubDescription(subDescriptions: List<String>?) {
+    val descriptions = subDescriptions ?: return
 
-    text = SpannableStringBuilder(joinedDescription).apply {
-        setSpan(AlphabetLeadingMarginSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    adapter = SubDescriptionAdapter().apply {
+        submitList(descriptions)
     }
 }
 
@@ -189,4 +187,9 @@ fun TextView.bindSubjectTotalCount(count: Int) {
 @BindingAdapter("quiz_settings_opened")
 fun FloatingActionButton.bindQuizSettingsOpened(value: Boolean) {
     visibleOrInvisible(value)
+}
+
+@BindingAdapter("fade_anim_text")
+fun TextView.bindFadeAnimationText(value: String) {
+    setTextFadeAnimation(value)
 }

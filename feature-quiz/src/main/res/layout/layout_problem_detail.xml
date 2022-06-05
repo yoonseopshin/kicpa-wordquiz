@@ -110,18 +110,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_description">
 
-                <TextView
-                    android:id="@+id/tv_sub_description"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_sub_description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/daynight_gray700s"
-                    android:textSize="13sp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:sub_descriptions="@{problem.subDescriptions}"
-                    tools:text="a. 결과의 원인이 지속적일 때\nb. 결과가 소비자 자신에 의해 유발되었을 때\nc. 발생한 결과가 기업에 의해 통제 가능했다고 판단할 때" />
+                    tools:itemCount="5"
+                    tools:listitem="@layout/list_item_sub_description" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
