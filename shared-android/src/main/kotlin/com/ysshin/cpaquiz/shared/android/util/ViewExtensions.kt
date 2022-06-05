@@ -12,9 +12,11 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ScrollView
+import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
 import kotlin.math.abs
 import kotlinx.coroutines.CoroutineDispatcher
@@ -137,3 +139,34 @@ fun Context.color(@ColorRes resId: Int) = ContextCompat.getColor(this, resId)
 
 inline fun <T> ViewGroup.inflate(inflater: (LayoutInflater, ViewGroup, Boolean) -> T) =
     inflater(LayoutInflater.from(context), this, false)
+
+fun View.fadeOutAnimation(duration: Long = 300L, action: Action = {}) {
+    animate()
+        .alpha(0f)
+        .setDuration(duration)
+        .withEndAction {
+            visibility = View.GONE
+            action()
+        }
+}
+
+fun View.fadeInAnimation(duration: Long = 300L, action: Action = {}) {
+    alpha = 0f
+    visibility = View.VISIBLE
+    animate()
+        .alpha(1f)
+        .setDuration(duration)
+        .withEndAction {
+            action()
+        }
+}
+
+fun TextView.setTextFadeAnimation(value: String, duration: Long = 300L, action: Action = {}) {
+    val halfDuration = duration / 2
+    fadeOutAnimation(halfDuration) {
+        text = value
+        fadeInAnimation(halfDuration) {
+            action()
+        }
+    }
+}
