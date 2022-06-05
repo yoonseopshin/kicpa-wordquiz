@@ -44,9 +44,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidx.test)
 
-    debugImplementation("com.facebook.flipper:flipper:0.142.0")
+    debugImplementation("com.facebook.flipper:flipper:0.145.0")
     debugImplementation("com.facebook.soloader:soloader:0.10.3")
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:0.142.0")
-    releaseImplementation("com.facebook.flipper:flipper-noop:0.142.0")
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:0.145.0")
+    releaseImplementation("com.facebook.flipper:flipper-noop:0.145.0")
     releaseImplementation("com.github.theGlenn:flipper-android-no-op:0.9.0")
 }

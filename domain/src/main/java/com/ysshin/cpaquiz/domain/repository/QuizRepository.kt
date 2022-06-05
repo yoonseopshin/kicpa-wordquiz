@@ -7,8 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface QuizRepository {
 
-    suspend fun getLocalProblem(type: QuizType): Problem
-
     suspend fun getLocalProblems(type: QuizType, size: Int): List<Problem>
 
     fun getLocalProblems(): Flow<List<Problem>>
@@ -25,7 +23,7 @@ interface QuizRepository {
 
     suspend fun syncRemoteProblems()
 
-    suspend fun getNextExamDate(): String
+    fun getNextExamDate(): Flow<String>
 
     fun getProblemCountByType(type: QuizType): Flow<Int>
 

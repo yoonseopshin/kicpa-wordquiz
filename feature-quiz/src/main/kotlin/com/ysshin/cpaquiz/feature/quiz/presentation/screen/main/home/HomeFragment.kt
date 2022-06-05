@@ -76,7 +76,6 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         observeViewModel()
-        viewModel.requestNextExamDate()
         loadAd()
     }
 

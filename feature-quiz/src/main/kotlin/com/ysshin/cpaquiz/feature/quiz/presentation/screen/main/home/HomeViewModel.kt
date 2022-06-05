@@ -7,6 +7,7 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
+import com.ysshin.cpaquiz.shared.base.DEFAULT_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +20,13 @@ class HomeViewModel @Inject constructor(
     private val quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
-    private val _nextExamDate = MutableStateFlow("")
-    val nextExamDate = _nextExamDate.asStateFlow()
+    val nextExamDate = quizUseCases.getNextExamDate()
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = DEFAULT_STRING
+        )
 
     private val _isQuizSettingsOpened = MutableStateFlow(false)
     val isQuizSettingsOpened = _isQuizSettingsOpened.asStateFlow()
@@ -72,12 +78,6 @@ class HomeViewModel @Inject constructor(
             started = SharingStarted.Lazily,
             initialValue = 0
         )
-
-    fun requestNextExamDate() {
-        viewModelScope.launch {
-            _nextExamDate.value = quizUseCases.getNextExamDate()
-        }
-    }
 
     fun setTimer(value: Boolean) {
         viewModelScope.launch {

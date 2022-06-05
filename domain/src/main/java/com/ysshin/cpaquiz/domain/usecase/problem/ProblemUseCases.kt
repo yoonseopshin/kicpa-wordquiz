@@ -7,7 +7,6 @@ data class ProblemUseCases(
     val insertWrongProblems: InsertWrongProblems,
     val deleteWrongProblem: DeleteWrongProblem,
     val deleteAllWrongProblems: DeleteAllWrongProblems,
-    val getProblem: GetProblem,
     val getProblems: GetProblems,
     val syncRemoteProblems: SyncRemoteProblems,
     val getProblemCount: GetProblemCount,

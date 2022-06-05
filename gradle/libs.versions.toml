@@ -30,6 +30,7 @@ androidx-test-espresso-core = "3.4.0"
 
 timber = "5.0.1"
 retrofit = "2.9.0"
+okhttp = "4.9.3"
 retrofit-kotlinx-serialization = "0.8.0"
 spotless = "6.3.0"
 ktlint = "0.43.0"
@@ -72,9 +73,12 @@ androidx-text-ext-junit = { module = "androidx.test.ext:junit", version.ref = "a
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso-core" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-kotlinx-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-kotlinx-serialization" }
+okhttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.3"
+okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 spotless-gradle-plugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
 
@@ -83,4 +87,4 @@ androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-s
 room = ["room-runtime", "room-ktx"]
 compose = ["compose-ui", "compose-ui-tooling-preview", "compose-material"]
 androidx-test = ["androidx-text-ext-junit", "androidx-test-espresso-core"]
-retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-kotlinx-serialization"]
+retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-kotlinx-serialization", "okhttp-bom", "okhttp-core", "okhttp-logging-interceptor"]

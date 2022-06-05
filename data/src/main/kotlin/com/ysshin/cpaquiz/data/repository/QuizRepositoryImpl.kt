@@ -14,6 +14,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -26,15 +27,6 @@ class QuizRepositoryImpl @Inject constructor(
     private val wrongProblemDao: WrongProblemDao,
     private val quizDataStoreManager: QuizDatastoreManager,
 ) : QuizRepository {
-
-    override suspend fun getLocalProblem(type: QuizType): Problem =
-        withContext(Dispatchers.IO) {
-            runCatching {
-                problemDao.get(type)
-            }.map {
-                it?.toDomain()
-            }.getOrNull() ?: Problem()
-        }
 
     override suspend fun getLocalProblems(type: QuizType, size: Int): List<Problem> =
         withContext(Dispatchers.IO) {
@@ -81,7 +73,7 @@ class QuizRepositoryImpl @Inject constructor(
             wrongProblemDao.deleteAll()
         }
 
-    override suspend fun syncRemoteProblems() =
+    override suspend fun syncRemoteProblems(): Unit =
         withContext(Dispatchers.IO) {
             runCatching {
                 quizService.getCpaProblems()
@@ -91,36 +83,28 @@ class QuizRepositoryImpl @Inject constructor(
                 problemDao.insert(problems)
             }.onFailure { throwable ->
                 Timber.e(throwable)
-            }.fold(
-                onSuccess = { },
-                onFailure = { }
-            )
+            }
         }
 
-    override suspend fun getNextExamDate() =
-        withContext(Dispatchers.IO) {
-            var nextExam = ""
-
-            runCatching {
-                quizService.getCpaScheduledDate()
-            }.map { scheduledDates ->
-                scheduledDates.toDomain()
-            }.onSuccess { scheduledDates ->
-                scheduledDates.find { scheduledDate ->
-                    LocalDate.now().toString() < scheduledDate.date
-                }?.run {
-                    nextExam = date
-                }
-            }.onFailure { throwable ->
-                Timber.e(throwable)
-            }.fold(
-                onSuccess = { nextExam },
-                onFailure = { nextExam }
-            )
+    override fun getNextExamDate() = flow {
+        runCatching {
+            quizService.getCpaScheduledDate()
+        }.map { scheduledDates ->
+            scheduledDates.toDomain()
+        }.onSuccess { scheduledDates ->
+            scheduledDates.find { scheduledDate ->
+                LocalDate.now().toString() < scheduledDate.date
+            }?.run {
+                date
+            }?.let { date ->
+                emit(date)
+            }
+        }.onFailure { throwable ->
+            Timber.e(throwable)
         }
+    }
 
-    override fun getProblemCountByType(type: QuizType): Flow<Int> =
-        problemDao.getProblemCountByType(type)
+    override fun getProblemCountByType(type: QuizType): Flow<Int> = problemDao.getProblemCountByType(type)
 
     override fun getQuizNumber() = quizDataStoreManager.quizNumber
 

@@ -22,7 +22,6 @@ object UseCaseModule {
         InsertWrongProblems(repository),
         DeleteWrongProblem(repository),
         DeleteAllWrongProblems(repository),
-        GetProblem(repository),
         GetProblems(repository),
         SyncRemoteProblems(repository),
         GetProblemCount(repository),
