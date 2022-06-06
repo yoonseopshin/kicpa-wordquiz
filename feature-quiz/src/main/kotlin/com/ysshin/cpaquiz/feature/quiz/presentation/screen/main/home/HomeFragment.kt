@@ -94,12 +94,7 @@ class HomeFragment : BaseFragment() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.more_vert -> {
-                    when (bsQuizBehavior.state) {
-                        BottomSheetBehavior.STATE_COLLAPSED -> {
-                            bsQuizBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                        }
-                        else -> Unit
-                    }
+                    viewModel.setQuizSettingsOpened(true)
                     true
                 }
                 else -> false
@@ -129,50 +124,6 @@ class HomeFragment : BaseFragment() {
             bsQuizBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-        binding.layAccounting.root.setOnThrottleClick {
-            startActivity(
-                ProblemDetailActivity.newIntent(
-                    context = requireContext(),
-                    quizType = QuizType.Accounting,
-                    quizNumbers = viewModel.quizNumber.value,
-                    useTimer = viewModel.useTimer.value
-                )
-            )
-        }
-
-        binding.layBusiness.root.setOnThrottleClick {
-            startActivity(
-                ProblemDetailActivity.newIntent(
-                    context = requireContext(),
-                    quizType = QuizType.Business,
-                    quizNumbers = viewModel.quizNumber.value,
-                    useTimer = viewModel.useTimer.value
-                )
-            )
-        }
-
-        binding.layCommercialLaw.root.setOnThrottleClick {
-            startActivity(
-                ProblemDetailActivity.newIntent(
-                    context = requireContext(),
-                    quizType = QuizType.CommercialLaw,
-                    quizNumbers = viewModel.quizNumber.value,
-                    useTimer = viewModel.useTimer.value
-                )
-            )
-        }
-
-        binding.layTaxLaw.root.setOnThrottleClick {
-            startActivity(
-                ProblemDetailActivity.newIntent(
-                    context = requireContext(),
-                    quizType = QuizType.TaxLaw,
-                    quizNumbers = viewModel.quizNumber.value,
-                    useTimer = viewModel.useTimer.value
-                )
-            )
-        }
-
         with(binding.bsQuiz) {
             layQuizNum.setOnThrottleClick {
                 newInstance<QuizNumberPickerDialogFragment>(
@@ -200,13 +151,10 @@ class HomeFragment : BaseFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 launch {
                     viewModel.isQuizSettingsOpened.collectLatest { value ->
-                        when (value) {
-                            true -> {
-                                bsQuizBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                            }
-                            false -> {
-                                bsQuizBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                            }
+                        bsQuizBehavior.state = if (value) {
+                            BottomSheetBehavior.STATE_EXPANDED
+                        } else {
+                            BottomSheetBehavior.STATE_COLLAPSED
                         }
                     }
                 }

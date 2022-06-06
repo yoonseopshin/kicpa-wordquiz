@@ -15,12 +15,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.SubDescriptionAdapter
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
 import com.ysshin.cpaquiz.shared.android.util.*
 import com.ysshin.cpaquiz.shared.base.isNullOrDefault
@@ -192,4 +194,18 @@ fun FloatingActionButton.bindQuizSettingsOpened(value: Boolean) {
 @BindingAdapter("fade_anim_text")
 fun TextView.bindFadeAnimationText(value: String) {
     setTextFadeAnimation(value)
+}
+
+@BindingAdapter("quiz_type", "quiz_number", "use_timer", requireAll = true)
+fun MaterialCardView.bindOnClickListener(quizType: QuizType, quizNumber: Int, useTimer: Boolean) {
+    setOnThrottleClick {
+        context.startActivity(
+            ProblemDetailActivity.newIntent(
+                context = context,
+                quizType = quizType,
+                quizNumbers = quizNumber,
+                useTimer = useTimer
+            )
+        )
+    }
 }

@@ -19,6 +19,18 @@
             name="backgroundColor020"
             type="int" />
 
+        <variable
+            name="quizType"
+            type="com.ysshin.cpaquiz.domain.model.QuizType" />
+
+        <variable
+            name="quizNumber"
+            type="int" />
+
+        <variable
+            name="useTimer"
+            type="boolean" />
+
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,6 +40,9 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
+        app:quiz_type="@{quizType}"
+        app:quiz_number="@{quizNumber}"
+        app:use_timer="@{useTimer}"
         app:rippleColor="@color/rippleColor"
         app:strokeColor="@{backgroundColor}"
         app:strokeWidth="0.5dp">
