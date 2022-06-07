@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.worker
+package com.ysshin.cpaquiz.feature.sync.worker
 
 import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory

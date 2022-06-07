@@ -3,8 +3,6 @@ package com.ysshin.cpaquiz.feature.sync.worker
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.*
-import com.cpa.cpa_word_problem.worker.DelegatingWorker
-import com.cpa.cpa_word_problem.worker.delegatedData
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import dagger.assisted.Assisted
