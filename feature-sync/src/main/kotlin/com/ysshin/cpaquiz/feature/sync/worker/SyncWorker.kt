@@ -36,12 +36,7 @@ class SyncWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        // TODO: sync가 실패할 경우 어떻게 할지 적절한 처리를 해주어야 함.
-        // Retry를 몇번할지
-        // Fail의 경우 어떤 처리를 보여줄지
-
         problemUseCases.syncRemoteProblems()
-        // TODO: Quiz dday도 로컬에 저장하고 업데이트 하는 형식으로 할까?
         Result.success()
     }
 
@@ -62,7 +57,7 @@ private fun Context.syncForegroundInfo() = ForegroundInfo(
 private fun Context.syncWorkNotification(): Notification {
     val channel = NotificationChannel(
         SyncNotificationChannelID,
-        "CPA 데이터 동기화",
+        getString(R.string.sync_data),
         NotificationManager.IMPORTANCE_DEFAULT
     )
 
@@ -74,7 +69,7 @@ private fun Context.syncWorkNotification(): Notification {
         SyncNotificationChannelID
     )
         .setSmallIcon(R.drawable.ic_done)
-        .setContentTitle("CPA 문제를 업데이트했습니다.")
+        .setContentTitle(getString(R.string.sync_data_successfully))
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .build()
 }

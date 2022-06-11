@@ -101,6 +101,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:problem_type="@{problem.type}"
+            tools:chipStrokeColor="@color/accounting_highlight_color"
+            tools:chipBackgroundColor="@color/accounting_highlight_color_0_20"
             tools:text="회계학" />
 
         <TextView

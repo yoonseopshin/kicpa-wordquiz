@@ -166,23 +166,23 @@ class NoteFragment : BaseFragment() {
         }
 
         bsSearchBehavior.addBottomSheetCallback(object :
-                BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    when (newState) {
-                        BottomSheetBehavior.STATE_COLLAPSED -> {
-                            binding.fabCloseBsSearch.invisible()
-                            hideKeyboard()
-                        }
-                        BottomSheetBehavior.STATE_EXPANDED -> {
-                            binding.fabCloseBsSearch.show()
-                            binding.bsSearch.etSearch.showKeyboard()
-                        }
-                        else -> Unit
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        binding.fabCloseBsSearch.invisible()
+                        hideKeyboard()
                     }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        binding.fabCloseBsSearch.show()
+                        binding.bsSearch.etSearch.showKeyboard()
+                    }
+                    else -> Unit
                 }
+            }
 
-                override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
-            })
+            override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
+        })
         bsSearchBehavior.peekHeight = 0
 
         binding.fabCloseBsSearch.setOnThrottleClick {
@@ -353,6 +353,35 @@ class NoteFragment : BaseFragment() {
                             )
                         } else {
                             totalNoteAdapter.submitList(emptyList())
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.filteredYears.collectLatest { filteredYears ->
+                        Timber.d("$filteredYears")
+                        viewModel.wrongProblems.value.filter { problem ->
+                            problem.year in filteredYears && problem.type in viewModel.filteredTypes.value
+                        }.map { problem ->
+                            UserSolvedProblemModel(problem = problem)
+                        }.let { problems ->
+                            wrongNoteHeaderAdapter.showOrHide(problems.isNotEmpty())
+                            wrongNoteAdapter.submitList(problems)
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.filteredTypes.collectLatest { filteredTypes ->
+                        Timber.d("$filteredTypes")
+                        viewModel.wrongProblems.value.filter { problem ->
+                            problem.type in filteredTypes && problem.year in viewModel.filteredYears.value
+                        }.map { problem ->
+                            Timber.d("$problem")
+                            UserSolvedProblemModel(problem = problem)
+                        }.let { problems ->
+                            wrongNoteHeaderAdapter.showOrHide(problems.isNotEmpty())
+                            wrongNoteAdapter.submitList(problems)
                         }
                     }
                 }

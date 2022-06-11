@@ -63,4 +63,6 @@
     <string name="app_version">버전정보</string>
     <string name="app_version_name_and_code">현재 버전 %1$s\n버전 코드 %2$s</string>
     <string name="clear_note_searching">검색 초기화</string>
+    <string name="sync_data">데이터 동기화</string>
+    <string name="sync_data_successfully">CPA 문제를 업데이트했습니다.</string>
 </resources>

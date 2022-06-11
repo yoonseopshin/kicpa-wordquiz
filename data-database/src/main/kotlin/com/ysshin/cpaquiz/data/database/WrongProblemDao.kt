@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WrongProblemDao {
-    @Query("""
+    @Query(
+        """
         SELECT * 
         FROM ${AppContract.WrongProblem.TABLE_NAME}
-        WHERE $YEAR IN (:years)
-        AND $TYPE IN (:types)
-        """)
-    suspend fun getAll(years: List<Int>, types: List<QuizType>): List<WrongProblemEntity>
+        """
+    )
+    fun getAll(): Flow<List<WrongProblemEntity>>
 
     @Query(
         """

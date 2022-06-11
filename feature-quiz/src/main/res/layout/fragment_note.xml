@@ -52,7 +52,7 @@
                 android:id="@+id/layout_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/secondaryColor_0.15_no_alpha"
+                android:background="@color/daynight_gray050s"
                 android:elevation="4dp"
                 android:paddingHorizontal="8dp"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
@@ -63,12 +63,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/year"
-                    app:chipBackgroundColor="@color/daynight_gray070s"
-                    app:chipStrokeColor="@color/daynight_gray300s"
                     app:chipStrokeWidth="0.5dp"
+                    app:is_filtering="@{viewModel.isYearFiltering()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:chipBackgroundColor="@color/daynight_gray070s"
+                    tools:chipStrokeColor="@color/daynight_gray300s" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_filter_type"
@@ -76,12 +77,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/quiz_type"
-                    app:chipBackgroundColor="@color/daynight_gray070s"
-                    app:chipStrokeColor="@color/daynight_gray300s"
                     app:chipStrokeWidth="0.5dp"
+                    app:is_filtering="@{viewModel.isQuizTypeFiltering()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/chip_filter_year"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:chipBackgroundColor="@color/daynight_gray070s"
+                    tools:chipStrokeColor="@color/daynight_gray300s" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_filter_clear"

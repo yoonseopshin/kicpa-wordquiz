@@ -1,6 +1,7 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -209,3 +210,15 @@ fun MaterialCardView.bindOnClickListener(quizType: QuizType, quizNumber: Int, us
         )
     }
 }
+
+@BindingAdapter("is_filtering")
+fun Chip.bindFiltering(isFiltering: Boolean) {
+    if (isFiltering) {
+        chipBackgroundColor = context.colorStateList(R.color.primaryColor_0_15)
+        chipStrokeColor = context.colorStateList(R.color.primaryColor)
+    } else {
+        chipBackgroundColor = context.colorStateList(R.color.daynight_gray070s)
+        chipStrokeColor = context.colorStateList(R.color.daynight_gray300s)
+    }
+}
+

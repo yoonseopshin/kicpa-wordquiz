@@ -13,7 +13,7 @@ interface QuizRepository {
 
     suspend fun getLocalProblems(years: List<Int>, types: List<QuizType>): List<Problem>
 
-    suspend fun getWrongProblems(years: List<Int>, types: List<QuizType>): List<Problem>
+    fun getWrongProblems(): Flow<List<Problem>>
 
     suspend fun searchProblems(text: String): List<Problem>
 

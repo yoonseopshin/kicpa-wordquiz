@@ -7,9 +7,10 @@ import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.ysshin.cpaquiz.shared.android.ui.dialog.SelectableTextItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
@@ -20,10 +21,6 @@ class NoteViewModel @Inject constructor(
         problemUseCases.getLocalProblems(scope = viewModelScope) {
             _problems.value = it
         }
-
-        problemUseCases.getWrongProblems(scope = viewModelScope) {
-            _wrongProblems.value = it
-        }
     }
 
     private val _uiEvent = MutableSharedFlow<UiEvent>()
@@ -32,17 +29,30 @@ class NoteViewModel @Inject constructor(
     private val _problems: MutableStateFlow<List<Problem>> = MutableStateFlow(emptyList())
     val problems = _problems.asStateFlow()
 
-    private val _wrongProblems: MutableStateFlow<List<Problem>> = MutableStateFlow(emptyList())
-    val wrongProblems = _wrongProblems.asStateFlow()
+    val wrongProblems = problemUseCases.getWrongProblems()
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
 
-    private val filteredYears = Problem.allYears().toMutableList()
-    private val filteredTypes = QuizType.all().toMutableList()
+    private val _filteredYears = MutableStateFlow(Problem.allYears())
+    val filteredYears = _filteredYears.asStateFlow()
+    private val _filteredTypes = MutableStateFlow(QuizType.all())
+    val filteredTypes = _filteredTypes.asStateFlow()
+
+    private val _isYearFiltering = MutableStateFlow(false)
+    val isYearFiltering: StateFlow<Boolean> = _isYearFiltering
+
+    private val _isQuizTypeFiltering = MutableStateFlow(false)
+    val isQuizTypeFiltering: StateFlow<Boolean> = _isQuizTypeFiltering
 
     fun getSelectableFilteredYears() =
         Problem.allYears().map {
             SelectableTextItem(
                 text = it.toString(),
-                isSelected = filteredYears.contains(it)
+                isSelected = _filteredYears.value.contains(it)
             )
         }
 
@@ -50,18 +60,18 @@ class NoteViewModel @Inject constructor(
         QuizType.all().map {
             SelectableTextItem(
                 text = it.toKorean(),
-                isSelected = filteredTypes.contains(it)
+                isSelected = _filteredTypes.value.contains(it)
             )
         }
 
     fun setFilteredYears(years: List<Int>) {
-        filteredYears.clear()
-        filteredYears.addAll(years)
+        _filteredYears.update { years }
+        _isYearFiltering.update { Problem.allYears().size != years.size }
     }
 
     fun setFilteredTypes(types: List<QuizType>) {
-        filteredTypes.clear()
-        filteredTypes.addAll(types)
+        _filteredTypes.update { types }
+        _isQuizTypeFiltering.update { QuizType.all().size != types.size }
     }
 
     fun clearProblemFilter() {
@@ -70,11 +80,12 @@ class NoteViewModel @Inject constructor(
     }
 
     fun applyProblemFilter() {
-        problemUseCases.getLocalProblems(years = filteredYears, types = filteredTypes, scope = viewModelScope) {
+        problemUseCases.getLocalProblems(
+            years = filteredYears.value,
+            types = filteredTypes.value,
+            scope = viewModelScope
+        ) {
             _problems.value = it
-        }
-        problemUseCases.getWrongProblems(years = filteredYears, types = filteredTypes, scope = viewModelScope) {
-            _wrongProblems.value = it
         }
     }
 

@@ -10,8 +10,6 @@ import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.WrongProblem
 import com.ysshin.cpaquiz.domain.repository.QuizRepository
-import java.time.LocalDate
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,6 +17,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import timber.log.Timber
+import java.time.LocalDate
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
 class QuizRepositoryImpl @Inject constructor(
@@ -47,9 +47,9 @@ class QuizRepositoryImpl @Inject constructor(
             problemDao.getAll(years, types).map { it.toDomain() }
         }
 
-    override suspend fun getWrongProblems(years: List<Int>, types: List<QuizType>): List<Problem> =
-        withContext(Dispatchers.IO) {
-            wrongProblemDao.getAll(years, types).map { wrongProblem ->
+    override fun getWrongProblems(): Flow<List<Problem>> =
+        wrongProblemDao.getAll().map { wrongProblemEntities ->
+            wrongProblemEntities.map { wrongProblem ->
                 problemDao.get(wrongProblem.year, wrongProblem.pid, wrongProblem.type).toDomain()
             }
         }

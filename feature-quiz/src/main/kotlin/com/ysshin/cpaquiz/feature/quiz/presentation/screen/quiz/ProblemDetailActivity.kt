@@ -80,7 +80,7 @@ class ProblemDetailActivity : BaseActivity() {
                 binding.fabNext,
                 getString(R.string.msg_need_answer),
                 Snackbar.LENGTH_SHORT
-            ).apply{
+            ).apply {
                 setAnchorView(binding.fabNext)
                 setAction(R.string.confirm) { dismiss() }
             }.show()
