@@ -1,17 +1,17 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutCommonNoteHeaderBinding
-import com.ysshin.cpaquiz.shared.android.ui.adapter.ToggleableAdapter
 import com.ysshin.cpaquiz.shared.android.util.inflate
 import com.ysshin.cpaquiz.shared.base.Action
-import com.ysshin.cpaquiz.shared.base.Supplier
 
-class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
+class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
 
     var headerTitle = ""
 
+    var isShowing = true
     var onHeaderClick: Action = {}
     var onHeaderLongClick: Action = {}
 
@@ -24,10 +24,6 @@ class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemVi
         init {
             binding.setOnClickListener {
                 onHeaderClick()
-                if (binding.isToggleable) {
-                    binding.isShowing = binding.isShowing.not()
-                    binding.executePendingBindings()
-                }
             }
 
             binding.setOnLongClickListener {
@@ -36,9 +32,8 @@ class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemVi
             }
         }
 
-        fun bind(title: String, isToggleable: Boolean, isShowing: Boolean) {
+        fun bind(title: String, isShowing: Boolean) {
             binding.headerTitle = title
-            binding.isToggleable = isToggleable
             binding.isShowing = isShowing
             binding.executePendingBindings()
         }
@@ -52,10 +47,26 @@ class CommonNoteHeaderAdapter : ToggleableAdapter<CommonNoteHeaderAdapter.ItemVi
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(headerTitle, isToggleable, isShowing)
+        holder.bind(headerTitle, isShowing)
     }
 
-    override var itemCountSupplier: Supplier<Int>
-        get() = { 1 }
-        set(value) {}
+    override fun getItemCount() = if (isShowing) 1 else 0
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun show() {
+        isShowing = true
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun hide() {
+        isShowing = false
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun showOrHide(shouldBeShowing: Boolean) {
+        isShowing = shouldBeShowing
+        notifyDataSetChanged()
+    }
 }

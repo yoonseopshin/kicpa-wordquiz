@@ -28,7 +28,6 @@ class MainActivity : BaseActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.setIcon(MainTab.getIcon(position))
         }.attach()
-        viewPager.isUserInputEnabled = false
     }
 
     private fun parseIntent() {

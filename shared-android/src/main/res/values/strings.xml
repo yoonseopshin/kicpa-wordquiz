@@ -18,7 +18,7 @@
     <string name="wrong_note">오답문제</string>
     <string name="total_note">전체문제</string>
     <string name="searched_problem">검색결과</string>
-    <string name="search_hint">연도, 문항, 과목, 내용</string>
+    <string name="search_hint">문항, 내용</string>
     <string name="etc">기타</string>
     <string name="mail_to_developer">문의하기</string>
     <string name="mail_to_developer_title">CPA 말문제 문의</string>

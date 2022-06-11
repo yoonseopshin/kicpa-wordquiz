@@ -55,6 +55,7 @@
                 android:background="@color/daynight_gray050s"
                 android:elevation="4dp"
                 android:paddingHorizontal="8dp"
+                app:is_searching="@{!viewModel.userInputText.isEmpty()}"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <com.google.android.material.chip.Chip
@@ -63,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/year"
+                    android:textColor="@color/background_enabled_default_color"
                     app:chipStrokeWidth="0.5dp"
                     app:is_filtering="@{viewModel.isYearFiltering()}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -77,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/quiz_type"
+                    android:textColor="@color/background_enabled_default_color"
                     app:chipStrokeWidth="0.5dp"
                     app:is_filtering="@{viewModel.isQuizTypeFiltering()}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -91,10 +94,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="@string/clear_filter"
+                    android:textColor="@color/background_enabled_default_color"
                     app:chipBackgroundColor="@color/daynight_gray070s"
-                    app:chipIconTint="@color/daynight_gray700s"
+                    app:chipIcon="@drawable/ic_filter"
+                    app:chipIconTint="@color/background_enabled_default_color"
                     app:chipStrokeColor="@color/daynight_gray300s"
                     app:chipStrokeWidth="0.5dp"
+                    app:iconStartPadding="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

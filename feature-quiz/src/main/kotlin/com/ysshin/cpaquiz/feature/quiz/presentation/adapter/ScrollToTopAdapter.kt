@@ -1,15 +1,15 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutScrollToTopBinding
-import com.ysshin.cpaquiz.shared.android.ui.adapter.ToggleableAdapter
 import com.ysshin.cpaquiz.shared.android.util.inflate
 import com.ysshin.cpaquiz.shared.base.Action
-import com.ysshin.cpaquiz.shared.base.Supplier
 
-class ScrollToTopAdapter : ToggleableAdapter<ScrollToTopAdapter.ItemViewHolder>() {
+class ScrollToTopAdapter : RecyclerView.Adapter<ScrollToTopAdapter.ItemViewHolder>() {
 
+    var isShowing = true
     var onScrollToTopClick: Action = {}
 
     class ItemViewHolder(private val binding: LayoutScrollToTopBinding) :
@@ -38,7 +38,23 @@ class ScrollToTopAdapter : ToggleableAdapter<ScrollToTopAdapter.ItemViewHolder>(
         holder.bind()
     }
 
-    override var itemCountSupplier: Supplier<Int>
-        get() = { 1 }
-        set(value) = Unit
+    override fun getItemCount() = if (isShowing) 1 else 0
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun show() {
+        isShowing = true
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun hide() {
+        isShowing = false
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun showOrHide(shouldBeShowing: Boolean) {
+        isShowing = shouldBeShowing
+        notifyDataSetChanged()
+    }
 }

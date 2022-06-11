@@ -12,10 +12,6 @@
             type="String" />
 
         <variable
-            name="isToggleable"
-            type="boolean" />
-
-        <variable
             name="isShowing"
             type="boolean" />
 
@@ -57,24 +53,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/total_note" />
-
-            <ImageView
-                android:id="@+id/iv_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/background_common_ripple_unbounded"
-                android:clickable="true"
-                android:contentDescription="@string/toggle"
-                android:focusable="true"
-                android:onClick="@{onClickListener}"
-                android:src="@drawable/ic_arrow_down"
-                android:visibility="@{isToggleable ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:opened="@{isShowing}"
-                app:tint="@color/daynight_gray600s" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

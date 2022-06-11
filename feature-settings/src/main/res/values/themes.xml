@@ -4,6 +4,7 @@
     <style name="Theme.CpaQuiz.OssLicenses" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/theme_color</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
         <item name="actionBarTheme">@style/Theme.CpaQuiz.OssLicenses.ActionBar</item>
         <item name="android:windowAnimationStyle">@style/Theme.CpaQuiz.SlideAnimation</item>
     </style>

@@ -1,6 +1,9 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.util
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -12,6 +15,7 @@ import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -218,5 +222,12 @@ fun Chip.bindFiltering(isFiltering: Boolean) {
     } else {
         chipBackgroundColor = context.colorStateList(R.color.daynight_gray070s)
         chipStrokeColor = context.colorStateList(R.color.daynight_gray300s)
+    }
+}
+
+@BindingAdapter("is_searching")
+fun ConstraintLayout.bindSearching(isSearching: Boolean) {
+    actionWithChild {
+        isEnabled = isSearching.not()
     }
 }

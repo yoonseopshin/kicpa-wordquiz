@@ -18,9 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
-import kotlin.math.abs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlin.math.abs
 
 fun View.expand(duration: Long = 300L) {
     measure(
@@ -168,5 +168,13 @@ fun TextView.setTextFadeAnimation(value: String, duration: Long = 300L, action: 
         fadeInAnimation(halfDuration) {
             action()
         }
+    }
+}
+
+fun View.actionWithChild(action: View.() -> Unit) {
+    action()
+    val viewGroup = this as? ViewGroup ?: return
+    for (i in 0 until viewGroup.childCount) {
+        viewGroup.getChildAt(i).actionWithChild(action)
     }
 }

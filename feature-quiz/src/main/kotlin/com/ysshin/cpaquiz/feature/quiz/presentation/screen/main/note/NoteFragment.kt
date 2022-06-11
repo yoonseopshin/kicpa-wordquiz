@@ -42,10 +42,7 @@ class NoteFragment : BaseFragment() {
     private val wrongNoteHeaderAdapter: CommonNoteHeaderAdapter by lazy {
         CommonNoteHeaderAdapter().apply {
             headerTitle = getString(R.string.wrong_note)
-            isToggleable = true
-            onHeaderClick = {
-                viewModel.toggleWrongNote()
-            }
+            onHeaderClick = {}
             onHeaderLongClick = {
                 newInstance<DeleteAllWrongProblemDialogFragment>(
                     Constants.icon to R.drawable.ic_delete,
@@ -81,10 +78,7 @@ class NoteFragment : BaseFragment() {
     private val totalNoteHeaderAdapter: CommonNoteHeaderAdapter by lazy {
         CommonNoteHeaderAdapter().apply {
             headerTitle = getString(R.string.total_note)
-            isToggleable = true
-            onHeaderClick = {
-                viewModel.toggleTotalNote()
-            }
+            onHeaderClick = {}
         }
     }
     private val totalNoteAdapter: NoteAdapter by lazy {
@@ -166,23 +160,23 @@ class NoteFragment : BaseFragment() {
         }
 
         bsSearchBehavior.addBottomSheetCallback(object :
-                BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    when (newState) {
-                        BottomSheetBehavior.STATE_COLLAPSED -> {
-                            binding.fabCloseBsSearch.invisible()
-                            hideKeyboard()
-                        }
-                        BottomSheetBehavior.STATE_EXPANDED -> {
-                            binding.fabCloseBsSearch.show()
-                            binding.bsSearch.etSearch.showKeyboard()
-                        }
-                        else -> Unit
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        binding.fabCloseBsSearch.invisible()
+                        hideKeyboard()
                     }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        binding.fabCloseBsSearch.show()
+                        binding.bsSearch.etSearch.showKeyboard()
+                    }
+                    else -> Unit
                 }
+            }
 
-                override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
-            })
+            override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
+        })
         bsSearchBehavior.peekHeight = 0
 
         binding.fabCloseBsSearch.setOnThrottleClick {
@@ -259,17 +253,6 @@ class NoteFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 launch {
-                    viewModel.wrongProblems.collectLatest { wrongProblems ->
-                        wrongProblems.map { wrongProblem ->
-                            UserSolvedProblemModel(problem = wrongProblem)
-                        }.let { list ->
-                            wrongNoteHeaderAdapter.showOrHide(list.isNotEmpty())
-                            wrongNoteAdapter.submitList(list)
-                        }
-                    }
-                }
-
-                launch {
                     viewModel.problems.collectLatest { problems ->
                         totalNoteAdapter.submitList(
                             problems.map { problem ->
@@ -285,7 +268,7 @@ class NoteFragment : BaseFragment() {
                             binding.toolbar.menu.findItem(R.id.search).iconTintList =
                                 color(R.color.daynight_gray700s)
 
-                            wrongNoteHeaderAdapter.showOrHide(viewModel.wrongProblems.value.isNotEmpty())
+                            wrongNoteHeaderAdapter.showOrHide(viewModel.filteredWrongProblems.value.isNotEmpty())
                             wrongNoteAdapter.show()
                             totalNoteHeaderAdapter.show()
                             totalNoteAdapter.show()
@@ -317,72 +300,18 @@ class NoteFragment : BaseFragment() {
                             scrollToTopAdapter.showOrHide(problems.size > 15)
                         }
 
-                        searchedProblemsAdapter.submitList(
-                            problems.map { problem ->
-                                UserSolvedProblemModel(problem = problem)
-                            }
-                        )
-                    }
-                }
-
-                launch {
-                    viewModel.isWrongNoteOpened.collectLatest { isOpened ->
-                        wrongNoteHeaderAdapter.isShowing = isOpened
-
-                        if (isOpened) {
-                            wrongNoteAdapter.submitList(
-                                viewModel.wrongProblems.value.map { problem ->
-                                    UserSolvedProblemModel(problem = problem)
-                                }
-                            )
-                        } else {
-                            wrongNoteAdapter.submitList(emptyList())
-                        }
-                    }
-                }
-
-                launch {
-                    viewModel.isTotalNoteOpened.collectLatest { isOpened ->
-                        totalNoteHeaderAdapter.isShowing = isOpened
-
-                        if (isOpened) {
-                            totalNoteAdapter.submitList(
-                                viewModel.problems.value.map { problem ->
-                                    UserSolvedProblemModel(problem = problem)
-                                }
-                            )
-                        } else {
-                            totalNoteAdapter.submitList(emptyList())
-                        }
-                    }
-                }
-
-                launch {
-                    viewModel.filteredYears.collectLatest { filteredYears ->
-                        Timber.d("$filteredYears")
-                        viewModel.wrongProblems.value.filter { problem ->
-                            problem.year in filteredYears && problem.type in viewModel.filteredTypes.value
-                        }.map { problem ->
+                        problems.map { problem ->
                             UserSolvedProblemModel(problem = problem)
-                        }.let { problems ->
-                            wrongNoteHeaderAdapter.showOrHide(problems.isNotEmpty())
-                            wrongNoteAdapter.submitList(problems)
+                        }.let { searchedProblems ->
+                            searchedProblemsAdapter.submitList(searchedProblems)
                         }
                     }
                 }
 
                 launch {
-                    viewModel.filteredTypes.collectLatest { filteredTypes ->
-                        Timber.d("$filteredTypes")
-                        viewModel.wrongProblems.value.filter { problem ->
-                            problem.type in filteredTypes && problem.year in viewModel.filteredYears.value
-                        }.map { problem ->
-                            Timber.d("$problem")
-                            UserSolvedProblemModel(problem = problem)
-                        }.let { problems ->
-                            wrongNoteHeaderAdapter.showOrHide(problems.isNotEmpty())
-                            wrongNoteAdapter.submitList(problems)
-                        }
+                    viewModel.filteredWrongProblems.collectLatest {
+                        wrongNoteHeaderAdapter.showOrHide(it.isNotEmpty())
+                        wrongNoteAdapter.submitList(it)
                     }
                 }
 

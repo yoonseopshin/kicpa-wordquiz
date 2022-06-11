@@ -110,13 +110,13 @@ class ZigzagView @JvmOverloads constructor(
         // 지그재그 뷰의 패딩만큼 영역을 조정
         rectContent.set(
             rectZigzag.left + zigzagPaddingContentLeft +
-                (if (zigzagSides.containsSide(ZIGZAG_LEFT)) zigzagHeight else 0f),
+                    (if (zigzagSides.containsSide(ZIGZAG_LEFT)) zigzagHeight else 0f),
             rectZigzag.top + zigzagPaddingContentTop +
-                (if (zigzagSides.containsSide(ZIGZAG_TOP)) zigzagHeight else 0f),
+                    (if (zigzagSides.containsSide(ZIGZAG_TOP)) zigzagHeight else 0f),
             rectZigzag.right - zigzagPaddingContentRight +
-                (if (zigzagSides.containsSide(ZIGZAG_RIGHT)) zigzagHeight else 0f),
+                    (if (zigzagSides.containsSide(ZIGZAG_RIGHT)) zigzagHeight else 0f),
             rectZigzag.bottom - zigzagPaddingContentBottom +
-                (if (zigzagSides.containsSide(ZIGZAG_BOTTOM)) zigzagHeight else 0f),
+                    (if (zigzagSides.containsSide(ZIGZAG_BOTTOM)) zigzagHeight else 0f),
         )
 
         // 상하좌우 패딩 설정
