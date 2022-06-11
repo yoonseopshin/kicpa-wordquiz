@@ -80,7 +80,10 @@ class ProblemDetailActivity : BaseActivity() {
                 binding.fabNext,
                 getString(R.string.msg_need_answer),
                 Snackbar.LENGTH_SHORT
-            ).setAnchorView(binding.fabNext).show()
+            ).apply{
+                setAnchorView(binding.fabNext)
+                setAction(R.string.confirm) { dismiss() }
+            }.show()
         }
     }
 
@@ -125,6 +128,14 @@ class ProblemDetailActivity : BaseActivity() {
             }
             is QuizEvent.Ended -> {
                 binding.fabNext.isEnabled = false
+                with(binding.layProblemDetail) {
+                    rb0.isEnabled = false
+                    rb1.isEnabled = false
+                    rb2.isEnabled = false
+                    rb3.isEnabled = false
+                    rb4.isEnabled = false
+                }
+
                 viewModel.onEnd {
                     lifecycleScope.launch {
                         delay(500L)

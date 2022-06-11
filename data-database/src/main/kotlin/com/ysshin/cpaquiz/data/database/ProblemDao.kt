@@ -15,8 +15,19 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProblemDao {
+
     @Query("SELECT * FROM ${AppContract.Problem.TABLE_NAME}")
-    fun getAll(): Flow<List<ProblemEntity>>
+    suspend fun getAll(): List<ProblemEntity>
+
+    @Query(
+        """
+        SELECT * 
+        FROM ${AppContract.Problem.TABLE_NAME}
+        WHERE $YEAR IN (:years)
+        AND $TYPE IN (:types)
+        """
+    )
+    suspend fun getAll(years: List<Int>, types: List<QuizType>): List<ProblemEntity>
 
     @Query(
         """

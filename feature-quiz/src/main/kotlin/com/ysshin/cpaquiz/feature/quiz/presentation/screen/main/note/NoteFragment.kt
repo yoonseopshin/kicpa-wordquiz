@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.FragmentNoteBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.*
@@ -25,6 +26,7 @@ import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class NoteFragment : BaseFragment() {
@@ -228,6 +230,29 @@ class NoteFragment : BaseFragment() {
         binding.chipSearchOff.setOnThrottleClick {
             viewModel.userInputText.value = ""
         }
+
+        binding.chipFilterYear.setOnThrottleClick {
+            newInstance<YearFilterDialogFragment>(
+                Constants.icon to R.drawable.ic_filter,
+                Constants.title to getString(R.string.year),
+                Constants.description to getString(R.string.choose_filtered_years),
+                Constants.selectableTextItem to viewModel.getSelectableFilteredYears()
+            ).show(childFragmentManager, YearFilterDialogFragment::class.java.simpleName)
+        }
+
+        binding.chipFilterType.setOnThrottleClick {
+            newInstance<QuizTypeFilterDialogFragment>(
+                Constants.icon to R.drawable.ic_filter,
+                Constants.title to getString(R.string.quiz_type),
+                Constants.description to getString(R.string.choose_filtered_types),
+                Constants.selectableTextItem to viewModel.getSelectableFilteredTypes()
+            ).show(childFragmentManager, QuizTypeFilterDialogFragment::class.java.simpleName)
+        }
+
+        binding.chipFilterClear.setOnThrottleClick {
+            viewModel.clearProblemFilter()
+            viewModel.applyProblemFilter()
+        }
     }
 
     private fun observeViewModel() {
@@ -284,7 +309,7 @@ class NoteFragment : BaseFragment() {
 
                 launch {
                     viewModel.searchedProblems.collectLatest { problems ->
-                        if (viewModel.isSearching().not()) return@collectLatest
+                        if (viewModel.isSearching.not()) return@collectLatest
 
                         if (problems.isEmpty()) {
                             scrollToTopAdapter.hide()
@@ -331,6 +356,21 @@ class NoteFragment : BaseFragment() {
                         }
                     }
                 }
+
+                viewModel.uiEvent.collect { event ->
+                    handleEvent(event)
+                }
+            }
+        }
+    }
+
+    private fun handleEvent(event: NoteViewModel.UiEvent) {
+        Timber.d("$event")
+        when (event) {
+            is NoteViewModel.UiEvent.ShowSnackbar -> {
+                Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).apply {
+                    setAction(R.string.confirm) { dismiss() }
+                }.show()
             }
         }
     }

@@ -172,3 +172,14 @@ class ProblemDetailViewModel @Inject constructor(
         onEndResult()
     }
 }
+
+sealed class QuizEvent {
+    object Started : QuizEvent()
+    object Paused : QuizEvent()
+    object Resumed : QuizEvent()
+    object Calculating : QuizEvent()
+    object Correct : QuizEvent()
+    object Incorrect : QuizEvent()
+    object Next : QuizEvent()
+    object Ended : QuizEvent()
+}

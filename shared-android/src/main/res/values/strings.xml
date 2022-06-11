@@ -9,7 +9,11 @@
     <string name="quiz_amount">문제 수</string>
     <string name="timer">타이머</string>
     <string name="result">결과</string>
-    <string name="quiz_category">과목</string>
+    <string name="year">연도</string>
+    <string name="choose_filtered_years">연도를 고르세요.</string>
+    <string name="quiz_type">과목</string>
+    <string name="choose_filtered_types">과목을 고르세요.</string>
+    <string name="clear_filter">필터 초기화</string>
     <string name="refresh_note">오답노트 초기화</string>
     <string name="wrong_note">오답문제</string>
     <string name="total_note">전체문제</string>
@@ -36,6 +40,8 @@
     <string name="mock_test">실전</string>
     <string name="quiz">퀴즈</string>
     <string name="icon">아이콘</string>
+    <string name="msg_need_filtered_year">하나 이상의 연도를 선택해주세요.</string>
+    <string name="msg_need_filtered_quiz_type">하나 이상의 과목을 선택해주세요.</string>
     <string name="msg_need_answer">정답을 선택해주세요.</string>
     <string name="total_elapsed_time">총 소요 시간</string>
     <string name="solved_problems">내가 푼 문제</string>

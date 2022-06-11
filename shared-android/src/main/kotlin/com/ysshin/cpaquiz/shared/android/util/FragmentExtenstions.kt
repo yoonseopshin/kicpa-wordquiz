@@ -4,6 +4,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 
 fun Fragment.hideKeyboard() {
     val activity = requireActivity()
@@ -20,3 +23,9 @@ inline fun <reified T : Fragment> newInstance(vararg params: Pair<String, Any>):
     T::class.java.newInstance().apply {
         arguments = bundleOf(*params)
     }
+
+fun <T : ViewModel> Fragment.obtainSharedViewModel(
+    owner: ViewModelStoreOwner,
+    viewModelClass: Class<T>,
+    viewModelFactory: ViewModelProvider.Factory = defaultViewModelProviderFactory
+) = ViewModelProvider(owner, viewModelFactory)[viewModelClass]

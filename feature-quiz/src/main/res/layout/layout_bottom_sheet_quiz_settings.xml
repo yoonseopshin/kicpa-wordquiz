@@ -29,17 +29,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lay_quiz_num"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/quiz_bottom_sheet_height"
             android:background="@drawable/background_common_ripple"
-            android:minWidth="320dp"
+            android:minWidth="@dimen/quiz_bottom_sheet_min_width"
             android:paddingHorizontal="24dp"
             android:paddingVertical="12dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/iv_quiz_num_icon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/quiz_bottom_sheet_icon_size"
+                android:layout_height="@dimen/quiz_bottom_sheet_icon_size"
                 android:contentDescription="@string/icon"
                 android:src="@drawable/ic_note_outlined"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,15 +81,15 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:background="@drawable/background_common_ripple"
-            android:minWidth="320dp"
+            android:minWidth="@dimen/quiz_bottom_sheet_min_width"
             android:paddingHorizontal="24dp"
             android:paddingVertical="12dp"
             app:layout_constraintTop_toBottomOf="@id/lay_quiz_num">
 
             <ImageView
                 android:id="@+id/iv_timer_icon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/quiz_bottom_sheet_icon_size"
+                android:layout_height="@dimen/quiz_bottom_sheet_icon_size"
                 android:contentDescription="@string/icon"
                 android:src="@drawable/ic_timer"
                 app:layout_constraintBottom_toBottomOf="parent"

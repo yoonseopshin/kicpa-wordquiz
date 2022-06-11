@@ -40,12 +40,12 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
-        app:quiz_type="@{quizType}"
         app:quiz_number="@{quizNumber}"
-        app:use_timer="@{useTimer}"
+        app:quiz_type="@{quizType}"
         app:rippleColor="@color/rippleColor"
         app:strokeColor="@{backgroundColor}"
-        app:strokeWidth="0.5dp">
+        app:strokeWidth="0.5dp"
+        app:use_timer="@{useTimer}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                 android:id="@+id/btn_quiz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="12dp"
                 android:backgroundTint="@{backgroundColor}"
                 android:clickable="false"
                 android:contentDescription="@string/quiz"
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="24dp"
                 android:minWidth="64dp"
                 android:text="@{title}"
                 android:textColor="@color/daynight_gray800s"

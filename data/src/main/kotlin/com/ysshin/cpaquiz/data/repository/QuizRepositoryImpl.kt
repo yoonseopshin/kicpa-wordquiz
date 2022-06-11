@@ -37,21 +37,20 @@ class QuizRepositoryImpl @Inject constructor(
             }.getOrNull() ?: emptyList()
         }
 
-    override fun getLocalProblems(): Flow<List<Problem>> = problemDao.getAll().map { it.toDomain() }
+    override suspend fun getLocalProblems(): List<Problem> =
+        withContext(Dispatchers.IO) {
+            problemDao.getAll().map { it.toDomain() }
+        }
 
-    override fun getWrongProblems(): Flow<List<Problem>> =
-        wrongProblemDao.getAll().map { wrongProblemEntities ->
-            mutableListOf<Problem>().let { problems ->
-                for (wrongProblem in wrongProblemEntities) {
-                    problems.add(
-                        problemDao.get(
-                            wrongProblem.year,
-                            wrongProblem.pid,
-                            wrongProblem.type
-                        ).toDomain()
-                    )
-                }
-                problems
+    override suspend fun getLocalProblems(years: List<Int>, types: List<QuizType>): List<Problem> =
+        withContext(Dispatchers.IO) {
+            problemDao.getAll(years, types).map { it.toDomain() }
+        }
+
+    override suspend fun getWrongProblems(years: List<Int>, types: List<QuizType>): List<Problem> =
+        withContext(Dispatchers.IO) {
+            wrongProblemDao.getAll(years, types).map { wrongProblem ->
+                problemDao.get(wrongProblem.year, wrongProblem.pid, wrongProblem.type).toDomain()
             }
         }
 

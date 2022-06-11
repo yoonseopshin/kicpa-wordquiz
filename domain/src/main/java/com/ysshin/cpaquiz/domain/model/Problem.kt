@@ -13,14 +13,8 @@ data class Problem(
     val answer: Int = DEFAULT_INT,
     val type: QuizType = QuizType.None,
     val source: ProblemSource = ProblemSource.None,
-)
-
-fun Problem.isValid(): Boolean =
-    year != DEFAULT_INT ||
-        pid != DEFAULT_INT ||
-        description != DEFAULT_STRING ||
-        subDescriptions != DEFAULT_STRING_LIST ||
-        questions != DEFAULT_STRING_LIST ||
-        answer != DEFAULT_INT ||
-        type != QuizType.None ||
-        source != ProblemSource.None
+) {
+    companion object {
+        fun allYears() = (2016..2022).toList()
+    }
+}
