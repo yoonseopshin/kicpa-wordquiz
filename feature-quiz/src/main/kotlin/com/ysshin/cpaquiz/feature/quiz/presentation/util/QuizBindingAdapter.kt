@@ -1,7 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.util
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -221,4 +220,3 @@ fun Chip.bindFiltering(isFiltering: Boolean) {
         chipStrokeColor = context.colorStateList(R.color.daynight_gray300s)
     }
 }
-

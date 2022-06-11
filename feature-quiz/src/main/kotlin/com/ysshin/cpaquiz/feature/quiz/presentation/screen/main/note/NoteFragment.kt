@@ -166,23 +166,23 @@ class NoteFragment : BaseFragment() {
         }
 
         bsSearchBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        binding.fabCloseBsSearch.invisible()
-                        hideKeyboard()
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when (newState) {
+                        BottomSheetBehavior.STATE_COLLAPSED -> {
+                            binding.fabCloseBsSearch.invisible()
+                            hideKeyboard()
+                        }
+                        BottomSheetBehavior.STATE_EXPANDED -> {
+                            binding.fabCloseBsSearch.show()
+                            binding.bsSearch.etSearch.showKeyboard()
+                        }
+                        else -> Unit
                     }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        binding.fabCloseBsSearch.show()
-                        binding.bsSearch.etSearch.showKeyboard()
-                    }
-                    else -> Unit
                 }
-            }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
-        })
+                override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
+            })
         bsSearchBehavior.peekHeight = 0
 
         binding.fabCloseBsSearch.setOnThrottleClick {

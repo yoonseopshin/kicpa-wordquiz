@@ -7,10 +7,10 @@ import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.ysshin.cpaquiz.shared.android.ui.dialog.SelectableTextItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(

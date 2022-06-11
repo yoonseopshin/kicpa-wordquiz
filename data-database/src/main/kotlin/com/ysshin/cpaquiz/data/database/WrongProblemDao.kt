@@ -12,12 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WrongProblemDao {
-    @Query(
-        """
-        SELECT * 
-        FROM ${AppContract.WrongProblem.TABLE_NAME}
-        """
-    )
+    @Query("SELECT *FROM ${AppContract.WrongProblem.TABLE_NAME}")
     fun getAll(): Flow<List<WrongProblemEntity>>
 
     @Query(
