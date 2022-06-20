@@ -1,0 +1,118 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.android.gms.oss-licenses-plugin'
+    id 'cpaquiz.spotless'
+}
+
+def Secrets = new Properties()
+Secrets.load(new FileInputStream(rootProject.file("secrets.properties")))
+
+android {
+    compileSdk libs.versions.compileSdk.get() as Integer
+
+    defaultConfig {
+        applicationId libs.versions.applicationId.get()
+        minSdk libs.versions.minSdk.get() as Integer
+        targetSdk libs.versions.targetSdk.get() as Integer
+        versionCode libs.versions.versionCode.get() as Integer
+        versionName libs.versions.versionName.get()
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(Secrets["APP_KEYSTORE_FILE"])
+            storePassword Secrets["APP_KEYSTORE_PASSWORD"]
+            keyAlias Secrets["APP_KEY_ALIAS"]
+            keyPassword Secrets["APP_KEY_PASSWORD"]
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+        useIR = true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += "DebugProbesKt.bin"
+        }
+    }
+
+    kapt {
+        correctErrorTypes true
+    }
+
+    lintOptions {
+        disable "Instantiatable"
+    }
+}
+
+dependencies {
+    implementation project(":nativetemplates")
+    implementation project(':shared-android')
+    implementation project(':shared-base')
+    implementation project(":domain")
+    implementation project(":data")
+    implementation project(":data-network")
+    implementation project(":feature-quiz")
+    implementation project(":feature-settings")
+    implementation project(":feature-sync")
+
+    implementation "com.google.android.gms:play-services-ads-identifier:18.0.1"
+
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+
+    implementation "androidx.startup:startup-runtime:1.1.1"
+
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
+
+    implementation("com.google.android.play:core:1.10.3")
+    implementation("com.google.android.play:core-ktx:1.8.1")
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.androidx.test)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
+
+}
+
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains', module: 'annotations'
+    compile.exclude group: 'com.intellij', module: 'annotations'
+    compile.exclude group: 'org.intellij', module: 'annotations'
+}

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <import type="com.ysshin.cpaquiz.domain.model.QuizType" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.home.HomeViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature.quiz.presentation.screen.main.home.HomeFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/theme_color"
+                app:dday="@{viewModel.nextExamDate}"
+                app:menu="@menu/menu_home_toolbar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:alignItems="baseline"
+                app:dividerDrawable="@drawable/quiz_flexbox_divider"
+                app:flexWrap="wrap"
+                app:justifyContent="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:showDivider="middle">
+
+                <include
+                    android:id="@+id/lay_accounting"
+                    layout="@layout/layout_home_subject_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:quizType="@{QuizType.Accounting}"
+                    app:quizNumber="@{viewModel.quizNumber}"
+                    app:useTimer="@{viewModel.useTimer}"
+                    app:backgroundColor="@{@color/accounting_highlight_color}"
+                    app:backgroundColor020="@{@color/accounting_highlight_color_0_20}"
+                    app:count="@{viewModel.accountingCount}"
+                    app:title="@{@string/accounting}" />
+
+                <include
+                    android:id="@+id/lay_business"
+                    layout="@layout/layout_home_subject_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:quizType="@{QuizType.Business}"
+                    app:quizNumber="@{viewModel.quizNumber}"
+                    app:useTimer="@{viewModel.useTimer}"
+                    app:backgroundColor="@{@color/business_highlight_color}"
+                    app:backgroundColor020="@{@color/business_highlight_color_0_20}"
+                    app:count="@{viewModel.businessCount}"
+                    app:title="@{@string/business}" />
+
+                <include
+                    android:id="@+id/lay_commercial_law"
+                    layout="@layout/layout_home_subject_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:quizType="@{QuizType.CommercialLaw}"
+                    app:quizNumber="@{viewModel.quizNumber}"
+                    app:useTimer="@{viewModel.useTimer}"
+                    app:backgroundColor="@{@color/commercial_law_highlight_color}"
+                    app:backgroundColor020="@{@color/commercial_law_highlight_color_0_20}"
+                    app:count="@{viewModel.commercialLawCount}"
+                    app:title="@{@string/commercial_law}" />
+
+                <include
+                    android:id="@+id/lay_tax_law"
+                    layout="@layout/layout_home_subject_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:quizType="@{QuizType.TaxLaw}"
+                    app:quizNumber="@{viewModel.quizNumber}"
+                    app:useTimer="@{viewModel.useTimer}"
+                    app:backgroundColor="@{@color/tax_law_highlight_color}"
+                    app:backgroundColor020="@{@color/tax_law_highlight_color_0_20}"
+                    app:count="@{viewModel.taxLawCount}"
+                    app:title="@{@string/tax_law}" />
+
+                <com.google.android.ads.nativetemplates.TemplateView
+                    android:id="@+id/ad_template_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="16dp"
+                    app:gnt_template_type="@layout/gnt_medium_template_view"
+                    app:layout_constraintTop_toBottomOf="@id/lay_commercial_law" />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_close_bs_quiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/daynight_gray070s"
+            android:contentDescription="@string/close"
+            android:src="@drawable/ic_arrow_down"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:layout_anchor="@id/bs_quiz"
+            app:layout_anchorGravity="top|end"
+            app:quiz_settings_opened="@{viewModel.isQuizSettingsOpened}"
+            app:rippleColor="@color/rippleColor"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/bs_quiz"
+            layout="@layout/layout_bottom_sheet_quiz_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            app:quizNumber="@{viewModel.quizNumber}"
+            app:useTimer="@{viewModel.useTimer}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

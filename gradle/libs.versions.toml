@@ -1,0 +1,94 @@
+[versions]
+targetSdk = "32"
+compileSdk = "32"
+minSdk = "26"
+buildToolsVersion = "30.0.3"
+
+# Need to change ugly app naming, but changing app package name that has already been deployed is too cumbersome
+applicationId = "com.cpa.cpa_word_problem"
+versionCode = "46"
+versionName = "1.5.5"
+
+android-r8 = "3.3.28"
+android-gradle-plugin = "7.2.0"
+kotlin = "1.6.21"
+kotlinx-serialization-json = "1.3.1"
+androidx-core-ktx = "1.8.0"
+androidx-appcompat = "1.4.1"
+androidx-legacy-support-v4 = "1.0.0"
+androidx-activity-ktx = "1.5.0-rc01"
+androidx-fragment-ktx = "1.4.1"
+material = "1.5.0"
+room = "2.4.2"
+datastore = "1.0.0"
+hilt = "2.41"
+compose = "1.2.0-beta03"
+coroutines = "1.6.1"
+
+junit = "4.13.2"
+androidx-text-ext-junit = "1.1.3"
+androidx-test-espresso-core = "3.4.0"
+
+timber = "5.0.1"
+retrofit = "2.9.0"
+okhttp = "4.9.3"
+retrofit-kotlinx-serialization = "0.8.0"
+spotless = "6.3.0"
+ktlint = "0.43.0"
+firebase-crashlytics-gradle = "2.9.0"
+oss-licenses-plugin = "0.10.5"
+play-services-oss-licenses = "17.0.0"
+
+[libraries]
+android-r8 = { module = "com.android.tools:r8", version.ref = "android-r8" }
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "androidx-legacy-support-v4" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity-ktx" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-ktx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+firebase-bom = "com.google.firebase:firebase-bom:29.1.0"
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-text-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-text-ext-junit" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso-core" }
+
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+retrofit-kotlinx-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-kotlinx-serialization" }
+okhttp-bom = "com.squareup.okhttp3:okhttp-bom:4.9.3"
+okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+spotless-gradle-plugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
+play-services-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "play-services-oss-licenses" }
+
+[bundles]
+androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-support-v4", "androidx-activity-ktx", "androidx-fragment-ktx"]
+room = ["room-runtime", "room-ktx"]
+compose = ["compose-ui", "compose-ui-tooling-preview", "compose-material", "androidx-activity-compose"]
+androidx-test = ["androidx-text-ext-junit", "androidx-test-espresso-core"]
+retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-kotlinx-serialization", "okhttp-bom", "okhttp-core", "okhttp-logging-interceptor"]

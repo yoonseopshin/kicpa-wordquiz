@@ -1,0 +1,26 @@
+<resources>
+
+    <style name="Theme.CpaQuiz" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+    <style name="Theme.CpaQuiz.SlideAnimationActivity" parent="Theme.CpaQuiz">
+        <item name="android:windowAnimationStyle">@style/Theme.CpaQuiz.SlideAnimation</item>
+    </style>
+
+    <style name="Theme.CpaQuiz.SlideAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/enter_slide_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/exit_slide_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/enter_slide_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/exit_slide_left</item>
+    </style>
+
+</resources>

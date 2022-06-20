@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.CpaQuiz.OssLicenses" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/theme_color</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="actionBarTheme">@style/Theme.CpaQuiz.OssLicenses.ActionBar</item>
+        <item name="android:windowAnimationStyle">@style/Theme.CpaQuiz.SlideAnimation</item>
+    </style>
+
+    <style name="Theme.CpaQuiz.OssLicenses.ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/daynight_gray900s</item>
+        <item name="colorControlNormal">@color/daynight_gray700s</item>
+    </style>
+
+</resources>
