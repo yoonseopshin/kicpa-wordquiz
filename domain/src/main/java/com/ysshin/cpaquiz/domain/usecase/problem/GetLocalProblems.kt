@@ -9,8 +9,7 @@ import com.ysshin.cpaquiz.shared.base.Consumer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class
-GetLocalProblems(private val repository: QuizRepository) {
+class GetLocalProblems(private val repository: QuizRepository) {
 
     operator fun invoke(
         problemOrder: ProblemOrder = ProblemOrder.Time(OrderType.Ascending),
