@@ -1,5 +1,9 @@
 package com.ysshin.cpaquiz.shared.android.ui.dialog
 
+import android.content.Context.VIBRATOR_MANAGER_SERVICE
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.VibratorManager
 import android.widget.NumberPicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -91,6 +95,17 @@ fun AppNumberPickerDialog(
                     minValue = minNumber
                     maxValue = maxNumber
                     value = defaultNumber
+                    setOnValueChangedListener { _, _, _ ->
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            val vibrator = context.getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                            vibrator.defaultVibrator.vibrate(
+                                VibrationEffect.createOneShot(
+                                    50L,
+                                    VibrationEffect.EFFECT_HEAVY_CLICK
+                                )
+                            )
+                        }
+                    }
                 }
 
                 AndroidView(
