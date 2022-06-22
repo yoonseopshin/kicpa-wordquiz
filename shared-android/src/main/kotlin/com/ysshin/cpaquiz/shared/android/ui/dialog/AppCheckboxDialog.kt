@@ -136,7 +136,8 @@ fun AppCheckboxDialog(
                                     modifier = Modifier.align(Alignment.Center),
                                     text = item.text,
                                     color = MaterialTheme.colors.onSurface,
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 1,
                                 )
                             }
                         }
