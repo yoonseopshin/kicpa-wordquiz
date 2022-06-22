@@ -16,9 +16,7 @@
         android:background="@color/daynight_gray050s"
         android:clickable="true"
         android:focusable="true"
-        android:paddingTop="32dp"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="0dp">
+        android:paddingTop="32dp">
 
         <EditText
             android:id="@+id/et_search"

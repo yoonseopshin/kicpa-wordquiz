@@ -147,6 +147,8 @@
             layout="@layout/layout_bottom_sheet_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
             app:layout_behavior="@string/bottom_sheet_behavior"
             app:viewModel="@{viewModel}" />
 

@@ -178,7 +178,6 @@ class NoteFragment : BaseFragment() {
 
                 override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
             })
-        bsSearchBehavior.peekHeight = 0
 
         binding.fabCloseBsSearch.setOnThrottleClick {
             bsSearchBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
