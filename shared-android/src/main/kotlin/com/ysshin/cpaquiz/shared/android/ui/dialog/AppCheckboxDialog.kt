@@ -112,9 +112,7 @@ fun AppCheckboxDialog(
                                 backgroundColor = if (item.isSelected) {
                                     colorResource(id = R.color.secondaryColor_0_15)
                                 } else {
-                                    colorResource(
-                                        id = R.color.daynight_gray070s
-                                    )
+                                    colorResource(id = R.color.daynight_gray070s)
                                 },
                                 contentColor = if (item.isSelected) Color.Magenta else Color.Black
                             ),
@@ -123,9 +121,7 @@ fun AppCheckboxDialog(
                                 color = if (item.isSelected) {
                                     colorResource(id = R.color.secondaryColor)
                                 } else {
-                                    colorResource(
-                                        id = R.color.daynight_gray300s
-                                    )
+                                    colorResource(id = R.color.daynight_gray300s)
                                 }
                             ),
                         ) {
@@ -195,8 +191,6 @@ fun QuizTypeFilterDialogPreview() {
         icon = painterResource(id = R.drawable.ic_filter),
         title = stringResource(id = R.string.quiz),
         description = stringResource(id = R.string.choose_filtered_types),
-        selectableItems = QuizType.all().map {
-            SelectableTextItem(it.toKorean(), false)
-        }
+        selectableItems = QuizType.all().map { SelectableTextItem(it.toKorean(), false) }
     )
 }
