@@ -16,11 +16,16 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
 import kotlin.math.abs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.onStart
 
 fun View.expand(duration: Long = 300L) {
     measure(
@@ -177,4 +182,11 @@ fun View.actionWithChild(action: View.() -> Unit) {
     for (i in 0 until viewGroup.childCount) {
         viewGroup.getChildAt(i).actionWithChild(action)
     }
+}
+
+fun EditText.textChanges(): Flow<CharSequence?> {
+    return callbackFlow {
+        val watcher = doOnTextChanged { text, _, _, _ -> trySend(text) }
+        awaitClose { removeTextChangedListener(watcher) }
+    }.onStart { emit(text) }
 }

@@ -24,10 +24,12 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMod
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
 import com.ysshin.cpaquiz.shared.android.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@FlowPreview
 @AndroidEntryPoint
 class NoteFragment : BaseFragment() {
 
@@ -184,6 +186,12 @@ class NoteFragment : BaseFragment() {
         }
 
         with(binding.bsSearch) {
+            etSearch.textChanges()
+                .map { it?.toString() ?: "" }
+                .debounce(300L)
+                .onEach { updateUserInput(it) }
+                .launchIn(lifecycleScope)
+
             etSearch.setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
@@ -222,7 +230,7 @@ class NoteFragment : BaseFragment() {
         })
 
         binding.chipSearchOff.setOnThrottleClick {
-            viewModel.userInputText.value = ""
+            binding.bsSearch.etSearch.text.clear()
         }
 
         binding.chipFilterYear.setOnThrottleClick {
@@ -331,6 +339,10 @@ class NoteFragment : BaseFragment() {
                 }.show()
             }
         }
+    }
+
+    private fun updateUserInput(userInput: String) {
+        viewModel.userInputText.update { userInput }
     }
 
     override fun onDestroyView() {
