@@ -18,12 +18,6 @@ class NoteViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases
 ) : BaseViewModel() {
 
-    init {
-        problemUseCases.getLocalProblems(scope = viewModelScope) {
-            _problems.value = it
-        }
-    }
-
     private val _uiEvent = MutableSharedFlow<UiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
@@ -55,6 +49,14 @@ class NoteViewModel @Inject constructor(
 
     private val _isQuizTypeFiltering = MutableStateFlow(false)
     val isQuizTypeFiltering: StateFlow<Boolean> = _isQuizTypeFiltering
+
+    fun initProblems() {
+        if (_problems.value.isEmpty()) {
+            problemUseCases.getLocalProblems(scope = viewModelScope) {
+                _problems.value = it
+            }
+        }
+    }
 
     fun getSelectableFilteredYears() =
         Problem.allYears().map {

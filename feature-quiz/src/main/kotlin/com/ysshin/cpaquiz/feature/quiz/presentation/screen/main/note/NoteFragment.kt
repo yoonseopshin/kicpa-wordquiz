@@ -255,6 +255,8 @@ class NoteFragment : BaseFragment() {
             viewModel.clearProblemFilter()
             viewModel.applyProblemFilter()
         }
+
+        viewModel.initProblems()
     }
 
     private fun observeViewModel() {
