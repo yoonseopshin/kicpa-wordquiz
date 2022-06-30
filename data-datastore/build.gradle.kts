@@ -34,7 +34,7 @@ dependencies {
     implementation(project(":shared-android"))
     implementation(project(":shared-base"))
     implementation(project(":domain"))
-    implementation(libs.hilt)
+    implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.datastore)
     testImplementation(libs.junit)

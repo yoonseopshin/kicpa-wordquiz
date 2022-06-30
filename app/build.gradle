@@ -89,7 +89,7 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-ads-identifier:18.0.1"
 
-    implementation(libs.hilt)
+    implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
     implementation "androidx.startup:startup-runtime:1.1.1"

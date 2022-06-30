@@ -53,7 +53,7 @@ dependencies {
     api(libs.bundles.androidx.shared)
     api(libs.material)
 
-    implementation(libs.hilt)
+    implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
     api(libs.bundles.compose)

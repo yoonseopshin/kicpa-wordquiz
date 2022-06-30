@@ -49,7 +49,7 @@ dependencies {
     implementation(project(":shared-base"))
     implementation(project(":domain"))
 
-    add("implementation", libs.findLibrary("hilt").get())
+    add("implementation", libs.findLibrary("hilt.android").get())
     add("kapt", libs.findLibrary("hilt.compiler").get())
 
     add("implementation", libs.findLibrary("coroutines-android").get())

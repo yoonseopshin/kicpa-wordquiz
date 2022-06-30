@@ -5,8 +5,5 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
-
     implementation(libs.play.services.oss.licenses)
 }

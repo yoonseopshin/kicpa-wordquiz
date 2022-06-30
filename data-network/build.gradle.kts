@@ -38,7 +38,7 @@ dependencies {
 
     implementation(libs.bundles.retrofit)
 
-    implementation(libs.hilt)
+    implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)

@@ -38,7 +38,7 @@ dependencies {
     implementation(project(":data-datastore"))
     implementation(project(":data-network"))
 
-    implementation(libs.hilt)
+    implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)

@@ -37,7 +37,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(libs.bundles.room)
     kapt(libs.room.compiler)
-    implementation(libs.hilt)
+    implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidx.test)
