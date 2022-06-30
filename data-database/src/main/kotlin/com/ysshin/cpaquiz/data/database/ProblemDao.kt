@@ -16,9 +16,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ProblemDao {
 
-    @Query("SELECT * FROM ${AppContract.Problem.TABLE_NAME}")
-    suspend fun getAll(): List<ProblemEntity>
-
     @Query(
         """
         SELECT * 
