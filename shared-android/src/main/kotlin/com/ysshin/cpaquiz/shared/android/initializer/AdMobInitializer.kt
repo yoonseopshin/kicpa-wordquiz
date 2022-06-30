@@ -1,8 +1,16 @@
-package com.cpa.cpa_word_problem.initializer
+package com.ysshin.cpaquiz.shared.android.initializer
 
 import android.content.Context
+import androidx.startup.AppInitializer
 import androidx.startup.Initializer
 import com.google.android.gms.ads.MobileAds
+
+object AdMob {
+    fun initialize(context: Context) {
+        AppInitializer.getInstance(context)
+            .initializeComponent(AdMobInitializer::class.java)
+    }
+}
 
 class AdMobInitializer : Initializer<Unit> {
 
