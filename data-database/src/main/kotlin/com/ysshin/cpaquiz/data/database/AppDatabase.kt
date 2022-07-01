@@ -32,6 +32,7 @@ abstract class AppDatabase : RoomDatabase() {
             Room.databaseBuilder(context, AppDatabase::class.java, AppContract.DATABASE_NAME)
                 .addMigrations(*ALL_MIGRATIONS)
                 .fallbackToDestructiveMigration()
+                .setJournalMode(JournalMode.WRITE_AHEAD_LOGGING)
                 .build()
     }
 }
