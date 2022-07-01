@@ -57,15 +57,17 @@ class QuizRepositoryImpl @Inject constructor(
             wrongProblemDao.insert(wrongProblems.toLocalData())
         }
 
-    override suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType) =
+    override suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType) = runCatching {
         withContext(Dispatchers.IO) {
             wrongProblemDao.delete(year, pid, type)
         }
+    }.isSuccess
 
-    override suspend fun deleteAllWrongProblems() =
+    override suspend fun deleteAllWrongProblems() = runCatching {
         withContext(Dispatchers.IO) {
             wrongProblemDao.deleteAll()
         }
+    }.isSuccess
 
     override suspend fun syncRemoteProblems(): Unit =
         withContext(Dispatchers.IO) {

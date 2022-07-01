@@ -17,9 +17,9 @@ interface QuizRepository {
 
     suspend fun insertWrongProblems(wrongProblems: List<WrongProblem>)
 
-    suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType)
+    suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType): Boolean
 
-    suspend fun deleteAllWrongProblems()
+    suspend fun deleteAllWrongProblems(): Boolean
 
     suspend fun syncRemoteProblems()
 

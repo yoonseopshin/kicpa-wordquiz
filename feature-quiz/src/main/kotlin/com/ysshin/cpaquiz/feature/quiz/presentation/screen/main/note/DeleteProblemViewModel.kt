@@ -6,6 +6,7 @@ import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class DeleteProblemViewModel @Inject constructor(
@@ -17,10 +18,14 @@ class DeleteProblemViewModel @Inject constructor(
     var targetType = QuizType.None
 
     fun deleteWrongProblem() {
-        problemUseCases.deleteWrongProblem(targetYear, targetPid, targetType, viewModelScope)
+        viewModelScope.launch {
+            problemUseCases.deleteWrongProblem(targetYear, targetPid, targetType)
+        }
     }
 
     fun deleteAllWrongProblems() {
-        problemUseCases.deleteAllWrongProblems(viewModelScope)
+        viewModelScope.launch {
+            problemUseCases.deleteAllWrongProblems.invoke()
+        }
     }
 }

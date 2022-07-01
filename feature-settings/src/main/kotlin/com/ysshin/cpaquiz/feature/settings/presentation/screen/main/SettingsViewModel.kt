@@ -34,13 +34,15 @@ class SettingsViewModel @Inject constructor(
 
     fun deleteAllWrongProblems() {
         viewModelScope.launch {
-            problemUseCases.deleteAllWrongProblems.invoke()
-            _uiEvent.emit(
-                UiEvent.ShowSnackbar(
-                    UiText.StringResource(resId = R.string.success_delete_all_wrong_note),
-                    UiText.StringResource(resId = R.string.confirm)
+            val isSuccess = problemUseCases.deleteAllWrongProblems.invoke()
+            if (isSuccess) {
+                _uiEvent.emit(
+                    UiEvent.ShowSnackbar(
+                        UiText.StringResource(resId = R.string.success_delete_all_wrong_note),
+                        UiText.StringResource(resId = R.string.confirm)
+                    )
                 )
-            )
+            }
         }
     }
 
