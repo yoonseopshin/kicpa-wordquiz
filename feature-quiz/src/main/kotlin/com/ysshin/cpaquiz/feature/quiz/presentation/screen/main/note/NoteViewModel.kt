@@ -28,7 +28,7 @@ class NoteViewModel @Inject constructor(
         .flowOn(Dispatchers.IO)
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.WhileSubscribed(5_000),
             initialValue = emptyList()
         )
 
@@ -42,7 +42,11 @@ class NoteViewModel @Inject constructor(
             }.map { problem ->
                 UserSolvedProblemModel(problem = problem)
             }
-        }.stateIn(scope = viewModelScope, started = SharingStarted.Lazily, initialValue = emptyList())
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList()
+        )
 
     private val _isYearFiltering = MutableStateFlow(false)
     val isYearFiltering: StateFlow<Boolean> = _isYearFiltering
