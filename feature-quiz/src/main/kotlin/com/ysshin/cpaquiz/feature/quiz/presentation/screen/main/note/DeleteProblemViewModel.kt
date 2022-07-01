@@ -1,25 +1,34 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.note
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
+import com.ysshin.cpaquiz.shared.android.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class DeleteProblemViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val problemUseCases: ProblemUseCases
 ) : BaseViewModel() {
 
-    var targetYear = -1
-    var targetPid = -1
-    var targetType = QuizType.None
+    private val year = savedStateHandle.get<Int>(Constants.targetYear)
+    private val pid = savedStateHandle.get<Int>(Constants.targetPid)
+    private val type = savedStateHandle.get<QuizType>(Constants.targetType)
 
     fun deleteWrongProblem() {
+        checkNotNull(year)
+        checkNotNull(pid)
+        checkNotNull(type)
+        Timber.d("year: $year, pid: $pid, type: $type")
+
         viewModelScope.launch {
-            problemUseCases.deleteWrongProblem(targetYear, targetPid, targetType)
+            problemUseCases.deleteWrongProblem(year, pid, type)
         }
     }
 
@@ -28,4 +37,5 @@ class DeleteProblemViewModel @Inject constructor(
             problemUseCases.deleteAllWrongProblems.invoke()
         }
     }
+
 }
