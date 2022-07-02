@@ -24,16 +24,6 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding = true
-        dataBinding = true
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.findVersion("compose").get().toString()
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -53,6 +43,9 @@ dependencies {
     add("kapt", libs.findLibrary("hilt.compiler").get())
 
     add("implementation", libs.findLibrary("coroutines-android").get())
+
+    add("implementation", libs.findLibrary("retrofit-kotlinx-serialization").get())
+    add("implementation", libs.findLibrary("kotlinx-serialization-json").get())
 
     add("testImplementation", libs.findLibrary("junit").get())
     add("androidTestImplementation", libs.findBundle("androidx-test").get())

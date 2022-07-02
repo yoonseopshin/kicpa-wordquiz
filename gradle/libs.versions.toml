@@ -23,7 +23,7 @@ room = "2.4.2"
 datastore = "1.0.0"
 hilt = "2.41"
 compose = "1.2.0-beta03"
-coroutines = "1.6.1"
+coroutines = "1.6.3"
 
 junit = "4.13.2"
 androidx-text-ext-junit = "1.1.3"

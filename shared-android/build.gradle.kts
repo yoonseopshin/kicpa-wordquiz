@@ -50,6 +50,7 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":shared-base"))
+
     api(libs.bundles.androidx.shared)
     api(libs.material)
 
@@ -59,6 +60,7 @@ dependencies {
     api(libs.bundles.compose)
     androidTestApi(libs.compose.ui.test)
     debugApi(libs.compose.ui.tooling)
+
     api("androidx.activity:activity-compose:1.4.0")
     api("androidx.navigation:navigation-compose:2.5.0-rc01")
     api("androidx.hilt:hilt-navigation-compose:1.0.0")
@@ -70,12 +72,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidx.test)
 
-    api(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.json)
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
-    debugApi("androidx.customview:customview-poolingcontainer:1.0.0-beta02")
+    debugApi("androidx.customview:customview-poolingcontainer:1.0.0-rc01")
 
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation(libs.coroutines.android)
     api(libs.timber)
 
     implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")

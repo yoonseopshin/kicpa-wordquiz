@@ -10,5 +10,5 @@ java {
 }
 
 dependencies {
-    api(libs.coroutines.core)
+    implementation(libs.coroutines.core)
 }

@@ -7,9 +7,6 @@ plugins {
 dependencies {
     implementation(project(":nativetemplates"))
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.bundles.androidx.test)
-
     implementation("com.google.android.gms:play-services-ads:20.6.0")
 
     implementation("com.google.android.play:core:1.10.3")
