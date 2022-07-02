@@ -7,9 +7,9 @@ import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.ysshin.cpaquiz.shared.android.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class DeleteProblemViewModel @Inject constructor(
@@ -37,5 +37,4 @@ class DeleteProblemViewModel @Inject constructor(
             problemUseCases.deleteAllWrongProblems.invoke()
         }
     }
-
 }
