@@ -22,8 +22,8 @@ jobs:
         with:
           java-version: 11
 
-      - name: Make scripts executable
-        run: chmod -R +x ./scripts
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Check spotless
         run: ./gradlew spotlessCheck --stacktrace
