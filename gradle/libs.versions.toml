@@ -21,13 +21,13 @@ androidx-fragment-ktx = "1.4.1"
 material = "1.5.0"
 room = "2.4.2"
 datastore = "1.0.0"
-hilt = "2.41"
+hilt = "2.42"
 compose = "1.2.0-beta03"
 coroutines = "1.6.3"
 
 junit = "4.13.2"
-androidx-text-ext-junit = "1.1.3"
-androidx-test-espresso-core = "3.4.0"
+androidx-text-ext-junit = "1.1.4-alpha07"
+androidx-test-espresso-core = "3.5.0-alpha07"
 
 timber = "5.0.1"
 retrofit = "2.9.0"
@@ -38,6 +38,7 @@ ktlint = "0.43.0"
 firebase-crashlytics-gradle = "2.9.0"
 oss-licenses-plugin = "0.10.5"
 play-services-oss-licenses = "17.0.0"
+leakcanary = "2.9.1"
 
 [libraries]
 android-r8 = { module = "com.android.tools:r8", version.ref = "android-r8" }
@@ -59,7 +60,7 @@ datastore = { module = "androidx.datastore:datastore-preferences", version.ref =
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-firebase-bom = "com.google.firebase:firebase-bom:29.1.0"
+firebase-bom = "com.google.firebase:firebase-bom:30.2.0"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
@@ -85,6 +86,7 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 spotless-gradle-plugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
 play-services-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "play-services-oss-licenses" }
+leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 
 [bundles]
 androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-support-v4", "androidx-activity-ktx", "androidx-fragment-ktx"]

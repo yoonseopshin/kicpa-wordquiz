@@ -10,6 +10,7 @@ build/
 # Local configuration file (sdk path, etc)
 local.properties
 secrets.properties
+.secrets/secrets.tar
 
 # Log/OS Files
 *.log

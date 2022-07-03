@@ -11,4 +11,5 @@ java {
 
 dependencies {
     implementation(project(":shared-base"))
+    implementation(libs.coroutines.core)
 }
