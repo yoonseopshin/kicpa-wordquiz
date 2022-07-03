@@ -22,6 +22,14 @@ jobs:
         with:
           java-version: 11
 
+      - name: Make scripts executable
+        run: chmod -R +x ./secrets/scripts
+
+      - name: Decrypt secrets
+        run: ./secrets/scripts/decrypt.sh "$secret_key"
+        env:
+          secret_key: ${{ secrets.SECRET_KEY }}
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
