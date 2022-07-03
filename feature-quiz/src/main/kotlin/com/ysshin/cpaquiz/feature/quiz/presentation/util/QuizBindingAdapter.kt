@@ -8,11 +8,9 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.view.View
-import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -151,11 +149,6 @@ fun Toolbar.bindProblems(solved: Int?, total: Int?) {
     subtitle = "$solved/$total"
 }
 
-@BindingAdapter("opened")
-fun ImageView.bindOpened(isOpened: Boolean) {
-    animate().rotation(if (isOpened) 0f else 180f).start()
-}
-
 private val HIGHLIGHT_KEYWORDS = listOf("틀린", "아닌", "옳은", "옳지 않은", "적절한", "적절하지 않은", "모두")
 
 @BindingAdapter("quiz_description")
@@ -208,23 +201,5 @@ fun MaterialCardView.bindOnClickListener(quizType: QuizType, quizNumber: Int, us
                 useTimer = useTimer
             )
         )
-    }
-}
-
-@BindingAdapter("is_filtering")
-fun Chip.bindFiltering(isFiltering: Boolean) {
-    if (isFiltering) {
-        chipBackgroundColor = context.colorStateList(R.color.primaryColor_0_15)
-        chipStrokeColor = context.colorStateList(R.color.primaryColor)
-    } else {
-        chipBackgroundColor = context.colorStateList(R.color.daynight_gray070s)
-        chipStrokeColor = context.colorStateList(R.color.daynight_gray300s)
-    }
-}
-
-@BindingAdapter("is_searching")
-fun ConstraintLayout.bindSearching(isSearching: Boolean) {
-    actionWithChild {
-        isEnabled = isSearching.not()
     }
 }

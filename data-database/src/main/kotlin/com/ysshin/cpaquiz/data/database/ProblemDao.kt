@@ -20,21 +20,9 @@ interface ProblemDao {
         """
         SELECT * 
         FROM ${AppContract.Problem.TABLE_NAME}
-        WHERE $YEAR IN (:years)
-        AND $TYPE IN (:types)
         """
     )
-    suspend fun getAll(years: List<Int>, types: List<QuizType>): List<ProblemEntity>
-
-    @Query(
-        """
-        SELECT * 
-        FROM ${AppContract.Problem.TABLE_NAME} 
-        WHERE $TYPE = :type 
-        ORDER BY RANDOM() 
-        LIMIT 1"""
-    )
-    fun get(type: QuizType): ProblemEntity?
+    fun getAll(): Flow<List<ProblemEntity>>
 
     @Query(
         """
@@ -56,7 +44,7 @@ interface ProblemDao {
             LIMIT 1
         """
     )
-    fun get(year: Int, pid: Int, type: QuizType): ProblemEntity
+    suspend fun get(year: Int, pid: Int, type: QuizType): ProblemEntity
 
     @Query(
         """

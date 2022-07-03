@@ -16,7 +16,7 @@ class GetProblems(private val repository: QuizRepository) {
         onResult: Consumer<List<Problem>>
     ) {
         scope.launch {
-            onResult(repository.getLocalProblems(type, size))
+            onResult(repository.getTotalProblems(type, size))
         }
     }
 }
