@@ -4,7 +4,6 @@ import android.graphics.drawable.ColorDrawable
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
@@ -19,12 +18,10 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
     class AdBannerViewHolder(private val binding: LayoutAdNativeBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val adLoader: AdLoader
-        private var adLoaded = false
-
-        init {
+        private var adRequested = false
+        private val adLoader: AdLoader by lazy {
             val context = binding.root.context
-            adLoader = AdLoader.Builder(context, AdConstants.QUIZ_NATIVE_AD_SMALL)
+            AdLoader.Builder(context, AdConstants.QUIZ_NATIVE_AD_SMALL)
                 .forNativeAd { nativeAd ->
                     val styles = NativeTemplateStyle.Builder()
                         .withMainBackgroundColor(
@@ -40,18 +37,14 @@ class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBanne
                     binding.adTemplateView.setStyles(styles)
                     binding.adTemplateView.setNativeAd(nativeAd)
                 }
-                .withAdListener(object : AdListener() {
-                    override fun onAdLoaded() {
-                        super.onAdLoaded()
-                        adLoaded = true
-                    }
-                })
                 .withNativeAdOptions(NativeAdOptions.Builder().build())
                 .build()
         }
 
         fun bind() {
-            if (adLoaded.not()) {
+            // Should be called only once in lifecycle
+            if (adRequested.not()) {
+                adRequested = true
                 adLoader.loadAd(AdRequest.Builder().build())
             }
         }

@@ -29,8 +29,7 @@ class QuizTypeFilterDialogFragment : AppCheckboxDialogFragment() {
             return
         }
 
-        viewModel.setFilteredTypes(items.filter { it.isSelected }.map { QuizType.from(it.text) })
-        viewModel.applyProblemFilter()
+        viewModel.setFilter(types = items.filter { it.isSelected }.map { QuizType.from(it.text) })
     }
 
     override fun onDialogDismiss() = Unit

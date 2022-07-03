@@ -16,7 +16,7 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideProblemUseCases(repository: QuizRepository) = ProblemUseCases(
-        GetLocalProblems(repository),
+        GetTotalProblems(repository),
         GetWrongProblems(repository),
         SearchProblems(repository),
         InsertWrongProblems(repository),

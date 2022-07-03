@@ -1,7 +1,7 @@
 package com.ysshin.cpaquiz.domain.usecase.problem
 
 data class ProblemUseCases(
-    val getLocalProblems: GetLocalProblems,
+    val getTotalProblems: GetTotalProblems,
     val getWrongProblems: GetWrongProblems,
     val searchProblems: SearchProblems,
     val insertWrongProblems: InsertWrongProblems,

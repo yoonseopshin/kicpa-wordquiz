@@ -28,8 +28,7 @@ class YearFilterDialogFragment : AppCheckboxDialogFragment() {
             return
         }
 
-        viewModel.setFilteredYears(items.filter { it.isSelected }.map { it.text.toInt() })
-        viewModel.applyProblemFilter()
+        viewModel.setFilter(years = items.filter { it.isSelected }.map { it.text.toInt() })
     }
 
     override fun onDialogDismiss() = Unit
