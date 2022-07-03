@@ -26,7 +26,7 @@ jobs:
         run: chmod -R +x ./.secrets/scripts
 
       - name: Decrypt secrets
-        run: ./secrets/scripts/decrypt.sh "$secret_key"
+        run: ./.secrets/scripts/decrypt.sh "$secret_key"
         env:
           secret_key: ${{ secrets.SECRET_KEY }}
 
