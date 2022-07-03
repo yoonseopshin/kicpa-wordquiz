@@ -23,7 +23,7 @@ jobs:
           java-version: 11
 
       - name: Make scripts executable
-        run: chmod -R +x ./secrets/scripts
+        run: chmod -R +x ./.secrets/scripts
 
       - name: Decrypt secrets
         run: ./secrets/scripts/decrypt.sh "$secret_key"
