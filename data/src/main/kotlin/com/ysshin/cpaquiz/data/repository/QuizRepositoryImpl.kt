@@ -1,6 +1,7 @@
 package com.ysshin.cpaquiz.data.repository
 
 import com.ysshin.cpaquiz.data.database.ProblemDao
+import com.ysshin.cpaquiz.data.database.ProblemEntity
 import com.ysshin.cpaquiz.data.database.WrongProblemDao
 import com.ysshin.cpaquiz.data.datastore.QuizDatastoreManager
 import com.ysshin.cpaquiz.data.mapper.toDomain
@@ -28,7 +29,11 @@ class QuizRepositoryImpl @Inject constructor(
     private val quizDataStoreManager: QuizDatastoreManager,
 ) : QuizRepository {
 
-    override suspend fun getLocalProblems(type: QuizType, size: Int): List<Problem> =
+    override fun getTotalProblems() = problemDao.getAll().map { entities ->
+        entities.map(ProblemEntity::toDomain)
+    }
+
+    override suspend fun getTotalProblems(type: QuizType, size: Int): List<Problem> =
         withContext(Dispatchers.IO) {
             runCatching {
                 problemDao.get(type, size)
@@ -37,14 +42,9 @@ class QuizRepositoryImpl @Inject constructor(
             }.getOrNull() ?: emptyList()
         }
 
-    override suspend fun getLocalProblems(years: List<Int>, types: List<QuizType>): List<Problem> =
-        withContext(Dispatchers.IO) {
-            problemDao.getAll(years, types).map { it.toDomain() }
-        }
-
     override fun getWrongProblems(): Flow<List<Problem>> =
-        wrongProblemDao.getAll().map { wrongProblemEntities ->
-            wrongProblemEntities.map { wrongProblem ->
+        wrongProblemDao.getAll().map { entities ->
+            entities.map { wrongProblem ->
                 problemDao.get(wrongProblem.year, wrongProblem.pid, wrongProblem.type).toDomain()
             }
         }
