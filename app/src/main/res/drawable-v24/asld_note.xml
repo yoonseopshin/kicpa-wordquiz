@@ -12,7 +12,7 @@
         android:state_selected="false" />
 
     <transition
-        android:drawable="@drawable/avd_note_to_selected"
+        android:drawable="@drawable/avd_note_unselected_to_selected"
         android:fromId="@id/unselected"
         android:toId="@id/selected" />
 
