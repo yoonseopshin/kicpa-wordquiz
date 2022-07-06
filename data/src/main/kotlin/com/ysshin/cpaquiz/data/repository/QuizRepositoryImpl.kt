@@ -50,7 +50,7 @@ class QuizRepositoryImpl @Inject constructor(
         }
 
     override suspend fun searchProblems(text: String) =
-        problemDao.search(text).map { it.toDomain() }
+        if (text.isBlank()) emptyList() else problemDao.search(text).map { it.toDomain() }
 
     override suspend fun insertWrongProblems(wrongProblems: List<WrongProblem>) =
         withContext(Dispatchers.IO) {

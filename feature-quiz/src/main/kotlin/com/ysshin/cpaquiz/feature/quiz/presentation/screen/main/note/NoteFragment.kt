@@ -46,8 +46,7 @@ class NoteFragment : BaseFragment() {
 
     private val adNativeBannerOnNoteAdapter: AdNativeBannerAdapter by lazy { AdNativeBannerAdapter() }
     private val wrongNoteHeaderAdapter: CommonNoteHeaderAdapter by lazy {
-        CommonNoteHeaderAdapter().apply {
-            headerTitle = getString(R.string.wrong_note)
+        CommonNoteHeaderAdapter(headerTitle = getString(R.string.wrong_note)).apply {
             onHeaderClick = {}
             onHeaderLongClick = {
                 newInstance<DeleteAllWrongProblemDialogFragment>(
@@ -83,8 +82,7 @@ class NoteFragment : BaseFragment() {
         }
     }
     private val totalNoteHeaderAdapter: CommonNoteHeaderAdapter by lazy {
-        CommonNoteHeaderAdapter().apply {
-            headerTitle = getString(R.string.total_note)
+        CommonNoteHeaderAdapter(headerTitle = getString(R.string.total_note)).apply {
             onHeaderClick = {}
         }
     }
@@ -102,8 +100,7 @@ class NoteFragment : BaseFragment() {
         }
     }
     private val searchedProblemsHeaderAdapter: CommonNoteHeaderAdapter by lazy {
-        CommonNoteHeaderAdapter().apply {
-            headerTitle = getString(R.string.searched_problem)
+        CommonNoteHeaderAdapter(headerTitle = getString(R.string.searched_problem)).apply {
             isShowing = false
         }
     }
@@ -272,6 +269,7 @@ class NoteFragment : BaseFragment() {
                                 val problems = totalProblemsState.data.map { problem ->
                                     UserSolvedProblemModel(problem = problem)
                                 }
+                                Timber.d("Total problems(${problems.size}) added.")
                                 totalNoteAdapter.submitList(problems)
                             }
                             is TotalProblemsUiState.Error -> {
@@ -287,6 +285,7 @@ class NoteFragment : BaseFragment() {
                                 val problems = wrongProblemsState.data.map { problem ->
                                     UserSolvedProblemModel(problem = problem)
                                 }
+                                Timber.d("Wrong problems(${problems.size}) added.")
                                 wrongNoteAdapter.submitList(problems)
                             }
                             is WrongProblemsUiState.Error -> {
@@ -302,6 +301,7 @@ class NoteFragment : BaseFragment() {
                                 val problems = searchedProblemsState.data.map { problem ->
                                     UserSolvedProblemModel(problem = problem)
                                 }
+                                Timber.d("Searched problems(${problems.size}) added.")
                                 searchedProblemsAdapter.submitList(problems)
                             }
                             is SearchedProblemsUiState.Error -> {
