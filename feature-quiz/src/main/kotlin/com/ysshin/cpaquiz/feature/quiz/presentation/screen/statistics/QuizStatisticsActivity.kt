@@ -19,6 +19,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.ActivityQuizStatisticsBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.AdNativeBannerAdapter
@@ -31,11 +32,10 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.from
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode
-import com.ysshin.cpaquiz.feature.quiz.presentation.util.AdConstants
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import com.ysshin.cpaquiz.shared.android.bridge.MainTabNavigator
+import com.ysshin.cpaquiz.shared.android.util.AdConstants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
@@ -84,7 +84,6 @@ class QuizStatisticsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuizStatisticsBinding.inflate(layoutInflater)
-        binding.lifecycleOwner = this
         setContentView(binding.root)
         initView()
         observeViewModel()
