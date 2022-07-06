@@ -95,6 +95,8 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initView() {
+        val context = requireContext()
+
         loadAd()
 
         binding.toolbar.setOnMenuItemClickListener { item ->
@@ -131,9 +133,9 @@ class HomeFragment : BaseFragment() {
         }
 
         binding.layAccounting.root.setOnThrottleClick {
-            requireContext().startActivity(
+            context.startActivity(
                 problemDetailNavigator.quizIntent(
-                    context = requireContext(),
+                    context = context,
                     quizType = QuizType.Accounting,
                     quizNumbers = viewModel.quizNumber.value,
                     useTimer = viewModel.useTimer.value,
@@ -142,9 +144,9 @@ class HomeFragment : BaseFragment() {
         }
 
         binding.layBusiness.root.setOnThrottleClick {
-            requireContext().startActivity(
+            context.startActivity(
                 problemDetailNavigator.quizIntent(
-                    context = requireContext(),
+                    context = context,
                     quizType = QuizType.Business,
                     quizNumbers = viewModel.quizNumber.value,
                     useTimer = viewModel.useTimer.value,
@@ -153,9 +155,9 @@ class HomeFragment : BaseFragment() {
         }
 
         binding.layCommercialLaw.root.setOnThrottleClick {
-            requireContext().startActivity(
+            context.startActivity(
                 problemDetailNavigator.quizIntent(
-                    context = requireContext(),
+                    context = context,
                     quizType = QuizType.CommercialLaw,
                     quizNumbers = viewModel.quizNumber.value,
                     useTimer = viewModel.useTimer.value,
@@ -164,9 +166,9 @@ class HomeFragment : BaseFragment() {
         }
 
         binding.layTaxLaw.root.setOnThrottleClick {
-            requireContext().startActivity(
+            context.startActivity(
                 problemDetailNavigator.quizIntent(
-                    context = requireContext(),
+                    context = context,
                     quizType = QuizType.TaxLaw,
                     quizNumbers = viewModel.quizNumber.value,
                     useTimer = viewModel.useTimer.value,
