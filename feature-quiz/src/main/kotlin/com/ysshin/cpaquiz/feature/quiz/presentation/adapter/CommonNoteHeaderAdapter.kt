@@ -7,9 +7,8 @@ import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutCommonNoteHeaderBinding
 import com.ysshin.cpaquiz.shared.android.util.inflate
 import com.ysshin.cpaquiz.shared.base.Action
 
-class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
-
-    var headerTitle = ""
+class CommonNoteHeaderAdapter(val headerTitle: String) :
+    RecyclerView.Adapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
 
     var isShowing = true
     var onHeaderClick: Action = {}
@@ -32,9 +31,8 @@ class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.Ite
             }
         }
 
-        fun bind(title: String, isShowing: Boolean) {
+        fun bind(title: String) {
             binding.headerTitle = title
-            binding.isShowing = isShowing
             binding.executePendingBindings()
         }
     }
@@ -47,7 +45,7 @@ class CommonNoteHeaderAdapter : RecyclerView.Adapter<CommonNoteHeaderAdapter.Ite
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(headerTitle, isShowing)
+        holder.bind(headerTitle)
     }
 
     override fun getItemCount() = if (isShowing) 1 else 0

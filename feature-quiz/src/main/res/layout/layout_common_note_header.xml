@@ -5,15 +5,9 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="headerTitle"
             type="String" />
-
-        <variable
-            name="isShowing"
-            type="boolean" />
 
         <variable
             name="onClickListener"

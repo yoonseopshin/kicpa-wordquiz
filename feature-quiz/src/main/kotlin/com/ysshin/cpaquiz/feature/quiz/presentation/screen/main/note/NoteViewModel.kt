@@ -10,12 +10,20 @@ import com.ysshin.cpaquiz.shared.base.Result
 import com.ysshin.cpaquiz.shared.base.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
-    private val problemUseCases: ProblemUseCases
+    private val problemUseCases: ProblemUseCases,
 ) : BaseViewModel() {
 
     private val totalProblems = problemUseCases.getTotalProblems().asResult()
@@ -25,8 +33,7 @@ class NoteViewModel @Inject constructor(
     private val userInputText = MutableStateFlow("")
     private val isSearching get() = userInputText.value.isNotBlank()
 
-    private val filteredYears = MutableStateFlow(Problem.allYears())
-    private val filteredTypes = MutableStateFlow(QuizType.all())
+    private val noteFilter = MutableStateFlow(NoteFilter())
 
     private val _showWrongNoteHeader = MutableStateFlow(false)
     val showWrongNoteHeader = _showWrongNoteHeader.asStateFlow()
@@ -48,13 +55,15 @@ class NoteViewModel @Inject constructor(
             totalProblems,
             wrongProblems,
             userInputText,
-            filteredYears,
-            filteredTypes
-        ) { totalResult, wrongResult, userInput, years, types ->
+            noteFilter
+        ) { totalResult, wrongResult, userInput, filter ->
+            var totalAndWrongProblemSize = 0
+
             val totalProblemsUiState = if (totalResult is Result.Success) {
                 val filtered = totalResult.data.filter { problem ->
-                    problem.year in years && problem.type in types
+                    problem.year in filter.years && problem.type in filter.types
                 }
+                totalAndWrongProblemSize += filtered.size
                 TotalProblemsUiState.Success(filtered)
             } else {
                 TotalProblemsUiState.Error
@@ -62,8 +71,9 @@ class NoteViewModel @Inject constructor(
 
             val wrongProblemsUiState = if (wrongResult is Result.Success) {
                 val filtered = wrongResult.data.filter { problem ->
-                    problem.year in years && problem.type in types
+                    problem.year in filter.years && problem.type in filter.types
                 }
+                totalAndWrongProblemSize += filtered.size
                 WrongProblemsUiState.Success(filtered)
             } else {
                 WrongProblemsUiState.Error
@@ -77,13 +87,19 @@ class NoteViewModel @Inject constructor(
                 _showWrongNoteHeader.update { false }
                 UserActionUiState.OnSearching
             } else {
+                _showScrollToTop.update { totalAndWrongProblemSize > 15 }
                 _showWrongNoteHeader.update {
                     (wrongProblemsUiState is WrongProblemsUiState.Success && wrongProblemsUiState.data.isNotEmpty())
                 }
                 UserActionUiState.OnViewing
             }
 
-            NoteUiState(totalProblemsUiState, wrongProblemsUiState, searchedProblemsUiState, userActionUiState)
+            NoteUiState(
+                totalProblemsUiState,
+                wrongProblemsUiState,
+                searchedProblemsUiState,
+                userActionUiState
+            )
         }
             .stateIn(
                 scope = viewModelScope,
@@ -97,27 +113,24 @@ class NoteViewModel @Inject constructor(
             )
 
     val selectableFilteredYears
-        get() =
-            Problem.allYears().map {
-                SelectableTextItem(
-                    text = it.toString(),
-                    isSelected = filteredYears.value.contains(it)
-                )
-            }
+        get() = Problem.allYears().map {
+            SelectableTextItem(
+                text = it.toString(),
+                isSelected = noteFilter.value.years.contains(it)
+            )
+        }
 
     val selectableFilteredTypes
-        get() =
-            QuizType.all().map {
-                SelectableTextItem(
-                    text = it.toKorean(),
-                    isSelected = filteredTypes.value.contains(it)
-                )
-            }
+        get() = QuizType.all().map {
+            SelectableTextItem(
+                text = it.toKorean(),
+                isSelected = noteFilter.value.types.contains(it)
+            )
+        }
 
-    fun setFilter(years: List<Int> = filteredYears.value, types: List<QuizType> = filteredTypes.value) {
-        filteredYears.update { years }
+    fun setFilter(years: List<Int> = noteFilter.value.years, types: List<QuizType> = noteFilter.value.types) {
+        noteFilter.update { NoteFilter(years, types) }
         _isYearFiltering.update { Problem.allYears().size != years.size }
-        filteredTypes.update { types }
         _isQuizTypeFiltering.update { QuizType.all().size != types.size }
     }
 
@@ -154,6 +167,8 @@ sealed interface UserActionUiState {
     object OnViewing : UserActionUiState
     object OnSearching : UserActionUiState
 }
+
+data class NoteFilter(val years: List<Int> = Problem.allYears(), val types: List<QuizType> = QuizType.all())
 
 data class NoteUiState(
     val totalProblemsUiState: TotalProblemsUiState,
