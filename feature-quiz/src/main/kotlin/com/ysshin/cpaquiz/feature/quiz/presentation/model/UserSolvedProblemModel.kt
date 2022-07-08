@@ -7,7 +7,7 @@ import com.ysshin.cpaquiz.shared.base.DEFAULT_INVALID_INT
 data class UserSolvedProblemModel(
     val elapsedTime: Int = DEFAULT_INT,
     val userSelectedIndex: Int = DEFAULT_INVALID_INT,
-    val problem: Problem = Problem(),
+    val problem: Problem,
     val createdAt: Long = System.currentTimeMillis()
 )
 

@@ -9,7 +9,7 @@ import com.ysshin.cpaquiz.domain.model.ProblemSource
 object AppMigration {
 
     private val SQL_10_11 =
-        "ALTER TABLE $TABLE_NAME ADD COLUMN $SOURCE TEXT NOT NULL DEFAULT ${ProblemSource.None}"
+        "ALTER TABLE $TABLE_NAME ADD COLUMN $SOURCE TEXT NOT NULL DEFAULT ${ProblemSource.CPA}"
 
     private val MIGRATION_10_11: Migration = object : Migration(10, 11) {
         override fun migrate(database: SupportSQLiteDatabase) {

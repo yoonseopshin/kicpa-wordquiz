@@ -12,9 +12,9 @@ import java.util.*
     primaryKeys = [Problem.PID, Problem.YEAR, Problem.TYPE]
 )
 data class WrongProblemEntity(
-    @ColumnInfo(name = Problem.PID) val pid: Int = 0,
-    @ColumnInfo(name = Problem.YEAR) val year: Int = 0,
-    @ColumnInfo(name = Problem.TYPE) val type: QuizType = QuizType.None,
+    @ColumnInfo(name = Problem.PID) val pid: Int,
+    @ColumnInfo(name = Problem.YEAR) val year: Int,
+    @ColumnInfo(name = Problem.TYPE) val type: QuizType,
     @ColumnInfo(name = WrongProblem.CREATED_AT) val createdAt: Long = System.currentTimeMillis()
 ) {
     override fun equals(other: Any?): Boolean {
