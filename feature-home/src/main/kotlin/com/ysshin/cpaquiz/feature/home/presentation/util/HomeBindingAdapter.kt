@@ -27,15 +27,3 @@ fun FloatingActionButton.bindQuizSettingsOpened(value: Boolean) {
 fun TextView.bindFadeAnimationText(value: String) {
     setTextFadeAnimation(value)
 }
-
-@BindingAdapter("dday")
-fun Toolbar.bindDDay(nextExamDate: String?) {
-    if (nextExamDate.isNullOrBlank()) return
-
-    val now = LocalDate.now()
-    val target = LocalDate.parse(nextExamDate, DateTimeFormatter.ISO_DATE)
-
-    val dday = Duration.between(now.atStartOfDay(), target.atStartOfDay()).toDays()
-
-    title = "D-$dday"
-}

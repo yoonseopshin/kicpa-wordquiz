@@ -42,16 +42,8 @@ fun Chip.bindSource(source: ProblemSource?) {
         return
     }
 
-    text = when (source) {
-        ProblemSource.CPA, ProblemSource.CTA -> {
-            visible()
-            source.name
-        }
-        ProblemSource.None -> {
-            gone()
-            ""
-        }
-    }
+    visible()
+    text = source.name
 }
 
 @BindingAdapter("sub_descriptions")
@@ -108,9 +100,6 @@ fun Chip.bindByType(type: QuizType?) {
             text = context.getString(R.string.tax_law)
             chipStrokeColor = context.colorStateList(R.color.tax_law_highlight_color)
             chipBackgroundColor = context.colorStateList(R.color.tax_law_highlight_color_0_20)
-        }
-        QuizType.None -> {
-            visibility = View.GONE
         }
     }
 }

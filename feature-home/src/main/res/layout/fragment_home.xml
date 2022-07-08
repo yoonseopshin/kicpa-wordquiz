@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/theme_color"
-                app:dday="@{viewModel.nextExamDate}"
+                app:title="@{`D-` + viewModel.dday}"
                 app:menu="@menu/menu_home_toolbar" />
 
         </com.google.android.material.appbar.AppBarLayout>
