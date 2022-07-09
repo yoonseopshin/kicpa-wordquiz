@@ -1,10 +1,24 @@
 package com.ysshin.cpaquiz.feature.settings.presentation.ui
 
 import android.content.Intent
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.LocalElevationOverlay
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -12,7 +26,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
@@ -69,60 +82,69 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
                     )
                 }
             }
-        ) { contentPadding ->
-            Column(
-                modifier = Modifier
-                    .padding(contentPadding)
-                    .padding(top = 20.dp)
+        ) { padding ->
+            InitSettingsDialog()
+
+            LazyColumn(modifier = Modifier
+                .padding(padding)
+                .padding(vertical = 20.dp)
             ) {
-                InitSettingsDialog()
+                item {
+                    SettingsListItem(
+                        settingsIcon = painterResource(id = R.drawable.ic_delete),
+                        settingsText = stringResource(id = R.string.delete_wrong_note),
+                        onClick = {
+                            viewModel.updateDeleteWrongProblemDialogOpened(true)
+                        },
+                    )
+                }
 
-                SettingsItem(
-                    settingsIcon = painterResource(id = R.drawable.ic_delete),
-                    settingsText = stringResource(id = R.string.delete_wrong_note),
-                    onClick = {
-                        viewModel.updateDeleteWrongProblemDialogOpened(true)
-                    },
-                )
-
-                SettingsItem(
-                    settingsIcon = painterResource(id = R.drawable.ic_info),
-                    settingsText = stringResource(id = R.string.app_version),
-                    onClick = {
-                        viewModel.updateAppVersionDialogOpened(true)
-                    }
-                )
-
-                SettingsItem(
-                    settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
-                    settingsText = stringResource(id = R.string.open_source_license),
-                    onClick = {
-                        context.startActivity(
-                            Intent(context, OssLicensesMenuActivity::class.java)
-                        )
-                    }
-                )
-
-                SettingsItem(
-                    settingsIcon = painterResource(id = R.drawable.ic_mail),
-                    settingsText = stringResource(id = R.string.mail_to_developer),
-                    onClick = {
-                        val emailIntent = Intent(Intent.ACTION_SEND).apply {
-                            putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.mail_to_developer_title))
-                            putExtra(
-                                Intent.EXTRA_EMAIL,
-                                arrayOf(context.getString(R.string.developer_email))
-                            )
-                            putExtra(
-                                Intent.EXTRA_TEXT,
-                                context.getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
-                            )
-                            type = "message/rfc822"
+                item {
+                    SettingsListItem(
+                        settingsIcon = painterResource(id = R.drawable.ic_info),
+                        settingsText = stringResource(id = R.string.app_version),
+                        onClick = {
+                            viewModel.updateAppVersionDialogOpened(true)
                         }
-                        context.startActivity(Intent.createChooser(emailIntent, "이메일:"))
-                    }
-                )
+                    )
+                }
+
+                item {
+                    SettingsListItem(
+                        settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
+                        settingsText = stringResource(id = R.string.open_source_license),
+                        onClick = {
+                            context.startActivity(
+                                Intent(context, OssLicensesMenuActivity::class.java)
+                            )
+                        }
+                    )
+                }
+
+                item {
+                    SettingsListItem(
+                        settingsIcon = painterResource(id = R.drawable.ic_mail),
+                        settingsText = stringResource(id = R.string.mail_to_developer),
+                        onClick = {
+                            val emailIntent = Intent(Intent.ACTION_SEND).apply {
+                                putExtra(Intent.EXTRA_SUBJECT,
+                                    context.getString(R.string.mail_to_developer_title))
+                                putExtra(
+                                    Intent.EXTRA_EMAIL,
+                                    arrayOf(context.getString(R.string.developer_email))
+                                )
+                                putExtra(
+                                    Intent.EXTRA_TEXT,
+                                    context.getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
+                                )
+                                type = "message/rfc822"
+                            }
+                            context.startActivity(Intent.createChooser(emailIntent, "이메일:"))
+                        }
+                    )
+                }
             }
+
         }
     }
 }
@@ -167,45 +189,57 @@ fun InitSettingsDialog(viewModel: SettingsViewModel = viewModel()) {
 }
 
 @Composable
-fun SettingsItem(
+fun SettingsListItem(
     settingsIcon: Painter,
     settingsText: String,
     onClick: Action = {},
 ) {
     val cornerShape = RoundedCornerShape(24.dp)
-    Row(
+
+    Card(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .border(
-                border = BorderStroke(width = 0.dp, Color.Transparent),
-                shape = cornerShape
-            )
             .clip(cornerShape)
-            .background(color = MaterialTheme.colors.primary.copy(alpha = 0.15f))
             .clickable(onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 16.dp)
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
+        shape = cornerShape,
     ) {
-        Image(
-            painter = settingsIcon,
-            contentDescription = settingsText,
-            modifier = Modifier.size(size = 36.dp),
-            colorFilter = ColorFilter.tint(colorResource(id = R.color.item_highlight_color))
-        )
-        Spacer(modifier = Modifier.size(12.dp))
-        Text(
-            text = buildAnnotatedString {
-                withStyle(SpanStyle(fontSize = 18.sp)) {
-                    append(settingsText)
+        Row(
+            modifier = Modifier
+                .background(MaterialTheme.colors.primary.copy(alpha = 0.1f))
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                painter = settingsIcon,
+                contentDescription = settingsText,
+                modifier = Modifier.size(size = 36.dp),
+                colorFilter = ColorFilter.tint(colorResource(id = R.color.item_highlight_color))
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(SpanStyle(fontSize = 18.sp)) {
+                        append(settingsText)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
 
+// FIXME: Preview not showing
 @Composable
 @Preview(showBackground = true)
 private fun SettingsUiPreview() {
     SettingsScreen()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SettingsItemPreview() {
+    SettingsListItem(
+        settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
+        settingsText = stringResource(id = R.string.open_source_license),
+    )
 }

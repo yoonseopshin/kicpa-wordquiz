@@ -15,8 +15,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -24,7 +28,12 @@ class HomeViewModel @Inject constructor(
     private val quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
-    val nextExamDate = quizUseCases.getNextExamDate()
+    val dday = quizUseCases.getNextExamDate()
+        .map { nextExamDate ->
+            val now = LocalDate.now()
+            val target = LocalDate.parse(nextExamDate, DateTimeFormatter.ISO_DATE)
+            Duration.between(now.atStartOfDay(), target.atStartOfDay()).toDays().toString()
+        }
         .flowOn(Dispatchers.IO)
         .stateIn(
             scope = viewModelScope,

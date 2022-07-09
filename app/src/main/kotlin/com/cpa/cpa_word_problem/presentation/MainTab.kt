@@ -3,7 +3,7 @@ package com.cpa.cpa_word_problem.presentation
 import com.cpa.cpa_word_problem.R
 
 enum class MainTab {
-    Home, Note, Settings;
+    Home, Note, Settings, HomeCompose;
 
     companion object {
         fun getIcon(position: Int) =
@@ -11,6 +11,7 @@ enum class MainTab {
                 Home.ordinal -> R.drawable.asld_home
                 Note.ordinal -> R.drawable.asld_note
                 Settings.ordinal -> R.drawable.asld_settings
+                HomeCompose.ordinal -> R.drawable.asld_home
                 else -> throw IndexOutOfBoundsException()
             }
     }

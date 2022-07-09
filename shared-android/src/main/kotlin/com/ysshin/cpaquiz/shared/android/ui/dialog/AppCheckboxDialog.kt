@@ -145,7 +145,7 @@ fun AppCheckboxDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)
-                        .background(MaterialTheme.colors.primary.copy(alpha = 0.15f)),
+                        .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {

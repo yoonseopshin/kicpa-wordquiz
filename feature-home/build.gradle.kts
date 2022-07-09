@@ -13,4 +13,6 @@ dependencies {
     implementation("com.google.android.play:core-ktx:1.8.1")
 
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+
+    implementation("com.google.accompanist:accompanist-flowlayout:0.24.13-rc")
 }
