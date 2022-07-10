@@ -11,6 +11,20 @@
         android:layout_gravity="center"
         android:minHeight="60dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ad_rounded_corners_shape"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="1dp"
+            android:text="@string/ad"
+            android:textColor="@color/ad_green"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tv_body"
+            app:layout_constraintEnd_toEndOf="@id/tv_body"
+            tools:ignore="SmallSp" />
+
         <ImageView
             android:id="@+id/iv_app_icon"
             android:layout_width="48dp"

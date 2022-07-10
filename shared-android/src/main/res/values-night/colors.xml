@@ -76,4 +76,6 @@
     <color name="reverse_theme_color">#ffffff</color>
     <color name="rippleColor">#1fffffff</color>
 
+    <color name="ad_green">#1b5e20</color>
+
 </resources>
