@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeComposeFragment
-import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeFragment
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteFragment
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsFragment
 import com.ysshin.cpaquiz.shared.android.util.newInstance

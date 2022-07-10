@@ -20,7 +20,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -152,7 +151,7 @@ fun AppCheckboxDialog(
                         TextButton(onClick = onDismiss) {
                             Text(
                                 text = dismissText,
-                                style= Typography.button,
+                                style = Typography.button,
                                 modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                             )
                         }
@@ -160,7 +159,7 @@ fun AppCheckboxDialog(
                     TextButton(onClick = { onConfirm(items) }) {
                         Text(
                             text = confirmText,
-                            style= Typography.button,
+                            style = Typography.button,
                             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                         )
                     }

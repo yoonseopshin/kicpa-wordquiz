@@ -204,7 +204,6 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
                     NativeAd()
                 }
             }
-
         }
     }
 }
@@ -289,7 +288,8 @@ fun QuizCard(
                     Text(
                         text = stringResource(id = R.string.quiz_count, count),
                         style = Typography.caption,
-                        color = colorResource(id = R.color.daynight_gray500s))
+                        color = colorResource(id = R.color.daynight_gray500s)
+                    )
                     Text(
                         text = title,
                         style = Typography.subtitle1
@@ -360,7 +360,6 @@ fun NativeAd() {
             it.loadAd(AdRequest.Builder().build())
         }
     }
-
 }
 
 @Composable
@@ -449,7 +448,8 @@ fun HomeBottomSheetHandle() {
     ) {
         Card(
             modifier = Modifier.size(width = 80.dp, height = 4.dp),
-            backgroundColor = colorResource(id = R.color.daynight_gray800s)) {}
+            backgroundColor = colorResource(id = R.color.daynight_gray800s)
+        ) {}
     }
 }
 

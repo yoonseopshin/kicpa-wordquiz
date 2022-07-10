@@ -128,8 +128,10 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
                         settingsText = stringResource(id = R.string.mail_to_developer),
                         onClick = {
                             val emailIntent = Intent(Intent.ACTION_SEND).apply {
-                                putExtra(Intent.EXTRA_SUBJECT,
-                                    context.getString(R.string.mail_to_developer_title))
+                                putExtra(
+                                    Intent.EXTRA_SUBJECT,
+                                    context.getString(R.string.mail_to_developer_title)
+                                )
                                 putExtra(
                                     Intent.EXTRA_EMAIL,
                                     arrayOf(context.getString(R.string.developer_email))
@@ -145,7 +147,6 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
                     )
                 }
             }
-
         }
     }
 }

@@ -1,16 +1,12 @@
 package com.ysshin.cpaquiz.feature.home.presentation.util
 
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.BindingAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.shared.android.util.setTextFadeAnimation
 import com.ysshin.cpaquiz.shared.android.util.visibleOrGone
 import com.ysshin.cpaquiz.shared.android.util.visibleOrInvisible
-import java.time.Duration
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @BindingAdapter("subject_total_count")
 fun TextView.bindSubjectTotalCount(count: Int) {

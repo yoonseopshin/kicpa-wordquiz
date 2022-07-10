@@ -28,5 +28,4 @@ class HomeComposeFragment : BaseFragment() {
             HomeScreen(navigator = problemDetailNavigator, viewModel = viewModel)
         }
     }
-
 }
