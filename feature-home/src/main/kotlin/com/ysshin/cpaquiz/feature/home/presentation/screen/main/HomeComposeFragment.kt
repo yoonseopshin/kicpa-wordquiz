@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
 import com.ysshin.cpaquiz.feature.home.presentation.ui.HomeScreen
 import com.ysshin.cpaquiz.shared.android.base.BaseFragment
@@ -25,6 +26,7 @@ class HomeComposeFragment : BaseFragment() {
         savedInstanceState: Bundle?,
     ) = ComposeView(requireContext()).apply {
         setContent {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             HomeScreen(navigator = problemDetailNavigator, viewModel = viewModel)
         }
     }
