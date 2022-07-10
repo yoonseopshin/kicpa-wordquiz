@@ -16,12 +16,14 @@ private val DarkColors = darkColors(
     primary = MaterialColor.INDIGO_500,
     primaryVariant = MaterialColor.INDIGO_700,
     secondary = MaterialColor.DEEP_PURPLE_A200,
+    secondaryVariant = MaterialColor.DEEP_PURPLE_A200,
 )
 
 private val LightColors = lightColors(
     primary = MaterialColor.LIGHT_GREEN_700,
     primaryVariant = MaterialColor.LIGHT_GREEN_900,
     secondary = MaterialColor.AMBER_A200,
+    secondaryVariant = MaterialColor.AMBER_A200,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

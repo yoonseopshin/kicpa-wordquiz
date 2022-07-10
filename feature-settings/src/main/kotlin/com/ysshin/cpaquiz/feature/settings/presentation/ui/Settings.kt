@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -85,9 +86,9 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
         ) { padding ->
             InitSettingsDialog()
 
-            LazyColumn(modifier = Modifier
-                .padding(padding)
-                .padding(vertical = 20.dp)
+            LazyColumn(
+                modifier = Modifier.padding(padding),
+                contentPadding = PaddingValues(vertical = 20.dp)
             ) {
                 item {
                     SettingsListItem(

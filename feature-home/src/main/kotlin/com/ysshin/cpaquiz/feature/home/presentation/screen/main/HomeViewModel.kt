@@ -98,7 +98,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun toggleTimer() {
+        setTimer(useTimer.value.not())
+    }
+
     fun setQuizSettingsOpened(value: Boolean) {
         _isQuizSettingsOpened.value = value
+    }
+
+    fun setQuizNumber(value: Int) {
+        viewModelScope.launch {
+            quizUseCases.setQuizNumber(value)
+        }
     }
 }

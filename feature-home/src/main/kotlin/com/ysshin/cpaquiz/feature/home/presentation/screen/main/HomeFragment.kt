@@ -31,6 +31,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@Deprecated("Migrate to HomeComposeFragment")
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
@@ -85,7 +86,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // FIXME: 앱을 빠르게 껐다가 키면 _binding이 null이어서 크래시 발생, 임시 조치로 _binding 초기화 코드를 막아놓음
+        // FIXME: Crash when turning it off and on quickly, so dealt with not being released _binding.
         // _binding = null
     }
 
