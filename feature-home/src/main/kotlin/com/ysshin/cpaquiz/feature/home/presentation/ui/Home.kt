@@ -1,7 +1,5 @@
 package com.ysshin.cpaquiz.feature.home.presentation.ui
 
-import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
@@ -24,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
-import androidx.compose.material.BottomSheetState
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -60,13 +57,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
-import com.google.android.ads.nativetemplates.NativeTemplateStyle
-import com.google.android.ads.nativetemplates.TemplateView
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
@@ -74,6 +69,7 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
+import com.ysshin.cpaquiz.shared.android.databinding.LayoutNativeAdBinding
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialog
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
@@ -205,9 +201,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
                         }
                     )
 
-                    // TODO: Add NativeAd()
-                    // AdMob NativeAd doesn't support Jetpack Compose, so need to check more.
-                    // NativeAd()
+                    NativeAd()
                 }
             }
 
@@ -308,34 +302,65 @@ fun QuizCard(
 
 @Composable
 fun NativeAd() {
-    AndroidView(
-        modifier = Modifier.fillMaxWidth(),
-        factory = { context ->
-            TemplateView(context).also { adView ->
-                loadAd(context, adView)
-            }
+    // FIXME: ViewBinding can be converted to Jetpack Compose.
+    AndroidViewBinding(factory = LayoutNativeAdBinding::inflate) {
+        val adView = root.also { adView ->
+            adView.advertiserView = tvAdvertiser
+            adView.bodyView = tvBody
+            adView.callToActionView = btnCta
+            adView.headlineView = tvHeadline
+            adView.iconView = ivAppIcon
+            adView.priceView = tvPrice
+            adView.starRatingView = rtbStars
+            adView.storeView = tvStore
+            adView.mediaView = mvContent
         }
-    )
-}
 
-private fun loadAd(context: Context, adTemplateView: TemplateView) {
-    runCatching {
-        val adLoader = AdLoader.Builder(context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
-            .forNativeAd { nativeAd ->
-                val styles = NativeTemplateStyle.Builder()
-                    .withMainBackgroundColor(ColorDrawable(context.getColor(R.color.theme_color)))
-                    .withCallToActionBackgroundColor(ColorDrawable(context.getColor(R.color.primaryDarkColor)))
-                    .withCallToActionTypefaceColor(context.getColor(R.color.secondaryTextColor))
-                    .build()
-                adTemplateView.setStyles(styles)
-                adTemplateView.setNativeAd(nativeAd)
-            }
-            .withNativeAdOptions(NativeAdOptions.Builder().build())
-            .build()
-        adLoader
-    }.onSuccess {
-        it.loadAd(AdRequest.Builder().build())
+        runCatching {
+            AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
+                .forNativeAd { nativeAd ->
+                    nativeAd.advertiser?.let { advertiser ->
+                        tvAdvertiser.text = advertiser
+                    }
+
+                    nativeAd.body?.let { body ->
+                        tvBody.text = body
+                    }
+
+                    nativeAd.callToAction?.let { cta ->
+                        btnCta.text = cta
+                    }
+
+                    nativeAd.headline?.let { headline ->
+                        tvHeadline.text = headline
+                    }
+
+                    nativeAd.icon?.let { icon ->
+                        ivAppIcon.setImageDrawable(icon.drawable)
+                    }
+
+                    nativeAd.price?.let { price ->
+                        tvPrice.text = price
+                    }
+
+                    nativeAd.starRating?.let { rating ->
+                        rtbStars.rating = rating.toFloat()
+                    }
+
+                    nativeAd.store?.let { store ->
+                        tvStore.text = store
+                    }
+
+                    adView.setNativeAd(nativeAd)
+                }
+                .withNativeAdOptions(NativeAdOptions.Builder().build())
+                .build()
+        }.onSuccess {
+            Timber.d("Load NativeAd in HomeScreen")
+            it.loadAd(AdRequest.Builder().build())
+        }
     }
+
 }
 
 @Composable
