@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="count"
+            type="int" />
+
+        <variable
+            name="backgroundColor"
+            type="int" />
+
+        <variable
+            name="backgroundColor020"
+            type="int" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:rippleColor="@color/rippleColor"
+        app:strokeColor="@{backgroundColor}"
+        app:strokeWidth="0.5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@{backgroundColor020}"
+            android:paddingVertical="28dp"
+            tools:background="@color/accounting_highlight_color_0.20">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_quiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:backgroundTint="@{backgroundColor}"
+                android:clickable="false"
+                android:contentDescription="@string/quiz"
+                android:elevation="0dp"
+                android:src="@drawable/ic_play"
+                app:elevation="0dp"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_subject_title"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:backgroundTint="@color/accounting_highlight_color" />
+
+            <TextView
+                android:id="@+id/tv_subject_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/subject_total_count"
+                android:textColor="@color/daynight_gray500s"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/tv_subject_title"
+                app:layout_constraintStart_toStartOf="@id/tv_subject_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:subject_total_count="@{count}"
+                tools:text="총 100문제" />
+
+            <TextView
+                android:id="@+id/tv_subject_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="24dp"
+                android:minWidth="64dp"
+                android:text="@{title}"
+                android:textColor="@color/daynight_gray800s"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_quiz"
+                app:layout_constraintTop_toBottomOf="@id/tv_subject_count"
+                tools:text="@string/accounting" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

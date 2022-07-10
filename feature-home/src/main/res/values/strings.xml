@@ -1,0 +1,4 @@
+<resources>
+    <string name="dday">D-%1$s</string>
+    <string name="quiz_count">총 %1$s문제</string>
+</resources>

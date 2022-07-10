@@ -16,6 +16,6 @@ data class ProblemModel(
     val subDescriptions: List<String> = DEFAULT_STRING_LIST,
     val questions: List<String> = DEFAULT_STRING_LIST,
     val answer: Int = DEFAULT_INT,
-    val type: QuizType = QuizType.None,
-    val source: ProblemSource = ProblemSource.None,
+    val type: QuizType,
+    val source: ProblemSource,
 ) : Parcelable
