@@ -303,7 +303,16 @@ fun QuizCard(
 @Composable
 fun NativeAd() {
     // FIXME: ViewBinding can be converted to Jetpack Compose.
+    var isAdRequested = false
+
     AndroidViewBinding(factory = LayoutNativeAdBinding::inflate) {
+        if (isAdRequested) {
+            Timber.d("NativeAd is already requested.")
+            return@AndroidViewBinding
+        }
+
+        Timber.d("Create ViewBinding.")
+
         val adView = root.also { adView ->
             adView.advertiserView = tvAdvertiser
             adView.bodyView = tvBody
@@ -317,6 +326,7 @@ fun NativeAd() {
         }
 
         runCatching {
+            Timber.d("Build AdLoader.")
             AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
                 .forNativeAd { nativeAd ->
                     nativeAd.advertiser?.let { advertiser ->
@@ -356,8 +366,9 @@ fun NativeAd() {
                 .withNativeAdOptions(NativeAdOptions.Builder().build())
                 .build()
         }.onSuccess {
-            Timber.d("Load NativeAd in HomeScreen")
+            Timber.d("Load NativeAd in HomeScreen.")
             it.loadAd(AdRequest.Builder().build())
+            isAdRequested = true
         }
     }
 }
