@@ -2,7 +2,12 @@ package com.ysshin.cpaquiz.shared.android.ui.dialog
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -15,13 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.ysshin.cpaquiz.shared.android.BuildConfig
 import com.ysshin.cpaquiz.shared.android.R
+import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
 import com.ysshin.cpaquiz.shared.base.Action
 
 @Composable
@@ -41,7 +49,8 @@ fun AppInfoDialog(
 
         Card(
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
+            modifier = Modifier
+                .padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
                 .verticalScroll(scrollState),
             elevation = 4.dp
         ) {
@@ -82,15 +91,14 @@ fun AppInfoDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)
-                        .background(MaterialTheme.colors.primary.copy(alpha = 0.15f)),
+                        .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {
                         TextButton(onClick = onDismiss) {
                             Text(
                                 text = dismissText,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colors.onSurface,
+                                style = Typography.button,
                                 modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                             )
                         }
@@ -98,8 +106,7 @@ fun AppInfoDialog(
                     TextButton(onClick = onConfirm) {
                         Text(
                             text = confirmText,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colors.onSurface,
+                            style = Typography.button,
                             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                         )
                     }
@@ -107,4 +114,19 @@ fun AppInfoDialog(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AppInfoDialogPreview() {
+    AppInfoDialog(
+        icon = painterResource(id = R.drawable.ic_info),
+        title = stringResource(id = R.string.app_version),
+        description = stringResource(
+            id = R.string.app_version_name_and_code,
+            BuildConfig.APP_VERSION_NAME,
+            BuildConfig.APP_VERSION_CODE
+        ),
+        dialogType = AppDialogType.OnlyConfirm
+    )
 }

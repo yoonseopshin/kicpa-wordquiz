@@ -2,6 +2,7 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz
 
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases

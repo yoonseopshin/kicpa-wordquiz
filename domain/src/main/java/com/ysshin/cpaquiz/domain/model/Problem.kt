@@ -11,8 +11,8 @@ data class Problem(
     val subDescriptions: List<String> = DEFAULT_STRING_LIST,
     val questions: List<String> = DEFAULT_STRING_LIST,
     val answer: Int = DEFAULT_INT,
-    val type: QuizType = QuizType.None,
-    val source: ProblemSource = ProblemSource.None,
+    val type: QuizType = QuizType.Accounting, // FIXME: Temporary default value
+    val source: ProblemSource = ProblemSource.CPA, // FIXME: Temporary default value
 ) {
     companion object {
         fun allYears() = (2016..2022).toList()

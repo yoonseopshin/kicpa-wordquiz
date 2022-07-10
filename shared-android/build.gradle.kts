@@ -38,6 +38,7 @@ android {
     }
 
     buildFeatures {
+        viewBinding = true
         compose = true
     }
 
@@ -61,6 +62,9 @@ dependencies {
     androidTestApi(libs.compose.ui.test)
     debugApi(libs.compose.ui.tooling)
 
+    debugApi("androidx.customview:customview:1.2.0-alpha01")
+    debugApi("androidx.customview:customview-poolingcontainer:1.0.0-rc01")
+
     api("androidx.activity:activity-compose:1.4.0")
     api("androidx.navigation:navigation-compose:2.5.0-rc01")
     api("androidx.hilt:hilt-navigation-compose:1.0.0")
@@ -73,9 +77,6 @@ dependencies {
     androidTestImplementation(libs.bundles.androidx.test)
 
     implementation(libs.kotlinx.serialization.json)
-
-    debugApi("androidx.customview:customview:1.2.0-alpha01")
-    debugApi("androidx.customview:customview-poolingcontainer:1.0.0-rc01")
 
     implementation(libs.coroutines.android)
     api(libs.timber)

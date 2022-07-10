@@ -7,7 +7,12 @@ import android.os.VibratorManager
 import android.widget.NumberPicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -21,14 +26,16 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.ysshin.cpaquiz.shared.android.R
+import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
 
@@ -97,7 +104,8 @@ fun AppNumberPickerDialog(
                     value = defaultNumber
                     setOnValueChangedListener { _, _, _ ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            val vibrator = context.getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                            val vibrator =
+                                context.getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
                             vibrator.defaultVibrator.vibrate(
                                 VibrationEffect.createOneShot(
                                     50L,
@@ -117,15 +125,14 @@ fun AppNumberPickerDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)
-                        .background(MaterialTheme.colors.primary.copy(alpha = 0.15f)),
+                        .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {
                         TextButton(onClick = onDismiss) {
                             Text(
                                 text = dismissText,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colors.onSurface,
+                                style = Typography.button,
                                 modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                             )
                         }
@@ -133,8 +140,7 @@ fun AppNumberPickerDialog(
                     TextButton(onClick = { onConfirm(numberPicker.value) }) {
                         Text(
                             text = confirmText,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colors.onSurface,
+                            style = Typography.button,
                             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                         )
                     }
@@ -142,4 +148,18 @@ fun AppNumberPickerDialog(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AppNumberPickerDialogPreview() {
+    AppNumberPickerDialog(
+        minNumber = 5,
+        maxNumber = 25,
+        defaultNumber = 5,
+        icon = painterResource(id = R.drawable.ic_note_outlined),
+        title = stringResource(id = R.string.quiz_number_picker_title),
+        description = stringResource(id = R.string.quiz_number_picker_description),
+        onConfirm = {},
+    )
 }

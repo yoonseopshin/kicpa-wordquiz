@@ -12,14 +12,14 @@ import java.util.*
     primaryKeys = [Problem.PID, Problem.YEAR, Problem.TYPE]
 )
 data class ProblemEntity(
-    @ColumnInfo(name = Problem.PID) val pid: Int = 0,
-    @ColumnInfo(name = Problem.YEAR) val year: Int = 0,
-    @ColumnInfo(name = Problem.DESCRIPTION) val description: String = "",
+    @ColumnInfo(name = Problem.PID) val pid: Int,
+    @ColumnInfo(name = Problem.YEAR) val year: Int,
+    @ColumnInfo(name = Problem.DESCRIPTION) val description: String,
     @ColumnInfo(name = Problem.SUB_DESCRIPTION) val subDescriptions: List<String> = emptyList(),
-    @ColumnInfo(name = Problem.QUESTIONS) val questions: List<String> = emptyList(),
-    @ColumnInfo(name = Problem.ANSWER) val answer: Int = 0,
-    @ColumnInfo(name = Problem.TYPE) val type: QuizType = QuizType.None,
-    @ColumnInfo(name = Problem.SOURCE) val source: ProblemSource = ProblemSource.None
+    @ColumnInfo(name = Problem.QUESTIONS) val questions: List<String>,
+    @ColumnInfo(name = Problem.ANSWER) val answer: Int,
+    @ColumnInfo(name = Problem.TYPE) val type: QuizType,
+    @ColumnInfo(name = Problem.SOURCE) val source: ProblemSource
 ) {
     override fun equals(other: Any?): Boolean {
         (other as? ProblemEntity)?.let {

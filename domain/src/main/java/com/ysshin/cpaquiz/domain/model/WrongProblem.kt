@@ -5,7 +5,7 @@ import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
 data class WrongProblem(
     val year: Int = DEFAULT_INT,
     val pid: Int = DEFAULT_INT,
-    val type: QuizType = QuizType.None,
+    val type: QuizType,
     val createdAt: Long = System.currentTimeMillis()
 ) {
     companion object {

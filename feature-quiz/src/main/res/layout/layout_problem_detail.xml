@@ -3,7 +3,7 @@
 
     <data>
 
-        <import type="com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode" />
+        <import type="com.ysshin.cpaquiz.domain.model.ProblemDetailMode" />
 
         <import type="android.view.View" />
 
@@ -13,7 +13,7 @@
 
         <variable
             name="mode"
-            type="com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailMode" />
+            type="com.ysshin.cpaquiz.domain.model.ProblemDetailMode" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -20,7 +20,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +28,7 @@ import androidx.compose.ui.window.Dialog
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.shared.android.R
+import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
 import kotlinx.parcelize.Parcelize
@@ -144,15 +144,14 @@ fun AppCheckboxDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)
-                        .background(MaterialTheme.colors.primary.copy(alpha = 0.15f)),
+                        .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {
                         TextButton(onClick = onDismiss) {
                             Text(
                                 text = dismissText,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colors.onSurface,
+                                style = Typography.button,
                                 modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                             )
                         }
@@ -160,8 +159,7 @@ fun AppCheckboxDialog(
                     TextButton(onClick = { onConfirm(items) }) {
                         Text(
                             text = confirmText,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colors.onSurface,
+                            style = Typography.button,
                             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                         )
                     }
@@ -173,7 +171,7 @@ fun AppCheckboxDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun YearFilterDialogPreview() {
+private fun YearFilterDialogPreview() {
     AppCheckboxDialog(
         icon = painterResource(id = R.drawable.ic_filter),
         title = stringResource(id = R.string.year),
@@ -186,7 +184,7 @@ fun YearFilterDialogPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun QuizTypeFilterDialogPreview() {
+private fun QuizTypeFilterDialogPreview() {
     AppCheckboxDialog(
         icon = painterResource(id = R.drawable.ic_filter),
         title = stringResource(id = R.string.quiz),
