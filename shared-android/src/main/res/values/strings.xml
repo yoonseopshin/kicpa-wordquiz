@@ -65,4 +65,5 @@
     <string name="clear_note_searching">검색 초기화</string>
     <string name="sync_data">데이터 동기화</string>
     <string name="sync_data_successfully">CPA 문제를 업데이트했습니다.</string>
+    <string name="ad">Ad</string>
 </resources>
