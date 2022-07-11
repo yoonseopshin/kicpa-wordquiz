@@ -270,6 +270,7 @@ class NoteFragment : BaseFragment() {
                                     UserSolvedProblemModel(problem = problem)
                                 }
                                 Timber.d("Total problems(${problems.size}) added.")
+                                totalNoteHeaderAdapter.numOfProblems = problems.size
                                 totalNoteAdapter.submitList(problems)
                             }
                             is TotalProblemsUiState.Error -> {
@@ -286,6 +287,7 @@ class NoteFragment : BaseFragment() {
                                     UserSolvedProblemModel(problem = problem)
                                 }
                                 Timber.d("Wrong problems(${problems.size}) added.")
+                                wrongNoteHeaderAdapter.numOfProblems = problems.size
                                 wrongNoteAdapter.submitList(problems)
                             }
                             is WrongProblemsUiState.Error -> {
@@ -302,6 +304,7 @@ class NoteFragment : BaseFragment() {
                                     UserSolvedProblemModel(problem = problem)
                                 }
                                 Timber.d("Searched problems(${problems.size}) added.")
+                                searchedProblemsHeaderAdapter.numOfProblems = problems.size
                                 searchedProblemsAdapter.submitList(problems)
                             }
                             is SearchedProblemsUiState.Error -> {

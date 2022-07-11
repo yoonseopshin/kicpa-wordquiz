@@ -5,12 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutCommonNoteHeaderBinding
 import com.ysshin.cpaquiz.shared.android.util.inflate
+import com.ysshin.cpaquiz.shared.android.util.visibleOrGone
 import com.ysshin.cpaquiz.shared.base.Action
 
 class CommonNoteHeaderAdapter(val headerTitle: String) :
     RecyclerView.Adapter<CommonNoteHeaderAdapter.ItemViewHolder>() {
 
     var isShowing = true
+    var numOfProblems = 0
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
     var onHeaderClick: Action = {}
     var onHeaderLongClick: Action = {}
 
@@ -21,19 +28,20 @@ class CommonNoteHeaderAdapter(val headerTitle: String) :
         var onHeaderLongClick: Action = {}
 
         init {
-            binding.setOnClickListener {
+            binding.layoutHeader.setOnClickListener {
                 onHeaderClick()
             }
 
-            binding.setOnLongClickListener {
+            binding.layoutHeader.setOnLongClickListener {
                 onHeaderLongClick()
                 true
             }
         }
 
-        fun bind(title: String) {
-            binding.headerTitle = title
-            binding.executePendingBindings()
+        fun bind(title: String, numOfProblems: Int) {
+            binding.tvNoteHeader.text = title
+            binding.tvNumOfProblems.text = numOfProblems.toString()
+            binding.tvNumOfProblems.visibleOrGone(isVisible = numOfProblems > 0, withAnimation = true)
         }
     }
 
@@ -45,7 +53,7 @@ class CommonNoteHeaderAdapter(val headerTitle: String) :
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(headerTitle)
+        holder.bind(headerTitle, numOfProblems)
     }
 
     override fun getItemCount() = if (isShowing) 1 else 0
