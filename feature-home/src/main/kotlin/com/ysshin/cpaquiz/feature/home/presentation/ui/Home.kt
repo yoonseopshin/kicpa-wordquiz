@@ -62,6 +62,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
@@ -74,6 +75,7 @@ import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialog
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
 import com.ysshin.cpaquiz.shared.android.util.AdConstants
+import com.ysshin.cpaquiz.shared.android.util.visible
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
 import kotlinx.coroutines.CoroutineScope
@@ -363,6 +365,12 @@ fun NativeAd() {
 
                     adView.setNativeAd(nativeAd)
                 }
+                .withAdListener(object : AdListener() {
+                    override fun onAdLoaded() {
+                        super.onAdLoaded()
+                        adView.visible(withAnimation = true)
+                    }
+                })
                 .withNativeAdOptions(NativeAdOptions.Builder().build())
                 .build()
         }.onSuccess {

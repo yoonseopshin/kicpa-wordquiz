@@ -316,7 +316,7 @@ class NoteFragment : BaseFragment() {
                             is UserActionUiState.OnViewing -> {
                                 binding.toolbar.menu.findItem(R.id.search).iconTintList =
                                     color(R.color.daynight_gray700s)
-                                binding.chipSearchOff.gone()
+                                binding.chipSearchOff.gone(withAnimation = true)
                                 binding.layoutFilter.actionWithChild { isEnabled = true }
 
                                 wrongNoteAdapter.show()
@@ -328,7 +328,7 @@ class NoteFragment : BaseFragment() {
                             is UserActionUiState.OnSearching -> {
                                 binding.toolbar.menu.findItem(R.id.search).iconTintList =
                                     color(R.color.daynight_pastel_blue)
-                                binding.chipSearchOff.visible()
+                                binding.chipSearchOff.visible(withAnimation = true)
                                 binding.layoutFilter.actionWithChild { isEnabled = false }
 
                                 wrongNoteAdapter.hide()

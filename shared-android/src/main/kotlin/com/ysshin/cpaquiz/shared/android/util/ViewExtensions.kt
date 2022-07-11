@@ -17,6 +17,8 @@ import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.transition.TransitionManager
+import com.google.android.material.transition.MaterialFadeThrough
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
 import kotlin.math.abs
@@ -59,7 +61,7 @@ fun View.slideView(newHeight: Int, duration: Long = 300L) {
 fun View.setOnThrottleClick(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     interval: Long = 500L,
-    action: Consumer<View> = {}
+    action: Consumer<View> = {},
 ) {
     val listener = View.OnClickListener { action(it) }
     setOnClickListener(OnThrottleClickListener(dispatcher, listener, interval))
@@ -68,13 +70,22 @@ fun View.setOnThrottleClick(
 fun View.setOnDoubleClick(
     dispatcher: CoroutineDispatcher = Dispatchers.Main,
     interval: Long = 500L,
-    action: Consumer<View> = {}
+    action: Consumer<View> = {},
 ) {
     val listener = View.OnClickListener { action(it) }
     setOnClickListener(OnDoubleClickListener(dispatcher, listener, interval))
 }
 
-fun View.visible() {
+private fun View.addDefaultTransition() {
+    val transition = MaterialFadeThrough().also { transition ->
+        transition.duration = 300L
+        transition.addTarget(this)
+    }
+    TransitionManager.beginDelayedTransition(parent as ViewGroup, transition)
+}
+
+fun View.visible(withAnimation: Boolean = false) {
+    if (withAnimation) addDefaultTransition()
     visibility = View.VISIBLE
 }
 
@@ -82,16 +93,17 @@ fun View.invisible() {
     visibility = View.INVISIBLE
 }
 
-fun View.gone() {
+fun View.gone(withAnimation: Boolean = false) {
+    if (withAnimation) addDefaultTransition()
     visibility = View.GONE
 }
 
-fun View.visibleOrGone(isVisible: Boolean) {
-    if (isVisible) visible() else gone()
+fun View.visibleOrGone(isVisible: Boolean, withAnimation: Boolean = false) {
+    if (isVisible) visible(withAnimation) else gone(withAnimation)
 }
 
-fun View.visibleOrInvisible(isVisible: Boolean) {
-    if (isVisible) visible() else invisible()
+fun View.visibleOrInvisible(isVisible: Boolean, withAnimation: Boolean = false) {
+    if (isVisible) visible(withAnimation) else invisible()
 }
 
 fun View.blink(backgroundColor: Int, animColor: Int, animDuration: Long = 500L) {
