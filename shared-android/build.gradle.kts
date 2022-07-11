@@ -61,6 +61,7 @@ dependencies {
     api(libs.bundles.compose)
     androidTestApi(libs.compose.ui.test)
     debugApi(libs.compose.ui.tooling)
+    implementation("androidx.compose.ui:ui-viewbinding:1.2.0-beta03")
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
     debugApi("androidx.customview:customview-poolingcontainer:1.0.0-rc01")

@@ -7,8 +7,6 @@ plugins {
 dependencies {
     implementation(project(":nativetemplates"))
 
-    implementation("androidx.compose.ui:ui-viewbinding:1.2.0-beta03")
-
     implementation("com.google.android.gms:play-services-ads:20.6.0")
 
     implementation("com.google.android.play:core:1.10.3")
