@@ -14,34 +14,37 @@ class SubDescriptionAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(description: String) {
-            if (description.length <= 3) {
-                binding.description = description
+            binding.lineStart = ""
+            binding.description = description
+
+            if (description.length <= indentRegexes.maxOf { it.minCheckDigit }) {
                 binding.executePendingBindings()
                 return
             }
 
-            val lineStartText = description.substring(0, 3)
-
-            when {
-                ALPHABET_INDENT_REGEX.matches(lineStartText) ||
-                    HANGUL_INDEX_REGEX.matches(lineStartText) ||
-                    HANGUL_INDEX_REGEX_2.matches(lineStartText) -> {
-                    binding.lineStart = lineStartText
-                    binding.description = description.substring(3)
-                }
-                else -> {
-                    binding.lineStart = ""
-                    binding.description = description
+            for (indentRegex in indentRegexes) {
+                if (indentRegex.isMatch(description)) {
+                    binding.lineStart = indentRegex.head(description)
+                    binding.description = indentRegex.tail(description)
+                    break
                 }
             }
 
             binding.executePendingBindings()
         }
 
+        data class RegexWithCheckDigit(val regex: Regex, val minCheckDigit: Int) {
+            fun head(text: String) = text.substring(0, minCheckDigit)
+            fun tail(text: String) = text.substring(minCheckDigit)
+            fun isMatch(text: String) = regex.matches(head(text))
+        }
+
         companion object {
-            private val ALPHABET_INDENT_REGEX = "[A-Za-z]\\. ".toRegex()
-            private val HANGUL_INDEX_REGEX = "[ㄱ-ㅎ]\\. ".toRegex()
-            private val HANGUL_INDEX_REGEX_2 = "[㉠-㉭] .".toRegex()
+            private val alphabetIndentRegex = RegexWithCheckDigit("[A-Za-z]\\. ".toRegex(), 3)
+            private val koreanIndentRegex = RegexWithCheckDigit("[ㄱ-ㅎ]\\. ".toRegex(), 3)
+            private val specialKoreanIndentRegex = RegexWithCheckDigit("[㉠-㉭] ".toRegex(), 2)
+            private val indentRegexes =
+                listOf(alphabetIndentRegex, koreanIndentRegex, specialKoreanIndentRegex)
         }
     }
 

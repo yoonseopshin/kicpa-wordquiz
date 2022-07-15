@@ -30,4 +30,3 @@ fun LifecycleOwner.repeatOnLifecycleResumed(
         lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED, block)
     }
 }
-
