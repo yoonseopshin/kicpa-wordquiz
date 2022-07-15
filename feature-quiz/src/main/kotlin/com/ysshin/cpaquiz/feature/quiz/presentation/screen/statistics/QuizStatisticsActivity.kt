@@ -6,9 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -36,6 +33,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import com.ysshin.cpaquiz.shared.android.bridge.MainTabNavigator
 import com.ysshin.cpaquiz.shared.android.util.AdConstants
+import com.ysshin.cpaquiz.shared.android.util.repeatOnLifecycleStarted
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
@@ -91,21 +89,19 @@ class QuizStatisticsActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                launch {
-                    viewModel.solvedQuiz.collect { solvedQuiz ->
-                        if (viewModel.shouldShowAd(solvedQuiz)) {
-                            showInterstitialAd()
-                        }
+        repeatOnLifecycleStarted {
+            launch {
+                viewModel.solvedQuiz.collect { solvedQuiz ->
+                    if (viewModel.shouldShowAd(solvedQuiz)) {
+                        showInterstitialAd()
                     }
                 }
+            }
 
-                launch {
-                    viewModel.shouldShowInAppReview.collectLatest { shouldShowInAppReview ->
-                        if (shouldShowInAppReview) {
-                            showInAppReview()
-                        }
+            launch {
+                viewModel.shouldShowInAppReview.collectLatest { shouldShowInAppReview ->
+                    if (shouldShowInAppReview) {
+                        showInAppReview()
                     }
                 }
             }

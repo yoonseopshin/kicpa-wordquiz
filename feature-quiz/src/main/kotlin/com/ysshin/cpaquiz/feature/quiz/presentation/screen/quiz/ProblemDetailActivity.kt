@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
@@ -82,19 +80,17 @@ class ProblemDetailActivity : BaseActivity() {
                 getString(R.string.msg_need_answer),
                 Snackbar.LENGTH_SHORT
             ).apply {
-                setAnchorView(binding.fabNext)
+                anchorView = binding.fabNext
                 setAction(R.string.confirm) { dismiss() }
             }.show()
         }
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.quizState.collect { event ->
-                    handleEvent(event)
-                    Timber.d("$event")
-                }
+        repeatOnLifecycleStarted {
+            viewModel.quizState.collect { event ->
+                handleEvent(event)
+                Timber.d("$event")
             }
         }
     }

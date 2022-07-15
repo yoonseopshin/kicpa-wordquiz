@@ -9,9 +9,6 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -25,6 +22,7 @@ import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.util.AdConstants
 import com.ysshin.cpaquiz.shared.android.util.Constants
 import com.ysshin.cpaquiz.shared.android.util.newInstance
+import com.ysshin.cpaquiz.shared.android.util.repeatOnLifecycleStarted
 import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -200,15 +198,13 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.isQuizSettingsOpened.collectLatest { value ->
-                        bsQuizBehavior.state = if (value) {
-                            BottomSheetBehavior.STATE_EXPANDED
-                        } else {
-                            BottomSheetBehavior.STATE_COLLAPSED
-                        }
+        viewLifecycleOwner.repeatOnLifecycleStarted {
+            launch {
+                viewModel.isQuizSettingsOpened.collectLatest { value ->
+                    bsQuizBehavior.state = if (value) {
+                        BottomSheetBehavior.STATE_EXPANDED
+                    } else {
+                        BottomSheetBehavior.STATE_COLLAPSED
                     }
                 }
             }

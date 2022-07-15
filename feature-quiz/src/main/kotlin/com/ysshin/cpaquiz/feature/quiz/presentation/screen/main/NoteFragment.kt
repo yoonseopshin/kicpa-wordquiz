@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -260,117 +258,128 @@ class NoteFragment : BaseFragment() {
     }
 
     private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                launch {
-                    viewModel.uiState.collectLatest { state ->
-                        when (val totalProblemsState = state.totalProblemsUiState) {
-                            is TotalProblemsUiState.Success -> {
-                                val problems = totalProblemsState.data.map { problem ->
-                                    UserSolvedProblemModel(problem = problem)
-                                }
-                                Timber.d("Total problems(${problems.size}) added.")
-                                totalNoteHeaderAdapter.numOfProblems = problems.size
-                                totalNoteAdapter.submitList(problems)
-                            }
-                            is TotalProblemsUiState.Error -> {
-                                // TODO
-                            }
-                            is TotalProblemsUiState.Loading -> {
-                                // TODO
-                            }
-                        }
-
-                        when (val wrongProblemsState = state.wrongProblemsUiState) {
-                            is WrongProblemsUiState.Success -> {
-                                val problems = wrongProblemsState.data.map { problem ->
-                                    UserSolvedProblemModel(problem = problem)
-                                }
-                                Timber.d("Wrong problems(${problems.size}) added.")
-                                wrongNoteHeaderAdapter.numOfProblems = problems.size
-                                wrongNoteAdapter.submitList(problems)
-                            }
-                            is WrongProblemsUiState.Error -> {
-                                // TODO
-                            }
-                            is WrongProblemsUiState.Loading -> {
-                                // TODO
-                            }
-                        }
-
-                        when (val searchedProblemsState = state.searchedProblemsUiState) {
-                            is SearchedProblemsUiState.Success -> {
-                                val problems = searchedProblemsState.data.map { problem ->
-                                    UserSolvedProblemModel(problem = problem)
-                                }
-                                Timber.d("Searched problems(${problems.size}) added.")
-                                searchedProblemsHeaderAdapter.numOfProblems = problems.size
-                                searchedProblemsAdapter.submitList(problems)
-                            }
-                            is SearchedProblemsUiState.Error -> {
-                                // TODO
-                            }
-                            is SearchedProblemsUiState.Loading -> {
-                                // TODO
-                            }
-                        }
-
-                        when (state.userActionUiState) {
-                            is UserActionUiState.OnViewing -> {
-                                binding.toolbar.menu.findItem(R.id.search).iconTintList =
-                                    color(R.color.daynight_gray700s)
-                                binding.chipSearchOff.gone(withAnimation = true)
-                                binding.layoutFilter.actionWithChild { isEnabled = true }
-
-                                wrongNoteAdapter.show()
-                                totalNoteHeaderAdapter.show()
-                                totalNoteAdapter.show()
-                                searchedProblemsHeaderAdapter.hide()
-                                searchedProblemsAdapter.hide()
-                            }
-                            is UserActionUiState.OnSearching -> {
-                                binding.toolbar.menu.findItem(R.id.search).iconTintList =
-                                    color(R.color.daynight_pastel_blue)
-                                binding.chipSearchOff.visible(withAnimation = true)
-                                binding.layoutFilter.actionWithChild { isEnabled = false }
-
-                                wrongNoteAdapter.hide()
-                                totalNoteHeaderAdapter.hide()
-                                totalNoteAdapter.hide()
-                                searchedProblemsHeaderAdapter.show()
-                                searchedProblemsAdapter.show()
-                            }
-                        }
-                    }
+        viewLifecycleOwner.repeatOnLifecycleStarted {
+            launch {
+                viewModel.uiState.collectLatest { state ->
+                    bindTotalProblemsUiState(state.totalProblemsUiState)
+                    bindWrongProblemsUiState(state.wrongProblemsUiState)
+                    bindSearchedProblemsUiState(state.searchedProblemsUiState)
+                    bindUserActionUiState(state.userActionUiState)
                 }
+            }
 
-                launch {
-                    viewModel.showWrongNoteHeader.collectLatest { isShowing ->
-                        wrongNoteHeaderAdapter.showOrHide(isShowing)
-                    }
+            launch {
+                viewModel.showWrongNoteHeader.collectLatest { isShowing ->
+                    wrongNoteHeaderAdapter.showOrHide(isShowing)
                 }
+            }
 
-                launch {
-                    viewModel.showScrollToTop.collectLatest { isShowing ->
-                        scrollToTopAdapter.showOrHide(isShowing)
-                    }
+            launch {
+                viewModel.showScrollToTop.collectLatest { isShowing ->
+                    scrollToTopAdapter.showOrHide(isShowing)
                 }
+            }
 
-                launch {
-                    viewModel.isYearFiltering.collectLatest { isYearFiltering ->
-                        binding.chipFilterYear.bindFiltering(isYearFiltering)
-                    }
+            launch {
+                viewModel.isYearFiltering.collectLatest { isYearFiltering ->
+                    binding.chipFilterYear.bindFiltering(isYearFiltering)
                 }
+            }
 
-                launch {
-                    viewModel.isQuizTypeFiltering.collectLatest { isQuizTypeFiltering ->
-                        binding.chipFilterType.bindFiltering(isQuizTypeFiltering)
-                    }
+            launch {
+                viewModel.isQuizTypeFiltering.collectLatest { isQuizTypeFiltering ->
+                    binding.chipFilterType.bindFiltering(isQuizTypeFiltering)
                 }
+            }
 
-                viewModel.uiEvent.collect { event ->
-                    handleEvent(event)
+            viewModel.uiEvent.collect { event ->
+                handleEvent(event)
+            }
+        }
+    }
+
+    private fun bindTotalProblemsUiState(totalProblemsUiState: TotalProblemsUiState) {
+        when (totalProblemsUiState) {
+            is TotalProblemsUiState.Success -> {
+                val problems = totalProblemsUiState.data.map { problem ->
+                    UserSolvedProblemModel(problem = problem)
                 }
+                Timber.d("Total problems(${problems.size}) added.")
+                totalNoteHeaderAdapter.numOfProblems = problems.size
+                totalNoteAdapter.submitList(problems)
+            }
+            is TotalProblemsUiState.Error -> {
+                // TODO
+            }
+            is TotalProblemsUiState.Loading -> {
+                // TODO
+            }
+        }
+    }
+
+    private fun bindWrongProblemsUiState(wrongProblemsUiState: WrongProblemsUiState) {
+        when (wrongProblemsUiState) {
+            is WrongProblemsUiState.Success -> {
+                val problems = wrongProblemsUiState.data.map { problem ->
+                    UserSolvedProblemModel(problem = problem)
+                }
+                Timber.d("Wrong problems(${problems.size}) added.")
+                wrongNoteHeaderAdapter.numOfProblems = problems.size
+                wrongNoteAdapter.submitList(problems)
+            }
+            is WrongProblemsUiState.Error -> {
+                // TODO
+            }
+            is WrongProblemsUiState.Loading -> {
+                // TODO
+            }
+        }
+    }
+
+    private fun bindSearchedProblemsUiState(searchedProblemsUiState: SearchedProblemsUiState) {
+        when (searchedProblemsUiState) {
+            is SearchedProblemsUiState.Success -> {
+                val problems = searchedProblemsUiState.data.map { problem ->
+                    UserSolvedProblemModel(problem = problem)
+                }
+                Timber.d("Searched problems(${problems.size}) added.")
+                searchedProblemsHeaderAdapter.numOfProblems = problems.size
+                searchedProblemsAdapter.submitList(problems)
+            }
+            is SearchedProblemsUiState.Error -> {
+                // TODO
+            }
+            is SearchedProblemsUiState.Loading -> {
+                // TODO
+            }
+        }
+    }
+
+    private fun bindUserActionUiState(userActionUiState: UserActionUiState) {
+        when (userActionUiState) {
+            is UserActionUiState.OnViewing -> {
+                binding.toolbar.menu.findItem(R.id.search).iconTintList =
+                    color(R.color.daynight_gray700s)
+                binding.chipSearchOff.gone(withAnimation = true)
+                binding.layoutFilter.actionWithChild { isEnabled = true }
+
+                wrongNoteAdapter.show()
+                totalNoteHeaderAdapter.show()
+                totalNoteAdapter.show()
+                searchedProblemsHeaderAdapter.hide()
+                searchedProblemsAdapter.hide()
+            }
+            is UserActionUiState.OnSearching -> {
+                binding.toolbar.menu.findItem(R.id.search).iconTintList =
+                    color(R.color.daynight_pastel_blue)
+                binding.chipSearchOff.visible(withAnimation = true)
+                binding.layoutFilter.actionWithChild { isEnabled = false }
+
+                wrongNoteAdapter.hide()
+                totalNoteHeaderAdapter.hide()
+                totalNoteAdapter.hide()
+                searchedProblemsHeaderAdapter.show()
+                searchedProblemsAdapter.show()
             }
         }
     }
