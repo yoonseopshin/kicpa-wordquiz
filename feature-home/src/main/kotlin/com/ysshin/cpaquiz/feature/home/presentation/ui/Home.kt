@@ -84,7 +84,6 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
         )
-        val scaffoldState = rememberScaffoldState()
         val coroutineScope = rememberCoroutineScope()
         val context = LocalContext.current
 
@@ -103,6 +102,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
             scaffoldState = bottomSheetScaffoldState,
             sheetPeekHeight = 0.dp
         ) {
+            val scaffoldState = rememberScaffoldState()
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
