@@ -8,7 +8,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'com.google.android.gms.oss-licenses-plugin'
     id 'cpaquiz.spotless'
-    id ("com.github.ben-manes.versions") version("0.42.0")
+    id 'cpaquiz.versioning'
 }
 
 def Secrets = new Properties()

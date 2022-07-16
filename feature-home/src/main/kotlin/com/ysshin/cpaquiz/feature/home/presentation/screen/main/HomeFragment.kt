@@ -60,11 +60,6 @@ class HomeFragment : BaseFragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
