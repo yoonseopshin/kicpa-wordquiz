@@ -13,5 +13,13 @@ enum class MainTab {
                 Settings.ordinal -> R.drawable.asld_settings
                 else -> throw IndexOutOfBoundsException()
             }
+
+        fun getContentDescription(position: Int) =
+            when (position) {
+                Home.ordinal -> R.string.home
+                Note.ordinal -> R.string.note
+                Settings.ordinal -> R.string.settings
+                else -> throw IndexOutOfBoundsException()
+            }
     }
 }

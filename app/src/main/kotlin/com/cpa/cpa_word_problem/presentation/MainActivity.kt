@@ -27,6 +27,7 @@ class MainActivity : BaseActivity() {
         )
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.setIcon(MainTab.getIcon(position))
+            tab.setContentDescription(MainTab.getContentDescription(position))
         }.attach()
     }
 
