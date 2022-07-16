@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.CpaQuiz.ProblemDetailActivity" parent="Theme.CpaQuiz.SlideAnimationActivity">
+        <item name="android:statusBarColor">@color/problem_detail_status_bar</item>
+    </style>
+</resources>

@@ -10,21 +10,9 @@
         <item name="colorAccent">@color/secondaryColor</item>
         <item name="android:windowIsTranslucent">false</item>
 
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
         <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
-    </style>
-
-    <style name="Theme.CpaQuiz.SlideAnimationActivity" parent="Theme.CpaQuiz">
-        <item name="android:windowAnimationStyle">@style/Theme.CpaQuiz.SlideAnimation</item>
-    </style>
-
-    <style name="Theme.CpaQuiz.SlideAnimation">
-        <item name="android:activityOpenEnterAnimation">@anim/enter_slide_right</item>
-        <item name="android:activityOpenExitAnimation">@anim/exit_slide_right</item>
-        <item name="android:activityCloseEnterAnimation">@anim/enter_slide_left</item>
-        <item name="android:activityCloseExitAnimation">@anim/exit_slide_left</item>
     </style>
 
 </resources>

@@ -8,7 +8,6 @@
         <item name="actionBarTheme">@style/Theme.CpaQuiz.OssLicenses.ActionBar</item>
         <item name="android:windowAnimationStyle">@style/Theme.CpaQuiz.SlideAnimation</item>
 
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
         <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
