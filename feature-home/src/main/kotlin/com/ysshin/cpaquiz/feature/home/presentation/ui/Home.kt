@@ -2,6 +2,12 @@ package com.ysshin.cpaquiz.feature.home.presentation.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +43,7 @@ import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
@@ -51,6 +58,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
@@ -222,23 +230,76 @@ fun HomeTopAppBar(
             },
             backgroundColor = colorResource(id = R.color.theme_color),
             actions = {
-                IconButton(onClick = {
-                    Timber.d("HomeScreen settings UI expanded")
-                    scope.launch {
-                        bottomSheetScaffoldState.bottomSheetState.expand()
-                    }
-                }) {
-                    Icon(
-                        imageVector = Icons.Outlined.Settings,
-                        contentDescription = stringResource(id = R.string.settings),
-                        tint = if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                            colorResource(id = R.color.daynight_pastel_blue)
-                        } else {
-                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-                        }
-                    )
-                }
+                HomeTopMenu(bottomSheetScaffoldState, scope)
             }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun HomeTopMenu(
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    scope: CoroutineScope = rememberCoroutineScope(),
+) {
+    IconButton(onClick = {
+        Timber.d("HomeScreen settings UI expanded")
+        scope.launch {
+            bottomSheetScaffoldState.bottomSheetState.expand()
+        }
+    }) {
+        val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
+
+        val transition =
+            updateTransition(targetState = isMenuExpanded, label = "SettingsMenuIconTransition")
+
+        val tint by transition.animateColor(
+            transitionSpec = {
+                if (false isTransitioningTo true) {
+                    spring(stiffness = Spring.StiffnessMedium)
+                } else {
+                    spring(stiffness = Spring.StiffnessLow)
+                }
+            },
+            label = "SettingsMenuIconColor"
+        ) { isExpanded ->
+            if (isExpanded) {
+                colorResource(id = R.color.daynight_pastel_blue)
+            } else {
+                LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+            }
+        }
+
+        val rotationDegree by transition.animateFloat(
+            transitionSpec = {
+                if (false isTransitioningTo true) {
+                    spring(stiffness = Spring.StiffnessMedium)
+                } else {
+                    spring(stiffness = Spring.StiffnessLow)
+                }
+            },
+            label = "SettingsMenuIconRotationDegree"
+        ) { isExpanded ->
+            if (isExpanded) 240f else 0f
+        }
+
+        val size by transition.animateDp(transitionSpec = {
+            if (false isTransitioningTo true) {
+                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
+            } else {
+                spring(stiffness = Spring.StiffnessLow)
+            }
+        }, label = "SettingsMenuIconSize") { isExpanded ->
+            if (isExpanded) 32.dp else 24.dp
+        }
+
+        Icon(
+            imageVector = if (isMenuExpanded) Icons.Filled.Settings else Icons.Outlined.Settings,
+            contentDescription = stringResource(id = R.string.settings),
+            tint = tint,
+            modifier = Modifier
+                .rotate(rotationDegree)
+                .size(size)
         )
     }
 }
