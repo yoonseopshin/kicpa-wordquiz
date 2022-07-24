@@ -2,11 +2,18 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -591,7 +598,7 @@ fun NoteHeader(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun NoteTopMenu(
     viewModel: NoteViewModel,
@@ -599,7 +606,11 @@ fun NoteTopMenu(
     isSearching: Boolean,
     scope: CoroutineScope,
 ) {
-    if (isSearching) {
+    AnimatedVisibility(
+        visible = isSearching,
+        enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
+        exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
+    ) {
         Chip(
             onClick = { viewModel.updateUserInput("") },
             colors = ChipDefaults.chipColors(
