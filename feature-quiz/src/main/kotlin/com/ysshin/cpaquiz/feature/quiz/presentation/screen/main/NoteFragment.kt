@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@Deprecated("Migrate to NoteComposeFragment")
 @FlowPreview
 @AndroidEntryPoint
 class NoteFragment : BaseFragment() {
@@ -139,11 +140,6 @@ class NoteFragment : BaseFragment() {
                 adapter.addAdapter(0, adNativeBannerOnNoteAdapter)
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(

@@ -30,7 +30,7 @@ class NoteViewModel @Inject constructor(
 
     private val wrongProblems = problemUseCases.getWrongProblems().asResult()
 
-    private val userInputText = MutableStateFlow("")
+    val userInputText = MutableStateFlow("")
     private val isSearching get() = userInputText.value.isNotBlank()
 
     private val noteFilter = MutableStateFlow(NoteFilter())
@@ -141,6 +141,36 @@ class NoteViewModel @Inject constructor(
     fun showSnackbar(message: String) {
         viewModelScope.launch {
             _uiEvent.emit(NoteUiEvent.ShowSnackbar(message))
+        }
+    }
+
+    private val _isDeleteWrongProblemDialogOpened = MutableStateFlow(false)
+    val isDeleteWrongProblemDialogOpened = _isDeleteWrongProblemDialogOpened.asStateFlow()
+    private lateinit var targetProblem: Problem
+
+    private val _isDeleteAllWrongProblemsDialogOpened = MutableStateFlow(false)
+    val isDeleteAllWrongProblemsDialogOpened = _isDeleteAllWrongProblemsDialogOpened.asStateFlow()
+
+    fun updateDeleteWrongProblemDialogOpened(value: Boolean, problem: Problem? = null) {
+        _isDeleteWrongProblemDialogOpened.update { value }
+        if (value && problem != null) {
+            targetProblem = problem
+        }
+    }
+
+    fun deleteTargetWrongProblem() {
+        viewModelScope.launch {
+            problemUseCases.deleteWrongProblem(targetProblem)
+        }
+    }
+
+    fun updateDeleteAllWrongProblemsDialogOpened(value: Boolean) {
+        _isDeleteAllWrongProblemsDialogOpened.update { value }
+    }
+
+    fun deleteAllWrongProblems() {
+        viewModelScope.launch {
+            problemUseCases.deleteAllWrongProblems.invoke()
         }
     }
 }

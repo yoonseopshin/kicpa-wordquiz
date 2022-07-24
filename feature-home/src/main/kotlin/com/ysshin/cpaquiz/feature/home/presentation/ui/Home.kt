@@ -76,6 +76,7 @@ import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.ad.NativeMediumAd
+import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialog
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
@@ -95,7 +96,6 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
         val coroutineScope = rememberCoroutineScope()
         val context = LocalContext.current
 
-        // NOTE: After migrating to Jetpack Compose, it will work fine, but not now.
         BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
             coroutineScope.launch {
                 bottomSheetScaffoldState.bottomSheetState.collapse()
@@ -367,7 +367,7 @@ fun QuizCard(
 fun HomeSettingsBottomSheetContent(viewModel: HomeViewModel = viewModel()) {
     LazyColumn {
         item {
-            HomeBottomSheetHandle()
+            BottomSheetHandle()
         }
 
         item {
@@ -435,22 +435,6 @@ fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Cons
                 color = colorResource(id = R.color.daynight_gray900s)
             )
         }
-    }
-}
-
-@Composable
-fun HomeBottomSheetHandle() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = colorResource(id = R.color.daynight_gray050s))
-            .padding(vertical = 12.dp),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Card(
-            modifier = Modifier.size(width = 80.dp, height = 4.dp),
-            backgroundColor = colorResource(id = R.color.daynight_gray800s)
-        ) {}
     }
 }
 
