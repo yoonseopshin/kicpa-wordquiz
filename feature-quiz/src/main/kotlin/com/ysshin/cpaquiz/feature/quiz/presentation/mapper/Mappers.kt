@@ -2,6 +2,7 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.mapper
 
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.model.WrongProblemModel
 
 fun Problem.toModel() = ProblemModel(
     year = year,
@@ -30,3 +31,5 @@ fun List<ProblemModel>.toDomain() = map { it.toDomain() }
 
 @JvmName("problemListToModel")
 fun List<Problem>.toModel() = map { it.toModel() }
+
+fun Problem.toWrongProblemModel() = WrongProblemModel(this)

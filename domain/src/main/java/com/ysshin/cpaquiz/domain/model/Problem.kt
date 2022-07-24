@@ -19,4 +19,4 @@ data class Problem(
     }
 }
 
-fun Problem.isValid() = year > 0 && pid > 0 && description.isNotBlank()
+fun Problem.isValid() = year > 0 && pid > 0

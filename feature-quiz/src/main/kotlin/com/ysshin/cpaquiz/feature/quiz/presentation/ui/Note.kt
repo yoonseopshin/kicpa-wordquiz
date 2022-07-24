@@ -1,6 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
-import android.view.inputmethod.EditorInfo
+import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.Spring
@@ -9,6 +9,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +20,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.BottomSheetValue
@@ -34,6 +38,8 @@ import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -52,45 +58,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.isValid
 import com.ysshin.cpaquiz.feature.quiz.R
-import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutBottomSheetSearchBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.SearchedProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.TotalProblemsUiState
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.UserActionUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
-import com.ysshin.cpaquiz.shared.android.util.textChanges
 import com.ysshin.cpaquiz.shared.base.Action
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
     CpaQuizTheme {
@@ -132,6 +137,7 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                             backgroundColor = colorResource(id = R.color.theme_color),
                             actions = {
                                 NoteTopMenu(
+                                    viewModel,
                                     bottomSheetScaffoldState,
                                     userInput.value.isNotBlank(),
                                     coroutineScope
@@ -143,78 +149,102 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
             ) { padding ->
                 val uiState = viewModel.uiState.collectAsState()
 
-                val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsState()
-                if (openDeleteWrongProblemDialog.value) {
-                    AppInfoDialog(
-                        icon = painterResource(id = R.drawable.ic_delete),
-                        title = stringResource(id = R.string.delete_wrong_problem),
-                        description = stringResource(id = R.string.question_delete_wrong_note),
-                        onConfirm = {
-                            viewModel.deleteTargetWrongProblem()
-                            viewModel.updateDeleteWrongProblemDialogOpened(false)
-                        },
-                        onDismiss = {
-                            viewModel.updateDeleteWrongProblemDialogOpened(false)
-                        }
-                    )
-                }
-
                 LazyColumn(modifier = Modifier.padding(padding)) {
-                    val wrongProblemsUiState = uiState.value.wrongProblemsUiState
-
                     item {
-                        WrongNoteHeaderContent(viewModel, wrongProblemsUiState)
+                        // TODO: Add small size NativeAd
                     }
 
-                    if (wrongProblemsUiState is WrongProblemsUiState.Success) {
-                        items(
-                            items = wrongProblemsUiState.data,
-                            key = { problem ->
-                                problem.hashCode()
-                            }
-                        ) { problem ->
-                            NoteSummaryContent(
-                                problem = problem,
-                                onProblemClick = {
-                                    context.startActivity(
-                                        ProblemDetailActivity.newIntent(
-                                            context,
-                                            ProblemDetailMode.Detail,
-                                            problem.toModel()
-                                        ),
-                                    )
-                                },
-                                onProblemLongClick = {
-                                    viewModel.updateDeleteWrongProblemDialogOpened(true, problem)
-                                }
-                            ).takeIf { problem.isValid() }
-                        }
-                    }
-
-                    val totalProblemsUiState = uiState.value.totalProblemsUiState
-
-                    item {
-                        TotalNoteHeaderContent(totalProblemsUiState)
-                    }
-
-                    if (totalProblemsUiState is TotalProblemsUiState.Success) {
-                        items(totalProblemsUiState.data) { problem ->
-                            NoteSummaryContent(
-                                problem = problem,
-                                onProblemClick = {
-                                    context.startActivity(
-                                        ProblemDetailActivity.newIntent(
-                                            context,
-                                            ProblemDetailMode.Detail,
-                                            problem.toModel()
-                                        ),
-                                    )
-                                }
-                            ).takeIf { problem.isValid() }
-                        }
+                    when (uiState.value.userActionUiState) {
+                        UserActionUiState.OnViewing ->
+                            bindOnViewingContent(context, viewModel, uiState.value)
+                        UserActionUiState.OnSearching ->
+                            bindOnSearchingContent(
+                                context,
+                                viewModel,
+                                uiState.value.searchedProblemsUiState
+                            )
                     }
                 }
             }
+        }
+    }
+}
+
+private fun LazyListScope.bindOnSearchingContent(
+    context: Context,
+    viewModel: NoteViewModel,
+    uiState: SearchedProblemsUiState,
+) {
+    if (uiState is SearchedProblemsUiState.Success) {
+        item {
+            SearchedNoteHeaderContent(uiState)
+        }
+
+        items(
+            items = uiState.data,
+            key = { problem ->
+                problem.hashCode()
+            }
+        ) { problem ->
+            NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
+        }
+    }
+}
+
+private fun LazyListScope.bindOnViewingContent(
+    context: Context,
+    viewModel: NoteViewModel,
+    uiState: NoteUiState,
+) {
+    bindWrongProblemsUiState(context, viewModel, uiState.wrongProblemsUiState)
+    bindTotalProblemsUiState(context, viewModel, uiState.totalProblemsUiState)
+}
+
+private fun LazyListScope.bindWrongProblemsUiState(
+    context: Context,
+    viewModel: NoteViewModel,
+    uiState: WrongProblemsUiState,
+) {
+    if (uiState is WrongProblemsUiState.Success) {
+        item {
+            WrongNoteHeaderContent(viewModel, uiState)
+        }
+
+        items(
+            items = uiState.data.map { it.toWrongProblemModel() },
+            key = { wrongProblemModel ->
+                wrongProblemModel.hashCode()
+            }
+        ) { wrongProblemModel ->
+            val problem = wrongProblemModel.problem
+            NoteSummaryContent(
+                problem = problem,
+                onProblemLongClick = {
+                    Timber.d("Target problem: $problem")
+                    viewModel.updateDeleteWrongProblemDialogOpened(true, problem)
+                }
+            ).takeIf { problem.isValid() }
+        }
+    }
+}
+
+private fun LazyListScope.bindTotalProblemsUiState(
+    context: Context,
+    viewModel: NoteViewModel,
+    uiState: TotalProblemsUiState,
+) {
+    if (uiState is TotalProblemsUiState.Success) {
+        item {
+            TotalNoteHeaderContent(uiState)
+        }
+
+        items(
+            items = uiState.data,
+            key = { problem ->
+                problem.hashCode()
+            }
+        ) { problem ->
+            NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
         }
     }
 }
@@ -264,16 +294,46 @@ fun WrongNoteHeaderContent(viewModel: NoteViewModel = viewModel(), state: WrongP
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun NoteSummaryContent(problem: Problem, onProblemClick: Action = {}, onProblemLongClick: Action = {}) {
+fun NoteSummaryContent(
+    viewModel: NoteViewModel = viewModel(),
+    problem: Problem,
+    onProblemLongClick: Action? = null,
+) {
+    val context = LocalContext.current
+
+    val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsState()
+    if (openDeleteWrongProblemDialog.value) {
+        AppInfoDialog(
+            icon = painterResource(id = R.drawable.ic_delete),
+            title = stringResource(id = R.string.delete_wrong_problem),
+            description = stringResource(id = R.string.question_delete_wrong_note),
+            onConfirm = {
+                viewModel.deleteTargetWrongProblem()
+                viewModel.updateDeleteWrongProblemDialogOpened(false)
+            },
+            onDismiss = {
+                viewModel.updateDeleteWrongProblemDialogOpened(false)
+            }
+        )
+    }
+
     val haptic = LocalHapticFeedback.current
 
     Column(
         modifier = Modifier
             .combinedClickable(
-                onClick = onProblemClick,
+                onClick = {
+                    context.startActivity(
+                        ProblemDetailActivity.newIntent(
+                            context,
+                            ProblemDetailMode.Detail,
+                            problem.toModel()
+                        ),
+                    )
+                },
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onProblemLongClick()
+                    onProblemLongClick?.invoke()
                 }
             )
             .fillMaxWidth()
@@ -295,7 +355,8 @@ fun NoteSummaryContent(problem: Problem, onProblemClick: Action = {}, onProblemL
                         width = 0.5.dp,
                         color = colorResource(id = R.color.daynight_gray300s)
                     ),
-                    modifier = Modifier.padding(all = 4.dp)
+                    modifier = Modifier
+                        .padding(all = 4.dp)
                 ) {
                     Text(text = "${problem.year}년 ${problem.pid}번")
                 }
@@ -385,6 +446,29 @@ fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
     }
 }
 
+@Composable
+fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
+    when (state) {
+        is SearchedProblemsUiState.Success -> {
+            val problems = state.data.map { problem ->
+                UserSolvedProblemModel(problem = problem)
+            }
+            Timber.d("Searched problems(${problems.size}) added.")
+
+            NoteHeader(
+                title = stringResource(id = R.string.searched_problem),
+                numOfProblems = problems.size
+            )
+        }
+        is SearchedProblemsUiState.Error -> {
+            // TODO
+        }
+        is SearchedProblemsUiState.Loading -> {
+            // TODO
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteSearchBottomSheetContent(
@@ -403,34 +487,61 @@ fun NoteSearchBottomSheetContent(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun BottomSheetSearchContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
-    AndroidViewBinding(factory = LayoutBottomSheetSearchBinding::inflate) {
-        etSearch.textChanges()
-            .map { it?.toString() ?: "" }
-            .debounce(300L)
-            .onEach { viewModel.updateUserInput(it) }
-            .launchIn(scope)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(colorResource(id = R.color.daynight_gray050s)),
+    ) {
+        val userInput = viewModel.userInputText.collectAsState()
+        val keyboardController = LocalSoftwareKeyboardController.current
 
-        etSearch.setOnEditorActionListener { _, actionId, _ ->
-            when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
+        TextField(
+            value = userInput.value,
+            onValueChange = { text -> viewModel.updateUserInput(text) },
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth(),
+            maxLines = 1,
+            placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(id = R.color.daynight_gray900s),
+                backgroundColor = colorResource(id = R.color.daynight_gray050a),
+                cursorColor = MaterialTheme.colors.secondary,
+                disabledTextColor = colorResource(id = R.color.daynight_gray500s),
+            ),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Text
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
                     scope.launch {
                         bottomSheetScaffoldState.bottomSheetState.collapse()
+                        keyboardController?.hide()
                     }
-                    true
                 }
-                else -> false
-            }
-        }
+            )
+        )
 
-        ivClear.setOnThrottleClick {
-            etSearch.text.clear()
+        IconButton(
+            onClick = { viewModel.updateUserInput("") },
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(4.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_cancel),
+                contentDescription = stringResource(id = R.string.clear_note_searching),
+                tint = colorResource(id = R.color.daynight_gray500s)
+            )
         }
     }
 }
@@ -483,10 +594,34 @@ fun NoteHeader(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteTopMenu(
+    viewModel: NoteViewModel,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     isSearching: Boolean,
     scope: CoroutineScope,
 ) {
+    if (isSearching) {
+        Chip(
+            onClick = { viewModel.updateUserInput("") },
+            colors = ChipDefaults.chipColors(
+                backgroundColor = colorResource(id = R.color.secondaryColor_0_15)
+            ),
+            border = BorderStroke(
+                width = 0.5.dp,
+                color = colorResource(id = R.color.secondaryColor)
+            ),
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_search_off),
+                    contentDescription = stringResource(id = R.string.clear_note_searching),
+                    tint = colorResource(id = R.color.secondaryColor),
+                    modifier = Modifier.padding(start = 4.dp)
+                )
+            },
+        ) {
+            Text(text = stringResource(id = R.string.clear_note_searching))
+        }
+    }
+
     IconButton(onClick = {
         scope.launch {
             bottomSheetScaffoldState.bottomSheetState.expand()
