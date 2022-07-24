@@ -56,12 +56,16 @@ import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -501,13 +505,24 @@ fun BottomSheetSearchContent(
     viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    SideEffect {
+        if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+            keyboardController?.show()
+            focusRequester.requestFocus()
+        } else if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+            keyboardController?.hide()
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(colorResource(id = R.color.daynight_gray050s)),
     ) {
         val userInput = viewModel.userInputText.collectAsState()
-        val keyboardController = LocalSoftwareKeyboardController.current
 
         TextField(
             value = userInput.value,
@@ -515,7 +530,8 @@ fun BottomSheetSearchContent(
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
             maxLines = 1,
             placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
             colors = TextFieldDefaults.textFieldColors(
@@ -532,7 +548,6 @@ fun BottomSheetSearchContent(
                 onDone = {
                     scope.launch {
                         bottomSheetScaffoldState.bottomSheetState.collapse()
-                        keyboardController?.hide()
                     }
                 }
             )
