@@ -73,6 +73,7 @@ import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
+import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeBottomSheetContentState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.ad.NativeMediumAd
@@ -102,9 +103,14 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
             }
         }
 
+        val bottomSheetContentState by viewModel.bottomSheetContentState
+
         BottomSheetScaffold(
             sheetContent = {
-                HomeSettingsBottomSheetContent(viewModel)
+                when (bottomSheetContentState) {
+                    is HomeBottomSheetContentState.Settings -> HomeSettingsBottomSheetContent(viewModel)
+                    is HomeBottomSheetContentState.None -> Unit
+                }
             },
             sheetBackgroundColor = MaterialTheme.colors.onSurface,
             scaffoldState = bottomSheetScaffoldState,
@@ -117,6 +123,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
                     val dday by viewModel.dday.collectAsState()
                     HomeTopAppBar(
                         dday = dday,
+                        viewModel = viewModel,
                         scope = coroutineScope,
                         bottomSheetScaffoldState = bottomSheetScaffoldState
                     )
@@ -217,6 +224,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
 @Composable
 fun HomeTopAppBar(
     dday: String,
+    viewModel: HomeViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
 ) {
@@ -230,7 +238,7 @@ fun HomeTopAppBar(
             },
             backgroundColor = colorResource(id = R.color.theme_color),
             actions = {
-                HomeTopMenu(bottomSheetScaffoldState, scope)
+                HomeTopMenu(viewModel, bottomSheetScaffoldState, scope)
             }
         )
     }
@@ -239,12 +247,14 @@ fun HomeTopAppBar(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeTopMenu(
+    viewModel: HomeViewModel,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     IconButton(onClick = {
         Timber.d("HomeScreen settings UI expanded")
         scope.launch {
+            viewModel.updateBottomSheetContentState(HomeBottomSheetContentState.Settings)
             bottomSheetScaffoldState.bottomSheetState.expand()
         }
     }) {
@@ -365,6 +375,7 @@ fun QuizCard(
 
 @Composable
 fun HomeSettingsBottomSheetContent(viewModel: HomeViewModel = viewModel()) {
+    Timber.d("bottomSheetContentState: Settings")
     LazyColumn {
         item {
             BottomSheetHandle()
@@ -374,9 +385,7 @@ fun HomeSettingsBottomSheetContent(viewModel: HomeViewModel = viewModel()) {
             val quizNumber by viewModel.quizNumber.collectAsState()
             HomeQuizNumberBottomSheetListItem(
                 quizNumber = quizNumber,
-                onQuizNumberConfirm = {
-                    viewModel.setQuizNumber(it)
-                }
+                onQuizNumberConfirm = viewModel::setQuizNumber
             )
         }
 
@@ -386,15 +395,11 @@ fun HomeSettingsBottomSheetContent(viewModel: HomeViewModel = viewModel()) {
             HomeSettingsBottomSheetListItem(
                 icon = painterResource(id = R.drawable.ic_timer),
                 text = stringResource(id = R.string.timer),
-                onBottomSheetItemClick = {
-                    viewModel.toggleTimer()
-                }
+                onBottomSheetItemClick = viewModel::toggleTimer
             ) {
                 Switch(
                     checked = useTimer,
-                    onCheckedChange = {
-                        viewModel.setTimer(it)
-                    }
+                    onCheckedChange = viewModel::setTimer
                 )
             }
         }

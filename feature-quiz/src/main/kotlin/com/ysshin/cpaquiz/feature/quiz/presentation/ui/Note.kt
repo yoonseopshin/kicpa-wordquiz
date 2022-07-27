@@ -49,7 +49,9 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
@@ -91,6 +93,7 @@ import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteBottomSheetContentState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.SearchedProblemsUiState
@@ -123,9 +126,19 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
             }
         }
 
+        val bottomSheetContentState by viewModel.bottomSheetContentState
+
         BottomSheetScaffold(
             sheetContent = {
-                NoteSearchBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
+                when (bottomSheetContentState) {
+                    is NoteBottomSheetContentState.Filter -> {
+                        NoteFilterBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
+                    }
+                    is NoteBottomSheetContentState.Search -> {
+                        NoteSearchBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
+                    }
+                    is NoteBottomSheetContentState.None -> Unit
+                }
             },
             sheetBackgroundColor = MaterialTheme.colors.onSurface,
             scaffoldState = bottomSheetScaffoldState,
@@ -136,6 +149,8 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                 scaffoldState = scaffoldState,
                 topBar = {
                     val userInput = viewModel.userInputText.collectAsState()
+                    val isYearFiltering = viewModel.isYearFiltering.collectAsState()
+                    val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsState()
 
                     CompositionLocalProvider(LocalElevationOverlay provides null) {
                         TopAppBar(
@@ -151,6 +166,7 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                                     viewModel,
                                     bottomSheetScaffoldState,
                                     userInput.value.isNotBlank(),
+                                    isYearFiltering.value || isQuizTypeFiltering.value,
                                     coroutineScope
                                 )
                             }
@@ -482,6 +498,18 @@ fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
+fun NoteFilterBottomSheetContent(
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    viewModel: NoteViewModel = viewModel(),
+    scope: CoroutineScope = rememberCoroutineScope(),
+) {
+    Column {
+        Text(text = "Hello Filter!!")
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
 fun NoteSearchBottomSheetContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     viewModel: NoteViewModel = viewModel(),
@@ -619,6 +647,7 @@ fun NoteTopMenu(
     viewModel: NoteViewModel,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     isSearching: Boolean,
+    isFiltering: Boolean,
     scope: CoroutineScope,
 ) {
     AnimatedVisibility(
@@ -650,6 +679,53 @@ fun NoteTopMenu(
 
     IconButton(onClick = {
         scope.launch {
+            viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Filter)
+            bottomSheetScaffoldState.bottomSheetState.expand()
+        }
+    }) {
+        val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
+
+        val transition =
+            updateTransition(targetState = isFiltering, label = "FilteringMenuIconTransition")
+
+        val tint by transition.animateColor(
+            transitionSpec = {
+                if (false isTransitioningTo true) {
+                    spring(stiffness = Spring.StiffnessMedium)
+                } else {
+                    spring(stiffness = Spring.StiffnessLow)
+                }
+            },
+            label = "FilteringMenuIconColor"
+        ) { isExpanded ->
+            if (isExpanded) {
+                colorResource(id = R.color.daynight_pastel_blue)
+            } else {
+                LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+            }
+        }
+
+        val size by transition.animateDp(transitionSpec = {
+            if (false isTransitioningTo true) {
+                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
+            } else {
+                spring(stiffness = Spring.StiffnessLow)
+            }
+        }, label = "FilteringMenuIconSize") { isExpanded ->
+            if (isExpanded) 32.dp else 24.dp
+        }
+
+        Icon(
+            imageVector = if (isMenuExpanded) Icons.Filled.MoreVert else Icons.Outlined.MoreVert,
+            contentDescription = stringResource(id = R.string.filter),
+            tint = tint,
+            modifier = Modifier.size(size)
+        )
+    }
+
+    IconButton(onClick = {
+        scope.launch {
+            viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Search)
             bottomSheetScaffoldState.bottomSheetState.expand()
         }
     }) {

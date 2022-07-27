@@ -1,5 +1,8 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.main
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
@@ -10,6 +13,7 @@ import com.ysshin.cpaquiz.shared.base.Result
 import com.ysshin.cpaquiz.shared.base.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -173,6 +177,19 @@ class NoteViewModel @Inject constructor(
             problemUseCases.deleteAllWrongProblems.invoke()
         }
     }
+
+    private val _bottomSheetContentState: MutableState<NoteBottomSheetContentState> =
+        mutableStateOf(NoteBottomSheetContentState.None)
+    val bottomSheetContentState: State<NoteBottomSheetContentState>
+        get() = _bottomSheetContentState
+
+    suspend fun updateBottomSheetContentState(state: NoteBottomSheetContentState) {
+        val originState = _bottomSheetContentState.value
+        _bottomSheetContentState.value = state
+        if (originState == NoteBottomSheetContentState.None) {
+            delay(100)
+        }
+    }
 }
 
 sealed interface TotalProblemsUiState {
@@ -209,4 +226,10 @@ data class NoteUiState(
 
 sealed interface NoteUiEvent {
     data class ShowSnackbar(val message: String) : NoteUiEvent
+}
+
+sealed interface NoteBottomSheetContentState {
+    object Filter : NoteBottomSheetContentState
+    object Search : NoteBottomSheetContentState
+    object None : NoteBottomSheetContentState
 }
