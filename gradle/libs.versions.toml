@@ -22,7 +22,7 @@ material = "1.7.0-alpha03"
 room = "2.4.2"
 datastore = "1.0.0"
 hilt = "2.42"
-compose = "1.2.0-beta03"
+compose = "1.2.0-beta02"
 coroutines = "1.6.4"
 
 junit = "4.13.2"

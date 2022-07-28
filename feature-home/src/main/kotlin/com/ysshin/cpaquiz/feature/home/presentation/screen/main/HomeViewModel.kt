@@ -121,12 +121,8 @@ class HomeViewModel @Inject constructor(
     val bottomSheetContentState: State<HomeBottomSheetContentState>
         get() = _bottomSheetContentState
 
-    suspend fun updateBottomSheetContentState(state: HomeBottomSheetContentState) {
-        val originState = _bottomSheetContentState.value
+    fun updateBottomSheetContentState(state: HomeBottomSheetContentState) {
         _bottomSheetContentState.value = state
-        if (originState == HomeBottomSheetContentState.None) {
-            delay(100)
-        }
     }
 }
 

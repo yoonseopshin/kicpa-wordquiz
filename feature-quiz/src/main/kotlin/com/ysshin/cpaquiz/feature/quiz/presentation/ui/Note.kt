@@ -130,6 +130,7 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
 
         BottomSheetScaffold(
             sheetContent = {
+                // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
                 when (bottomSheetContentState) {
                     is NoteBottomSheetContentState.Filter -> {
                         NoteFilterBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
@@ -503,8 +504,14 @@ fun NoteFilterBottomSheetContent(
     viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
-    Column {
-        Text(text = "Hello Filter!!")
+    LazyColumn {
+        item {
+            BottomSheetHandle()
+        }
+
+        item {
+            // TODO: Implement filter UI
+        }
     }
 }
 

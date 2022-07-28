@@ -183,12 +183,8 @@ class NoteViewModel @Inject constructor(
     val bottomSheetContentState: State<NoteBottomSheetContentState>
         get() = _bottomSheetContentState
 
-    suspend fun updateBottomSheetContentState(state: NoteBottomSheetContentState) {
-        val originState = _bottomSheetContentState.value
+    fun updateBottomSheetContentState(state: NoteBottomSheetContentState) {
         _bottomSheetContentState.value = state
-        if (originState == NoteBottomSheetContentState.None) {
-            delay(100)
-        }
     }
 }
 

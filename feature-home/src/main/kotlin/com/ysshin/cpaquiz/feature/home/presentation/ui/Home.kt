@@ -107,6 +107,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
 
         BottomSheetScaffold(
             sheetContent = {
+                // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
                 when (bottomSheetContentState) {
                     is HomeBottomSheetContentState.Settings -> HomeSettingsBottomSheetContent(viewModel)
                     is HomeBottomSheetContentState.None -> Unit
