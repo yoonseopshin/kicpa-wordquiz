@@ -1,8 +1,5 @@
 package com.ysshin.cpaquiz.feature.home.presentation.screen.main
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.domain.model.DEFAULT_QUIZ_NUMBER
 import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
@@ -17,7 +14,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -115,18 +111,4 @@ class HomeViewModel @Inject constructor(
             quizUseCases.setQuizNumber(value)
         }
     }
-
-    private val _bottomSheetContentState: MutableState<HomeBottomSheetContentState> =
-        mutableStateOf(HomeBottomSheetContentState.None)
-    val bottomSheetContentState: State<HomeBottomSheetContentState>
-        get() = _bottomSheetContentState
-
-    fun updateBottomSheetContentState(state: HomeBottomSheetContentState) {
-        _bottomSheetContentState.value = state
-    }
-}
-
-sealed interface HomeBottomSheetContentState {
-    object None : HomeBottomSheetContentState
-    object Settings : HomeBottomSheetContentState
 }

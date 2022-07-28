@@ -13,7 +13,6 @@ import com.ysshin.cpaquiz.shared.base.Result
 import com.ysshin.cpaquiz.shared.base.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

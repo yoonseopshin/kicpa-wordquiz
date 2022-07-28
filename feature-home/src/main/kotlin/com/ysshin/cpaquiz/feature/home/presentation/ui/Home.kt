@@ -73,7 +73,6 @@ import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
-import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeBottomSheetContentState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.ad.NativeMediumAd
@@ -103,15 +102,10 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
             }
         }
 
-        val bottomSheetContentState by viewModel.bottomSheetContentState
-
         BottomSheetScaffold(
             sheetContent = {
                 // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
-                when (bottomSheetContentState) {
-                    is HomeBottomSheetContentState.Settings -> HomeSettingsBottomSheetContent(viewModel)
-                    is HomeBottomSheetContentState.None -> Unit
-                }
+                HomeSettingsBottomSheetContent(viewModel)
             },
             sheetBackgroundColor = MaterialTheme.colors.onSurface,
             scaffoldState = bottomSheetScaffoldState,
@@ -255,11 +249,12 @@ fun HomeTopMenu(
     IconButton(onClick = {
         Timber.d("HomeScreen settings UI expanded")
         scope.launch {
-            viewModel.updateBottomSheetContentState(HomeBottomSheetContentState.Settings)
             bottomSheetScaffoldState.bottomSheetState.expand()
         }
     }) {
         val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
+
+        Timber.d("isMenuExpanded: $isMenuExpanded")
 
         val transition =
             updateTransition(targetState = isMenuExpanded, label = "SettingsMenuIconTransition")
