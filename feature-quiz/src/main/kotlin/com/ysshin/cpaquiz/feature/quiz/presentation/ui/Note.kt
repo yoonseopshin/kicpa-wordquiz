@@ -1,6 +1,5 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
-import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -150,7 +149,7 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                 // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
                 when (bottomSheetContentState) {
                     is NoteBottomSheetContentState.Filter -> {
-                        NoteFilterBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
+                        NoteFilterBottomSheetContent(viewModel)
                     }
                     is NoteBottomSheetContentState.Search -> {
                         NoteSearchBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
@@ -201,13 +200,9 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
 
                     when (uiState.value.userActionUiState) {
                         UserActionUiState.OnViewing ->
-                            bindOnViewingContent(context, viewModel, uiState.value)
+                            bindOnViewingContent(viewModel, uiState.value)
                         UserActionUiState.OnSearching ->
-                            bindOnSearchingContent(
-                                context,
-                                viewModel,
-                                uiState.value.searchedProblemsUiState
-                            )
+                            bindOnSearchingContent(uiState.value.searchedProblemsUiState)
                     }
                 }
             }
@@ -216,8 +211,6 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
 }
 
 private fun LazyListScope.bindOnSearchingContent(
-    context: Context,
-    viewModel: NoteViewModel,
     uiState: SearchedProblemsUiState,
 ) {
     if (uiState is SearchedProblemsUiState.Success) {
@@ -237,16 +230,14 @@ private fun LazyListScope.bindOnSearchingContent(
 }
 
 private fun LazyListScope.bindOnViewingContent(
-    context: Context,
     viewModel: NoteViewModel,
     uiState: NoteUiState,
 ) {
-    bindWrongProblemsUiState(context, viewModel, uiState.wrongProblemsUiState)
-    bindTotalProblemsUiState(context, viewModel, uiState.totalProblemsUiState)
+    bindWrongProblemsUiState(viewModel, uiState.wrongProblemsUiState)
+    bindTotalProblemsUiState(uiState.totalProblemsUiState)
 }
 
 private fun LazyListScope.bindWrongProblemsUiState(
-    context: Context,
     viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
 ) {
@@ -274,8 +265,6 @@ private fun LazyListScope.bindWrongProblemsUiState(
 }
 
 private fun LazyListScope.bindTotalProblemsUiState(
-    context: Context,
-    viewModel: NoteViewModel,
     uiState: TotalProblemsUiState,
 ) {
     if (uiState is TotalProblemsUiState.Success) {
@@ -502,12 +491,9 @@ fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteFilterBottomSheetContent(
-    bottomSheetScaffoldState: BottomSheetScaffoldState,
     viewModel: NoteViewModel = viewModel(),
-    scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     LazyColumn {
         item {
