@@ -20,7 +20,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +27,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -44,9 +42,9 @@ import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -80,6 +78,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -102,6 +101,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.TotalProblemsUiS
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.UserActionUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
@@ -210,11 +210,12 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.bindOnSearchingContent(
     uiState: SearchedProblemsUiState,
 ) {
     if (uiState is SearchedProblemsUiState.Success) {
-        item {
+        stickyHeader {
             SearchedNoteHeaderContent(uiState)
         }
 
@@ -237,12 +238,13 @@ private fun LazyListScope.bindOnViewingContent(
     bindTotalProblemsUiState(uiState.totalProblemsUiState)
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.bindWrongProblemsUiState(
     viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
 ) {
     if (uiState is WrongProblemsUiState.Success) {
-        item {
+        stickyHeader {
             WrongNoteHeaderContent(viewModel, uiState)
         }
 
@@ -264,11 +266,12 @@ private fun LazyListScope.bindWrongProblemsUiState(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.bindTotalProblemsUiState(
     uiState: TotalProblemsUiState,
 ) {
     if (uiState is TotalProblemsUiState.Success) {
-        item {
+        stickyHeader {
             TotalNoteHeaderContent(uiState)
         }
 
@@ -442,7 +445,31 @@ fun NoteSummaryContent(
         }
 
         Text(
-            text = problem.description, maxLines = 2, overflow = TextOverflow.Ellipsis,
+            text = buildAnnotatedString {
+                for (keyword in QuizUtil.highlightKeywords) {
+                    if (problem.description.contains(keyword)) {
+                        val start = problem.description.indexOf(keyword)
+                        val end = start + keyword.length
+
+                        append(problem.description.substring(0, start))
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Bold,
+                                color = colorResource(id = R.color.daynight_gray900s),
+                                textDecoration = TextDecoration.Underline,
+                            )
+                        ) {
+                            append(problem.description.substring(start, end))
+                        }
+                        append(problem.description.substring(end))
+                        return@buildAnnotatedString
+                    }
+                }
+
+                append(problem.description)
+            },
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
@@ -588,42 +615,38 @@ fun BottomSheetFilterContent(
     val quizTypeFilterChipStrokeColor =
         colorResource(id = filterChipStrokeColorResourceIdByFiltering(isQuizTypeFiltering))
 
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp),
+    Row(
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
             .background(colorResource(id = R.color.daynight_gray050s))
     ) {
-        item {
-            Chip(
-                onClick = onYearFilter,
-                colors = ChipDefaults.chipColors(
-                    backgroundColor = yearFilterChipBackgroundColor
-                ),
-                border = BorderStroke(
-                    width = 0.5.dp,
-                    color = yearFilterChipStrokeColor
-                ),
-                modifier = Modifier.padding(all = 4.dp)
-            ) {
-                Text(text = stringResource(id = R.string.year))
-            }
+        Chip(
+            onClick = onYearFilter,
+            colors = ChipDefaults.chipColors(
+                backgroundColor = yearFilterChipBackgroundColor
+            ),
+            border = BorderStroke(
+                width = 0.5.dp,
+                color = yearFilterChipStrokeColor
+            ),
+            modifier = Modifier.padding(all = 4.dp)
+        ) {
+            Text(text = stringResource(id = R.string.year))
         }
 
-        item {
-            Chip(
-                onClick = onTypeFilter,
-                colors = ChipDefaults.chipColors(
-                    backgroundColor = quizTypeFilterChipBackgroundColor
-                ),
-                border = BorderStroke(
-                    width = 0.5.dp,
-                    color = quizTypeFilterChipStrokeColor
-                ),
-                modifier = Modifier.padding(all = 4.dp)
-            ) {
-                Text(text = stringResource(id = R.string.quiz_type))
-            }
+        Chip(
+            onClick = onTypeFilter,
+            colors = ChipDefaults.chipColors(
+                backgroundColor = quizTypeFilterChipBackgroundColor
+            ),
+            border = BorderStroke(
+                width = 0.5.dp,
+                color = quizTypeFilterChipStrokeColor
+            ),
+            modifier = Modifier.padding(all = 4.dp)
+        ) {
+            Text(text = stringResource(id = R.string.quiz_type))
         }
     }
 }
@@ -685,7 +708,7 @@ fun BottomSheetSearchContent(
     ) {
         val userInput = viewModel.userInputText.collectAsState()
 
-        TextField(
+        OutlinedTextField(
             value = userInput.value,
             onValueChange = { text -> viewModel.updateUserInput(text) },
             modifier = Modifier
@@ -750,6 +773,7 @@ fun NoteHeader(
                     }
                 )
                 .fillMaxWidth()
+                .background(colorResource(id = R.color.daynight_gray050s))
                 .defaultMinSize(minHeight = 52.dp)
         ) {
             Text(
