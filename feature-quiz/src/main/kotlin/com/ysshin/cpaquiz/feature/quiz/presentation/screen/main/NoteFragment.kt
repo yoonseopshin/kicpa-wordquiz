@@ -384,7 +384,7 @@ class NoteFragment : BaseFragment() {
         Timber.d("NoteUiEvent: $event")
         when (event) {
             is NoteUiEvent.ShowSnackbar -> {
-                Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).apply {
+                Snackbar.make(binding.root, event.message.asString(requireContext()), Snackbar.LENGTH_SHORT).apply {
                     setAction(R.string.confirm) { dismiss() }
                 }.show()
             }

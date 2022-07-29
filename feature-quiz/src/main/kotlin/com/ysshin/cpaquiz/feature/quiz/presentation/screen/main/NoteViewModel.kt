@@ -1,5 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.main
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,8 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
 import com.ysshin.cpaquiz.shared.android.ui.dialog.SelectableTextItem
+import com.ysshin.cpaquiz.shared.android.util.UiText
 import com.ysshin.cpaquiz.shared.base.Result
 import com.ysshin.cpaquiz.shared.base.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -141,9 +144,25 @@ class NoteViewModel @Inject constructor(
         userInputText.update { text }
     }
 
-    fun showSnackbar(message: String) {
+    fun showSnackbar(message: String, @StringRes actionLabelResId: Int = R.string.confirm) {
         viewModelScope.launch {
-            _uiEvent.emit(NoteUiEvent.ShowSnackbar(message))
+            _uiEvent.emit(
+                NoteUiEvent.ShowSnackbar(
+                    UiText.DynamicString(value = message),
+                    UiText.StringResource(resId = actionLabelResId)
+                )
+            )
+        }
+    }
+
+    fun showSnackbar(messageResId: Int, @StringRes actionLabelResId: Int = R.string.confirm) {
+        viewModelScope.launch {
+            _uiEvent.emit(
+                NoteUiEvent.ShowSnackbar(
+                    UiText.StringResource(resId = messageResId),
+                    UiText.StringResource(resId = actionLabelResId)
+                )
+            )
         }
     }
 
@@ -175,6 +194,20 @@ class NoteViewModel @Inject constructor(
         viewModelScope.launch {
             problemUseCases.deleteAllWrongProblems.invoke()
         }
+    }
+
+    private val _isYearFilterDialogOpened = MutableStateFlow(false)
+    val isYearFilterDialogOpened = _isYearFilterDialogOpened.asStateFlow()
+
+    fun updateYearFilterDialogOpened(value: Boolean) {
+        _isYearFilterDialogOpened.update { value }
+    }
+
+    private val _isQuizTypeFilterDialogOpened = MutableStateFlow(false)
+    val isQuizTypeFilterDialogOpened = _isQuizTypeFilterDialogOpened.asStateFlow()
+
+    fun updateQuizTypeFilterDialogOpened(value: Boolean) {
+        _isQuizTypeFilterDialogOpened.update { value }
     }
 
     private val _bottomSheetContentState: MutableState<NoteBottomSheetContentState> =
@@ -220,7 +253,7 @@ data class NoteUiState(
 )
 
 sealed interface NoteUiEvent {
-    data class ShowSnackbar(val message: String) : NoteUiEvent
+    data class ShowSnackbar(val message: UiText, val actionLabel: UiText) : NoteUiEvent
 }
 
 sealed interface NoteBottomSheetContentState {

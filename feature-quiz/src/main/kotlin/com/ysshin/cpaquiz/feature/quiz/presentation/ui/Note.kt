@@ -21,6 +21,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +29,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -49,15 +51,14 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -94,6 +95,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteBottomSheetContentState
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiEvent
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.SearchedProblemsUiState
@@ -102,10 +104,12 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.UserActionUiStat
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
+import com.ysshin.cpaquiz.shared.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.base.Action
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -118,6 +122,19 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
         )
         val coroutineScope = rememberCoroutineScope()
         val context = LocalContext.current
+
+        LaunchedEffect(bottomSheetScaffoldState) {
+            viewModel.uiEvent.collectLatest { event ->
+                when (event) {
+                    is NoteUiEvent.ShowSnackbar -> {
+                        bottomSheetScaffoldState.snackbarHostState.showSnackbar(
+                            message = event.message.asString(context),
+                            actionLabel = event.actionLabel.asString(context)
+                        )
+                    }
+                }
+            }
+        }
 
         // NOTE: After migrating to Jetpack Compose, it will work fine, but not now.
         BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
@@ -311,12 +328,8 @@ fun WrongNoteHeaderContent(viewModel: NoteViewModel = viewModel(), state: WrongP
                 }
             )
         }
-        is WrongProblemsUiState.Error -> {
-            // TODO
-        }
-        is WrongProblemsUiState.Loading -> {
-            // TODO
-        }
+        is WrongProblemsUiState.Error -> Unit
+        is WrongProblemsUiState.Loading -> Unit
     }
 }
 
@@ -465,12 +478,8 @@ fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
                 numOfProblems = problems.size
             )
         }
-        is TotalProblemsUiState.Error -> {
-            // TODO
-        }
-        is TotalProblemsUiState.Loading -> {
-            // TODO
-        }
+        is TotalProblemsUiState.Error -> Unit
+        is TotalProblemsUiState.Loading -> Unit
     }
 }
 
@@ -488,12 +497,8 @@ fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
                 numOfProblems = problems.size
             )
         }
-        is SearchedProblemsUiState.Error -> {
-            // TODO
-        }
-        is SearchedProblemsUiState.Loading -> {
-            // TODO
-        }
+        is SearchedProblemsUiState.Error -> Unit
+        is SearchedProblemsUiState.Loading -> Unit
     }
 }
 
@@ -510,9 +515,144 @@ fun NoteFilterBottomSheetContent(
         }
 
         item {
-            // TODO: Implement filter UI
+            val openYearFilterDialog = viewModel.isYearFilterDialogOpened.collectAsState()
+            if (openYearFilterDialog.value) {
+                AppCheckboxDialog(
+                    icon = painterResource(id = R.drawable.ic_filter),
+                    title = stringResource(id = R.string.year),
+                    description = stringResource(id = R.string.choose_filtered_years),
+                    selectableItems = viewModel.selectableFilteredYears,
+                    onConfirm = { items ->
+                        Timber.d("Selected: $items")
+
+                        if (!items.any { it.isSelected }) {
+                            viewModel.showSnackbar(R.string.msg_need_filtered_year)
+                            viewModel.updateYearFilterDialogOpened(false)
+                            return@AppCheckboxDialog
+                        }
+
+                        viewModel.setFilter(years = items.filter { it.isSelected }.map { it.text.toInt() })
+                        viewModel.updateYearFilterDialogOpened(false)
+                    },
+                    onDismiss = {
+                        viewModel.updateYearFilterDialogOpened(false)
+                    }
+                )
+            }
+
+            val openQuizTypeFilterDialog = viewModel.isQuizTypeFilterDialogOpened.collectAsState()
+            if (openQuizTypeFilterDialog.value) {
+                AppCheckboxDialog(
+                    icon = painterResource(id = R.drawable.ic_filter),
+                    title = stringResource(id = R.string.quiz_type),
+                    description = stringResource(id = R.string.choose_filtered_types),
+                    selectableItems = viewModel.selectableFilteredTypes,
+                    onConfirm = { items ->
+                        Timber.d("Selected: $items")
+
+                        if (!items.any { it.isSelected }) {
+                            viewModel.showSnackbar(R.string.msg_need_filtered_quiz_type)
+                            viewModel.updateQuizTypeFilterDialogOpened(false)
+                            return@AppCheckboxDialog
+                        }
+
+                        viewModel.setFilter(
+                            types = items.filter { it.isSelected }.map { QuizType.from(it.text) }
+                        )
+                        viewModel.updateQuizTypeFilterDialogOpened(false)
+                    },
+                    onDismiss = {
+                        viewModel.updateQuizTypeFilterDialogOpened(false)
+                    }
+                )
+            }
+
+            val isYearFiltering = viewModel.isYearFiltering.collectAsState()
+            val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsState()
+
+            BottomSheetFilterContent(
+                isYearFiltering = isYearFiltering.value,
+                isQuizTypeFiltering = isQuizTypeFiltering.value,
+                onYearFilter = {
+                    viewModel.updateYearFilterDialogOpened(true)
+                },
+                onTypeFilter = {
+                    viewModel.updateQuizTypeFilterDialogOpened(true)
+                },
+            )
         }
     }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BottomSheetFilterContent(
+    isYearFiltering: Boolean,
+    isQuizTypeFiltering: Boolean,
+    onYearFilter: Action,
+    onTypeFilter: Action,
+) {
+    val yearFilterChipBackgroundColor =
+        colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isYearFiltering))
+    val yearFilterChipStrokeColor =
+        colorResource(id = filterChipStrokeColorResourceIdByFiltering(isYearFiltering))
+
+    val quizTypeFilterChipBackgroundColor =
+        colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isQuizTypeFiltering))
+    val quizTypeFilterChipStrokeColor =
+        colorResource(id = filterChipStrokeColorResourceIdByFiltering(isQuizTypeFiltering))
+
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(colorResource(id = R.color.daynight_gray050s))
+    ) {
+        item {
+            Chip(
+                onClick = onYearFilter,
+                colors = ChipDefaults.chipColors(
+                    backgroundColor = yearFilterChipBackgroundColor
+                ),
+                border = BorderStroke(
+                    width = 0.5.dp,
+                    color = yearFilterChipStrokeColor
+                ),
+                modifier = Modifier.padding(all = 4.dp)
+            ) {
+                Text(text = stringResource(id = R.string.year))
+            }
+        }
+
+        item {
+            Chip(
+                onClick = onTypeFilter,
+                colors = ChipDefaults.chipColors(
+                    backgroundColor = quizTypeFilterChipBackgroundColor
+                ),
+                border = BorderStroke(
+                    width = 0.5.dp,
+                    color = quizTypeFilterChipStrokeColor
+                ),
+                modifier = Modifier.padding(all = 4.dp)
+            ) {
+                Text(text = stringResource(id = R.string.quiz_type))
+            }
+        }
+    }
+}
+
+// TODO: Move to designsystem module
+private fun filterChipBackgroundColorResourceIdByFiltering(isFiltering: Boolean) = if (isFiltering) {
+    R.color.primaryColor_0_15
+} else {
+    R.color.daynight_gray070s
+}
+
+private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = if (isFiltering) {
+    R.color.primaryColor
+} else {
+    R.color.daynight_gray300s
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -657,6 +797,9 @@ fun NoteTopMenu(
     isFiltering: Boolean,
     scope: CoroutineScope,
 ) {
+    val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
+    val bottomSheetContentState = viewModel.bottomSheetContentState.value
+
     AnimatedVisibility(
         visible = isSearching,
         enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
@@ -684,62 +827,47 @@ fun NoteTopMenu(
         }
     }
 
-    IconButton(onClick = {
-        scope.launch {
-            viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Filter)
-            bottomSheetScaffoldState.bottomSheetState.expand()
-        }
-    }) {
-        val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
-
-        val transition =
-            updateTransition(targetState = isFiltering, label = "FilteringMenuIconTransition")
-
-        val tint by transition.animateColor(
-            transitionSpec = {
-                if (false isTransitioningTo true) {
-                    spring(stiffness = Spring.StiffnessMedium)
-                } else {
-                    spring(stiffness = Spring.StiffnessLow)
-                }
+    AnimatedVisibility(
+        visible = isFiltering,
+        enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
+        exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
+    ) {
+        Chip(
+            onClick = { viewModel.setFilter(years = Problem.allYears(), types = QuizType.all()) },
+            colors = ChipDefaults.chipColors(
+                backgroundColor = colorResource(id = R.color.secondaryColor_0_15)
+            ),
+            border = BorderStroke(
+                width = 0.5.dp,
+                color = colorResource(id = R.color.secondaryColor)
+            ),
+            modifier = Modifier.padding(all = 4.dp),
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_filter),
+                    contentDescription = stringResource(id = R.string.clear_filter),
+                    tint = colorResource(id = R.color.secondaryColor),
+                    modifier = Modifier.padding(start = 4.dp)
+                )
             },
-            label = "FilteringMenuIconColor"
-        ) { isExpanded ->
-            if (isExpanded) {
-                colorResource(id = R.color.daynight_pastel_blue)
-            } else {
-                LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-            }
+        ) {
+            Text(text = stringResource(id = R.string.clear_filter))
         }
-
-        val size by transition.animateDp(transitionSpec = {
-            if (false isTransitioningTo true) {
-                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
-            } else {
-                spring(stiffness = Spring.StiffnessLow)
-            }
-        }, label = "FilteringMenuIconSize") { isExpanded ->
-            if (isExpanded) 32.dp else 24.dp
-        }
-
-        Icon(
-            imageVector = if (isMenuExpanded) Icons.Filled.MoreVert else Icons.Outlined.MoreVert,
-            contentDescription = stringResource(id = R.string.filter),
-            tint = tint,
-            modifier = Modifier.size(size)
-        )
     }
 
-    IconButton(onClick = {
-        scope.launch {
-            viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Search)
-            bottomSheetScaffoldState.bottomSheetState.expand()
-        }
-    }) {
-        val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
-
+    IconButton(
+        onClick = {
+            scope.launch {
+                viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Search)
+                bottomSheetScaffoldState.bottomSheetState.expand()
+            }
+        }, enabled = isFiltering.not()
+    ) {
         val transition =
-            updateTransition(targetState = isSearching, label = "SearchingMenuIconTransition")
+            updateTransition(
+                targetState = isMenuExpanded && bottomSheetContentState is NoteBottomSheetContentState.Search,
+                label = "SearchingMenuIconTransition"
+            )
 
         val tint by transition.animateColor(
             transitionSpec = {
@@ -771,6 +899,55 @@ fun NoteTopMenu(
         Icon(
             imageVector = if (isMenuExpanded) Icons.Filled.Search else Icons.Outlined.Search,
             contentDescription = stringResource(id = R.string.search),
+            tint = tint,
+            modifier = Modifier.size(size)
+        )
+    }
+
+    IconButton(
+        onClick = {
+            scope.launch {
+                viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Filter)
+                bottomSheetScaffoldState.bottomSheetState.expand()
+            }
+        }, enabled = isSearching.not()
+    ) {
+        val transition =
+            updateTransition(
+                targetState = isMenuExpanded && bottomSheetContentState is NoteBottomSheetContentState.Filter,
+                label = "FilteringMenuIconTransition"
+            )
+
+        val tint by transition.animateColor(
+            transitionSpec = {
+                if (false isTransitioningTo true) {
+                    spring(stiffness = Spring.StiffnessMedium)
+                } else {
+                    spring(stiffness = Spring.StiffnessLow)
+                }
+            },
+            label = "FilteringMenuIconColor"
+        ) { isExpanded ->
+            if (isExpanded) {
+                colorResource(id = R.color.daynight_pastel_blue)
+            } else {
+                LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+            }
+        }
+
+        val size by transition.animateDp(transitionSpec = {
+            if (false isTransitioningTo true) {
+                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
+            } else {
+                spring(stiffness = Spring.StiffnessLow)
+            }
+        }, label = "FilteringMenuIconSize") { isExpanded ->
+            if (isExpanded) 32.dp else 24.dp
+        }
+
+        Icon(
+            painter = painterResource(id = R.drawable.ic_filter),
+            contentDescription = stringResource(id = R.string.filter),
             tint = tint,
             modifier = Modifier.size(size)
         )
