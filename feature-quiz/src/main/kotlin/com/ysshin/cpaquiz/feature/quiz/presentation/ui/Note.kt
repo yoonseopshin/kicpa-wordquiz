@@ -102,6 +102,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.UserActionUiStat
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
+import com.ysshin.cpaquiz.shared.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
@@ -165,37 +166,19 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    val userInput = viewModel.userInputText.collectAsState()
-                    val isYearFiltering = viewModel.isYearFiltering.collectAsState()
-                    val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsState()
-
-                    CompositionLocalProvider(LocalElevationOverlay provides null) {
-                        TopAppBar(
-                            title = {
-                                Text(
-                                    text = stringResource(id = R.string.note),
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                            },
-                            backgroundColor = colorResource(id = R.color.theme_color),
-                            actions = {
-                                NoteTopMenu(
-                                    viewModel,
-                                    bottomSheetScaffoldState,
-                                    userInput.value.isNotBlank(),
-                                    isYearFiltering.value || isQuizTypeFiltering.value,
-                                    coroutineScope
-                                )
-                            }
-                        )
-                    }
+                    NoteTopAppBar(
+                        bottomSheetScaffoldState = bottomSheetScaffoldState,
+                        viewModel = viewModel,
+                        scope = coroutineScope
+                    )
                 }
             ) { padding ->
                 val uiState = viewModel.uiState.collectAsState()
 
                 LazyColumn(modifier = Modifier.padding(padding)) {
                     item {
-                        // TODO: Add small size NativeAd
+                        // FIXME: Prevent recomposition when scrolling or new item added.
+                        NativeSmallAd()
                     }
 
                     when (uiState.value.userActionUiState) {
@@ -207,6 +190,39 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun NoteTopAppBar(
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    viewModel: NoteViewModel = viewModel(),
+    scope: CoroutineScope = rememberCoroutineScope(),
+) {
+    val userInput = viewModel.userInputText.collectAsState()
+    val isYearFiltering = viewModel.isYearFiltering.collectAsState()
+    val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsState()
+
+    CompositionLocalProvider(LocalElevationOverlay provides null) {
+        TopAppBar(
+            title = {
+                Text(
+                    text = stringResource(id = R.string.note),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            backgroundColor = colorResource(id = R.color.theme_color),
+            actions = {
+                NoteTopMenu(
+                    viewModel,
+                    bottomSheetScaffoldState,
+                    userInput.value.isNotBlank(),
+                    isYearFiltering.value || isQuizTypeFiltering.value,
+                    scope
+                )
+            }
+        )
     }
 }
 

@@ -48,8 +48,8 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:minWidth="100dp"
-            android:textColor="@color/daynight_gray800s"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/iv_app_icon"
             app:layout_constraintEnd_toStartOf="@id/layout_action"
             app:layout_constraintStart_toEndOf="@id/iv_app_icon"
@@ -66,12 +66,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cta"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/secondaryColor"
+                android:backgroundTint="@color/ad_button_background"
                 android:gravity="center"
+                android:textColor="@color/ad_button_text"
                 android:textSize="12sp"
                 tools:text="INSTALL" />
 
@@ -80,10 +82,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:paddingStart="5dp"
-                android:paddingLeft="5dp"
-                android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
                 android:textSize="12sp"
                 tools:text="Google Play" />
 
@@ -92,10 +92,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:paddingStart="5dp"
-                android:paddingLeft="5dp"
-                android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
                 android:textSize="12sp"
                 tools:text="Free" />
 
@@ -129,7 +127,9 @@
             android:id="@+id/tv_body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="12dp"
+            android:paddingVertical="2dp"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/layout_action"
             app:layout_constraintStart_toStartOf="parent"
