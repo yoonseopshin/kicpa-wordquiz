@@ -319,18 +319,30 @@ fun QuizCard(
     onClick: Action = {},
 ) {
     val cornerShape = RoundedCornerShape(24.dp)
+    val quizCardEnabled = count > 0
+    val disabledBackgroundAlpha = 0.09f
+    val disabledContentAlpha = 0.36f
 
     Card(
         modifier = Modifier
             .clip(cornerShape)
-            .clickable(onClick = onClick),
+            .clickable(
+                onClick = onClick,
+                enabled = quizCardEnabled
+            ),
         shape = cornerShape,
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .background(cardBackgroundColor)
+                .background(
+                    if (quizCardEnabled) {
+                        cardBackgroundColor
+                    } else {
+                        cardBackgroundColor.copy(alpha = disabledBackgroundAlpha)
+                    }
+                )
                 .padding(horizontal = 16.dp, vertical = 32.dp),
         ) {
             Row(
@@ -344,9 +356,20 @@ fun QuizCard(
                 ) {
                     Icon(
                         modifier = Modifier
-                            .background(iconBackgroundColor)
+                            .background(
+                                if (quizCardEnabled) {
+                                    iconBackgroundColor
+                                } else {
+                                    iconBackgroundColor.copy(alpha = disabledContentAlpha)
+                                }
+                            )
                             .padding(8.dp),
                         painter = painterResource(id = R.drawable.ic_play),
+                        tint = if (quizCardEnabled) {
+                            colorResource(id = R.color.daynight_gray800s)
+                        } else {
+                            colorResource(id = R.color.daynight_gray800s).copy(alpha = disabledContentAlpha)
+                        },
                         contentDescription = null
                     )
                 }
@@ -357,11 +380,20 @@ fun QuizCard(
                     Text(
                         text = stringResource(id = R.string.quiz_count, count),
                         style = Typography.caption,
-                        color = colorResource(id = R.color.daynight_gray500s)
+                        color = if (quizCardEnabled) {
+                            Typography.caption.color
+                        } else {
+                            Typography.caption.color.copy(alpha = disabledContentAlpha)
+                        }
                     )
                     Text(
                         text = title,
-                        style = Typography.subtitle1
+                        style = Typography.subtitle1,
+                        color = if (quizCardEnabled) {
+                            Typography.subtitle1.color
+                        } else {
+                            Typography.subtitle1.color.copy(alpha = disabledContentAlpha)
+                        }
                     )
                 }
             }
