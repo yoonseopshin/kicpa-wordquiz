@@ -118,7 +118,6 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
                     val dday by viewModel.dday.collectAsState()
                     HomeTopAppBar(
                         dday = dday,
-                        viewModel = viewModel,
                         scope = coroutineScope,
                         bottomSheetScaffoldState = bottomSheetScaffoldState
                     )
@@ -219,7 +218,6 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
 @Composable
 fun HomeTopAppBar(
     dday: String,
-    viewModel: HomeViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
 ) {
