@@ -233,7 +233,10 @@ fun HomeTopAppBar(
             },
             backgroundColor = colorResource(id = R.color.theme_color),
             actions = {
-                HomeTopMenu(viewModel, bottomSheetScaffoldState, scope)
+                HomeTopMenu(
+                    bottomSheetScaffoldState = bottomSheetScaffoldState,
+                    scope = scope
+                )
             }
         )
     }
@@ -242,7 +245,6 @@ fun HomeTopAppBar(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeTopMenu(
-    viewModel: HomeViewModel,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {

@@ -77,6 +77,7 @@ dependencies {
     androidTestImplementation(libs.bundles.androidx.test)
 
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.accompanist.flowlayout)
 
     implementation(libs.coroutines.android)
     api(libs.timber)
@@ -85,6 +86,4 @@ dependencies {
     implementation("com.google.android.gms:play-services-ads:20.6.0")
     implementation("com.google.android.play:core:1.10.3")
     implementation("com.google.android.play:core-ktx:1.8.1")
-
-    implementation("com.google.accompanist:accompanist-flowlayout:0.24.13-rc")
 }
