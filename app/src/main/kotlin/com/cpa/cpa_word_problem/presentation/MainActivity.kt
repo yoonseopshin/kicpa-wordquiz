@@ -38,13 +38,4 @@ class MainActivity : BaseActivity() {
             }
         }
     }
-
-    override fun onBackPressed() {
-//        if (binding.tabLayout.selectedTabPosition != MainTab.Home.ordinal) {
-//            binding.viewPager.setCurrentItem(MainTab.Home.ordinal, true)
-//            return
-//        }
-
-        super.onBackPressed()
-    }
 }

@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 object MaterialColor {
     val WHITE = Color(0xffffffff)
+    val BLACK = Color(0xff000000)
 
     // RED MATERIAL COLORS
     val RED = Color(0xfff44336)

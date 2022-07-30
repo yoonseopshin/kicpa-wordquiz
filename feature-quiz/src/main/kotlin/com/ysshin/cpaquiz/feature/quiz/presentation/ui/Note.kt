@@ -41,7 +41,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
@@ -55,7 +54,6 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -107,7 +105,6 @@ import com.ysshin.cpaquiz.shared.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
-import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.base.Action
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -117,7 +114,7 @@ import timber.log.Timber
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
-    CpaQuizTheme {
+    CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
         )
@@ -216,26 +213,24 @@ private fun NoteTopAppBar(
     val isYearFiltering = viewModel.isYearFiltering.collectAsState()
     val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsState()
 
-    CompositionLocalProvider(LocalElevationOverlay provides null) {
-        TopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.note),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            backgroundColor = colorResource(id = R.color.theme_color),
-            actions = {
-                NoteTopMenu(
-                    viewModel,
-                    bottomSheetScaffoldState,
-                    userInput.value.isNotBlank(),
-                    isYearFiltering.value || isQuizTypeFiltering.value,
-                    scope
-                )
-            }
-        )
-    }
+    TopAppBar(
+        elevation = 0.dp,
+        title = {
+            Text(
+                text = stringResource(id = R.string.note),
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        actions = {
+            NoteTopMenu(
+                viewModel,
+                bottomSheetScaffoldState,
+                userInput.value.isNotBlank(),
+                isYearFiltering.value || isQuizTypeFiltering.value,
+                scope
+            )
+        },
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -865,17 +860,18 @@ fun NoteTopMenu(
         Chip(
             onClick = { viewModel.updateUserInput("") },
             colors = ChipDefaults.chipColors(
-                backgroundColor = colorResource(id = R.color.secondaryColor_0_15)
+                contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                backgroundColor = colorResource(id = R.color.daynight_gray070s),
             ),
             border = BorderStroke(
                 width = 0.5.dp,
-                color = colorResource(id = R.color.secondaryColor)
+                color = colorResource(id = R.color.daynight_gray300s)
             ),
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_search_off),
                     contentDescription = stringResource(id = R.string.clear_note_searching),
-                    tint = colorResource(id = R.color.secondaryColor),
+                    tint = colorResource(id = R.color.daynight_gray300s),
                     modifier = Modifier.padding(start = 4.dp)
                 )
             },
@@ -892,18 +888,19 @@ fun NoteTopMenu(
         Chip(
             onClick = { viewModel.setFilter(years = Problem.allYears(), types = QuizType.all()) },
             colors = ChipDefaults.chipColors(
-                backgroundColor = colorResource(id = R.color.secondaryColor_0_15)
+                contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                backgroundColor = colorResource(id = R.color.daynight_gray070s),
             ),
             border = BorderStroke(
                 width = 0.5.dp,
-                color = colorResource(id = R.color.secondaryColor)
+                color = colorResource(id = R.color.daynight_gray300s)
             ),
             modifier = Modifier.padding(all = 4.dp),
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_filter),
                     contentDescription = stringResource(id = R.string.clear_filter),
-                    tint = colorResource(id = R.color.secondaryColor),
+                    tint = colorResource(id = R.color.daynight_gray300s),
                     modifier = Modifier.padding(start = 4.dp)
                 )
             },
@@ -937,7 +934,7 @@ fun NoteTopMenu(
             label = "SearchingMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                colorResource(id = R.color.daynight_pastel_blue)
+                MaterialTheme.colors.primary
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }
@@ -986,7 +983,7 @@ fun NoteTopMenu(
             label = "FilteringMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                colorResource(id = R.color.daynight_pastel_blue)
+                MaterialTheme.colors.primary
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }
