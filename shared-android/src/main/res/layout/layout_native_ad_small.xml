@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:minHeight="60dp">
+        android:minHeight="60dp"
+        android:paddingBottom="12dp">
 
         <ImageView
             android:id="@+id/iv_app_icon"
