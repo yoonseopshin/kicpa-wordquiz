@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -155,7 +156,18 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                     is NoteBottomSheetContentState.Search -> {
                         NoteSearchBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
                     }
-                    is NoteBottomSheetContentState.None -> Unit
+                    is NoteBottomSheetContentState.None -> {
+                        // Note: If sheetContent is empty, the following exception occurs:
+                        // java.lang.IllegalArgumentException: The initial value must have an associated anchor.
+                        // Therefore, added small-sized box.
+                        // https://stackoverflow.com/questions/66511309/jetpack-compose-bottom-sheet-initialization-error
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(1.dp)
+                                .background(colorResource(id = R.color.daynight_gray050s))
+                        )
+                    }
                 }
             },
             sheetBackgroundColor = MaterialTheme.colors.onSurface,
