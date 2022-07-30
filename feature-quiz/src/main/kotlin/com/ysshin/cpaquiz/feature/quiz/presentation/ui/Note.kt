@@ -261,7 +261,29 @@ private fun LazyListScope.bindWrongProblemsUiState(
 ) {
     if (uiState is WrongProblemsUiState.Success) {
         stickyHeader {
-            WrongNoteHeaderContent(viewModel, uiState)
+            val openDeleteAllWrongProblemsDialog =
+                viewModel.isDeleteAllWrongProblemsDialogOpened.collectAsState()
+            if (openDeleteAllWrongProblemsDialog.value) {
+                AppInfoDialog(
+                    icon = painterResource(id = R.drawable.ic_delete),
+                    title = stringResource(id = R.string.delete_wrong_note),
+                    description = stringResource(id = R.string.question_delete_all_wrong_note),
+                    onConfirm = {
+                        viewModel.deleteAllWrongProblems()
+                        viewModel.updateDeleteAllWrongProblemsDialogOpened(false)
+                    },
+                    onDismiss = {
+                        viewModel.updateDeleteAllWrongProblemsDialogOpened(false)
+                    }
+                )
+            }
+
+            WrongNoteHeaderContent(
+                state = uiState,
+                onHeaderLongClick = {
+                    viewModel.updateDeleteAllWrongProblemsDialogOpened(true)
+                }
+            )
         }
 
         items(
@@ -303,7 +325,10 @@ private fun LazyListScope.bindTotalProblemsUiState(
 }
 
 @Composable
-fun WrongNoteHeaderContent(viewModel: NoteViewModel = viewModel(), state: WrongProblemsUiState) {
+fun WrongNoteHeaderContent(
+    state: WrongProblemsUiState,
+    onHeaderLongClick: Action,
+) {
     when (state) {
         is WrongProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -311,29 +336,10 @@ fun WrongNoteHeaderContent(viewModel: NoteViewModel = viewModel(), state: WrongP
             }
             Timber.d("Wrong problems(${problems.size}) added.")
 
-            val openDeleteAllWrongProblemsDialog =
-                viewModel.isDeleteAllWrongProblemsDialogOpened.collectAsState()
-            if (openDeleteAllWrongProblemsDialog.value) {
-                AppInfoDialog(
-                    icon = painterResource(id = R.drawable.ic_delete),
-                    title = stringResource(id = R.string.delete_wrong_note),
-                    description = stringResource(id = R.string.question_delete_all_wrong_note),
-                    onConfirm = {
-                        viewModel.deleteAllWrongProblems()
-                        viewModel.updateDeleteAllWrongProblemsDialogOpened(false)
-                    },
-                    onDismiss = {
-                        viewModel.updateDeleteAllWrongProblemsDialogOpened(false)
-                    }
-                )
-            }
-
             NoteHeader(
                 title = stringResource(id = R.string.wrong_note),
                 numOfProblems = problems.size,
-                onHeaderLongClick = {
-                    viewModel.updateDeleteAllWrongProblemsDialogOpened(true)
-                }
+                onHeaderLongClick = onHeaderLongClick
             )
         }
         is WrongProblemsUiState.Error -> Unit
@@ -395,10 +401,15 @@ fun NoteSummaryContent(
                     .align(Alignment.TopStart)
                     .padding(start = 8.dp)
             ) {
+                // TODO: Move to designsystem module
                 Chip(
                     onClick = {},
+                    enabled = false,
                     colors = ChipDefaults.chipColors(
-                        backgroundColor = colorResource(id = R.color.daynight_gray070s)
+                        contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                        backgroundColor = colorResource(id = R.color.daynight_gray070s),
+                        disabledContentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                        disabledBackgroundColor = colorResource(id = R.color.daynight_gray070s)
                     ),
                     border = BorderStroke(
                         width = 0.5.dp,
@@ -411,8 +422,12 @@ fun NoteSummaryContent(
                 }
                 Chip(
                     onClick = {},
+                    enabled = false,
                     colors = ChipDefaults.chipColors(
-                        backgroundColor = colorResource(id = R.color.daynight_gray070s)
+                        contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                        backgroundColor = colorResource(id = R.color.daynight_gray070s),
+                        disabledContentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                        disabledBackgroundColor = colorResource(id = R.color.daynight_gray070s)
                     ),
                     border = BorderStroke(
                         width = 0.5.dp,
@@ -446,8 +461,12 @@ fun NoteSummaryContent(
 
                 Chip(
                     onClick = {},
+                    enabled = false,
                     colors = ChipDefaults.chipColors(
-                        backgroundColor = colorResource(id = backgroundColorResourceIdByType)
+                        contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                        backgroundColor = colorResource(id = backgroundColorResourceIdByType),
+                        disabledContentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                        disabledBackgroundColor = colorResource(id = backgroundColorResourceIdByType),
                     ),
                     border = BorderStroke(
                         width = 0.5.dp,
