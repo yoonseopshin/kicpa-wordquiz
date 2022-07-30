@@ -76,6 +76,7 @@ import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.ad.NativeMediumAd
+import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialog
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
@@ -95,7 +96,6 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
         val coroutineScope = rememberCoroutineScope()
         val context = LocalContext.current
 
-        // NOTE: After migrating to Jetpack Compose, it will work fine, but not now.
         BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
             coroutineScope.launch {
                 bottomSheetScaffoldState.bottomSheetState.collapse()
@@ -104,6 +104,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
 
         BottomSheetScaffold(
             sheetContent = {
+                // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
                 HomeSettingsBottomSheetContent(viewModel)
             },
             sheetBackgroundColor = MaterialTheme.colors.onSurface,
@@ -117,6 +118,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
                     val dday by viewModel.dday.collectAsState()
                     HomeTopAppBar(
                         dday = dday,
+                        viewModel = viewModel,
                         scope = coroutineScope,
                         bottomSheetScaffoldState = bottomSheetScaffoldState
                     )
@@ -217,6 +219,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
 @Composable
 fun HomeTopAppBar(
     dday: String,
+    viewModel: HomeViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
 ) {
@@ -230,7 +233,7 @@ fun HomeTopAppBar(
             },
             backgroundColor = colorResource(id = R.color.theme_color),
             actions = {
-                HomeTopMenu(bottomSheetScaffoldState, scope)
+                HomeTopMenu(viewModel, bottomSheetScaffoldState, scope)
             }
         )
     }
@@ -239,6 +242,7 @@ fun HomeTopAppBar(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeTopMenu(
+    viewModel: HomeViewModel,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -249,6 +253,8 @@ fun HomeTopMenu(
         }
     }) {
         val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
+
+        Timber.d("isMenuExpanded: $isMenuExpanded")
 
         val transition =
             updateTransition(targetState = isMenuExpanded, label = "SettingsMenuIconTransition")
@@ -365,18 +371,17 @@ fun QuizCard(
 
 @Composable
 fun HomeSettingsBottomSheetContent(viewModel: HomeViewModel = viewModel()) {
+    Timber.d("bottomSheetContentState: Settings")
     LazyColumn {
         item {
-            HomeBottomSheetHandle()
+            BottomSheetHandle()
         }
 
         item {
             val quizNumber by viewModel.quizNumber.collectAsState()
             HomeQuizNumberBottomSheetListItem(
                 quizNumber = quizNumber,
-                onQuizNumberConfirm = {
-                    viewModel.setQuizNumber(it)
-                }
+                onQuizNumberConfirm = viewModel::setQuizNumber
             )
         }
 
@@ -386,15 +391,11 @@ fun HomeSettingsBottomSheetContent(viewModel: HomeViewModel = viewModel()) {
             HomeSettingsBottomSheetListItem(
                 icon = painterResource(id = R.drawable.ic_timer),
                 text = stringResource(id = R.string.timer),
-                onBottomSheetItemClick = {
-                    viewModel.toggleTimer()
-                }
+                onBottomSheetItemClick = viewModel::toggleTimer
             ) {
                 Switch(
                     checked = useTimer,
-                    onCheckedChange = {
-                        viewModel.setTimer(it)
-                    }
+                    onCheckedChange = viewModel::setTimer
                 )
             }
         }
@@ -435,22 +436,6 @@ fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Cons
                 color = colorResource(id = R.color.daynight_gray900s)
             )
         }
-    }
-}
-
-@Composable
-fun HomeBottomSheetHandle() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = colorResource(id = R.color.daynight_gray050s))
-            .padding(vertical = 12.dp),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Card(
-            modifier = Modifier.size(width = 80.dp, height = 4.dp),
-            backgroundColor = colorResource(id = R.color.daynight_gray800s)
-        ) {}
     }
 }
 

@@ -37,9 +37,8 @@ class QuizRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             runCatching {
                 problemDao.get(type, size)
-            }.map {
-                it.toDomain()
-            }.getOrNull() ?: emptyList()
+            }.map(List<ProblemEntity>::toDomain)
+                .getOrNull() ?: emptyList()
         }
 
     override fun getWrongProblems(): Flow<List<Problem>> =
@@ -50,7 +49,7 @@ class QuizRepositoryImpl @Inject constructor(
         }
 
     override suspend fun searchProblems(text: String) =
-        if (text.isBlank()) emptyList() else problemDao.search(text).map { it.toDomain() }
+        if (text.isBlank()) emptyList() else problemDao.search(text).map(ProblemEntity::toDomain)
 
     override suspend fun insertWrongProblems(wrongProblems: List<WrongProblem>) =
         withContext(Dispatchers.IO) {

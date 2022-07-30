@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@Deprecated("Migrate to NoteComposeFragment")
 @FlowPreview
 @AndroidEntryPoint
 class NoteFragment : BaseFragment() {
@@ -139,11 +140,6 @@ class NoteFragment : BaseFragment() {
                 adapter.addAdapter(0, adNativeBannerOnNoteAdapter)
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -388,7 +384,7 @@ class NoteFragment : BaseFragment() {
         Timber.d("NoteUiEvent: $event")
         when (event) {
             is NoteUiEvent.ShowSnackbar -> {
-                Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).apply {
+                Snackbar.make(binding.root, event.message.asString(requireContext()), Snackbar.LENGTH_SHORT).apply {
                     setAction(R.string.confirm) { dismiss() }
                 }.show()
             }

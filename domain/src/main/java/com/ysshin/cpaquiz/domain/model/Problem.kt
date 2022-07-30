@@ -18,3 +18,5 @@ data class Problem(
         fun allYears() = (2016..2022).toList()
     }
 }
+
+fun Problem.isValid() = year > 0 && pid > 0
