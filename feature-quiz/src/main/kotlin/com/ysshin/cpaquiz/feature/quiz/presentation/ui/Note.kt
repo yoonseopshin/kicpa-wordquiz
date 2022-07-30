@@ -300,9 +300,10 @@ private fun LazyListScope.bindWrongProblemsUiState(
 
         items(
             items = uiState.data.map { it.toWrongProblemModel() },
-            key = { wrongProblemModel ->
-                wrongProblemModel.hashCode()
-            }
+            // FIXME: Key collision occurs but I don't know how to deal with.
+            // key = { wrongProblemModel ->
+            //     wrongProblemModel.hashCode()
+            // }
         ) { wrongProblemModel ->
             val problem = wrongProblemModel.problem
             NoteSummaryContent(
