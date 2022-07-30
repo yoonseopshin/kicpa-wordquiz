@@ -381,18 +381,18 @@ fun QuizCard(
                         text = stringResource(id = R.string.quiz_count, count),
                         style = Typography.caption,
                         color = if (quizCardEnabled) {
-                            Typography.caption.color
+                            colorResource(id = R.color.daynight_gray500s)
                         } else {
-                            Typography.caption.color.copy(alpha = disabledContentAlpha)
+                            colorResource(id = R.color.daynight_gray500s).copy(alpha = disabledContentAlpha)
                         }
                     )
                     Text(
                         text = title,
                         style = Typography.subtitle1,
                         color = if (quizCardEnabled) {
-                            Typography.subtitle1.color
+                            colorResource(id = R.color.daynight_gray800s)
                         } else {
-                            Typography.subtitle1.color.copy(alpha = disabledContentAlpha)
+                            colorResource(id = R.color.daynight_gray800s).copy(alpha = disabledContentAlpha)
                         }
                     )
                 }
