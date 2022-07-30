@@ -62,7 +62,6 @@ dependencies {
     api(libs.bundles.compose)
     androidTestApi(libs.compose.ui.test)
     debugApi(libs.compose.ui.tooling)
-    implementation("androidx.compose.ui:ui-viewbinding:1.3.0-alpha01")
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
     debugApi("androidx.customview:customview-poolingcontainer:1.0.0-rc01")
@@ -86,4 +85,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-ads:20.6.0")
     implementation("com.google.android.play:core:1.10.3")
     implementation("com.google.android.play:core-ktx:1.8.1")
+
+    implementation("com.google.accompanist:accompanist-flowlayout:0.24.13-rc")
 }

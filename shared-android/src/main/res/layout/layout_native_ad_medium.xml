@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.gms.ads.nativead.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:minHeight="60dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ad_rounded_corners_shape"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="1dp"
+            android:text="@string/ad"
+            android:textColor="@color/ad_green"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tv_body"
+            app:layout_constraintEnd_toEndOf="@id/tv_body"
+            tools:ignore="SmallSp" />
+
+        <ImageView
+            android:id="@+id/iv_app_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_headline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minWidth="100dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_app_icon"
+            app:layout_constraintEnd_toStartOf="@id/layout_action"
+            app:layout_constraintStart_toEndOf="@id/iv_app_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Test Ad : Google Ads" />
+
+        <LinearLayout
+            android:id="@+id/layout_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cta"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/ad_button_background"
+                android:gravity="center"
+                android:textColor="@color/ad_button_text"
+                android:textSize="12sp"
+                tools:text="INSTALL" />
+
+            <TextView
+                android:id="@+id/tv_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:textSize="12sp"
+                tools:text="Google Play" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:textSize="12sp"
+                tools:text="Free" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_advertiser"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_app_icon" />
+
+        <RatingBar
+            android:id="@+id/rtb_stars"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.5"
+            app:layout_constraintBottom_toBottomOf="@id/tv_advertiser"
+            app:layout_constraintStart_toEndOf="@id/tv_advertiser"
+            app:layout_constraintTop_toTopOf="@id/tv_advertiser"
+            tools:rating="4.5" />
+
+        <TextView
+            android:id="@+id/tv_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="12dp"
+            android:paddingVertical="2dp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/layout_action"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rtb_stars"
+            tools:text="Stay up to date with your Ads Check how your ads are performing" />
+
+        <com.google.android.gms.ads.nativead.MediaView
+            android:id="@+id/mv_content"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_body" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.gms.ads.nativead.NativeAdView>

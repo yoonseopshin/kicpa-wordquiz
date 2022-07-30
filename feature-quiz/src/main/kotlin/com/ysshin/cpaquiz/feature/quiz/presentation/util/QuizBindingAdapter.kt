@@ -121,11 +121,9 @@ fun Toolbar.bindProblems(solved: Int?, total: Int?) {
     subtitle = "$solved/$total"
 }
 
-private val HIGHLIGHT_KEYWORDS = listOf("틀린", "아닌", "옳은", "옳지 않은", "적절한", "적절하지 않은", "모두")
-
 @BindingAdapter("quiz_description")
 fun TextView.bindQuizDescription(description: String) {
-    HIGHLIGHT_KEYWORDS.map { keyword ->
+    QuizUtil.highlightKeywords.map { keyword ->
         if (description.contains(keyword)) {
             val start = description.indexOf(keyword)
             val end = start + keyword.length

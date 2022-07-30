@@ -4,6 +4,7 @@
     <string name="start">시작</string>
     <string name="settings">설정</string>
     <string name="search">검색</string>
+    <string name="filter">필터</string>
     <string name="home">홈</string>
     <string name="note">노트</string>
     <string name="quiz_amount">문제 수</string>

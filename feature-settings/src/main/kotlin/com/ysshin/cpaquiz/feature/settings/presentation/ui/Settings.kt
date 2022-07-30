@@ -55,7 +55,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
         val scaffoldState = rememberScaffoldState()
         val context = LocalContext.current
 
-        LaunchedEffect(key1 = scaffoldState) {
+        LaunchedEffect(scaffoldState) {
             viewModel.uiEvent.collect { event ->
                 when (event) {
                     is SettingsViewModel.UiEvent.ShowSnackbar -> {

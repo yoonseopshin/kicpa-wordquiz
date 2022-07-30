@@ -7,23 +7,23 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
-import com.ysshin.cpaquiz.shared.android.databinding.LayoutNativeAdBinding
+import com.ysshin.cpaquiz.shared.android.databinding.LayoutNativeAdMediumBinding
+import com.ysshin.cpaquiz.shared.android.databinding.LayoutNativeAdSmallBinding
 import com.ysshin.cpaquiz.shared.android.util.AdConstants
 import com.ysshin.cpaquiz.shared.android.util.visible
 import timber.log.Timber
 
 @Composable
 fun NativeMediumAd() {
-    // FIXME: ViewBinding can be converted to Jetpack Compose.
     var isAdRequested = false
 
-    AndroidViewBinding(factory = LayoutNativeAdBinding::inflate) {
+    AndroidViewBinding(factory = LayoutNativeAdMediumBinding::inflate) {
         if (isAdRequested) {
-            Timber.d("NativeAd is already requested.")
+            Timber.d("NativeMediumAd is already requested.")
             return@AndroidViewBinding
         }
 
-        Timber.d("Create ViewBinding.")
+        Timber.d("Create LayoutNativeAdMediumBinding.")
 
         val adView = root.also { adView ->
             adView.advertiserView = tvAdvertiser
@@ -38,7 +38,6 @@ fun NativeMediumAd() {
         }
 
         runCatching {
-            Timber.d("Build AdLoader.")
             AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
                 .forNativeAd { nativeAd ->
                     nativeAd.advertiser?.let { advertiser ->
@@ -84,7 +83,7 @@ fun NativeMediumAd() {
                 .withNativeAdOptions(NativeAdOptions.Builder().build())
                 .build()
         }.onSuccess {
-            Timber.d("Load NativeAd in HomeScreen.")
+            Timber.d("Load NativeMediumAd.")
             it.loadAd(AdRequest.Builder().build())
             isAdRequested = true
         }
@@ -94,5 +93,76 @@ fun NativeMediumAd() {
 @Preview(showBackground = true)
 @Composable
 private fun NativeMediumAdPreview() {
+    NativeMediumAd()
+}
+
+@Composable
+fun NativeSmallAd() {
+    var isAdRequested = false
+
+    AndroidViewBinding(factory = LayoutNativeAdSmallBinding::inflate) {
+        if (isAdRequested) {
+            Timber.d("NativeSmallAd is already requested.")
+            return@AndroidViewBinding
+        }
+        Timber.d("Create LayoutNativeAdSmallBinding.")
+
+        val adView = root.also { adView ->
+            adView.bodyView = tvBody
+            adView.callToActionView = btnCta
+            adView.headlineView = tvHeadline
+            adView.iconView = ivAppIcon
+            adView.priceView = tvPrice
+            adView.storeView = tvStore
+        }
+
+        runCatching {
+            AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_SMALL)
+                .forNativeAd { nativeAd ->
+                    nativeAd.body?.let { body ->
+                        tvBody.text = body
+                    }
+
+                    nativeAd.callToAction?.let { cta ->
+                        btnCta.text = cta
+                    }
+
+                    nativeAd.headline?.let { headline ->
+                        tvHeadline.text = headline
+                    }
+
+                    nativeAd.icon?.let { icon ->
+                        ivAppIcon.setImageDrawable(icon.drawable)
+                    }
+
+                    nativeAd.price?.let { price ->
+                        tvPrice.text = price
+                    }
+
+                    nativeAd.store?.let { store ->
+                        tvStore.text = store
+                    }
+
+                    adView.setNativeAd(nativeAd)
+                }
+                .withAdListener(object : AdListener() {
+                    override fun onAdLoaded() {
+                        super.onAdLoaded()
+                        adView.visible(withAnimation = true)
+                    }
+                })
+                .withNativeAdOptions(NativeAdOptions.Builder().build())
+                .build()
+        }.onSuccess {
+            Timber.d("Load NativeSmallAd.")
+            it.loadAd(AdRequest.Builder().build())
+            isAdRequested = true
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun NativeSmallAdPreview() {
     NativeMediumAd()
 }

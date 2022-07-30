@@ -11,28 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:minHeight="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ad_rounded_corners_shape"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="1dp"
-            android:text="@string/ad"
-            android:textColor="@color/ad_green"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_body"
-            app:layout_constraintEnd_toEndOf="@id/tv_body"
-            tools:ignore="SmallSp" />
+        android:minHeight="60dp"
+        android:paddingBottom="12dp">
 
         <ImageView
             android:id="@+id/iv_app_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:adjustViewBounds="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,35 +30,36 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:minWidth="100dp"
-            android:textColor="@color/daynight_gray800s"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/iv_app_icon"
             app:layout_constraintEnd_toStartOf="@id/layout_action"
             app:layout_constraintStart_toEndOf="@id/iv_app_icon"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_app_icon"
             tools:text="Test Ad : Google Ads" />
 
         <LinearLayout
             android:id="@+id/layout_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cta"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/secondaryColor"
+                android:backgroundTint="@color/ad_button_background"
                 android:gravity="center"
+                android:textColor="@color/ad_button_text"
                 android:textSize="12sp"
                 tools:text="INSTALL" />
 
@@ -79,11 +67,10 @@
                 android:id="@+id/tv_store"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:maxLines="1"
-                android:paddingStart="5dp"
-                android:paddingLeft="5dp"
-                android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="1dp"
                 android:textSize="12sp"
                 tools:text="Google Play" />
 
@@ -91,61 +78,29 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
                 android:maxLines="1"
-                android:paddingStart="5dp"
-                android:paddingLeft="5dp"
-                android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="1dp"
                 android:textSize="12sp"
                 tools:text="Free" />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_advertiser"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_app_icon" />
-
-        <RatingBar
-            android:id="@+id/rtb_stars"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:stepSize="0.5"
-            app:layout_constraintBottom_toBottomOf="@id/tv_advertiser"
-            app:layout_constraintStart_toEndOf="@id/tv_advertiser"
-            app:layout_constraintTop_toTopOf="@id/tv_advertiser"
-            tools:rating="4.5" />
-
-        <TextView
             android:id="@+id/tv_body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="12dp"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/layout_action"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rtb_stars"
+            app:layout_constraintTop_toBottomOf="@id/iv_app_icon"
             tools:text="Stay up to date with your Ads Check how your ads are performing" />
-
-        <com.google.android.gms.ads.nativead.MediaView
-            android:id="@+id/mv_content"
-            android:layout_width="0dp"
-            android:layout_height="180dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_body" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

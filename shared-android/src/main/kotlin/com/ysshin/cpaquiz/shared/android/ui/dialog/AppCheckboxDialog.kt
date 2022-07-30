@@ -4,13 +4,28 @@ import android.os.Parcelable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
+import androidx.compose.material.Chip
+import androidx.compose.material.ChipDefaults
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +40,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.MainAxisAlignment
+import com.google.accompanist.flowlayout.SizeMode
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.shared.android.R
@@ -51,9 +69,12 @@ fun AppCheckboxDialog(
     dialogType: AppDialogType = AppDialogType.ConfirmDismiss,
 ) {
     Dialog(onDismissRequest = onDismiss) {
+        val verticalScrollState = rememberScrollState()
+
         Card(
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp),
+            modifier = Modifier.padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
+                .verticalScroll(state = verticalScrollState),
             elevation = 4.dp
         ) {
             Column(
@@ -92,15 +113,13 @@ fun AppCheckboxDialog(
 
                 var items by remember { mutableStateOf(selectableItems) }
 
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(4),
-                    contentPadding = PaddingValues(horizontal = 10.dp),
+                FlowRow(
+                    mainAxisAlignment = MainAxisAlignment.Center,
+                    mainAxisSize = SizeMode.Expand,
                 ) {
-                    items(items) { item ->
+                    for (item in items) {
                         Chip(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 3.dp),
+                            modifier = Modifier.padding(horizontal = 4.dp),
                             onClick = {
                                 items = items.map { selectedItem ->
                                     if (item == selectedItem) {
@@ -125,9 +144,7 @@ fun AppCheckboxDialog(
                                 }
                             ),
                         ) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
+                            Box {
                                 Text(
                                     modifier = Modifier.align(Alignment.Center),
                                     text = item.text,

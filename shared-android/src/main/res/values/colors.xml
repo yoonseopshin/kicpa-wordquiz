@@ -6,6 +6,8 @@
     <color name="primaryColor">#689f38</color>
     <color name="primaryLightColor">#99d066</color>
     <color name="primaryDarkColor">#33691E</color>
+    <color name="primaryColor_0.02">#05689f38</color>
+    <color name="primaryColor_0.06">#0f689f38</color>
     <color name="primaryColor_0.15">#26689f38</color>
     <color name="secondaryColor">#ffd740</color>
     <color name="secondaryLightColor">#ffff74</color>
@@ -77,5 +79,7 @@
     <color name="rippleColor">#0f121212</color>
 
     <color name="ad_green">#2e7d32</color>
+    <color name="ad_button_background">@color/primaryColor_0.06</color>
+    <color name="ad_button_text">@color/primaryDarkColor</color>
 
 </resources>
