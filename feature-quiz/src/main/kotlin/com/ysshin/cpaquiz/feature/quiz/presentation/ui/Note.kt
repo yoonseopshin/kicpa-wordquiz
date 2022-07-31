@@ -58,7 +58,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -84,6 +83,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
@@ -114,7 +115,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
     CpaQuizTheme {
@@ -185,7 +186,7 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                     )
                 }
             ) { padding ->
-                val uiState = viewModel.uiState.collectAsState()
+                val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
                 LazyColumn(modifier = Modifier.padding(padding)) {
                     item {
@@ -205,16 +206,16 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 private fun NoteTopAppBar(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
-    val userInput = viewModel.userInputText.collectAsState()
-    val isYearFiltering = viewModel.isYearFiltering.collectAsState()
-    val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsState()
+    val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
+    val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
+    val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
 
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         TopAppBar(
@@ -266,7 +267,7 @@ private fun LazyListScope.bindOnViewingContent(
     bindTotalProblemsUiState(uiState.totalProblemsUiState)
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalLifecycleComposeApi::class)
 private fun LazyListScope.bindWrongProblemsUiState(
     viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
@@ -274,7 +275,7 @@ private fun LazyListScope.bindWrongProblemsUiState(
     if (uiState is WrongProblemsUiState.Success) {
         stickyHeader {
             val openDeleteAllWrongProblemsDialog =
-                viewModel.isDeleteAllWrongProblemsDialogOpened.collectAsState()
+                viewModel.isDeleteAllWrongProblemsDialogOpened.collectAsStateWithLifecycle()
             if (openDeleteAllWrongProblemsDialog.value) {
                 AppInfoDialog(
                     icon = painterResource(id = R.drawable.ic_delete),
@@ -360,7 +361,10 @@ fun WrongNoteHeaderContent(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
+    ExperimentalLifecycleComposeApi::class
+)
 @Composable
 fun NoteSummaryContent(
     viewModel: NoteViewModel = viewModel(),
@@ -369,7 +373,7 @@ fun NoteSummaryContent(
 ) {
     val context = LocalContext.current
 
-    val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsState()
+    val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
     if (openDeleteWrongProblemDialog.value) {
         AppInfoDialog(
             icon = painterResource(id = R.drawable.ic_delete),
@@ -566,6 +570,7 @@ fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
     }
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun NoteFilterBottomSheetContent(
     viewModel: NoteViewModel = viewModel(),
@@ -576,7 +581,7 @@ fun NoteFilterBottomSheetContent(
         }
 
         item {
-            val openYearFilterDialog = viewModel.isYearFilterDialogOpened.collectAsState()
+            val openYearFilterDialog = viewModel.isYearFilterDialogOpened.collectAsStateWithLifecycle()
             if (openYearFilterDialog.value) {
                 AppCheckboxDialog(
                     icon = painterResource(id = R.drawable.ic_filter),
@@ -601,7 +606,7 @@ fun NoteFilterBottomSheetContent(
                 )
             }
 
-            val openQuizTypeFilterDialog = viewModel.isQuizTypeFilterDialogOpened.collectAsState()
+            val openQuizTypeFilterDialog = viewModel.isQuizTypeFilterDialogOpened.collectAsStateWithLifecycle()
             if (openQuizTypeFilterDialog.value) {
                 AppCheckboxDialog(
                     icon = painterResource(id = R.drawable.ic_filter),
@@ -628,8 +633,8 @@ fun NoteFilterBottomSheetContent(
                 )
             }
 
-            val isYearFiltering = viewModel.isYearFiltering.collectAsState()
-            val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsState()
+            val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
+            val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
 
             BottomSheetFilterContent(
                 isYearFiltering = isYearFiltering.value,
@@ -730,7 +735,10 @@ fun NoteSearchBottomSheetContent(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(
+    ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
+    ExperimentalLifecycleComposeApi::class
+)
 @Composable
 fun BottomSheetSearchContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
@@ -754,7 +762,7 @@ fun BottomSheetSearchContent(
             .fillMaxWidth()
             .background(colorResource(id = R.color.daynight_gray050s)),
     ) {
-        val userInput = viewModel.userInputText.collectAsState()
+        val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
 
         OutlinedTextField(
             value = userInput.value,

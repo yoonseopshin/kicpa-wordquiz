@@ -71,6 +71,7 @@ dependencies {
     api("androidx.hilt:hilt-navigation-compose:1.0.0")
     api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0")
     api("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
+    api("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha01")
     api("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     testImplementation(libs.junit)

@@ -23,7 +23,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +38,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.feature.settings.R
@@ -151,9 +152,10 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
     }
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun InitSettingsDialog(viewModel: SettingsViewModel = viewModel()) {
-    val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsState()
+    val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
     if (openDeleteWrongProblemDialog.value) {
         AppInfoDialog(
             onConfirm = {
@@ -169,7 +171,7 @@ fun InitSettingsDialog(viewModel: SettingsViewModel = viewModel()) {
         )
     }
 
-    val openAppVersionDialog = viewModel.isAppVersionDialogOpened.collectAsState()
+    val openAppVersionDialog = viewModel.isAppVersionDialogOpened.collectAsStateWithLifecycle()
     if (openAppVersionDialog.value) {
         AppInfoDialog(
             onConfirm = {

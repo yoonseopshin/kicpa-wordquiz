@@ -37,7 +37,9 @@ fun Project.configureKotlinAndroid(
                 "-opt-in=kotlinx.coroutines.FlowPreview",
                 "-opt-in=kotlin.Experimental",
                 // Enable experimental kotlinx serialization APIs
-                "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
+                "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
+                // Enable experimental lifecycle compose APIs
+                "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
             )
         }
     }
