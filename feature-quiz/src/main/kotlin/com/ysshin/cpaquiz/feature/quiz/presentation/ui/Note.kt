@@ -82,7 +82,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
@@ -113,7 +113,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
+fun NoteScreen(viewModel: NoteViewModel) {
     CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
@@ -148,10 +148,10 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                 // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
                 when (bottomSheetContentState) {
                     is NoteBottomSheetContentState.Filter -> {
-                        NoteFilterBottomSheetContent(viewModel)
+                        NoteFilterBottomSheetContent()
                     }
                     is NoteBottomSheetContentState.Search -> {
-                        NoteSearchBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
+                        NoteSearchBottomSheetContent(bottomSheetScaffoldState, coroutineScope)
                     }
                     is NoteBottomSheetContentState.None -> {
                         // Note: If sheetContent is empty, the following exception occurs:
@@ -177,7 +177,6 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                 topBar = {
                     NoteTopAppBar(
                         bottomSheetScaffoldState = bottomSheetScaffoldState,
-                        viewModel = viewModel,
                         scope = coroutineScope
                     )
                 }
@@ -206,9 +205,9 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
 @Composable
 private fun NoteTopAppBar(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
     val userInput = viewModel.userInputText.collectAsState()
     val isYearFiltering = viewModel.isYearFiltering.collectAsState()
     val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsState()
@@ -223,7 +222,6 @@ private fun NoteTopAppBar(
         },
         actions = {
             NoteTopMenu(
-                viewModel,
                 bottomSheetScaffoldState,
                 userInput.value.isNotBlank(),
                 isYearFiltering.value || isQuizTypeFiltering.value,
@@ -357,10 +355,10 @@ fun WrongNoteHeaderContent(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun NoteSummaryContent(
-    viewModel: NoteViewModel = viewModel(),
     problem: Problem,
     onProblemLongClick: Action? = null,
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
     val context = LocalContext.current
 
     val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsState()
@@ -561,9 +559,9 @@ fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
 }
 
 @Composable
-fun NoteFilterBottomSheetContent(
-    viewModel: NoteViewModel = viewModel(),
-) {
+fun NoteFilterBottomSheetContent() {
+    val viewModel = hiltViewModel<NoteViewModel>()
+
     LazyColumn {
         item {
             BottomSheetHandle()
@@ -710,7 +708,6 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
 @Composable
 fun NoteSearchBottomSheetContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     LazyColumn {
@@ -719,7 +716,7 @@ fun NoteSearchBottomSheetContent(
         }
 
         item {
-            BottomSheetSearchContent(bottomSheetScaffoldState, viewModel, scope)
+            BottomSheetSearchContent(bottomSheetScaffoldState, scope)
         }
     }
 }
@@ -728,9 +725,9 @@ fun NoteSearchBottomSheetContent(
 @Composable
 fun BottomSheetSearchContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -843,12 +840,12 @@ fun NoteHeader(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun NoteTopMenu(
-    viewModel: NoteViewModel,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     isSearching: Boolean,
     isFiltering: Boolean,
     scope: CoroutineScope,
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
     val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
     val bottomSheetContentState = viewModel.bottomSheetContentState.value
 

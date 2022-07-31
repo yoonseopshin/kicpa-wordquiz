@@ -65,7 +65,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
@@ -85,7 +85,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel) {
     CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
@@ -102,7 +102,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
         BottomSheetScaffold(
             sheetContent = {
                 // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
-                HomeSettingsBottomSheetContent(viewModel)
+                HomeSettingsBottomSheetContent()
             },
             sheetBackgroundColor = MaterialTheme.colors.onSurface,
             scaffoldState = bottomSheetScaffoldState,
@@ -397,7 +397,9 @@ fun QuizCard(
 }
 
 @Composable
-fun HomeSettingsBottomSheetContent(viewModel: HomeViewModel = viewModel()) {
+fun HomeSettingsBottomSheetContent() {
+    val viewModel = hiltViewModel<HomeViewModel>()
+
     Timber.d("bottomSheetContentState: Settings")
     LazyColumn {
         item {

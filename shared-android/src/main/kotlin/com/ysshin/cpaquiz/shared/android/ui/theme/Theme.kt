@@ -1,6 +1,5 @@
 package com.ysshin.cpaquiz.shared.android.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -15,7 +14,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import dagger.hilt.android.internal.managers.ViewComponentManager
+import com.ysshin.cpaquiz.shared.android.util.findActivity
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -97,12 +96,7 @@ fun CpaQuizTheme(
     val view = LocalView.current
     if (view.isInEditMode.not()) {
         SideEffect {
-            val context = view.context
-            val activity = if (context is ViewComponentManager.FragmentContextWrapper) {
-                context.baseContext as Activity
-            } else {
-                context as Activity
-            }
+            val activity = view.context.findActivity() ?: return@SideEffect
             activity.window.statusBarColor = colorScheme.primary.toArgb()
             activity.window.navigationBarColor =
                 colorScheme.primary.copy(alpha = 0.08f).compositeOver(colorScheme.surface.copy()).toArgb()

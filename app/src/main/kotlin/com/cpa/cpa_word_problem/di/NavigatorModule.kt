@@ -3,11 +3,11 @@ package com.cpa.cpa_word_problem.di
 import android.content.Context
 import android.content.Intent
 import com.cpa.cpa_word_problem.presentation.MainActivity
-import com.cpa.cpa_word_problem.presentation.MainTab
+import com.cpa.cpa_word_problem.presentation.MainScreen
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
-import com.ysshin.cpaquiz.shared.android.bridge.MainTabNavigator
+import com.ysshin.cpaquiz.shared.android.bridge.MainScreenNavigator
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.util.Constants
 import dagger.Module
@@ -22,22 +22,22 @@ object NavigatorModule {
 
     @Provides
     @Singleton
-    fun provideMainTabNavigator() = object : MainTabNavigator {
-        override fun homeTabIntent(context: Context, flags: Int?) =
+    fun provideMainScreenNavigator() = object : MainScreenNavigator {
+        override fun homeScreenIntent(context: Context, flags: Int?) =
             Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, MainTab.Home)
+                putExtra(Constants.destination, MainScreen.Home)
                 flags?.let { addFlags(it) }
             }
 
-        override fun noteTabIntent(context: Context, flags: Int?) =
+        override fun noteScreenIntent(context: Context, flags: Int?) =
             Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, MainTab.Note)
+                putExtra(Constants.destination, MainScreen.Note)
                 flags?.let { addFlags(it) }
             }
 
-        override fun settingsTabIntent(context: Context, flags: Int?) =
+        override fun settingsScreenIntent(context: Context, flags: Int?) =
             Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, MainTab.Settings)
+                putExtra(Constants.destination, MainScreen.Settings)
                 flags?.let { addFlags(it) }
             }
     }

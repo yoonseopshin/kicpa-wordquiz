@@ -37,7 +37,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
@@ -49,7 +49,7 @@ import com.ysshin.cpaquiz.shared.base.Action
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
+fun SettingsScreen(viewModel: SettingsViewModel) {
     CpaQuizTheme {
         val context = LocalContext.current
         val snackbarHostState = remember { SnackbarHostState() }
@@ -147,7 +147,9 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
 }
 
 @Composable
-fun InitSettingsDialog(viewModel: SettingsViewModel = viewModel()) {
+fun InitSettingsDialog() {
+    val viewModel = hiltViewModel<SettingsViewModel>()
+
     val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsState()
     if (openDeleteWrongProblemDialog.value) {
         AppInfoDialog(
@@ -222,13 +224,6 @@ fun SettingsListItem(
             )
         }
     }
-}
-
-// FIXME: Preview not showing
-@Composable
-@Preview(showBackground = true)
-private fun SettingsUiPreview() {
-    SettingsScreen()
 }
 
 @Preview(showBackground = true)

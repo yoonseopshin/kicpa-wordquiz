@@ -104,10 +104,6 @@ fun AppNumberPickerDialog(
                     maxValue = maxNumber
                     value = defaultNumber
 
-                    // FIXME: Remove after applying material3
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        textColor = context.getColor(R.color.dayonly_gray900s)
-                    }
                     setOnValueChangedListener { _, _, _ ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                             val vibrator =

@@ -49,6 +49,7 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding true
+        compose true
     }
 
     compileOptions {
@@ -59,6 +60,10 @@ android {
     kotlinOptions {
         jvmTarget = '11'
         useIR = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     packagingOptions {
@@ -88,6 +93,8 @@ dependencies {
     implementation project(":feature-quiz")
     implementation project(":feature-settings")
     implementation project(":feature-sync")
+
+    implementation(libs.bundles.compose)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
