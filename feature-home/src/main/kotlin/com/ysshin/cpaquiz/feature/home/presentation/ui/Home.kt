@@ -265,7 +265,12 @@ fun HomeTopMenu(
             label = "SettingsMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                MaterialTheme.colors.primary
+                if (MaterialTheme.colors.isLight) {
+                    // FIXME: After migrate to material3, set to primary color
+                    MaterialTheme.colors.onPrimary
+                } else {
+                    MaterialTheme.colors.primary
+                }
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }
