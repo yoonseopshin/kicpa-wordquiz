@@ -113,7 +113,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NoteScreen(viewModel: NoteViewModel) {
+fun NoteScreen(viewModel: NoteViewModel = hiltViewModel()) {
     CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)

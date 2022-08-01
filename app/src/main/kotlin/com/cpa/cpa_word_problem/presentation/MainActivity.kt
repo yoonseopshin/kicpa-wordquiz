@@ -4,86 +4,95 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.cpa.cpa_word_problem.presentation.ui.components.MainTabRow
-import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
-import com.ysshin.cpaquiz.feature.home.presentation.ui.HomeScreen
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
-import com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteScreen
-import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
-import com.ysshin.cpaquiz.feature.settings.presentation.ui.SettingsScreen
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
+import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
+import com.cpa.cpa_word_problem.presentation.ui.CpaQuizAppState
+import com.cpa.cpa_word_problem.presentation.ui.rememberCpaQuizAppState
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.shared.android.util.Constants
+import com.ysshin.cpaquiz.shared.base.Consumer
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
+    // FIXME: How to intent to original android view based activity?
+    // This way doesn't seem nice.
     @Inject
     lateinit var problemDetailNavigator: ProblemDetailNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainScreen(problemDetailNavigator, getDestinationTab())
+            MainScreen(problemDetailNavigator)
         }
-    }
-
-    private fun getDestinationTab(): MainScreen {
-        return intent?.extras?.let { extras ->
-            (extras.getSerializable(Constants.destination) as? MainScreen)
-        } ?: MainScreen.Home
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navigator: ProblemDetailNavigator, destination: MainScreen) {
+fun MainScreen(
+    navigator: ProblemDetailNavigator,
+    appState: CpaQuizAppState = rememberCpaQuizAppState(),
+) {
+    // TODO: Handle intent with destination from QuizDetailActivity.
     CpaQuizTheme {
-        val allScreens = MainScreen.values().toList()
-        val navController = rememberNavController()
-        var currentTab = destination
-
         Scaffold(
             bottomBar = {
-                // TODO: Improve tab
-                MainTabRow(
-                    allScreens = allScreens,
-                    onTabSelected = { tab ->
-                        currentTab = tab
-                        navController.navigate(tab.name)
-                    },
-                    currentScreen = currentTab
+                TopLevelBottomBar(
+                    destinations = appState.topLevelDestinations,
+                    onNavigateToDestination = appState::navigate,
+                    currentDestination = appState.currentDestination
                 )
             }
         ) { padding ->
-            NavHost(
-                navController = navController,
-                startDestination = destination.toString(),
+            CpaQuizNavHost(
+                navigator = navigator,
+                navController = appState.navController,
+                onNavigateToDestination = appState::navigate,
+                onBackClick = appState::onBackClick,
                 modifier = Modifier.padding(padding)
-            ) {
-                composable(MainScreen.Home.toString()) {
-                    val homeViewModel = hiltViewModel<HomeViewModel>()
-                    HomeScreen(navigator = navigator, viewModel = homeViewModel)
+            )
+        }
+    }
+}
+
+@Composable
+private fun TopLevelBottomBar(
+    destinations: List<TopLevelDestination>,
+    onNavigateToDestination: Consumer<TopLevelDestination>,
+    currentDestination: NavDestination?,
+) {
+    NavigationBar {
+        destinations.forEach { destination ->
+            val selected = currentDestination?.hierarchy?.any { it.route == destination.route } == true
+            NavigationBarItem(
+                selected = selected,
+                onClick = { onNavigateToDestination(destination) },
+                icon = {
+                    val icon = if (selected) {
+                        destination.selectedIcon
+                    } else {
+                        destination.unselectedIcon
+                    }
+                    Icon(imageVector = icon, contentDescription = null)
+                },
+                label = {
+                    Text(text = stringResource(id = destination.iconTextResourceId))
                 }
-                composable(MainScreen.Note.toString()) {
-                    val noteViewModel = hiltViewModel<NoteViewModel>()
-                    NoteScreen(viewModel = noteViewModel)
-                }
-                composable(MainScreen.Settings.toString()) {
-                    val settingsViewModel = hiltViewModel<SettingsViewModel>()
-                    SettingsScreen(viewModel = settingsViewModel)
-                }
-            }
+            )
         }
     }
 }

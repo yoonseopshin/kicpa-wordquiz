@@ -49,7 +49,7 @@ import com.ysshin.cpaquiz.shared.base.Action
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel) {
+fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     CpaQuizTheme {
         val context = LocalContext.current
         val snackbarHostState = remember { SnackbarHostState() }

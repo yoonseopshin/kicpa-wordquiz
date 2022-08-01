@@ -86,6 +86,7 @@ dependencies {
     implementation project(":nativetemplates")
     implementation project(':shared-android')
     implementation project(':shared-base')
+    implementation project(':shared-navigation')
     implementation project(":domain")
     implementation project(":data")
     implementation project(":data-network")
@@ -95,6 +96,7 @@ dependencies {
     implementation project(":feature-sync")
 
     implementation(libs.bundles.compose)
+    implementation(libs.compose.material3)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
