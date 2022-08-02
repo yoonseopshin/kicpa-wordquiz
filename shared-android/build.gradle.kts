@@ -64,13 +64,13 @@ dependencies {
     debugApi(libs.compose.ui.tooling)
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
-    debugApi("androidx.customview:customview-poolingcontainer:1.0.0-rc01")
+    debugApi("androidx.customview:customview-poolingcontainer:1.0.0")
 
-    api("androidx.activity:activity-compose:1.5.0")
-    api("androidx.navigation:navigation-compose:2.5.0")
+    api("androidx.activity:activity-compose:1.5.1")
+    api("androidx.navigation:navigation-compose:2.5.1")
     api("androidx.hilt:hilt-navigation-compose:1.0.0")
-    api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0")
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
+    api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     api("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha01")
     api("androidx.lifecycle:lifecycle-extensions:2.2.0")
 

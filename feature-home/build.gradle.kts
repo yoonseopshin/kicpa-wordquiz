@@ -6,8 +6,6 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":nativetemplates"))
-
     implementation("com.google.android.gms:play-services-ads:20.6.0")
 
     implementation("com.google.android.play:core:1.10.3")
@@ -15,5 +13,6 @@ dependencies {
 
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
-    implementation("com.google.accompanist:accompanist-flowlayout:0.24.13-rc")
+    implementation(libs.accompanist.flowlayout)
+    implementation(libs.compose.material)
 }

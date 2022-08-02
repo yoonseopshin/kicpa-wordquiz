@@ -14,4 +14,6 @@ dependencies {
     implementation("com.google.android.play:core-ktx:1.8.1")
 
     implementation("androidx.recyclerview:recyclerview:1.3.0-beta01")
+
+    implementation(libs.compose.material)
 }

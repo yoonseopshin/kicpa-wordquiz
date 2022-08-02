@@ -2,7 +2,6 @@ package com.ysshin.cpaquiz.feature.settings.presentation.ui
 
 import android.content.Intent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,23 +12,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.LocalElevationOverlay
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -38,9 +37,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
@@ -50,17 +49,18 @@ import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.base.Action
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
+fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     CpaQuizTheme {
-        val scaffoldState = rememberScaffoldState()
         val context = LocalContext.current
+        val snackbarHostState = remember { SnackbarHostState() }
 
-        LaunchedEffect(scaffoldState) {
+        LaunchedEffect(snackbarHostState) {
             viewModel.uiEvent.collect { event ->
                 when (event) {
                     is SettingsViewModel.UiEvent.ShowSnackbar -> {
-                        scaffoldState.snackbarHostState.showSnackbar(
+                        snackbarHostState.showSnackbar(
                             message = event.message.asString(context),
                             actionLabel = event.actionLabel.asString(context)
                         )
@@ -70,19 +70,16 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
         }
 
         Scaffold(
-            scaffoldState = scaffoldState,
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             topBar = {
-                CompositionLocalProvider(LocalElevationOverlay provides null) {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                text = stringResource(id = R.string.settings),
-                                modifier = Modifier.fillMaxWidth(),
-                            )
-                        },
-                        backgroundColor = colorResource(id = R.color.theme_color)
-                    )
-                }
+                LargeTopAppBar(
+                    title = {
+                        Text(
+                            text = stringResource(id = R.string.settings),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                )
             }
         ) { padding ->
             InitSettingsDialog()
@@ -154,7 +151,8 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun InitSettingsDialog(viewModel: SettingsViewModel = viewModel()) {
+fun InitSettingsDialog() {
+    val viewModel = hiltViewModel<SettingsViewModel>()
     val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
     if (openDeleteWrongProblemDialog.value) {
         AppInfoDialog(
@@ -210,7 +208,6 @@ fun SettingsListItem(
     ) {
         Row(
             modifier = Modifier
-                .background(MaterialTheme.colors.primary.copy(alpha = 0.1f))
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -218,7 +215,7 @@ fun SettingsListItem(
                 painter = settingsIcon,
                 contentDescription = settingsText,
                 modifier = Modifier.size(size = 36.dp),
-                colorFilter = ColorFilter.tint(colorResource(id = R.color.item_highlight_color))
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
@@ -230,13 +227,6 @@ fun SettingsListItem(
             )
         }
     }
-}
-
-// FIXME: Preview not showing
-@Composable
-@Preview(showBackground = true)
-private fun SettingsUiPreview() {
-    SettingsScreen()
 }
 
 @Preview(showBackground = true)

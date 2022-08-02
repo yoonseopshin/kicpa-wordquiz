@@ -35,7 +35,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -49,7 +48,6 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,9 +64,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
@@ -79,7 +77,6 @@ import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialog
-import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
@@ -89,8 +86,8 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
-fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = viewModel()) {
-    CpaQuizTheme {
+fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hiltViewModel()) {
+    CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
         )
@@ -106,7 +103,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = vie
         BottomSheetScaffold(
             sheetContent = {
                 // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
-                HomeSettingsBottomSheetContent(viewModel)
+                HomeSettingsBottomSheetContent()
             },
             sheetBackgroundColor = MaterialTheme.colors.onSurface,
             scaffoldState = bottomSheetScaffoldState,
@@ -222,23 +219,21 @@ fun HomeTopAppBar(
     scope: CoroutineScope = rememberCoroutineScope(),
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
 ) {
-    CompositionLocalProvider(LocalElevationOverlay provides null) {
-        TopAppBar(
-            title = {
-                Text(
-                    text = if (dday.isBlank()) "" else stringResource(id = R.string.dday, dday),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            backgroundColor = colorResource(id = R.color.theme_color),
-            actions = {
-                HomeTopMenu(
-                    bottomSheetScaffoldState = bottomSheetScaffoldState,
-                    scope = scope
-                )
-            }
-        )
-    }
+    TopAppBar(
+        elevation = 0.dp,
+        title = {
+            Text(
+                text = if (dday.isBlank()) "" else stringResource(id = R.string.dday, dday),
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        actions = {
+            HomeTopMenu(
+                bottomSheetScaffoldState = bottomSheetScaffoldState,
+                scope = scope
+            )
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -271,7 +266,12 @@ fun HomeTopMenu(
             label = "SettingsMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                colorResource(id = R.color.daynight_pastel_blue)
+                if (MaterialTheme.colors.isLight) {
+                    // FIXME: After migrate to material3, set to primary color
+                    MaterialTheme.colors.onPrimary
+                } else {
+                    MaterialTheme.colors.primary
+                }
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }
@@ -380,7 +380,7 @@ fun QuizCard(
                 Column(modifier = Modifier.defaultMinSize(minWidth = 64.dp)) {
                     Text(
                         text = stringResource(id = R.string.quiz_count, count),
-                        style = Typography.caption,
+                        style = Typography.labelSmall,
                         color = if (quizCardEnabled) {
                             colorResource(id = R.color.daynight_gray500s)
                         } else {
@@ -389,7 +389,7 @@ fun QuizCard(
                     )
                     Text(
                         text = title,
-                        style = Typography.subtitle1,
+                        style = Typography.titleMedium,
                         color = if (quizCardEnabled) {
                             colorResource(id = R.color.daynight_gray800s)
                         } else {
@@ -404,7 +404,9 @@ fun QuizCard(
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun HomeSettingsBottomSheetContent(viewModel: HomeViewModel = viewModel()) {
+fun HomeSettingsBottomSheetContent() {
+    val viewModel = hiltViewModel<HomeViewModel>()
+
     Timber.d("bottomSheetContentState: Settings")
     LazyColumn {
         item {
@@ -466,7 +468,7 @@ fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Cons
         Crossfade(targetState = quizNumber) {
             Text(
                 text = it.toString(),
-                style = Typography.h6,
+                style = Typography.headlineSmall,
                 color = colorResource(id = R.color.daynight_gray900s)
             )
         }
@@ -493,10 +495,13 @@ fun HomeSettingsBottomSheetListItem(
             modifier = Modifier.size(32.dp),
             painter = icon,
             contentDescription = null,
-            tint = colorResource(id = R.color.item_highlight_color)
+            tint = MaterialTheme.colors.primary
         )
         Spacer(modifier = Modifier.width(20.dp))
-        Text(text = text, style = Typography.body1, color = colorResource(id = R.color.daynight_gray700s))
+        Text(
+            text = text, style = Typography.bodyLarge,
+            color = colorResource(id = R.color.daynight_gray700s)
+        )
 
         Row(
             modifier = Modifier

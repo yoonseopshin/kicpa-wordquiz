@@ -19,6 +19,7 @@ androidx-legacy-support-v4 = "1.0.0"
 androidx-activity-ktx = "1.6.0-alpha05"
 androidx-fragment-ktx = "1.5.1"
 material = "1.7.0-alpha03"
+material3 = "1.0.0-alpha15"
 room = "2.4.3"
 datastore = "1.0.0"
 hilt = "2.43.1"
@@ -72,6 +73,7 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
@@ -96,6 +98,6 @@ accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist
 [bundles]
 androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-support-v4", "androidx-activity-ktx", "androidx-fragment-ktx"]
 room = ["room-runtime", "room-ktx"]
-compose = ["compose-ui", "compose-ui-viewbinding", "compose-ui-tooling-preview", "compose-material", "androidx-activity-compose"]
+compose = ["compose-ui", "compose-ui-viewbinding", "compose-ui-tooling-preview", "compose-material3", "androidx-activity-compose"]
 androidx-test = ["androidx-text-ext-junit", "androidx-test-espresso-core"]
 retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-kotlinx-serialization", "okhttp-bom", "okhttp-core", "okhttp-logging-interceptor"]

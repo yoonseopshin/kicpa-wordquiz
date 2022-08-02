@@ -1,11 +1,9 @@
 package com.ysshin.cpaquiz.shared.android.ui.dialog
 
 import android.os.Parcelable
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,25 +12,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.Chip
-import androidx.compose.material.ChipDefaults
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -54,7 +50,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SelectableTextItem(val text: String, val isSelected: Boolean) : Parcelable
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppCheckboxDialog(
     modifier: Modifier = Modifier,
@@ -73,18 +69,18 @@ fun AppCheckboxDialog(
 
         Card(
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
+            modifier = Modifier
+                .padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
                 .verticalScroll(state = verticalScrollState),
-            elevation = 4.dp
         ) {
             Column(
-                modifier.background(MaterialTheme.colors.surface)
+                modifier.background(MaterialTheme.colorScheme.surface)
             ) {
                 Image(
                     painter = icon,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary),
                     modifier = Modifier
                         .padding(top = 36.dp)
                         .height(48.dp)
@@ -99,7 +95,7 @@ fun AppCheckboxDialog(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.h6
+                        style = MaterialTheme.typography.headlineSmall
                     )
                     Text(
                         text = description,
@@ -107,7 +103,7 @@ fun AppCheckboxDialog(
                             .padding(top = 12.dp, start = 24.dp, end = 24.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
 
@@ -118,42 +114,27 @@ fun AppCheckboxDialog(
                     mainAxisSize = SizeMode.Expand,
                 ) {
                     for (item in items) {
-                        Chip(
+                        FilterChip(
                             modifier = Modifier.padding(horizontal = 4.dp),
                             onClick = {
                                 items = items.map { selectedItem ->
                                     if (item == selectedItem) {
                                         item.copy(isSelected = item.isSelected.not())
-                                    } else selectedItem
+                                    } else {
+                                        selectedItem
+                                    }
                                 }
                             },
-                            colors = ChipDefaults.chipColors(
-                                backgroundColor = if (item.isSelected) {
-                                    colorResource(id = R.color.secondaryColor_0_15)
-                                } else {
-                                    colorResource(id = R.color.daynight_gray070s)
-                                },
-                                contentColor = if (item.isSelected) Color.Magenta else Color.Black
-                            ),
-                            border = BorderStroke(
-                                width = 0.5.dp,
-                                color = if (item.isSelected) {
-                                    colorResource(id = R.color.secondaryColor)
-                                } else {
-                                    colorResource(id = R.color.daynight_gray300s)
+                            selected = item.isSelected,
+                            label = (
+                                {
+                                    ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                        Text(text = item.text)
+                                    }
                                 }
-                            ),
-                        ) {
-                            Box {
-                                Text(
-                                    modifier = Modifier.align(Alignment.Center),
-                                    text = item.text,
-                                    color = MaterialTheme.colors.onSurface,
-                                    textAlign = TextAlign.Center,
-                                    maxLines = 1,
-                                )
-                            }
-                        }
+                                ),
+                            colors = FilterChipDefaults.filterChipColors()
+                        )
                     }
                 }
 
@@ -161,14 +142,14 @@ fun AppCheckboxDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)
-                        .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {
                         TextButton(onClick = onDismiss) {
                             Text(
                                 text = dismissText,
-                                style = Typography.button,
+                                style = Typography.labelLarge,
                                 modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                             )
                         }
@@ -176,7 +157,7 @@ fun AppCheckboxDialog(
                     TextButton(onClick = { onConfirm(items) }) {
                         Text(
                             text = confirmText,
-                            style = Typography.button,
+                            style = Typography.labelLarge,
                             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                         )
                     }

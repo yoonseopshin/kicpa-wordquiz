@@ -39,6 +39,7 @@ android {
 dependencies {
     implementation(project(":shared-android"))
     implementation(project(":shared-base"))
+    implementation(project(":shared-navigation"))
     implementation(project(":domain"))
 
     add("implementation", libs.findLibrary("hilt.android").get())
@@ -48,4 +49,6 @@ dependencies {
 
     add("testImplementation", libs.findLibrary("junit").get())
     add("androidTestImplementation", libs.findBundle("androidx-test").get())
+
+    add("implementation", libs.findLibrary("compose.material3").get())
 }

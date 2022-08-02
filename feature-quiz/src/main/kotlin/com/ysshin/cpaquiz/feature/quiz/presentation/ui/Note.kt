@@ -41,7 +41,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
@@ -55,7 +54,6 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -83,9 +81,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
@@ -108,7 +106,6 @@ import com.ysshin.cpaquiz.shared.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
-import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.base.Action
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -117,8 +114,8 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
-fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
-    CpaQuizTheme {
+fun NoteScreen(viewModel: NoteViewModel = hiltViewModel()) {
+    CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
         )
@@ -152,10 +149,10 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                 // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
                 when (bottomSheetContentState) {
                     is NoteBottomSheetContentState.Filter -> {
-                        NoteFilterBottomSheetContent(viewModel)
+                        NoteFilterBottomSheetContent()
                     }
                     is NoteBottomSheetContentState.Search -> {
-                        NoteSearchBottomSheetContent(bottomSheetScaffoldState, viewModel, coroutineScope)
+                        NoteSearchBottomSheetContent(bottomSheetScaffoldState, coroutineScope)
                     }
                     is NoteBottomSheetContentState.None -> {
                         // Note: If sheetContent is empty, the following exception occurs:
@@ -181,7 +178,6 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
                 topBar = {
                     NoteTopAppBar(
                         bottomSheetScaffoldState = bottomSheetScaffoldState,
-                        viewModel = viewModel,
                         scope = coroutineScope
                     )
                 }
@@ -210,33 +206,30 @@ fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
 @Composable
 private fun NoteTopAppBar(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
     val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
     val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
     val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
 
-    CompositionLocalProvider(LocalElevationOverlay provides null) {
-        TopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.note),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            backgroundColor = colorResource(id = R.color.theme_color),
-            actions = {
-                NoteTopMenu(
-                    viewModel,
-                    bottomSheetScaffoldState,
-                    userInput.value.isNotBlank(),
-                    isYearFiltering.value || isQuizTypeFiltering.value,
-                    scope
-                )
-            }
-        )
-    }
+    TopAppBar(
+        elevation = 0.dp,
+        title = {
+            Text(
+                text = stringResource(id = R.string.note),
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        actions = {
+            NoteTopMenu(
+                bottomSheetScaffoldState,
+                userInput.value.isNotBlank(),
+                isYearFiltering.value || isQuizTypeFiltering.value,
+                scope
+            )
+        },
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -367,10 +360,10 @@ fun WrongNoteHeaderContent(
 )
 @Composable
 fun NoteSummaryContent(
-    viewModel: NoteViewModel = viewModel(),
     problem: Problem,
     onProblemLongClick: Action? = null,
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
     val context = LocalContext.current
 
     val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
@@ -572,9 +565,9 @@ fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun NoteFilterBottomSheetContent(
-    viewModel: NoteViewModel = viewModel(),
-) {
+fun NoteFilterBottomSheetContent() {
+    val viewModel = hiltViewModel<NoteViewModel>()
+
     LazyColumn {
         item {
             BottomSheetHandle()
@@ -721,7 +714,6 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
 @Composable
 fun NoteSearchBottomSheetContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     LazyColumn {
@@ -730,7 +722,7 @@ fun NoteSearchBottomSheetContent(
         }
 
         item {
-            BottomSheetSearchContent(bottomSheetScaffoldState, viewModel, scope)
+            BottomSheetSearchContent(bottomSheetScaffoldState, scope)
         }
     }
 }
@@ -742,9 +734,9 @@ fun NoteSearchBottomSheetContent(
 @Composable
 fun BottomSheetSearchContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    viewModel: NoteViewModel = viewModel(),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -857,12 +849,12 @@ fun NoteHeader(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun NoteTopMenu(
-    viewModel: NoteViewModel,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     isSearching: Boolean,
     isFiltering: Boolean,
     scope: CoroutineScope,
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
     val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
     val bottomSheetContentState = viewModel.bottomSheetContentState.value
 
@@ -874,17 +866,18 @@ fun NoteTopMenu(
         Chip(
             onClick = { viewModel.updateUserInput("") },
             colors = ChipDefaults.chipColors(
-                backgroundColor = colorResource(id = R.color.secondaryColor_0_15)
+                contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                backgroundColor = colorResource(id = R.color.daynight_gray070s),
             ),
             border = BorderStroke(
                 width = 0.5.dp,
-                color = colorResource(id = R.color.secondaryColor)
+                color = colorResource(id = R.color.daynight_gray300s)
             ),
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_search_off),
                     contentDescription = stringResource(id = R.string.clear_note_searching),
-                    tint = colorResource(id = R.color.secondaryColor),
+                    tint = colorResource(id = R.color.daynight_gray300s),
                     modifier = Modifier.padding(start = 4.dp)
                 )
             },
@@ -901,18 +894,19 @@ fun NoteTopMenu(
         Chip(
             onClick = { viewModel.setFilter(years = Problem.allYears(), types = QuizType.all()) },
             colors = ChipDefaults.chipColors(
-                backgroundColor = colorResource(id = R.color.secondaryColor_0_15)
+                contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
+                backgroundColor = colorResource(id = R.color.daynight_gray070s),
             ),
             border = BorderStroke(
                 width = 0.5.dp,
-                color = colorResource(id = R.color.secondaryColor)
+                color = colorResource(id = R.color.daynight_gray300s)
             ),
             modifier = Modifier.padding(all = 4.dp),
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_filter),
                     contentDescription = stringResource(id = R.string.clear_filter),
-                    tint = colorResource(id = R.color.secondaryColor),
+                    tint = colorResource(id = R.color.daynight_gray300s),
                     modifier = Modifier.padding(start = 4.dp)
                 )
             },
@@ -946,7 +940,12 @@ fun NoteTopMenu(
             label = "SearchingMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                colorResource(id = R.color.daynight_pastel_blue)
+                if (MaterialTheme.colors.isLight) {
+                    // FIXME: After migrate to material3, set to primary color
+                    MaterialTheme.colors.onPrimary
+                } else {
+                    MaterialTheme.colors.primary
+                }
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }
@@ -995,7 +994,12 @@ fun NoteTopMenu(
             label = "FilteringMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                colorResource(id = R.color.daynight_pastel_blue)
+                if (MaterialTheme.colors.isLight) {
+                    // FIXME: After migrate to material3, set to primary color
+                    MaterialTheme.colors.onPrimary
+                } else {
+                    MaterialTheme.colors.primary
+                }
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }
