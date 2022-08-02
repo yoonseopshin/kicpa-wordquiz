@@ -96,8 +96,8 @@ fun CpaQuizTheme(
         SideEffect {
             val activity = view.context.findActivity() ?: return@SideEffect
             activity.window.statusBarColor = colorScheme.primary.toArgb()
-            activity.window.navigationBarColor =
-                colorScheme.primary.copy(alpha = 0.08f).compositeOver(colorScheme.surface.copy()).toArgb()
+            activity.window.navigationBarColor = colorScheme.onSecondaryContainer.toArgb()
+
             WindowCompat.getInsetsController(activity.window, view).isAppearanceLightStatusBars = darkTheme
             WindowCompat.getInsetsController(activity.window, view).isAppearanceLightNavigationBars =
                 darkTheme.not()
