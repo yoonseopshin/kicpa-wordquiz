@@ -63,7 +63,7 @@ fun MainScreen(
                 navController = appState.navController,
                 onNavigateToDestination = appState::navigate,
                 onBackClick = appState::onBackClick,
-                modifier = Modifier.padding(padding)
+                modifier = Modifier.padding(padding),
             )
         }
     }
