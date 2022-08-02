@@ -46,104 +46,101 @@ import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsView
 import com.ysshin.cpaquiz.shared.android.BuildConfig
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
-import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.base.Action
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
-    CpaQuizTheme {
-        val context = LocalContext.current
-        val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
 
-        LaunchedEffect(snackbarHostState) {
-            viewModel.uiEvent.collect { event ->
-                when (event) {
-                    is SettingsViewModel.UiEvent.ShowSnackbar -> {
-                        snackbarHostState.showSnackbar(
-                            message = event.message.asString(context),
-                            actionLabel = event.actionLabel.asString(context)
-                        )
-                    }
+    LaunchedEffect(snackbarHostState) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is SettingsViewModel.UiEvent.ShowSnackbar -> {
+                    snackbarHostState.showSnackbar(
+                        message = event.message.asString(context),
+                        actionLabel = event.actionLabel.asString(context)
+                    )
                 }
             }
         }
+    }
 
-        Scaffold(
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-            topBar = {
-                LargeTopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(id = R.string.settings),
-                            modifier = Modifier.fillMaxWidth(),
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            LargeTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.settings),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            )
+        }
+    ) { padding ->
+        InitSettingsDialog()
+
+        LazyColumn(
+            modifier = Modifier.padding(padding),
+            contentPadding = PaddingValues(vertical = 20.dp)
+        ) {
+            item {
+                SettingsListItem(
+                    settingsIcon = painterResource(id = R.drawable.ic_delete),
+                    settingsText = stringResource(id = R.string.delete_wrong_note),
+                    onClick = {
+                        viewModel.updateDeleteWrongProblemDialogOpened(true)
+                    },
+                )
+            }
+
+            item {
+                SettingsListItem(
+                    settingsIcon = painterResource(id = R.drawable.ic_info),
+                    settingsText = stringResource(id = R.string.app_version),
+                    onClick = {
+                        viewModel.updateAppVersionDialogOpened(true)
+                    }
+                )
+            }
+
+            item {
+                SettingsListItem(
+                    settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
+                    settingsText = stringResource(id = R.string.open_source_license),
+                    onClick = {
+                        context.startActivity(
+                            Intent(context, OssLicensesMenuActivity::class.java)
                         )
                     }
                 )
             }
-        ) { padding ->
-            InitSettingsDialog()
 
-            LazyColumn(
-                modifier = Modifier.padding(padding),
-                contentPadding = PaddingValues(vertical = 20.dp)
-            ) {
-                item {
-                    SettingsListItem(
-                        settingsIcon = painterResource(id = R.drawable.ic_delete),
-                        settingsText = stringResource(id = R.string.delete_wrong_note),
-                        onClick = {
-                            viewModel.updateDeleteWrongProblemDialogOpened(true)
-                        },
-                    )
-                }
-
-                item {
-                    SettingsListItem(
-                        settingsIcon = painterResource(id = R.drawable.ic_info),
-                        settingsText = stringResource(id = R.string.app_version),
-                        onClick = {
-                            viewModel.updateAppVersionDialogOpened(true)
-                        }
-                    )
-                }
-
-                item {
-                    SettingsListItem(
-                        settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
-                        settingsText = stringResource(id = R.string.open_source_license),
-                        onClick = {
-                            context.startActivity(
-                                Intent(context, OssLicensesMenuActivity::class.java)
+            item {
+                SettingsListItem(
+                    settingsIcon = painterResource(id = R.drawable.ic_mail),
+                    settingsText = stringResource(id = R.string.mail_to_developer),
+                    onClick = {
+                        val emailIntent = Intent(Intent.ACTION_SEND).apply {
+                            putExtra(
+                                Intent.EXTRA_SUBJECT,
+                                context.getString(R.string.mail_to_developer_title)
                             )
+                            putExtra(
+                                Intent.EXTRA_EMAIL,
+                                arrayOf(context.getString(R.string.developer_email))
+                            )
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                context.getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
+                            )
+                            type = "message/rfc822"
                         }
-                    )
-                }
-
-                item {
-                    SettingsListItem(
-                        settingsIcon = painterResource(id = R.drawable.ic_mail),
-                        settingsText = stringResource(id = R.string.mail_to_developer),
-                        onClick = {
-                            val emailIntent = Intent(Intent.ACTION_SEND).apply {
-                                putExtra(
-                                    Intent.EXTRA_SUBJECT,
-                                    context.getString(R.string.mail_to_developer_title)
-                                )
-                                putExtra(
-                                    Intent.EXTRA_EMAIL,
-                                    arrayOf(context.getString(R.string.developer_email))
-                                )
-                                putExtra(
-                                    Intent.EXTRA_TEXT,
-                                    context.getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
-                                )
-                                type = "message/rfc822"
-                            }
-                            context.startActivity(Intent.createChooser(emailIntent, "이메일:"))
-                        }
-                    )
-                }
+                        context.startActivity(Intent.createChooser(emailIntent, "이메일:"))
+                    }
+                )
             }
         }
     }
