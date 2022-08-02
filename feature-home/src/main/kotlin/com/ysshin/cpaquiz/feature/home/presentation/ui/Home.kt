@@ -48,7 +48,6 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,6 +65,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
@@ -83,7 +84,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hiltViewModel()) {
     CpaQuizLegacyTheme {
@@ -112,7 +113,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hil
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    val dday by viewModel.dday.collectAsState()
+                    val dday by viewModel.dday.collectAsStateWithLifecycle()
                     HomeTopAppBar(
                         dday = dday,
                         scope = coroutineScope,
@@ -132,7 +133,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hil
                     crossAxisSpacing = 20.dp,
                     mainAxisSpacing = 20.dp
                 ) {
-                    val accountingCount by viewModel.accountingCount.collectAsState()
+                    val accountingCount by viewModel.accountingCount.collectAsStateWithLifecycle()
                     QuizCard(
                         cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
@@ -150,7 +151,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hil
                         }
                     )
 
-                    val businessCount by viewModel.businessCount.collectAsState()
+                    val businessCount by viewModel.businessCount.collectAsStateWithLifecycle()
                     QuizCard(
                         cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
@@ -168,7 +169,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hil
                         }
                     )
 
-                    val commercialLawCount by viewModel.commercialLawCount.collectAsState()
+                    val commercialLawCount by viewModel.commercialLawCount.collectAsStateWithLifecycle()
                     QuizCard(
                         cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
@@ -186,7 +187,7 @@ fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hil
                         }
                     )
 
-                    val taxLawCount by viewModel.taxLawCount.collectAsState()
+                    val taxLawCount by viewModel.taxLawCount.collectAsStateWithLifecycle()
                     QuizCard(
                         cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
@@ -401,6 +402,7 @@ fun QuizCard(
     }
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeSettingsBottomSheetContent() {
     val viewModel = hiltViewModel<HomeViewModel>()
@@ -412,7 +414,7 @@ fun HomeSettingsBottomSheetContent() {
         }
 
         item {
-            val quizNumber by viewModel.quizNumber.collectAsState()
+            val quizNumber by viewModel.quizNumber.collectAsStateWithLifecycle()
             HomeQuizNumberBottomSheetListItem(
                 quizNumber = quizNumber,
                 onQuizNumberConfirm = viewModel::setQuizNumber
@@ -420,7 +422,7 @@ fun HomeSettingsBottomSheetContent() {
         }
 
         item {
-            val useTimer by viewModel.useTimer.collectAsState()
+            val useTimer by viewModel.useTimer.collectAsStateWithLifecycle()
 
             HomeSettingsBottomSheetListItem(
                 icon = painterResource(id = R.drawable.ic_timer),
