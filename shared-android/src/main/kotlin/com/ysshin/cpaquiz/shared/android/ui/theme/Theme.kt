@@ -9,11 +9,9 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
 import com.ysshin.cpaquiz.shared.android.util.findActivity
 
 private val LightColorScheme = lightColorScheme(
@@ -97,10 +95,6 @@ fun CpaQuizTheme(
             val activity = view.context.findActivity() ?: return@SideEffect
             activity.window.statusBarColor = colorScheme.primary.toArgb()
             activity.window.navigationBarColor = colorScheme.onSecondaryContainer.toArgb()
-
-            WindowCompat.getInsetsController(activity.window, view).isAppearanceLightStatusBars = darkTheme
-            WindowCompat.getInsetsController(activity.window, view).isAppearanceLightNavigationBars =
-                darkTheme.not()
         }
     }
 
