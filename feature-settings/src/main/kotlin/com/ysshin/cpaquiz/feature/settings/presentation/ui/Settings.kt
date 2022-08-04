@@ -10,16 +10,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -50,7 +54,7 @@ import com.ysshin.cpaquiz.shared.base.Action
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -70,87 +74,120 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.settings),
-                        modifier = Modifier.fillMaxWidth(),
+            SettingsTopAppBar(windowSizeClass)
+        }
+    ) { padding ->
+        SettingsLazyVerticalGrid(modifier = Modifier.padding(padding), windowSizeClass = windowSizeClass)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SettingsTopAppBar(windowSizeClass: WindowSizeClass) {
+    val shouldShowLargeTopAppBar = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+    if (shouldShowLargeTopAppBar) {
+        LargeTopAppBar(
+            title = {
+                Text(
+                    text = stringResource(id = R.string.settings),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        )
+    } else {
+        SmallTopAppBar(
+            title = {
+                Text(
+                    text = stringResource(id = R.string.settings),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        )
+    }
+}
+
+@Composable
+private fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeClass: WindowSizeClass) {
+    val viewModel = hiltViewModel<SettingsViewModel>()
+    val context = LocalContext.current
+
+    val numberOfColumns = when (windowSizeClass.widthSizeClass) {
+        WindowWidthSizeClass.Expanded -> 2
+        else -> 1
+    }
+
+    InitSettingsDialog()
+
+    LazyVerticalGrid(
+        modifier = modifier,
+        contentPadding = PaddingValues(vertical = 20.dp),
+        columns = GridCells.Fixed(numberOfColumns)
+    ) {
+        item {
+            SettingsListItem(
+                settingsIcon = painterResource(id = R.drawable.ic_delete),
+                settingsText = stringResource(id = R.string.delete_wrong_note),
+                onClick = {
+                    viewModel.updateDeleteWrongProblemDialogOpened(true)
+                },
+            )
+        }
+
+        item {
+            SettingsListItem(
+                settingsIcon = painterResource(id = R.drawable.ic_info),
+                settingsText = stringResource(id = R.string.app_version),
+                onClick = {
+                    viewModel.updateAppVersionDialogOpened(true)
+                }
+            )
+        }
+
+        item {
+            SettingsListItem(
+                settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
+                settingsText = stringResource(id = R.string.open_source_license),
+                onClick = {
+                    context.startActivity(
+                        Intent(context, OssLicensesMenuActivity::class.java)
                     )
                 }
             )
         }
-    ) { padding ->
-        InitSettingsDialog()
 
-        LazyColumn(
-            modifier = Modifier.padding(padding),
-            contentPadding = PaddingValues(vertical = 20.dp)
-        ) {
-            item {
-                SettingsListItem(
-                    settingsIcon = painterResource(id = R.drawable.ic_delete),
-                    settingsText = stringResource(id = R.string.delete_wrong_note),
-                    onClick = {
-                        viewModel.updateDeleteWrongProblemDialogOpened(true)
-                    },
-                )
-            }
-
-            item {
-                SettingsListItem(
-                    settingsIcon = painterResource(id = R.drawable.ic_info),
-                    settingsText = stringResource(id = R.string.app_version),
-                    onClick = {
-                        viewModel.updateAppVersionDialogOpened(true)
-                    }
-                )
-            }
-
-            item {
-                SettingsListItem(
-                    settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
-                    settingsText = stringResource(id = R.string.open_source_license),
-                    onClick = {
-                        context.startActivity(
-                            Intent(context, OssLicensesMenuActivity::class.java)
+        item {
+            SettingsListItem(
+                settingsIcon = painterResource(id = R.drawable.ic_mail),
+                settingsText = stringResource(id = R.string.mail_to_developer),
+                onClick = {
+                    val emailIntent = Intent(Intent.ACTION_SEND).apply {
+                        putExtra(
+                            Intent.EXTRA_SUBJECT,
+                            context.getString(R.string.mail_to_developer_title)
                         )
+                        putExtra(
+                            Intent.EXTRA_EMAIL,
+                            arrayOf(context.getString(R.string.developer_email))
+                        )
+                        putExtra(
+                            Intent.EXTRA_TEXT,
+                            context.getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
+                        )
+                        type = "message/rfc822"
                     }
-                )
-            }
-
-            item {
-                SettingsListItem(
-                    settingsIcon = painterResource(id = R.drawable.ic_mail),
-                    settingsText = stringResource(id = R.string.mail_to_developer),
-                    onClick = {
-                        val emailIntent = Intent(Intent.ACTION_SEND).apply {
-                            putExtra(
-                                Intent.EXTRA_SUBJECT,
-                                context.getString(R.string.mail_to_developer_title)
-                            )
-                            putExtra(
-                                Intent.EXTRA_EMAIL,
-                                arrayOf(context.getString(R.string.developer_email))
-                            )
-                            putExtra(
-                                Intent.EXTRA_TEXT,
-                                context.getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
-                            )
-                            type = "message/rfc822"
-                        }
-                        context.startActivity(Intent.createChooser(emailIntent, "이메일:"))
-                    }
-                )
-            }
+                    context.startActivity(Intent.createChooser(emailIntent, "이메일:"))
+                }
+            )
         }
     }
 }
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun InitSettingsDialog() {
+private fun InitSettingsDialog() {
     val viewModel = hiltViewModel<SettingsViewModel>()
-    val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
+    val openDeleteWrongProblemDialog =
+        viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
     if (openDeleteWrongProblemDialog.value) {
         AppInfoDialog(
             onConfirm = {
@@ -188,7 +225,7 @@ fun InitSettingsDialog() {
 }
 
 @Composable
-fun SettingsListItem(
+private fun SettingsListItem(
     settingsIcon: Painter,
     settingsText: String,
     onClick: Action = {},

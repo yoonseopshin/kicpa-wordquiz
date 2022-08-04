@@ -31,7 +31,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.findVersion("compose").get().toString()
+        kotlinCompilerExtensionVersion = libs.findVersion("compose.compiler").get().toString()
     }
 
 }
@@ -51,4 +51,5 @@ dependencies {
     add("androidTestImplementation", libs.findBundle("androidx-test").get())
 
     add("implementation", libs.findLibrary("compose.material3").get())
+    add("implementation", libs.findLibrary("compose.material3.windowsizeclass").get())
 }

@@ -1,5 +1,6 @@
 package com.cpa.cpa_word_problem.presentation.navigation
 
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -16,8 +17,10 @@ import com.ysshin.shared.navigation.CpaQuizNavigationDestination
 fun CpaQuizNavHost(
     navigator: ProblemDetailNavigator,
     navController: NavHostController,
+    // TODO: Use this after applying single activity architecture.
     onNavigateToDestination: Consumers<CpaQuizNavigationDestination, String>,
     onBackClick: Action,
+    windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
     startDestination: String,
 ) {
@@ -26,8 +29,8 @@ fun CpaQuizNavHost(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        homeGraph(navigator)
-        noteGraph()
-        settingsGraph()
+        homeGraph(navigator, windowSizeClass)
+        noteGraph(windowSizeClass)
+        settingsGraph(windowSizeClass)
     }
 }

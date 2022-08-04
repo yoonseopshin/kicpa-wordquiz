@@ -22,8 +22,9 @@ material = "1.7.0-alpha03"
 material3 = "1.0.0-alpha15"
 room = "2.4.3"
 datastore = "1.0.0"
-hilt = "2.43.1"
+hilt = "2.43.2"
 compose = "1.2.0-beta02"
+compose-compiler = "1.2.0-rc02"
 coroutines = "1.6.4"
 
 junit = "4.13.2"
@@ -74,6 +75,7 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+compose-material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 

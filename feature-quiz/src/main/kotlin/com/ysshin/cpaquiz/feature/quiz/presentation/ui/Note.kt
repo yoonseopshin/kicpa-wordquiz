@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -53,6 +54,8 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -114,7 +117,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
-fun NoteScreen(viewModel: NoteViewModel = hiltViewModel()) {
+fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
     CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
@@ -192,9 +195,9 @@ fun NoteScreen(viewModel: NoteViewModel = hiltViewModel()) {
 
                     when (uiState.value.userActionUiState) {
                         UserActionUiState.OnViewing ->
-                            bindOnViewingContent(viewModel, uiState.value)
+                            onViewingContent(viewModel, uiState.value, windowSizeClass)
                         UserActionUiState.OnSearching ->
-                            bindOnSearchingContent(uiState.value.searchedProblemsUiState)
+                            onSearchingContent(uiState.value.searchedProblemsUiState, windowSizeClass)
                     }
                 }
             }
@@ -232,12 +235,14 @@ private fun NoteTopAppBar(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.bindOnSearchingContent(
+private fun LazyListScope.onSearchingContent(
     uiState: SearchedProblemsUiState,
+    windowSizeClass: WindowSizeClass,
 ) {
+    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+
     if (uiState is SearchedProblemsUiState.Success) {
-        stickyHeader {
+        itemHeader(shouldShowListHeaderAsSticky) {
             SearchedNoteHeaderContent(uiState)
         }
 
@@ -252,21 +257,25 @@ private fun LazyListScope.bindOnSearchingContent(
     }
 }
 
-private fun LazyListScope.bindOnViewingContent(
+private fun LazyListScope.onViewingContent(
     viewModel: NoteViewModel,
     uiState: NoteUiState,
+    windowSizeClass: WindowSizeClass,
 ) {
-    bindWrongProblemsUiState(viewModel, uiState.wrongProblemsUiState)
-    bindTotalProblemsUiState(uiState.totalProblemsUiState)
+    wrongProblemsContent(viewModel, uiState.wrongProblemsUiState, windowSizeClass)
+    totalProblemsContent(uiState.totalProblemsUiState, windowSizeClass)
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalLifecycleComposeApi::class)
-private fun LazyListScope.bindWrongProblemsUiState(
+@OptIn(ExperimentalLifecycleComposeApi::class)
+private fun LazyListScope.wrongProblemsContent(
     viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
+    windowSizeClass: WindowSizeClass,
 ) {
+    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+
     if (uiState is WrongProblemsUiState.Success) {
-        stickyHeader {
+        itemHeader(shouldShowListHeaderAsSticky) {
             val openDeleteAllWrongProblemsDialog =
                 viewModel.isDeleteAllWrongProblemsDialogOpened.collectAsStateWithLifecycle()
             if (openDeleteAllWrongProblemsDialog.value) {
@@ -311,12 +320,14 @@ private fun LazyListScope.bindWrongProblemsUiState(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.bindTotalProblemsUiState(
+private fun LazyListScope.totalProblemsContent(
     uiState: TotalProblemsUiState,
+    windowSizeClass: WindowSizeClass,
 ) {
+    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+
     if (uiState is TotalProblemsUiState.Success) {
-        stickyHeader {
+        itemHeader(shouldShowListHeaderAsSticky) {
             TotalNoteHeaderContent(uiState)
         }
 
@@ -331,8 +342,24 @@ private fun LazyListScope.bindTotalProblemsUiState(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.itemHeader(
+    shouldShowListHeaderAsSticky: Boolean,
+    content: @Composable LazyItemScope.() -> Unit
+) {
+    if (shouldShowListHeaderAsSticky) {
+        stickyHeader {
+            content()
+        }
+    } else {
+        item {
+            content()
+        }
+    }
+}
+
 @Composable
-fun WrongNoteHeaderContent(
+private fun WrongNoteHeaderContent(
     state: WrongProblemsUiState,
     onHeaderLongClick: Action,
 ) {
@@ -359,7 +386,7 @@ fun WrongNoteHeaderContent(
     ExperimentalLifecycleComposeApi::class
 )
 @Composable
-fun NoteSummaryContent(
+private fun NoteSummaryContent(
     problem: Problem,
     onProblemLongClick: Action? = null,
 ) {
@@ -526,7 +553,7 @@ fun NoteSummaryContent(
 }
 
 @Composable
-fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
+private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
     when (state) {
         is TotalProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -645,7 +672,7 @@ fun NoteFilterBottomSheetContent() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BottomSheetFilterContent(
+private fun BottomSheetFilterContent(
     isYearFiltering: Boolean,
     isQuizTypeFiltering: Boolean,
     onYearFilter: Action,
@@ -712,7 +739,7 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NoteSearchBottomSheetContent(
+private fun NoteSearchBottomSheetContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -732,7 +759,7 @@ fun NoteSearchBottomSheetContent(
     ExperimentalLifecycleComposeApi::class
 )
 @Composable
-fun BottomSheetSearchContent(
+private fun BottomSheetSearchContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -802,7 +829,7 @@ fun BottomSheetSearchContent(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NoteHeader(
+private fun NoteHeader(
     title: String = "",
     numOfProblems: Int = 0,
     onHeaderClick: Action = {},
@@ -848,7 +875,7 @@ fun NoteHeader(
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 @Composable
-fun NoteTopMenu(
+private fun NoteTopMenu(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     isSearching: Boolean,
     isFiltering: Boolean,

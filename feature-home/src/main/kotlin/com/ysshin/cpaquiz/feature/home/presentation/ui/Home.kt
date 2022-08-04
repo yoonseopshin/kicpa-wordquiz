@@ -47,6 +47,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -86,7 +87,11 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
-fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    navigator: ProblemDetailNavigator,
+    windowSizeClass: WindowSizeClass,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
@@ -238,7 +243,7 @@ fun HomeTopAppBar(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeTopMenu(
+private fun HomeTopMenu(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -312,7 +317,7 @@ fun HomeTopMenu(
 }
 
 @Composable
-fun QuizCard(
+private fun QuizCard(
     cardBackgroundColor: Color,
     iconBackgroundColor: Color,
     count: Int,
@@ -404,7 +409,7 @@ fun QuizCard(
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun HomeSettingsBottomSheetContent() {
+private fun HomeSettingsBottomSheetContent() {
     val viewModel = hiltViewModel<HomeViewModel>()
 
     Timber.d("bottomSheetContentState: Settings")
@@ -439,7 +444,7 @@ fun HomeSettingsBottomSheetContent() {
 }
 
 @Composable
-fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Consumer<Int>) {
+private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Consumer<Int>) {
     val openDialog = remember { mutableStateOf(false) }
 
     if (openDialog.value) {
@@ -476,7 +481,7 @@ fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Cons
 }
 
 @Composable
-fun HomeSettingsBottomSheetListItem(
+private fun HomeSettingsBottomSheetListItem(
     icon: Painter,
     text: String,
     onBottomSheetItemClick: Action = {},

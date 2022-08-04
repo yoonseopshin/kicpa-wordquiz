@@ -64,11 +64,10 @@ android {
 
     kotlinOptions {
         jvmTarget = '11'
-        useIR = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     packagingOptions {
@@ -102,6 +101,7 @@ dependencies {
 
     implementation(libs.bundles.compose)
     implementation(libs.compose.material3)
+    implementation(libs.compose.material3.windowsizeclass)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
