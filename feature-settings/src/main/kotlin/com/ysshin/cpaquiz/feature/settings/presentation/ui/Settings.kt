@@ -83,7 +83,7 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsTopAppBar(windowSizeClass: WindowSizeClass) {
+private fun SettingsTopAppBar(windowSizeClass: WindowSizeClass) {
     val shouldShowLargeTopAppBar = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
     if (shouldShowLargeTopAppBar) {
         LargeTopAppBar(
@@ -107,7 +107,7 @@ fun SettingsTopAppBar(windowSizeClass: WindowSizeClass) {
 }
 
 @Composable
-fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeClass: WindowSizeClass) {
+private fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeClass: WindowSizeClass) {
     val viewModel = hiltViewModel<SettingsViewModel>()
     val context = LocalContext.current
 
@@ -184,7 +184,7 @@ fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeClass: Win
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun InitSettingsDialog() {
+private fun InitSettingsDialog() {
     val viewModel = hiltViewModel<SettingsViewModel>()
     val openDeleteWrongProblemDialog =
         viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
@@ -225,7 +225,7 @@ fun InitSettingsDialog() {
 }
 
 @Composable
-fun SettingsListItem(
+private fun SettingsListItem(
     settingsIcon: Painter,
     settingsText: String,
     onClick: Action = {},

@@ -243,7 +243,7 @@ fun HomeTopAppBar(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeTopMenu(
+private fun HomeTopMenu(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -317,7 +317,7 @@ fun HomeTopMenu(
 }
 
 @Composable
-fun QuizCard(
+private fun QuizCard(
     cardBackgroundColor: Color,
     iconBackgroundColor: Color,
     count: Int,
@@ -409,7 +409,7 @@ fun QuizCard(
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun HomeSettingsBottomSheetContent() {
+private fun HomeSettingsBottomSheetContent() {
     val viewModel = hiltViewModel<HomeViewModel>()
 
     Timber.d("bottomSheetContentState: Settings")
@@ -444,7 +444,7 @@ fun HomeSettingsBottomSheetContent() {
 }
 
 @Composable
-fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Consumer<Int>) {
+private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Consumer<Int>) {
     val openDialog = remember { mutableStateOf(false) }
 
     if (openDialog.value) {
@@ -481,7 +481,7 @@ fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Cons
 }
 
 @Composable
-fun HomeSettingsBottomSheetListItem(
+private fun HomeSettingsBottomSheetListItem(
     icon: Painter,
     text: String,
     onBottomSheetItemClick: Action = {},

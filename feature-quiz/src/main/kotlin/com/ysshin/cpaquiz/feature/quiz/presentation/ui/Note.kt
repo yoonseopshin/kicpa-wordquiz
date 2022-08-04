@@ -359,7 +359,7 @@ private fun LazyListScope.itemHeader(
 }
 
 @Composable
-fun WrongNoteHeaderContent(
+private fun WrongNoteHeaderContent(
     state: WrongProblemsUiState,
     onHeaderLongClick: Action,
 ) {
@@ -386,7 +386,7 @@ fun WrongNoteHeaderContent(
     ExperimentalLifecycleComposeApi::class
 )
 @Composable
-fun NoteSummaryContent(
+private fun NoteSummaryContent(
     problem: Problem,
     onProblemLongClick: Action? = null,
 ) {
@@ -553,7 +553,7 @@ fun NoteSummaryContent(
 }
 
 @Composable
-fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
+private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
     when (state) {
         is TotalProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -672,7 +672,7 @@ fun NoteFilterBottomSheetContent() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BottomSheetFilterContent(
+private fun BottomSheetFilterContent(
     isYearFiltering: Boolean,
     isQuizTypeFiltering: Boolean,
     onYearFilter: Action,
@@ -739,7 +739,7 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NoteSearchBottomSheetContent(
+private fun NoteSearchBottomSheetContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -759,7 +759,7 @@ fun NoteSearchBottomSheetContent(
     ExperimentalLifecycleComposeApi::class
 )
 @Composable
-fun BottomSheetSearchContent(
+private fun BottomSheetSearchContent(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -829,7 +829,7 @@ fun BottomSheetSearchContent(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NoteHeader(
+private fun NoteHeader(
     title: String = "",
     numOfProblems: Int = 0,
     onHeaderClick: Action = {},
@@ -875,7 +875,7 @@ fun NoteHeader(
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 @Composable
-fun NoteTopMenu(
+private fun NoteTopMenu(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     isSearching: Boolean,
     isFiltering: Boolean,
