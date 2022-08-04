@@ -1,11 +1,11 @@
 package com.cpa.cpa_word_problem.presentation.ui
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -45,8 +45,8 @@ class CpaQuizAppState(val navController: NavHostController, val startDestination
         TopLevelDestination(
             route = NoteDestination.route,
             destination = NoteDestination.destination,
-            selectedIcon = Icons.Filled.Person,
-            unselectedIcon = Icons.Outlined.Person,
+            selectedIcon = Icons.Filled.Edit,
+            unselectedIcon = Icons.Outlined.Edit,
             iconTextResourceId = R.string.note
         ),
         TopLevelDestination(
