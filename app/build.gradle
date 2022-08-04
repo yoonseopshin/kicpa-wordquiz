@@ -64,11 +64,10 @@ android {
 
     kotlinOptions {
         jvmTarget = '11'
-        useIR = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     packagingOptions {
