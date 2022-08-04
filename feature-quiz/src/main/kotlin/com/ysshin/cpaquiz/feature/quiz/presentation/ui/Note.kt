@@ -193,9 +193,9 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
 
                     when (uiState.value.userActionUiState) {
                         UserActionUiState.OnViewing ->
-                            bindOnViewingContent(viewModel, uiState.value)
+                            OnViewingContent(viewModel, uiState.value)
                         UserActionUiState.OnSearching ->
-                            bindOnSearchingContent(uiState.value.searchedProblemsUiState)
+                            OnSearchingContent(uiState.value.searchedProblemsUiState)
                     }
                 }
             }
@@ -234,7 +234,7 @@ private fun NoteTopAppBar(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.bindOnSearchingContent(
+private fun LazyListScope.OnSearchingContent(
     uiState: SearchedProblemsUiState,
 ) {
     if (uiState is SearchedProblemsUiState.Success) {
@@ -253,16 +253,16 @@ private fun LazyListScope.bindOnSearchingContent(
     }
 }
 
-private fun LazyListScope.bindOnViewingContent(
+private fun LazyListScope.OnViewingContent(
     viewModel: NoteViewModel,
     uiState: NoteUiState,
 ) {
-    bindWrongProblemsUiState(viewModel, uiState.wrongProblemsUiState)
-    bindTotalProblemsUiState(uiState.totalProblemsUiState)
+    WrongProblemsContent(viewModel, uiState.wrongProblemsUiState)
+    TotalProblemsContent(uiState.totalProblemsUiState)
 }
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLifecycleComposeApi::class)
-private fun LazyListScope.bindWrongProblemsUiState(
+private fun LazyListScope.WrongProblemsContent(
     viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
 ) {
@@ -313,7 +313,7 @@ private fun LazyListScope.bindWrongProblemsUiState(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.bindTotalProblemsUiState(
+private fun LazyListScope.TotalProblemsContent(
     uiState: TotalProblemsUiState,
 ) {
     if (uiState is TotalProblemsUiState.Success) {
