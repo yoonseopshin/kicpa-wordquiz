@@ -27,19 +27,19 @@ object NavigatorModule {
     fun provideMainScreenNavigator() = object : MainScreenNavigator {
         override fun homeScreenIntent(context: Context, flags: Int?) =
             Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, HomeDestination.destination)
+                putExtra(Constants.destination, HomeDestination.route)
                 flags?.let { addFlags(it) }
             }
 
         override fun noteScreenIntent(context: Context, flags: Int?) =
             Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, NoteDestination.destination)
+                putExtra(Constants.destination, NoteDestination.route)
                 flags?.let { addFlags(it) }
             }
 
         override fun settingsScreenIntent(context: Context, flags: Int?) =
             Intent(context, MainActivity::class.java).apply {
-                putExtra(Constants.destination, SettingsDestination.destination)
+                putExtra(Constants.destination, SettingsDestination.route)
                 flags?.let { addFlags(it) }
             }
     }

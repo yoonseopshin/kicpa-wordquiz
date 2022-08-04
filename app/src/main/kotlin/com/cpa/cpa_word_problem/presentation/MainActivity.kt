@@ -14,13 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.rememberNavController
 import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
 import com.cpa.cpa_word_problem.presentation.ui.CpaQuizAppState
 import com.cpa.cpa_word_problem.presentation.ui.rememberCpaQuizAppState
+import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.shared.android.util.Constants
 import com.ysshin.cpaquiz.shared.base.Consumer
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -35,8 +38,17 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val route = intent?.extras?.let { extras ->
+            extras.getString(Constants.destination) ?: HomeDestination.route
+        } ?: HomeDestination.route
+
         setContent {
-            MainScreen(problemDetailNavigator)
+            val appState = rememberCpaQuizAppState(
+                navController = rememberNavController(),
+                startDestination = route,
+            )
+            MainScreen(navigator = problemDetailNavigator, appState = appState)
         }
     }
 }
@@ -45,9 +57,8 @@ class MainActivity : BaseActivity() {
 @Composable
 fun MainScreen(
     navigator: ProblemDetailNavigator,
-    appState: CpaQuizAppState = rememberCpaQuizAppState(),
+    appState: CpaQuizAppState,
 ) {
-    // TODO: Handle intent with destination from QuizDetailActivity.
     CpaQuizTheme {
         Scaffold(
             bottomBar = {
@@ -63,7 +74,8 @@ fun MainScreen(
                 navController = appState.navController,
                 onNavigateToDestination = appState::navigate,
                 onBackClick = appState::onBackClick,
-                modifier = Modifier.padding(padding),
+                modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
+                startDestination = appState.startDestination,
             )
         }
     }

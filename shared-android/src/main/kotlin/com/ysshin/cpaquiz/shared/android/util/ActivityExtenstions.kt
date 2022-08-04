@@ -20,7 +20,7 @@ fun Context.findActivity(): Activity? {
     return when (this) {
         is ViewComponentManager.FragmentContextWrapper -> baseContext.findActivity()
         is ContextWrapper -> baseContext.findActivity()
-        is Activity -> this
+        is AppCompatActivity -> this
         else -> null
     }
 }

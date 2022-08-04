@@ -14,7 +14,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
@@ -23,14 +22,14 @@ import com.ysshin.cpaquiz.feature.settings.presentation.navigation.SettingsDesti
 import com.ysshin.shared.navigation.CpaQuizNavigationDestination
 
 @Composable
-fun rememberCpaQuizAppState(navController: NavHostController = rememberNavController()): CpaQuizAppState {
+fun rememberCpaQuizAppState(navController: NavHostController, startDestination: String): CpaQuizAppState {
     return remember(navController) {
-        CpaQuizAppState(navController)
+        CpaQuizAppState(navController, startDestination)
     }
 }
 
 @Stable
-class CpaQuizAppState(val navController: NavHostController) {
+class CpaQuizAppState(val navController: NavHostController, val startDestination: String) {
 
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
