@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -53,6 +54,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -193,9 +195,9 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
 
                     when (uiState.value.userActionUiState) {
                         UserActionUiState.OnViewing ->
-                            OnViewingContent(viewModel, uiState.value)
+                            onViewingContent(viewModel, uiState.value, windowSizeClass)
                         UserActionUiState.OnSearching ->
-                            OnSearchingContent(uiState.value.searchedProblemsUiState)
+                            onSearchingContent(uiState.value.searchedProblemsUiState, windowSizeClass)
                     }
                 }
             }
@@ -233,12 +235,14 @@ private fun NoteTopAppBar(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.OnSearchingContent(
+private fun LazyListScope.onSearchingContent(
     uiState: SearchedProblemsUiState,
+    windowSizeClass: WindowSizeClass,
 ) {
+    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+
     if (uiState is SearchedProblemsUiState.Success) {
-        stickyHeader {
+        itemHeader(shouldShowListHeaderAsSticky) {
             SearchedNoteHeaderContent(uiState)
         }
 
@@ -253,21 +257,25 @@ private fun LazyListScope.OnSearchingContent(
     }
 }
 
-private fun LazyListScope.OnViewingContent(
+private fun LazyListScope.onViewingContent(
     viewModel: NoteViewModel,
     uiState: NoteUiState,
+    windowSizeClass: WindowSizeClass,
 ) {
-    WrongProblemsContent(viewModel, uiState.wrongProblemsUiState)
-    TotalProblemsContent(uiState.totalProblemsUiState)
+    wrongProblemsContent(viewModel, uiState.wrongProblemsUiState, windowSizeClass)
+    totalProblemsContent(uiState.totalProblemsUiState, windowSizeClass)
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalLifecycleComposeApi::class)
-private fun LazyListScope.WrongProblemsContent(
+@OptIn(ExperimentalLifecycleComposeApi::class)
+private fun LazyListScope.wrongProblemsContent(
     viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
+    windowSizeClass: WindowSizeClass,
 ) {
+    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+
     if (uiState is WrongProblemsUiState.Success) {
-        stickyHeader {
+        itemHeader(shouldShowListHeaderAsSticky) {
             val openDeleteAllWrongProblemsDialog =
                 viewModel.isDeleteAllWrongProblemsDialogOpened.collectAsStateWithLifecycle()
             if (openDeleteAllWrongProblemsDialog.value) {
@@ -312,12 +320,14 @@ private fun LazyListScope.WrongProblemsContent(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.TotalProblemsContent(
+private fun LazyListScope.totalProblemsContent(
     uiState: TotalProblemsUiState,
+    windowSizeClass: WindowSizeClass,
 ) {
+    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+
     if (uiState is TotalProblemsUiState.Success) {
-        stickyHeader {
+        itemHeader(shouldShowListHeaderAsSticky) {
             TotalNoteHeaderContent(uiState)
         }
 
@@ -328,6 +338,22 @@ private fun LazyListScope.TotalProblemsContent(
             }
         ) { problem ->
             NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.itemHeader(
+    shouldShowListHeaderAsSticky: Boolean,
+    content: @Composable LazyItemScope.() -> Unit
+) {
+    if (shouldShowListHeaderAsSticky) {
+        stickyHeader {
+            content()
+        }
+    } else {
+        item {
+            content()
         }
     }
 }
