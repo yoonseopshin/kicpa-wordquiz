@@ -4,7 +4,7 @@
     package="com.cpa.cpa_word_problem">
 
     <application
-        android:name=".CpaQuizApp"
+        android:name=".CpaQuizApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="false"

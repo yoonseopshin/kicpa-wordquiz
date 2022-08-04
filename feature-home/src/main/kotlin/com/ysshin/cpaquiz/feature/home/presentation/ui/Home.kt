@@ -47,6 +47,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -86,7 +87,11 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
-fun HomeScreen(navigator: ProblemDetailNavigator, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    navigator: ProblemDetailNavigator,
+    windowSizeClass: WindowSizeClass,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)

@@ -51,4 +51,5 @@ dependencies {
     add("androidTestImplementation", libs.findBundle("androidx-test").get())
 
     add("implementation", libs.findLibrary("compose.material3").get())
+    add("implementation", libs.findLibrary("compose.material3.windowsizeclass").get())
 }

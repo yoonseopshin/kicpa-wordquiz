@@ -7,6 +7,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -22,15 +24,22 @@ import com.ysshin.cpaquiz.feature.settings.presentation.navigation.SettingsDesti
 import com.ysshin.shared.navigation.CpaQuizNavigationDestination
 
 @Composable
-fun rememberCpaQuizAppState(navController: NavHostController, startDestination: String): CpaQuizAppState {
+fun rememberCpaQuizAppState(
+    navController: NavHostController,
+    windowSizeClass: WindowSizeClass,
+    startDestination: String
+): CpaQuizAppState {
     return remember(navController) {
-        CpaQuizAppState(navController, startDestination)
+        CpaQuizAppState(navController, windowSizeClass, startDestination)
     }
 }
 
 @Stable
-class CpaQuizAppState(val navController: NavHostController, val startDestination: String) {
-
+class CpaQuizAppState(
+    val navController: NavHostController,
+    val windowSizeClass: WindowSizeClass,
+    val startDestination: String
+) {
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
@@ -57,6 +66,12 @@ class CpaQuizAppState(val navController: NavHostController, val startDestination
             iconTextResourceId = R.string.settings
         )
     )
+
+    val shouldShowBottomBar: Boolean
+        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+
+    val shouldShowNavRail: Boolean
+        get() = shouldShowBottomBar.not()
 
     fun navigate(destination: CpaQuizNavigationDestination, route: String? = null) {
         if (destination is TopLevelDestination) {

@@ -17,9 +17,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -50,7 +53,7 @@ import com.ysshin.cpaquiz.shared.base.Action
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -67,17 +70,30 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         }
     }
 
+    val shouldShowLargeTopAppBar = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.settings),
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-            )
+            if (shouldShowLargeTopAppBar) {
+                LargeTopAppBar(
+                    title = {
+                        Text(
+                            text = stringResource(id = R.string.settings),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                )
+            } else {
+                SmallTopAppBar(
+                    title = {
+                        Text(
+                            text = stringResource(id = R.string.settings),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                )
+            }
         }
     ) { padding ->
         InitSettingsDialog()

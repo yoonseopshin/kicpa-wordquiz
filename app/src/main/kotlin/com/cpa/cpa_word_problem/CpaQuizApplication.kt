@@ -7,7 +7,7 @@ import com.ysshin.cpaquiz.shared.android.initializer.Timber
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class CpaQuizApp : Application() {
+class CpaQuizApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
