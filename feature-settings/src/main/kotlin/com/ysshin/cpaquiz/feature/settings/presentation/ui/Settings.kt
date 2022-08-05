@@ -22,6 +22,7 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -84,7 +85,7 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsTopAppBar(windowSizeClass: WindowSizeClass) {
-    val shouldShowLargeTopAppBar = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+    val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
     if (shouldShowLargeTopAppBar) {
         LargeTopAppBar(
             title = {
