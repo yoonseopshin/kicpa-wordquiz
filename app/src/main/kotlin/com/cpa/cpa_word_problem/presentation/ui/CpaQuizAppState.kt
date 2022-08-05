@@ -71,7 +71,8 @@ class CpaQuizAppState(
         get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
 
     val shouldShowNavRail: Boolean
-        get() = shouldShowBottomBar.not()
+        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Medium ||
+            windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded
 
     fun navigate(destination: CpaQuizNavigationDestination, route: String? = null) {
         if (destination is TopLevelDestination) {
