@@ -32,6 +32,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Badge
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.BottomSheetValue
@@ -54,6 +55,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.MaterialTheme as M3MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -345,7 +347,7 @@ private fun LazyListScope.totalProblemsContent(
 @OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.itemHeader(
     shouldShowListHeaderAsSticky: Boolean,
-    content: @Composable LazyItemScope.() -> Unit
+    content: @Composable LazyItemScope.() -> Unit,
 ) {
     if (shouldShowListHeaderAsSticky) {
         stickyHeader {
@@ -393,7 +395,8 @@ private fun NoteSummaryContent(
     val viewModel = hiltViewModel<NoteViewModel>()
     val context = LocalContext.current
 
-    val openDeleteWrongProblemDialog = viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
+    val openDeleteWrongProblemDialog =
+        viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
     if (openDeleteWrongProblemDialog.value) {
         AppInfoDialog(
             icon = painterResource(id = R.drawable.ic_delete),
@@ -626,7 +629,8 @@ fun NoteFilterBottomSheetContent() {
                 )
             }
 
-            val openQuizTypeFilterDialog = viewModel.isQuizTypeFilterDialogOpened.collectAsStateWithLifecycle()
+            val openQuizTypeFilterDialog =
+                viewModel.isQuizTypeFilterDialogOpened.collectAsStateWithLifecycle()
             if (openQuizTypeFilterDialog.value) {
                 AppCheckboxDialog(
                     icon = painterResource(id = R.drawable.ic_filter),
@@ -851,24 +855,21 @@ private fun NoteHeader(
                 .background(colorResource(id = R.color.daynight_gray050s))
                 .defaultMinSize(minHeight = 52.dp)
         ) {
-            Text(
-                text = buildAnnotatedString {
-                    append(title)
-                    append("  ")
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = title,
+                    modifier = Modifier.padding(start = 16.dp, end = 8.dp),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
-                    withStyle(
-                        style = SpanStyle(
-                            fontSize = 16.sp,
-                            color = colorResource(id = R.color.daynight_pastel_blue)
-                        ),
-                    ) {
-                        append(numOfProblems.toString())
-                    }
-                },
-                modifier = Modifier.padding(horizontal = 16.dp),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
+                Badge(backgroundColor = M3MaterialTheme.colorScheme.primaryContainer) {
+                    Text(
+                        text = numOfProblems.toString(),
+                        color = M3MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
         }
     }
 }
