@@ -188,11 +188,14 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                 }
             ) { padding ->
                 val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+                val shouldShowNativeAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
                 LazyColumn(modifier = Modifier.padding(padding)) {
-                    item {
-                        // FIXME: Prevent recomposition when scrolling or new item added.
-                        NativeSmallAd()
+                    if (shouldShowNativeAd) {
+                        item {
+                            // FIXME: Prevent recomposition when scrolling or new item added.
+                            NativeSmallAd()
+                        }
                     }
 
                     when (uiState.value.userActionUiState) {
