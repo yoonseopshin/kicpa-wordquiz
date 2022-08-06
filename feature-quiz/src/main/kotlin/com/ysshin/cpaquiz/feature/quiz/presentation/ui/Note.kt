@@ -140,7 +140,6 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
             }
         }
 
-        // NOTE: After migrating to Jetpack Compose, it will work fine, but not now.
         BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
             coroutineScope.launch {
                 bottomSheetScaffoldState.bottomSheetState.collapse()
@@ -306,13 +305,7 @@ private fun LazyListScope.wrongProblemsContent(
             )
         }
 
-        items(
-            items = uiState.data.map { it.toWrongProblemModel() },
-            // FIXME: Key collision occurs but I don't know how to deal with.
-            // key = { wrongProblemModel ->
-            //     wrongProblemModel.hashCode()
-            // }
-        ) { wrongProblemModel ->
+        items(items = uiState.data.map { it.toWrongProblemModel() }) { wrongProblemModel ->
             val problem = wrongProblemModel.problem
             NoteSummaryContent(
                 problem = problem,
@@ -336,12 +329,7 @@ private fun LazyListScope.totalProblemsContent(
             TotalNoteHeaderContent(uiState)
         }
 
-        items(
-            items = uiState.data,
-            key = { problem ->
-                problem.hashCode()
-            }
-        ) { problem ->
+        items(items = uiState.data) { problem ->
             NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
         }
     }
