@@ -41,12 +41,6 @@ class NoteViewModel @Inject constructor(
 
     private val noteFilter = MutableStateFlow(NoteFilter())
 
-    private val _showWrongNoteHeader = MutableStateFlow(false)
-    val showWrongNoteHeader = _showWrongNoteHeader.asStateFlow()
-
-    private val _showScrollToTop = MutableStateFlow(false)
-    val showScrollToTop = _showScrollToTop.asStateFlow()
-
     private val _isYearFiltering = MutableStateFlow(false)
     val isYearFiltering = _isYearFiltering.asStateFlow()
 
@@ -89,14 +83,8 @@ class NoteViewModel @Inject constructor(
             val searchedProblemsUiState = SearchedProblemsUiState.Success(searched)
 
             val userActionUiState = if (isSearching) {
-                _showScrollToTop.update { searched.size > 15 }
-                _showWrongNoteHeader.update { false }
                 UserActionUiState.OnSearching
             } else {
-                _showScrollToTop.update { totalAndWrongProblemSize > 15 }
-                _showWrongNoteHeader.update {
-                    (wrongProblemsUiState is WrongProblemsUiState.Success && wrongProblemsUiState.data.isNotEmpty())
-                }
                 UserActionUiState.OnViewing
             }
 
@@ -142,17 +130,6 @@ class NoteViewModel @Inject constructor(
 
     fun updateUserInput(text: String) {
         userInputText.update { text }
-    }
-
-    fun showSnackbar(message: String, @StringRes actionLabelResId: Int = R.string.confirm) {
-        viewModelScope.launch {
-            _uiEvent.emit(
-                NoteUiEvent.ShowSnackbar(
-                    UiText.DynamicString(value = message),
-                    UiText.StringResource(resId = actionLabelResId)
-                )
-            )
-        }
     }
 
     fun showSnackbar(messageResId: Int, @StringRes actionLabelResId: Int = R.string.confirm) {
