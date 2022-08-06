@@ -11,6 +11,7 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -47,6 +48,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -64,6 +66,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -85,12 +88,41 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun HomeScreen(
+fun HomeRoute(
     navigator: ProblemDetailNavigator,
     windowSizeClass: WindowSizeClass,
-    viewModel: HomeViewModel = hiltViewModel()
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
+    val dday by viewModel.dday.collectAsStateWithLifecycle()
+    val accountingCount by viewModel.accountingCount.collectAsStateWithLifecycle()
+    val businessCount by viewModel.businessCount.collectAsStateWithLifecycle()
+    val commercialLawCount by viewModel.commercialLawCount.collectAsStateWithLifecycle()
+    val taxLawCount by viewModel.taxLawCount.collectAsStateWithLifecycle()
+    val quizNumber by viewModel.quizNumber.collectAsStateWithLifecycle()
+    val useTimer by viewModel.useTimer.collectAsStateWithLifecycle()
+
+    HomeScreen(
+        navigator = navigator, windowSizeClass = windowSizeClass, modifier = modifier,
+        dday, accountingCount, businessCount, commercialLawCount, taxLawCount, quizNumber, useTimer
+    )
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun HomeScreen(
+    navigator: ProblemDetailNavigator?,
+    windowSizeClass: WindowSizeClass,
+    modifier: Modifier = Modifier,
+    dday: String,
+    accountingCount: Int,
+    businessCount: Int,
+    commercialLawCount: Int,
+    taxLawCount: Int,
+    quizNumber: Int,
+    useTimer: Boolean
 ) {
     CpaQuizLegacyTheme {
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -118,7 +150,6 @@ fun HomeScreen(
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    val dday by viewModel.dday.collectAsStateWithLifecycle()
                     HomeTopAppBar(
                         dday = dday,
                         scope = coroutineScope,
@@ -138,7 +169,6 @@ fun HomeScreen(
                     crossAxisSpacing = 20.dp,
                     mainAxisSpacing = 20.dp
                 ) {
-                    val accountingCount by viewModel.accountingCount.collectAsStateWithLifecycle()
                     QuizCard(
                         cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
@@ -146,17 +176,16 @@ fun HomeScreen(
                         title = stringResource(id = R.string.accounting),
                         onClick = {
                             context.startActivity(
-                                navigator.quizIntent(
+                                navigator?.quizIntent(
                                     context = context,
                                     quizType = QuizType.Accounting,
-                                    quizNumbers = viewModel.quizNumber.value,
-                                    useTimer = viewModel.useTimer.value,
+                                    quizNumbers = quizNumber,
+                                    useTimer = useTimer,
                                 )
                             )
                         }
                     )
 
-                    val businessCount by viewModel.businessCount.collectAsStateWithLifecycle()
                     QuizCard(
                         cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
@@ -164,17 +193,16 @@ fun HomeScreen(
                         title = stringResource(id = R.string.business),
                         onClick = {
                             context.startActivity(
-                                navigator.quizIntent(
+                                navigator?.quizIntent(
                                     context = context,
                                     quizType = QuizType.Business,
-                                    quizNumbers = viewModel.quizNumber.value,
-                                    useTimer = viewModel.useTimer.value,
+                                    quizNumbers = quizNumber,
+                                    useTimer = useTimer,
                                 )
                             )
                         }
                     )
 
-                    val commercialLawCount by viewModel.commercialLawCount.collectAsStateWithLifecycle()
                     QuizCard(
                         cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
@@ -182,17 +210,16 @@ fun HomeScreen(
                         title = stringResource(id = R.string.commercial_law),
                         onClick = {
                             context.startActivity(
-                                navigator.quizIntent(
+                                navigator?.quizIntent(
                                     context = context,
                                     quizType = QuizType.CommercialLaw,
-                                    quizNumbers = viewModel.quizNumber.value,
-                                    useTimer = viewModel.useTimer.value,
+                                    quizNumbers = quizNumber,
+                                    useTimer = useTimer,
                                 )
                             )
                         }
                     )
 
-                    val taxLawCount by viewModel.taxLawCount.collectAsStateWithLifecycle()
                     QuizCard(
                         cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
@@ -200,11 +227,11 @@ fun HomeScreen(
                         title = stringResource(id = R.string.tax_law),
                         onClick = {
                             context.startActivity(
-                                navigator.quizIntent(
+                                navigator?.quizIntent(
                                     context = context,
                                     quizType = QuizType.TaxLaw,
-                                    quizNumbers = viewModel.quizNumber.value,
-                                    useTimer = viewModel.useTimer.value,
+                                    quizNumbers = quizNumber,
+                                    useTimer = useTimer,
                                 )
                             )
                         }
@@ -524,32 +551,23 @@ private fun HomeSettingsBottomSheetListItem(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
-@Preview(showBackground = true)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview
 @Composable
-private fun HomeTopAppBarPreview() {
-    HomeTopAppBar(dday = "123")
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun QuizCardPreview() {
-    QuizCard(
-        cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
-        iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
-        count = 131,
-        title = stringResource(id = R.string.business)
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun HomeQuizNumberBottomSheetListItemPreview() {
-    HomeQuizNumberBottomSheetListItem(quizNumber = 5, onQuizNumberConfirm = {})
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun HomeDoubleDigitQuizNumberBottomSheetListItemPreview() {
-    HomeQuizNumberBottomSheetListItem(quizNumber = 15, onQuizNumberConfirm = {})
+private fun HomeScreenPreview() {
+    CpaQuizLegacyTheme {
+        BoxWithConstraints {
+            HomeScreen(
+                navigator = null,
+                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
+                dday = "123",
+                accountingCount = 100,
+                businessCount = 50,
+                commercialLawCount = 25,
+                taxLawCount = 125,
+                quizNumber = 20,
+                useTimer = true
+            )
+        }
+    }
 }

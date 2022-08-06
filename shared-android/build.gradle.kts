@@ -64,9 +64,9 @@ dependencies {
     debugApi(libs.compose.ui.tooling)
 
     debugApi("androidx.customview:customview:1.2.0-alpha01")
-    debugApi("androidx.customview:customview-poolingcontainer:1.0.0")
+    debugApi(libs.androidx.customview.poolingcontainer)
 
-    api("androidx.activity:activity-compose:1.5.1")
+    api(libs.androidx.activity.compose)
     api("androidx.navigation:navigation-compose:2.5.1")
     api("androidx.hilt:hilt-navigation-compose:1.0.0")
     api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
