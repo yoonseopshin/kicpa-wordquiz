@@ -1,6 +1,7 @@
 package com.ysshin.cpaquiz.feature.settings.presentation.ui
 
 import android.content.Intent
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,6 +23,9 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -33,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -72,10 +77,17 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
         }
     }
 
+    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        decayAnimationSpec,
+        rememberTopAppBarState()
+    )
+
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            SettingsTopAppBar(windowSizeClass)
+            SettingsTopAppBar(windowSizeClass = windowSizeClass, scrollBehavior = scrollBehavior)
         }
     ) { padding ->
         SettingsLazyVerticalGrid(modifier = Modifier.padding(padding), windowSizeClass = windowSizeClass)
@@ -84,7 +96,10 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsTopAppBar(windowSizeClass: WindowSizeClass) {
+private fun SettingsTopAppBar(
+    windowSizeClass: WindowSizeClass,
+    scrollBehavior: TopAppBarScrollBehavior,
+) {
     val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
     if (shouldShowLargeTopAppBar) {
         LargeTopAppBar(
@@ -93,7 +108,8 @@ private fun SettingsTopAppBar(windowSizeClass: WindowSizeClass) {
                     text = stringResource(id = R.string.settings),
                     modifier = Modifier.fillMaxWidth(),
                 )
-            }
+            },
+            scrollBehavior = scrollBehavior
         )
     } else {
         SmallTopAppBar(

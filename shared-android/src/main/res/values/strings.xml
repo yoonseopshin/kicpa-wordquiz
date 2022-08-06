@@ -25,7 +25,7 @@
     <string name="mail_to_developer_title">CPA 말문제 문의</string>
     <string name="developer_email">sys09270883@gmail.com</string>
     <string name="mail_info">앱 버전: %1$s\n내용: </string>
-    <string name="quiz_setting_text">%s</string>
+    <string name="quiz_settings_title">문제 설정</string>
     <string name="setting_year">출제년도</string>
     <string name="success">정답입니다!</string>
     <string name="wrong">오답입니다.</string>

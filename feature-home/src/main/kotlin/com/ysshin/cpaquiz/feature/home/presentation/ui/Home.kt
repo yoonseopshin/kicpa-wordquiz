@@ -1,6 +1,5 @@
 package com.ysshin.cpaquiz.feature.home.presentation.ui
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.Spring
@@ -8,6 +7,7 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,40 +27,41 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetScaffoldState
-import androidx.compose.material.BottomSheetValue
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.material.rememberBottomSheetState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -79,14 +80,11 @@ import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.ad.NativeMediumAd
-import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialog
+import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
 import com.ysshin.cpaquiz.shared.base.Action
 import com.ysshin.cpaquiz.shared.base.Consumer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -104,16 +102,37 @@ fun HomeRoute(
     val quizNumber by viewModel.quizNumber.collectAsStateWithLifecycle()
     val useTimer by viewModel.useTimer.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+
     HomeScreen(
-        navigator = navigator, windowSizeClass = windowSizeClass, modifier = modifier,
-        dday, accountingCount, businessCount, commercialLawCount, taxLawCount, quizNumber, useTimer
+        windowSizeClass = windowSizeClass,
+        modifier = modifier,
+        dday = dday,
+        accountingCount = accountingCount,
+        businessCount = businessCount,
+        commercialLawCount = commercialLawCount,
+        taxLawCount = taxLawCount,
+        quizNumber = quizNumber,
+        onSetQuizTimer = viewModel::setQuizNumber,
+        useTimer = useTimer,
+        onToggleTimer = viewModel::toggleTimer,
+        onQuizCardClick = { type ->
+            // TODO: Migrate to Navigation Component
+            context.startActivity(
+                navigator.quizIntent(
+                    context = context,
+                    quizType = type,
+                    quizNumbers = quizNumber,
+                    useTimer = useTimer,
+                )
+            )
+        }
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navigator: ProblemDetailNavigator?,
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
     dday: String,
@@ -122,170 +141,183 @@ fun HomeScreen(
     commercialLawCount: Int,
     taxLawCount: Int,
     quizNumber: Int,
-    useTimer: Boolean
+    onSetQuizTimer: Consumer<Int>,
+    useTimer: Boolean,
+    onToggleTimer: Action,
+    onQuizCardClick: Consumer<QuizType>,
 ) {
-    CpaQuizLegacyTheme {
-        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-            bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
-        )
-        val coroutineScope = rememberCoroutineScope()
-        val context = LocalContext.current
+    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        decayAnimationSpec,
+        rememberTopAppBarState()
+    )
 
-        BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-            coroutineScope.launch {
-                bottomSheetScaffoldState.bottomSheetState.collapse()
-            }
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            HomeTopAppBar(
+                windowSizeClass = windowSizeClass,
+                scrollBehavior = scrollBehavior,
+                dday = dday,
+                quizNumber = quizNumber,
+                onSetQuizTimer = onSetQuizTimer,
+                useTimer = useTimer,
+                onToggleTimer = onToggleTimer
+            )
         }
+    ) { padding ->
+        val verticalScrollState = rememberScrollState()
 
-        BottomSheetScaffold(
-            sheetContent = {
-                // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
-                HomeSettingsBottomSheetContent()
-            },
-            sheetBackgroundColor = MaterialTheme.colors.onSurface,
-            scaffoldState = bottomSheetScaffoldState,
-            sheetPeekHeight = 0.dp
+        FlowRow(
+            modifier = Modifier
+                .padding(padding)
+                .padding(vertical = 28.dp)
+                .verticalScroll(verticalScrollState),
+            mainAxisAlignment = MainAxisAlignment.Center,
+            mainAxisSize = SizeMode.Expand,
+            crossAxisSpacing = 20.dp,
+            mainAxisSpacing = 20.dp
         ) {
-            val scaffoldState = rememberScaffoldState()
-            Scaffold(
-                scaffoldState = scaffoldState,
-                topBar = {
-                    HomeTopAppBar(
-                        dday = dday,
-                        scope = coroutineScope,
-                        bottomSheetScaffoldState = bottomSheetScaffoldState
-                    )
-                }
-            ) { padding ->
-                val verticalScrollState = rememberScrollState()
+            QuizCard(
+                cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
+                iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
+                count = accountingCount,
+                title = stringResource(id = R.string.accounting),
+                onClick = { onQuizCardClick(QuizType.Accounting) }
+            )
 
-                FlowRow(
-                    modifier = Modifier
-                        .padding(padding)
-                        .padding(vertical = 28.dp)
-                        .verticalScroll(verticalScrollState),
-                    mainAxisAlignment = MainAxisAlignment.Center,
-                    mainAxisSize = SizeMode.Expand,
-                    crossAxisSpacing = 20.dp,
-                    mainAxisSpacing = 20.dp
-                ) {
-                    QuizCard(
-                        cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
-                        iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
-                        count = accountingCount,
-                        title = stringResource(id = R.string.accounting),
-                        onClick = {
-                            context.startActivity(
-                                navigator?.quizIntent(
-                                    context = context,
-                                    quizType = QuizType.Accounting,
-                                    quizNumbers = quizNumber,
-                                    useTimer = useTimer,
-                                )
-                            )
-                        }
-                    )
+            QuizCard(
+                cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
+                iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
+                count = businessCount,
+                title = stringResource(id = R.string.business),
+                onClick = { onQuizCardClick(QuizType.Business) }
+            )
 
-                    QuizCard(
-                        cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
-                        iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
-                        count = businessCount,
-                        title = stringResource(id = R.string.business),
-                        onClick = {
-                            context.startActivity(
-                                navigator?.quizIntent(
-                                    context = context,
-                                    quizType = QuizType.Business,
-                                    quizNumbers = quizNumber,
-                                    useTimer = useTimer,
-                                )
-                            )
-                        }
-                    )
+            QuizCard(
+                cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
+                iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
+                count = commercialLawCount,
+                title = stringResource(id = R.string.commercial_law),
+                onClick = { onQuizCardClick(QuizType.CommercialLaw) }
+            )
 
-                    QuizCard(
-                        cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
-                        iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
-                        count = commercialLawCount,
-                        title = stringResource(id = R.string.commercial_law),
-                        onClick = {
-                            context.startActivity(
-                                navigator?.quizIntent(
-                                    context = context,
-                                    quizType = QuizType.CommercialLaw,
-                                    quizNumbers = quizNumber,
-                                    useTimer = useTimer,
-                                )
-                            )
-                        }
-                    )
+            QuizCard(
+                cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
+                iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
+                count = taxLawCount,
+                title = stringResource(id = R.string.tax_law),
+                onClick = { onQuizCardClick(QuizType.TaxLaw) }
+            )
 
-                    QuizCard(
-                        cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
-                        iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
-                        count = taxLawCount,
-                        title = stringResource(id = R.string.tax_law),
-                        onClick = {
-                            context.startActivity(
-                                navigator?.quizIntent(
-                                    context = context,
-                                    quizType = QuizType.TaxLaw,
-                                    quizNumbers = quizNumber,
-                                    useTimer = useTimer,
-                                )
-                            )
-                        }
-                    )
-
-                    NativeMediumAd()
-                }
-            }
+            NativeMediumAd()
         }
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopAppBar(
+    windowSizeClass: WindowSizeClass,
+    scrollBehavior: TopAppBarScrollBehavior,
     dday: String,
-    scope: CoroutineScope = rememberCoroutineScope(),
-    bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
+    quizNumber: Int,
+    onSetQuizTimer: Consumer<Int>,
+    useTimer: Boolean,
+    onToggleTimer: Action,
 ) {
-    TopAppBar(
-        elevation = 0.dp,
-        title = {
-            Text(
-                text = if (dday.isBlank()) "" else stringResource(id = R.string.dday, dday),
-                modifier = Modifier.fillMaxWidth(),
-            )
-        },
-        actions = {
-            HomeTopMenu(
-                bottomSheetScaffoldState = bottomSheetScaffoldState,
-                scope = scope
-            )
-        }
-    )
+    val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+    if (shouldShowLargeTopAppBar) {
+        LargeTopAppBar(
+            title = {
+                Text(
+                    text = if (dday.isBlank()) "" else stringResource(id = R.string.dday, dday),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            actions = {
+                HomeTopMenu(
+                    quizNumber = quizNumber,
+                    onSetQuizTimer = onSetQuizTimer,
+                    useTimer = useTimer,
+                    onToggleTimer = onToggleTimer
+                )
+            },
+            scrollBehavior = scrollBehavior
+        )
+    } else {
+        SmallTopAppBar(
+            title = {
+                Text(
+                    text = if (dday.isBlank()) "" else stringResource(id = R.string.dday, dday),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            actions = {
+                HomeTopMenu(
+                    quizNumber = quizNumber,
+                    onSetQuizTimer = onSetQuizTimer,
+                    useTimer = useTimer,
+                    onToggleTimer = onToggleTimer
+                )
+            }
+        )
+    }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun HomeTopMenu(
-    bottomSheetScaffoldState: BottomSheetScaffoldState,
-    scope: CoroutineScope = rememberCoroutineScope(),
+    quizNumber: Int,
+    onSetQuizTimer: Consumer<Int>,
+    useTimer: Boolean,
+    onToggleTimer: Action,
 ) {
-    IconButton(onClick = {
-        Timber.d("HomeScreen settings UI expanded")
-        scope.launch {
-            bottomSheetScaffoldState.bottomSheetState.expand()
-        }
-    }) {
-        val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
+    val openDialog = remember { mutableStateOf(false) }
 
-        Timber.d("isMenuExpanded: $isMenuExpanded")
+    IconButton(onClick = {
+        openDialog.value = true
+    }) {
+        if (openDialog.value) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog.value = false
+                },
+                title = { Text(text = stringResource(id = R.string.quiz_settings_title)) },
+                text = {
+                    LazyColumn {
+                        item {
+                            HomeQuizNumberBottomSheetListItem(
+                                quizNumber = quizNumber,
+                                onQuizNumberConfirm = onSetQuizTimer
+                            )
+                        }
+
+                        item {
+                            HomeSettingsListItem(
+                                icon = painterResource(id = R.drawable.ic_timer),
+                                text = stringResource(id = R.string.timer),
+                                onBottomSheetItemClick = onToggleTimer
+                            ) {
+                                Switch(
+                                    checked = useTimer,
+                                    onCheckedChange = {
+                                        onToggleTimer()
+                                    }
+                                )
+                            }
+                        }
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = { openDialog.value = false }) {
+                        Text(text = stringResource(id = R.string.confirm))
+                    }
+                }
+            )
+        }
 
         val transition =
-            updateTransition(targetState = isMenuExpanded, label = "SettingsMenuIconTransition")
+            updateTransition(targetState = openDialog.value, label = "SettingsMenuIconTransition")
 
         val tint by transition.animateColor(
             transitionSpec = {
@@ -298,12 +330,7 @@ private fun HomeTopMenu(
             label = "SettingsMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                if (MaterialTheme.colors.isLight) {
-                    // FIXME: After migrate to material3, set to primary color
-                    MaterialTheme.colors.onPrimary
-                } else {
-                    MaterialTheme.colors.primary
-                }
+                MaterialTheme.colorScheme.primary
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }
@@ -333,7 +360,7 @@ private fun HomeTopMenu(
         }
 
         Icon(
-            imageVector = if (isMenuExpanded) Icons.Filled.Settings else Icons.Outlined.Settings,
+            imageVector = if (openDialog.value) Icons.Filled.Settings else Icons.Outlined.Settings,
             contentDescription = stringResource(id = R.string.settings),
             tint = tint,
             modifier = Modifier
@@ -349,7 +376,7 @@ private fun QuizCard(
     iconBackgroundColor: Color,
     count: Int,
     title: String,
-    onClick: Action = {},
+    onClick: Action,
 ) {
     val cornerShape = RoundedCornerShape(24.dp)
     val quizCardEnabled = count > 0
@@ -391,7 +418,7 @@ private fun QuizCard(
                         modifier = Modifier
                             .background(
                                 if (quizCardEnabled) {
-                                    iconBackgroundColor
+                                    iconBackgroundColor.copy(0.88f)
                                 } else {
                                     iconBackgroundColor.copy(alpha = disabledContentAlpha)
                                 }
@@ -434,42 +461,6 @@ private fun QuizCard(
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
-@Composable
-private fun HomeSettingsBottomSheetContent() {
-    val viewModel = hiltViewModel<HomeViewModel>()
-
-    Timber.d("bottomSheetContentState: Settings")
-    LazyColumn {
-        item {
-            BottomSheetHandle()
-        }
-
-        item {
-            val quizNumber by viewModel.quizNumber.collectAsStateWithLifecycle()
-            HomeQuizNumberBottomSheetListItem(
-                quizNumber = quizNumber,
-                onQuizNumberConfirm = viewModel::setQuizNumber
-            )
-        }
-
-        item {
-            val useTimer by viewModel.useTimer.collectAsStateWithLifecycle()
-
-            HomeSettingsBottomSheetListItem(
-                icon = painterResource(id = R.drawable.ic_timer),
-                text = stringResource(id = R.string.timer),
-                onBottomSheetItemClick = viewModel::toggleTimer
-            ) {
-                Switch(
-                    checked = useTimer,
-                    onCheckedChange = viewModel::setTimer
-                )
-            }
-        }
-    }
-}
-
 @Composable
 private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfirm: Consumer<Int>) {
     val openDialog = remember { mutableStateOf(false) }
@@ -490,7 +481,7 @@ private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfi
         )
     }
 
-    HomeSettingsBottomSheetListItem(
+    HomeSettingsListItem(
         icon = painterResource(id = R.drawable.ic_note_outlined),
         text = stringResource(id = R.string.quiz_amount),
         onBottomSheetItemClick = {
@@ -508,7 +499,7 @@ private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfi
 }
 
 @Composable
-private fun HomeSettingsBottomSheetListItem(
+private fun HomeSettingsListItem(
     icon: Painter,
     text: String,
     onBottomSheetItemClick: Action = {},
@@ -518,22 +509,20 @@ private fun HomeSettingsBottomSheetListItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp)
-            .background(color = colorResource(id = R.color.daynight_gray050s))
             .clickable(onClick = onBottomSheetItemClick)
             .padding(start = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(36.dp),
             painter = icon,
             contentDescription = null,
-            tint = MaterialTheme.colors.primary
+            tint = MaterialTheme.colorScheme.primary
         )
-        Spacer(modifier = Modifier.width(20.dp))
-        Text(
-            text = text, style = Typography.bodyLarge,
-            color = colorResource(id = R.color.daynight_gray700s)
-        )
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Text(text = text, style = Typography.bodyLarge)
 
         Row(
             modifier = Modifier
@@ -555,10 +544,9 @@ private fun HomeSettingsBottomSheetListItem(
 @Preview
 @Composable
 private fun HomeScreenPreview() {
-    CpaQuizLegacyTheme {
+    CpaQuizTheme {
         BoxWithConstraints {
             HomeScreen(
-                navigator = null,
                 windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
                 dday = "123",
                 accountingCount = 100,
@@ -566,7 +554,10 @@ private fun HomeScreenPreview() {
                 commercialLawCount = 25,
                 taxLawCount = 125,
                 quizNumber = 20,
-                useTimer = true
+                onSetQuizTimer = {},
+                useTimer = true,
+                onToggleTimer = {},
+                onQuizCardClick = {}
             )
         }
     }
