@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,9 +32,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Badge
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetScaffoldState
-import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
@@ -46,16 +42,14 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.MaterialTheme as M3MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -63,7 +57,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -108,113 +101,82 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiS
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 import com.ysshin.cpaquiz.shared.android.ui.ad.NativeSmallAd
-import com.ysshin.cpaquiz.shared.android.ui.bottomsheet.BottomSheetHandle
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.shared.base.Action
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import timber.log.Timber
+import androidx.compose.material3.MaterialTheme as M3MaterialTheme
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
-    CpaQuizLegacyTheme {
-        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-            bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
-        )
-        val coroutineScope = rememberCoroutineScope()
-        val context = LocalContext.current
+    val context = LocalContext.current
 
-        LaunchedEffect(bottomSheetScaffoldState) {
-            viewModel.uiEvent.collectLatest { event ->
-                when (event) {
-                    is NoteUiEvent.ShowSnackbar -> {
-                        bottomSheetScaffoldState.snackbarHostState.showSnackbar(
-                            message = event.message.asString(context),
-                            actionLabel = event.actionLabel.asString(context)
-                        )
-                    }
-                }
-            }
-        }
+    BackHandler(enabled = viewModel.isMenuOpened.value) {
+        viewModel.isMenuOpened.value = false
+    }
 
-        BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-            coroutineScope.launch {
-                bottomSheetScaffoldState.bottomSheetState.collapse()
-            }
-        }
+    val bottomSheetContentState by viewModel.bottomSheetContentState
+    val scaffoldState = rememberScaffoldState()
 
-        val bottomSheetContentState by viewModel.bottomSheetContentState
-
-        BottomSheetScaffold(
-            sheetContent = {
-                // FIXME: Google issue tracker https://issuetracker.google.com/issues/236160476
-                when (bottomSheetContentState) {
-                    is NoteBottomSheetContentState.Filter -> {
-                        NoteFilterBottomSheetContent()
-                    }
-                    is NoteBottomSheetContentState.Search -> {
-                        NoteSearchBottomSheetContent(bottomSheetScaffoldState, coroutineScope)
-                    }
-                    is NoteBottomSheetContentState.None -> {
-                        // Note: If sheetContent is empty, the following exception occurs:
-                        // java.lang.IllegalArgumentException: The initial value must have an associated anchor.
-                        // Therefore, added small-sized box.
-                        // https://stackoverflow.com/questions/66511309/jetpack-compose-bottom-sheet-initialization-error
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(1.dp)
-                                .background(colorResource(id = R.color.daynight_gray050s))
-                        )
-                    }
-                }
-            },
-            sheetBackgroundColor = MaterialTheme.colors.onSurface,
-            scaffoldState = bottomSheetScaffoldState,
-            sheetPeekHeight = 0.dp,
-        ) {
-            val scaffoldState = rememberScaffoldState()
-            Scaffold(
-                scaffoldState = scaffoldState,
-                topBar = {
-                    NoteTopAppBar(
-                        bottomSheetScaffoldState = bottomSheetScaffoldState,
-                        scope = coroutineScope
+    LaunchedEffect(scaffoldState) {
+        viewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                is NoteUiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message.asString(context),
+                        actionLabel = event.actionLabel.asString(context)
                     )
                 }
-            ) { padding ->
-                val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-                val shouldShowNativeAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+            }
+        }
+    }
 
-                LazyColumn(modifier = Modifier.padding(padding)) {
-                    if (shouldShowNativeAd) {
-                        item {
-                            // FIXME: Prevent recomposition when scrolling or new item added.
-                            NativeSmallAd()
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            NoteTopAppBar()
+        }
+    ) { padding ->
+        val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+        val shouldShowMenu = viewModel.isMenuOpened.value
+        val shouldShowNativeAd =
+            shouldShowMenu.not() && windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+
+        LazyColumn(modifier = Modifier.padding(padding)) {
+            if (shouldShowMenu) {
+                item {
+                    Surface {
+                        when (bottomSheetContentState) {
+                            is NoteBottomSheetContentState.Filter -> NoteFilterMenuContent()
+                            is NoteBottomSheetContentState.Search -> NoteSearchMenuContent()
+                            is NoteBottomSheetContentState.None -> Unit
                         }
                     }
-
-                    when (uiState.value.userActionUiState) {
-                        UserActionUiState.OnViewing ->
-                            onViewingContent(viewModel, uiState.value, windowSizeClass)
-                        UserActionUiState.OnSearching ->
-                            onSearchingContent(uiState.value.searchedProblemsUiState, windowSizeClass)
-                    }
                 }
+            }
+
+            if (shouldShowNativeAd) {
+                item {
+                    // FIXME: Prevent recomposition when scrolling or new item added.
+                    NativeSmallAd()
+                }
+            }
+
+            when (uiState.value.userActionUiState) {
+                UserActionUiState.OnViewing ->
+                    onViewingContent(viewModel, uiState.value, windowSizeClass)
+                UserActionUiState.OnSearching ->
+                    onSearchingContent(uiState.value.searchedProblemsUiState, windowSizeClass)
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-private fun NoteTopAppBar(
-    bottomSheetScaffoldState: BottomSheetScaffoldState,
-    scope: CoroutineScope = rememberCoroutineScope(),
-) {
+private fun NoteTopAppBar() {
     val viewModel = hiltViewModel<NoteViewModel>()
     val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
     val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
@@ -230,10 +192,8 @@ private fun NoteTopAppBar(
         },
         actions = {
             NoteTopMenu(
-                bottomSheetScaffoldState,
                 userInput.value.isNotBlank(),
                 isYearFiltering.value || isQuizTypeFiltering.value,
-                scope
             )
         },
     )
@@ -586,83 +546,75 @@ fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun NoteFilterBottomSheetContent() {
+fun NoteFilterMenuContent() {
     val viewModel = hiltViewModel<NoteViewModel>()
 
-    LazyColumn {
-        item {
-            BottomSheetHandle()
-        }
+    val openYearFilterDialog = viewModel.isYearFilterDialogOpened.collectAsStateWithLifecycle()
+    if (openYearFilterDialog.value) {
+        AppCheckboxDialog(
+            icon = painterResource(id = R.drawable.ic_filter),
+            title = stringResource(id = R.string.year),
+            description = stringResource(id = R.string.choose_filtered_years),
+            selectableItems = viewModel.selectableFilteredYears,
+            onConfirm = { items ->
+                Timber.d("Selected: $items")
 
-        item {
-            val openYearFilterDialog = viewModel.isYearFilterDialogOpened.collectAsStateWithLifecycle()
-            if (openYearFilterDialog.value) {
-                AppCheckboxDialog(
-                    icon = painterResource(id = R.drawable.ic_filter),
-                    title = stringResource(id = R.string.year),
-                    description = stringResource(id = R.string.choose_filtered_years),
-                    selectableItems = viewModel.selectableFilteredYears,
-                    onConfirm = { items ->
-                        Timber.d("Selected: $items")
+                if (!items.any { it.isSelected }) {
+                    viewModel.showSnackbar(R.string.msg_need_filtered_year)
+                    viewModel.updateYearFilterDialogOpened(false)
+                    return@AppCheckboxDialog
+                }
 
-                        if (!items.any { it.isSelected }) {
-                            viewModel.showSnackbar(R.string.msg_need_filtered_year)
-                            viewModel.updateYearFilterDialogOpened(false)
-                            return@AppCheckboxDialog
-                        }
-
-                        viewModel.setFilter(years = items.filter { it.isSelected }.map { it.text.toInt() })
-                        viewModel.updateYearFilterDialogOpened(false)
-                    },
-                    onDismiss = {
-                        viewModel.updateYearFilterDialogOpened(false)
-                    }
-                )
+                viewModel.setFilter(years = items.filter { it.isSelected }.map { it.text.toInt() })
+                viewModel.updateYearFilterDialogOpened(false)
+            },
+            onDismiss = {
+                viewModel.updateYearFilterDialogOpened(false)
             }
-
-            val openQuizTypeFilterDialog =
-                viewModel.isQuizTypeFilterDialogOpened.collectAsStateWithLifecycle()
-            if (openQuizTypeFilterDialog.value) {
-                AppCheckboxDialog(
-                    icon = painterResource(id = R.drawable.ic_filter),
-                    title = stringResource(id = R.string.quiz_type),
-                    description = stringResource(id = R.string.choose_filtered_types),
-                    selectableItems = viewModel.selectableFilteredTypes,
-                    onConfirm = { items ->
-                        Timber.d("Selected: $items")
-
-                        if (!items.any { it.isSelected }) {
-                            viewModel.showSnackbar(R.string.msg_need_filtered_quiz_type)
-                            viewModel.updateQuizTypeFilterDialogOpened(false)
-                            return@AppCheckboxDialog
-                        }
-
-                        viewModel.setFilter(
-                            types = items.filter { it.isSelected }.map { QuizType.from(it.text) }
-                        )
-                        viewModel.updateQuizTypeFilterDialogOpened(false)
-                    },
-                    onDismiss = {
-                        viewModel.updateQuizTypeFilterDialogOpened(false)
-                    }
-                )
-            }
-
-            val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
-            val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
-
-            BottomSheetFilterContent(
-                isYearFiltering = isYearFiltering.value,
-                isQuizTypeFiltering = isQuizTypeFiltering.value,
-                onYearFilter = {
-                    viewModel.updateYearFilterDialogOpened(true)
-                },
-                onTypeFilter = {
-                    viewModel.updateQuizTypeFilterDialogOpened(true)
-                },
-            )
-        }
+        )
     }
+
+    val openQuizTypeFilterDialog =
+        viewModel.isQuizTypeFilterDialogOpened.collectAsStateWithLifecycle()
+    if (openQuizTypeFilterDialog.value) {
+        AppCheckboxDialog(
+            icon = painterResource(id = R.drawable.ic_filter),
+            title = stringResource(id = R.string.quiz_type),
+            description = stringResource(id = R.string.choose_filtered_types),
+            selectableItems = viewModel.selectableFilteredTypes,
+            onConfirm = { items ->
+                Timber.d("Selected: $items")
+
+                if (!items.any { it.isSelected }) {
+                    viewModel.showSnackbar(R.string.msg_need_filtered_quiz_type)
+                    viewModel.updateQuizTypeFilterDialogOpened(false)
+                    return@AppCheckboxDialog
+                }
+
+                viewModel.setFilter(
+                    types = items.filter { it.isSelected }.map { QuizType.from(it.text) }
+                )
+                viewModel.updateQuizTypeFilterDialogOpened(false)
+            },
+            onDismiss = {
+                viewModel.updateQuizTypeFilterDialogOpened(false)
+            }
+        )
+    }
+
+    val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
+    val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
+
+    BottomSheetFilterContent(
+        isYearFiltering = isYearFiltering.value,
+        isQuizTypeFiltering = isQuizTypeFiltering.value,
+        onYearFilter = {
+            viewModel.updateYearFilterDialogOpened(true)
+        },
+        onTypeFilter = {
+            viewModel.updateQuizTypeFilterDialogOpened(true)
+        },
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -732,41 +684,21 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
     R.color.daynight_gray300s
 }
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-private fun NoteSearchBottomSheetContent(
-    bottomSheetScaffoldState: BottomSheetScaffoldState,
-    scope: CoroutineScope = rememberCoroutineScope(),
-) {
-    LazyColumn {
-        item {
-            BottomSheetHandle()
-        }
-
-        item {
-            BottomSheetSearchContent(bottomSheetScaffoldState, scope)
-        }
-    }
-}
-
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
+    ExperimentalComposeUiApi::class,
     ExperimentalLifecycleComposeApi::class
 )
 @Composable
-private fun BottomSheetSearchContent(
-    bottomSheetScaffoldState: BottomSheetScaffoldState,
-    scope: CoroutineScope = rememberCoroutineScope(),
-) {
+private fun NoteSearchMenuContent() {
     val viewModel = hiltViewModel<NoteViewModel>()
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     SideEffect {
-        if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+        if (viewModel.isMenuOpened.value) {
             keyboardController?.show()
             focusRequester.requestFocus()
-        } else if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+        } else {
             keyboardController?.hide()
         }
     }
@@ -800,9 +732,7 @@ private fun BottomSheetSearchContent(
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    scope.launch {
-                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                    }
+                    viewModel.isMenuOpened.value = false
                 }
             )
         )
@@ -868,13 +798,11 @@ private fun NoteHeader(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 @Composable
 private fun NoteTopMenu(
-    bottomSheetScaffoldState: BottomSheetScaffoldState,
     isSearching: Boolean,
     isFiltering: Boolean,
-    scope: CoroutineScope,
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
-    val isMenuExpanded = bottomSheetScaffoldState.bottomSheetState.isExpanded
+    val isMenuExpanded = viewModel.isMenuOpened.value
     val bottomSheetContentState = viewModel.bottomSheetContentState.value
 
     AnimatedVisibility(
@@ -936,10 +864,8 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            scope.launch {
-                viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Search)
-                bottomSheetScaffoldState.bottomSheetState.expand()
-            }
+            viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Search)
+            viewModel.isMenuOpened.value = true
         }, enabled = isFiltering.not()
     ) {
         val transition =
@@ -990,10 +916,8 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            scope.launch {
-                viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Filter)
-                bottomSheetScaffoldState.bottomSheetState.expand()
-            }
+            viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Filter)
+            viewModel.isMenuOpened.value = true
         }, enabled = isSearching.not()
     ) {
         val transition =

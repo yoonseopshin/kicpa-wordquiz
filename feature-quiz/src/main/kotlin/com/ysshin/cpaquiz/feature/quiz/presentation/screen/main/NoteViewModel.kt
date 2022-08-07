@@ -195,6 +195,8 @@ class NoteViewModel @Inject constructor(
     fun updateBottomSheetContentState(state: NoteBottomSheetContentState) {
         _bottomSheetContentState.value = state
     }
+
+    var isMenuOpened = mutableStateOf(false)
 }
 
 sealed interface TotalProblemsUiState {
