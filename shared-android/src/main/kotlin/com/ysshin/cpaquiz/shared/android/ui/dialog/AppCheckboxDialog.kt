@@ -126,13 +126,11 @@ fun AppCheckboxDialog(
                                 }
                             },
                             selected = item.isSelected,
-                            label = (
-                                {
-                                    ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                        Text(text = item.text)
-                                    }
+                            label = {
+                                ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                    Text(text = item.text)
                                 }
-                                ),
+                            },
                             colors = FilterChipDefaults.filterChipColors()
                         )
                     }

@@ -10,12 +10,13 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
+import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,27 +30,33 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Badge
-import androidx.compose.material.Chip
-import androidx.compose.material.ChipDefaults
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Badge
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -60,9 +67,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -106,9 +115,8 @@ import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.shared.base.Action
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
-import androidx.compose.material3.MaterialTheme as M3MaterialTheme
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
     val context = LocalContext.current
@@ -118,25 +126,37 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
     }
 
     val bottomSheetContentState by viewModel.bottomSheetContentState
-    val scaffoldState = rememberScaffoldState()
 
-    LaunchedEffect(scaffoldState) {
+    val listState = rememberLazyListState()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(listState, snackbarHostState) {
         viewModel.uiEvent.collectLatest { event ->
             when (event) {
                 is NoteUiEvent.ShowSnackbar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
+                    snackbarHostState.showSnackbar(
                         message = event.message.asString(context),
                         actionLabel = event.actionLabel.asString(context)
                     )
+                }
+                is NoteUiEvent.ScrollToTop -> {
+                    listState.animateScrollToItem(0)
                 }
             }
         }
     }
 
+    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        decayAnimationSpec,
+        rememberTopAppBarState()
+    )
+
     Scaffold(
-        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            NoteTopAppBar()
+            NoteTopAppBar(windowSizeClass = windowSizeClass, scrollBehavior = scrollBehavior)
         }
     ) { padding ->
         val uiState = viewModel.uiState.collectAsStateWithLifecycle()
@@ -144,7 +164,10 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
         val shouldShowNativeAd =
             shouldShowMenu.not() && windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
-        LazyColumn(modifier = Modifier.padding(padding)) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.padding(padding)
+        ) {
             if (shouldShowMenu) {
                 item {
                     Surface {
@@ -174,29 +197,50 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun NoteTopAppBar() {
+private fun NoteTopAppBar(
+    windowSizeClass: WindowSizeClass,
+    scrollBehavior: TopAppBarScrollBehavior,
+) {
+    val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
     val viewModel = hiltViewModel<NoteViewModel>()
     val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
     val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
     val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
 
-    TopAppBar(
-        elevation = 0.dp,
-        title = {
-            Text(
-                text = stringResource(id = R.string.note),
-                modifier = Modifier.fillMaxWidth(),
-            )
-        },
-        actions = {
-            NoteTopMenu(
-                userInput.value.isNotBlank(),
-                isYearFiltering.value || isQuizTypeFiltering.value,
-            )
-        },
-    )
+    if (shouldShowLargeTopAppBar) {
+        LargeTopAppBar(
+            title = {
+                Text(
+                    text = stringResource(id = R.string.note),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            actions = {
+                NoteTopMenu(
+                    userInput.value.isNotBlank(),
+                    isYearFiltering.value || isQuizTypeFiltering.value,
+                )
+            },
+            scrollBehavior = scrollBehavior
+        )
+    } else {
+        SmallTopAppBar(
+            title = {
+                Text(
+                    text = stringResource(id = R.string.note),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            actions = {
+                NoteTopMenu(
+                    userInput.value.isNotBlank(),
+                    isYearFiltering.value || isQuizTypeFiltering.value,
+                )
+            },
+        )
+    }
 }
 
 private fun LazyListScope.onSearchingContent(
@@ -335,8 +379,8 @@ private fun WrongNoteHeaderContent(
 }
 
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
-    ExperimentalLifecycleComposeApi::class
+    ExperimentalFoundationApi::class,
+    ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 private fun NoteSummaryContent(
@@ -392,41 +436,57 @@ private fun NoteSummaryContent(
                     .align(Alignment.TopStart)
                     .padding(start = 8.dp)
             ) {
-                // TODO: Move to designsystem module
-                Chip(
-                    onClick = {},
-                    enabled = false,
-                    colors = ChipDefaults.chipColors(
-                        contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
-                        backgroundColor = colorResource(id = R.color.daynight_gray070s),
-                        disabledContentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
-                        disabledBackgroundColor = colorResource(id = R.color.daynight_gray070s)
-                    ),
-                    border = BorderStroke(
-                        width = 0.5.dp,
-                        color = colorResource(id = R.color.daynight_gray300s)
-                    ),
-                    modifier = Modifier
-                        .padding(all = 4.dp)
-                ) {
-                    Text(text = "${problem.year}년 ${problem.pid}번")
+                val assistChipContainerColor =
+                    colorResource(id = R.color.daynight_gray070s)
+                val assistChipBorderColor =
+                    colorResource(id = R.color.daynight_gray300s)
+
+                Box {
+                    AssistChip(
+                        modifier = Modifier.padding(all = 4.dp),
+                        onClick = {},
+                        label = {
+                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                Text(text = "${problem.year}년 ${problem.pid}번")
+                            }
+                        },
+                        colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
+                        border = AssistChipDefaults.assistChipBorder(
+                            borderColor = assistChipBorderColor,
+                            borderWidth = 0.5.dp
+                        )
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .alpha(0f)
+                            .clickable(onClick = {})
+                    )
                 }
-                Chip(
-                    onClick = {},
-                    enabled = false,
-                    colors = ChipDefaults.chipColors(
-                        contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
-                        backgroundColor = colorResource(id = R.color.daynight_gray070s),
-                        disabledContentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
-                        disabledBackgroundColor = colorResource(id = R.color.daynight_gray070s)
-                    ),
-                    border = BorderStroke(
-                        width = 0.5.dp,
-                        color = colorResource(id = R.color.daynight_gray300s)
-                    ),
-                    modifier = Modifier.padding(all = 4.dp)
-                ) {
-                    Text(text = problem.source.toString())
+
+                Box {
+                    AssistChip(
+                        modifier = Modifier.padding(all = 4.dp),
+                        onClick = {},
+                        label = {
+                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                Text(text = problem.source.toString())
+                            }
+                        },
+                        colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
+                        border = AssistChipDefaults.assistChipBorder(
+                            borderColor = assistChipBorderColor,
+                            borderWidth = 0.5.dp
+                        )
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .alpha(0f)
+                            .clickable(onClick = {})
+                    )
                 }
             }
 
@@ -436,7 +496,7 @@ private fun NoteSummaryContent(
                     .align(Alignment.TopEnd)
                     .padding(end = 8.dp)
             ) {
-                val backgroundColorResourceIdByType = when (problem.type) {
+                val containerColorResourceIdByType = when (problem.type) {
                     QuizType.Accounting -> R.color.accounting_highlight_color_0_20
                     QuizType.Business -> R.color.business_highlight_color_0_20
                     QuizType.CommercialLaw -> R.color.commercial_law_highlight_color_0_20
@@ -450,22 +510,30 @@ private fun NoteSummaryContent(
                     QuizType.TaxLaw -> R.color.tax_law_highlight_color
                 }
 
-                Chip(
-                    onClick = {},
-                    enabled = false,
-                    colors = ChipDefaults.chipColors(
-                        contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
-                        backgroundColor = colorResource(id = backgroundColorResourceIdByType),
-                        disabledContentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
-                        disabledBackgroundColor = colorResource(id = backgroundColorResourceIdByType),
-                    ),
-                    border = BorderStroke(
-                        width = 0.5.dp,
-                        color = colorResource(id = borderColorResourceIdByType)
-                    ),
-                    modifier = Modifier.padding(all = 4.dp)
-                ) {
-                    Text(text = problem.type.toKorean())
+                Box {
+                    AssistChip(
+                        modifier = Modifier.padding(all = 4.dp),
+                        onClick = {},
+                        label = {
+                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                Text(text = problem.type.toKorean())
+                            }
+                        },
+                        colors = AssistChipDefaults.assistChipColors(
+                            containerColor = colorResource(id = containerColorResourceIdByType)
+                        ),
+                        border = AssistChipDefaults.assistChipBorder(
+                            borderColor = colorResource(id = borderColorResourceIdByType),
+                            borderWidth = 0.5.dp,
+                        )
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .alpha(0f)
+                            .clickable(onClick = {})
+                    )
                 }
             }
         }
@@ -617,7 +685,7 @@ fun NoteFilterMenuContent() {
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BottomSheetFilterContent(
     isYearFiltering: Boolean,
@@ -625,14 +693,14 @@ private fun BottomSheetFilterContent(
     onYearFilter: Action,
     onTypeFilter: Action,
 ) {
-    val yearFilterChipBackgroundColor =
+    val yearAssistChipContainerColor =
         colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isYearFiltering))
-    val yearFilterChipStrokeColor =
+    val yearAssistChipBorderColor =
         colorResource(id = filterChipStrokeColorResourceIdByFiltering(isYearFiltering))
 
-    val quizTypeFilterChipBackgroundColor =
+    val quizTypeAssistChipContainerColor =
         colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isQuizTypeFiltering))
-    val quizTypeFilterChipStrokeColor =
+    val quizTypeAssistChipBorderColor =
         colorResource(id = filterChipStrokeColorResourceIdByFiltering(isQuizTypeFiltering))
 
     Row(
@@ -641,33 +709,27 @@ private fun BottomSheetFilterContent(
             .fillMaxWidth()
             .background(colorResource(id = R.color.daynight_gray050s))
     ) {
-        Chip(
+        AssistChip(
             onClick = onYearFilter,
-            colors = ChipDefaults.chipColors(
-                backgroundColor = yearFilterChipBackgroundColor
-            ),
-            border = BorderStroke(
-                width = 0.5.dp,
-                color = yearFilterChipStrokeColor
-            ),
-            modifier = Modifier.padding(all = 4.dp)
-        ) {
-            Text(text = stringResource(id = R.string.year))
-        }
+            modifier = Modifier.padding(all = 4.dp),
+            label = { Text(text = stringResource(id = R.string.year)) },
+            colors = AssistChipDefaults.assistChipColors(containerColor = yearAssistChipContainerColor),
+            border = AssistChipDefaults.assistChipBorder(
+                borderColor = yearAssistChipBorderColor,
+                borderWidth = 0.5.dp
+            )
+        )
 
-        Chip(
+        AssistChip(
             onClick = onTypeFilter,
-            colors = ChipDefaults.chipColors(
-                backgroundColor = quizTypeFilterChipBackgroundColor
-            ),
-            border = BorderStroke(
-                width = 0.5.dp,
-                color = quizTypeFilterChipStrokeColor
-            ),
-            modifier = Modifier.padding(all = 4.dp)
-        ) {
-            Text(text = stringResource(id = R.string.quiz_type))
-        }
+            modifier = Modifier.padding(all = 4.dp),
+            label = { Text(text = stringResource(id = R.string.quiz_type)) },
+            colors = AssistChipDefaults.assistChipColors(containerColor = quizTypeAssistChipContainerColor),
+            border = AssistChipDefaults.assistChipBorder(
+                borderColor = quizTypeAssistChipBorderColor,
+                borderWidth = 0.5.dp
+            )
+        )
     }
 }
 
@@ -686,7 +748,7 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalLifecycleComposeApi::class
+    ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 private fun NoteSearchMenuContent() {
@@ -712,7 +774,7 @@ private fun NoteSearchMenuContent() {
 
         OutlinedTextField(
             value = userInput.value,
-            onValueChange = { text -> viewModel.updateUserInput(text) },
+            onValueChange = { text: String -> viewModel.updateUserInput(text) },
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -720,12 +782,6 @@ private fun NoteSearchMenuContent() {
                 .focusRequester(focusRequester),
             maxLines = 1,
             placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(id = R.color.daynight_gray900s),
-                backgroundColor = colorResource(id = R.color.daynight_gray050a),
-                cursorColor = MaterialTheme.colors.secondary,
-                disabledTextColor = colorResource(id = R.color.daynight_gray500s),
-            ),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Text
@@ -784,10 +840,10 @@ private fun NoteHeader(
                     fontWeight = FontWeight.Bold
                 )
 
-                Badge(backgroundColor = M3MaterialTheme.colorScheme.primaryContainer) {
+                Badge(containerColor = MaterialTheme.colorScheme.primaryContainer) {
                     Text(
                         text = numOfProblems.toString(),
-                        color = M3MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
@@ -795,7 +851,7 @@ private fun NoteHeader(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun NoteTopMenu(
     isSearching: Boolean,
@@ -810,27 +866,21 @@ private fun NoteTopMenu(
         enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
-        Chip(
+        AssistChip(
             onClick = { viewModel.updateUserInput("") },
-            colors = ChipDefaults.chipColors(
-                contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
-                backgroundColor = colorResource(id = R.color.daynight_gray070s),
-            ),
-            border = BorderStroke(
-                width = 0.5.dp,
-                color = colorResource(id = R.color.daynight_gray300s)
-            ),
+            modifier = Modifier.padding(all = 4.dp),
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_search_off),
                     contentDescription = stringResource(id = R.string.clear_note_searching),
-                    tint = colorResource(id = R.color.daynight_gray300s),
+                    tint = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.padding(start = 4.dp)
                 )
             },
-        ) {
-            Text(text = stringResource(id = R.string.clear_note_searching))
-        }
+            label = {
+                Text(text = stringResource(id = R.string.clear_note_searching))
+            }
+        )
     }
 
     AnimatedVisibility(
@@ -838,34 +888,28 @@ private fun NoteTopMenu(
         enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
-        Chip(
+        AssistChip(
             onClick = { viewModel.setFilter(years = Problem.allYears(), types = QuizType.all()) },
-            colors = ChipDefaults.chipColors(
-                contentColor = MaterialTheme.colors.onSurface.copy(alpha = ChipDefaults.ContentOpacity),
-                backgroundColor = colorResource(id = R.color.daynight_gray070s),
-            ),
-            border = BorderStroke(
-                width = 0.5.dp,
-                color = colorResource(id = R.color.daynight_gray300s)
-            ),
             modifier = Modifier.padding(all = 4.dp),
+            label = {
+                Text(text = stringResource(id = R.string.clear_filter))
+            },
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_filter),
                     contentDescription = stringResource(id = R.string.clear_filter),
-                    tint = colorResource(id = R.color.daynight_gray300s),
+                    tint = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.padding(start = 4.dp)
                 )
-            },
-        ) {
-            Text(text = stringResource(id = R.string.clear_filter))
-        }
+            }
+        )
     }
 
     IconButton(
         onClick = {
             viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Search)
             viewModel.isMenuOpened.value = true
+            viewModel.scrollToTop()
         }, enabled = isFiltering.not()
     ) {
         val transition =
@@ -885,12 +929,7 @@ private fun NoteTopMenu(
             label = "SearchingMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                if (MaterialTheme.colors.isLight) {
-                    // FIXME: After migrate to material3, set to primary color
-                    MaterialTheme.colors.onPrimary
-                } else {
-                    MaterialTheme.colors.primary
-                }
+                MaterialTheme.colorScheme.primary
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }
@@ -917,7 +956,9 @@ private fun NoteTopMenu(
     IconButton(
         onClick = {
             viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Filter)
+            // TODO: toggle로 처리하고 이벤트는 내부에서 처리.
             viewModel.isMenuOpened.value = true
+            viewModel.scrollToTop()
         }, enabled = isSearching.not()
     ) {
         val transition =
@@ -937,12 +978,7 @@ private fun NoteTopMenu(
             label = "FilteringMenuIconColor"
         ) { isExpanded ->
             if (isExpanded) {
-                if (MaterialTheme.colors.isLight) {
-                    // FIXME: After migrate to material3, set to primary color
-                    MaterialTheme.colors.onPrimary
-                } else {
-                    MaterialTheme.colors.primary
-                }
+                MaterialTheme.colorScheme.primary
             } else {
                 LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             }

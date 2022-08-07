@@ -143,6 +143,12 @@ class NoteViewModel @Inject constructor(
         }
     }
 
+    fun scrollToTop() {
+        viewModelScope.launch {
+            _uiEvent.emit(NoteUiEvent.ScrollToTop)
+        }
+    }
+
     private val _isDeleteWrongProblemDialogOpened = MutableStateFlow(false)
     val isDeleteWrongProblemDialogOpened = _isDeleteWrongProblemDialogOpened.asStateFlow()
     private lateinit var targetProblem: Problem
@@ -233,6 +239,7 @@ data class NoteUiState(
 
 sealed interface NoteUiEvent {
     data class ShowSnackbar(val message: UiText, val actionLabel: UiText) : NoteUiEvent
+    object ScrollToTop : NoteUiEvent
 }
 
 sealed interface NoteBottomSheetContentState {
