@@ -1,16 +1,10 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
-import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
 import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_background
 import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_error
 import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_onBackground
@@ -31,7 +25,6 @@ import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_onSurface
 import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_primary
 import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_secondary
 import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_surface
-import dagger.hilt.android.internal.managers.ViewComponentManager
 
 private val LightColorScheme = lightColors(
     primary = md_theme_light_primary,
@@ -66,24 +59,6 @@ fun CpaQuizLegacyTheme(
     content: @Composable () -> Unit,
 ) {
     val colors = if (darkTheme) DarkColorScheme else LightColorScheme
-
-    val view = LocalView.current
-    if (view.isInEditMode.not()) {
-        SideEffect {
-            val context = view.context
-            val activity = if (context is ViewComponentManager.FragmentContextWrapper) {
-                context.baseContext as Activity
-            } else {
-                context as Activity
-            }
-            activity.window.statusBarColor = colors.primary.toArgb()
-            activity.window.navigationBarColor =
-                colors.primary.copy(alpha = 0.08f).compositeOver(colors.surface.copy()).toArgb()
-            WindowCompat.getInsetsController(activity.window, view).isAppearanceLightStatusBars = darkTheme
-            WindowCompat.getInsetsController(activity.window, view).isAppearanceLightNavigationBars = darkTheme.not()
-        }
-    }
-
     MaterialTheme(
         colors = colors,
         content = content
