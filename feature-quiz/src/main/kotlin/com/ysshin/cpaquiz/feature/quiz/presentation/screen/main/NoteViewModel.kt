@@ -143,12 +143,6 @@ class NoteViewModel @Inject constructor(
         }
     }
 
-    fun scrollToTop() {
-        viewModelScope.launch {
-            _uiEvent.emit(NoteUiEvent.ScrollToTop)
-        }
-    }
-
     private val _isDeleteWrongProblemDialogOpened = MutableStateFlow(false)
     val isDeleteWrongProblemDialogOpened = _isDeleteWrongProblemDialogOpened.asStateFlow()
     private lateinit var targetProblem: Problem
@@ -193,16 +187,25 @@ class NoteViewModel @Inject constructor(
         _isQuizTypeFilterDialogOpened.update { value }
     }
 
-    private val _bottomSheetContentState: MutableState<NoteBottomSheetContentState> =
-        mutableStateOf(NoteBottomSheetContentState.None)
-    val bottomSheetContentState: State<NoteBottomSheetContentState>
-        get() = _bottomSheetContentState
+    private val _noteMenuContentState: MutableState<NoteMenuContentState> =
+        mutableStateOf(NoteMenuContentState.None)
+    val noteMenuContentState: State<NoteMenuContentState>
+        get() = _noteMenuContentState
 
-    fun updateBottomSheetContentState(state: NoteBottomSheetContentState) {
-        _bottomSheetContentState.value = state
+    private val _isMenuOpened = mutableStateOf(false)
+    val isMenuOpened: State<Boolean> get() = _isMenuOpened
+
+    fun hideMenu() {
+        _isMenuOpened.value = false
     }
 
-    var isMenuOpened = mutableStateOf(false)
+    fun showMenu(state: NoteMenuContentState) {
+        _noteMenuContentState.value = state
+        _isMenuOpened.value = true
+        viewModelScope.launch {
+            _uiEvent.emit(NoteUiEvent.ScrollToTop)
+        }
+    }
 }
 
 sealed interface TotalProblemsUiState {
@@ -242,8 +245,8 @@ sealed interface NoteUiEvent {
     object ScrollToTop : NoteUiEvent
 }
 
-sealed interface NoteBottomSheetContentState {
-    object Filter : NoteBottomSheetContentState
-    object Search : NoteBottomSheetContentState
-    object None : NoteBottomSheetContentState
+sealed interface NoteMenuContentState {
+    object Filter : NoteMenuContentState
+    object Search : NoteMenuContentState
+    object None : NoteMenuContentState
 }

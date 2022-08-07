@@ -10,10 +10,14 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
-import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,7 +47,6 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -54,9 +57,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -71,7 +71,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -99,7 +98,7 @@ import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteBottomSheetContentState
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteMenuContentState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiEvent
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
@@ -116,16 +115,19 @@ import com.ysshin.cpaquiz.shared.base.Action
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
-@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class
+)
 @Composable
 fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
     val context = LocalContext.current
 
     BackHandler(enabled = viewModel.isMenuOpened.value) {
-        viewModel.isMenuOpened.value = false
+        viewModel.hideMenu()
     }
 
-    val bottomSheetContentState by viewModel.bottomSheetContentState
+    val bottomSheetContentState by viewModel.noteMenuContentState
 
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -146,17 +148,10 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
         }
     }
 
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
-        rememberTopAppBarState()
-    )
-
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            NoteTopAppBar(windowSizeClass = windowSizeClass, scrollBehavior = scrollBehavior)
+            NoteTopAppBar()
         }
     ) { padding ->
         val uiState = viewModel.uiState.collectAsStateWithLifecycle()
@@ -168,20 +163,28 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
             state = listState,
             modifier = Modifier.padding(padding)
         ) {
-            if (shouldShowMenu) {
-                item {
+            item {
+                AnimatedVisibility(
+                    visible = shouldShowMenu,
+                    enter = slideInVertically(animationSpec = spring()) + fadeIn(),
+                    exit = slideOutVertically(animationSpec = spring()) + fadeOut()
+                ) {
                     Surface {
                         when (bottomSheetContentState) {
-                            is NoteBottomSheetContentState.Filter -> NoteFilterMenuContent()
-                            is NoteBottomSheetContentState.Search -> NoteSearchMenuContent()
-                            is NoteBottomSheetContentState.None -> Unit
+                            is NoteMenuContentState.Filter -> NoteFilterMenuContent()
+                            is NoteMenuContentState.Search -> NoteSearchMenuContent()
+                            is NoteMenuContentState.None -> Unit
                         }
                     }
                 }
             }
 
-            if (shouldShowNativeAd) {
-                item {
+            item {
+                AnimatedVisibility(
+                    visible = shouldShowNativeAd,
+                    enter = fadeIn(),
+                    exit = slideOutHorizontally(animationSpec = spring()) + fadeOut()
+                ) {
                     // FIXME: Prevent recomposition when scrolling or new item added.
                     NativeSmallAd()
                 }
@@ -199,48 +202,26 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun NoteTopAppBar(
-    windowSizeClass: WindowSizeClass,
-    scrollBehavior: TopAppBarScrollBehavior,
-) {
-    val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+private fun NoteTopAppBar() {
     val viewModel = hiltViewModel<NoteViewModel>()
     val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
     val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
     val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
 
-    if (shouldShowLargeTopAppBar) {
-        LargeTopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.note),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            actions = {
-                NoteTopMenu(
-                    userInput.value.isNotBlank(),
-                    isYearFiltering.value || isQuizTypeFiltering.value,
-                )
-            },
-            scrollBehavior = scrollBehavior
-        )
-    } else {
-        SmallTopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.note),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            actions = {
-                NoteTopMenu(
-                    userInput.value.isNotBlank(),
-                    isYearFiltering.value || isQuizTypeFiltering.value,
-                )
-            },
-        )
-    }
+    SmallTopAppBar(
+        title = {
+            Text(
+                text = stringResource(id = R.string.note),
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        actions = {
+            NoteTopMenu(
+                userInput.value.isNotBlank(),
+                isYearFiltering.value || isQuizTypeFiltering.value,
+            )
+        },
+    )
 }
 
 private fun LazyListScope.onSearchingContent(
@@ -788,7 +769,7 @@ private fun NoteSearchMenuContent() {
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    viewModel.isMenuOpened.value = false
+                    viewModel.hideMenu()
                 }
             )
         )
@@ -859,7 +840,7 @@ private fun NoteTopMenu(
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
     val isMenuExpanded = viewModel.isMenuOpened.value
-    val bottomSheetContentState = viewModel.bottomSheetContentState.value
+    val bottomSheetContentState = viewModel.noteMenuContentState.value
 
     AnimatedVisibility(
         visible = isSearching,
@@ -907,14 +888,12 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Search)
-            viewModel.isMenuOpened.value = true
-            viewModel.scrollToTop()
+            viewModel.showMenu(NoteMenuContentState.Search)
         }, enabled = isFiltering.not()
     ) {
         val transition =
             updateTransition(
-                targetState = isMenuExpanded && bottomSheetContentState is NoteBottomSheetContentState.Search,
+                targetState = isMenuExpanded && bottomSheetContentState is NoteMenuContentState.Search,
                 label = "SearchingMenuIconTransition"
             )
 
@@ -955,15 +934,12 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            viewModel.updateBottomSheetContentState(NoteBottomSheetContentState.Filter)
-            // TODO: toggle로 처리하고 이벤트는 내부에서 처리.
-            viewModel.isMenuOpened.value = true
-            viewModel.scrollToTop()
+            viewModel.showMenu(NoteMenuContentState.Filter)
         }, enabled = isSearching.not()
     ) {
         val transition =
             updateTransition(
-                targetState = isMenuExpanded && bottomSheetContentState is NoteBottomSheetContentState.Filter,
+                targetState = isMenuExpanded && bottomSheetContentState is NoteMenuContentState.Filter,
                 label = "FilteringMenuIconTransition"
             )
 
