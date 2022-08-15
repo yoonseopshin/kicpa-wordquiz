@@ -729,7 +729,7 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class
+    ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class
 )
 @Composable
 private fun NoteSearchMenuContent() {
@@ -752,6 +752,26 @@ private fun NoteSearchMenuContent() {
             .background(colorResource(id = R.color.daynight_gray050s)),
     ) {
         val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
+        val closeIcon = @Composable {
+            AnimatedVisibility(
+                visible = userInput.value.isNotBlank(),
+                enter = scaleIn(animationSpec = tween(300)) +
+                    expandVertically(expandFrom = Alignment.CenterVertically),
+                exit = scaleOut(animationSpec = tween(300)) +
+                    shrinkVertically(shrinkTowards = Alignment.CenterVertically)
+            ) {
+                IconButton(
+                    onClick = { viewModel.updateUserInput("") },
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_cancel),
+                        contentDescription = stringResource(id = R.string.clear_note_searching),
+                        tint = colorResource(id = R.color.daynight_gray500s)
+                    )
+                }
+            }
+        }
 
         OutlinedTextField(
             value = userInput.value,
@@ -771,21 +791,9 @@ private fun NoteSearchMenuContent() {
                 onDone = {
                     viewModel.hideMenu()
                 }
-            )
+            ),
+            trailingIcon = closeIcon
         )
-
-        IconButton(
-            onClick = { viewModel.updateUserInput("") },
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(4.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_cancel),
-                contentDescription = stringResource(id = R.string.clear_note_searching),
-                tint = colorResource(id = R.color.daynight_gray500s)
-            )
-        }
     }
 }
 
