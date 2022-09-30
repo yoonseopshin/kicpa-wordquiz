@@ -15,9 +15,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -64,6 +61,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -112,7 +110,9 @@ import com.ysshin.cpaquiz.shared.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.shared.base.Action
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @OptIn(
@@ -156,14 +156,13 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
     ) { padding ->
         val uiState = viewModel.uiState.collectAsStateWithLifecycle()
         val shouldShowMenu = viewModel.isMenuOpened.value
-        val shouldShowNativeAd =
-            shouldShowMenu.not() && windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+        val shouldShowNativeAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
         Column(modifier = Modifier.padding(padding)) {
             AnimatedVisibility(
                 visible = shouldShowNativeAd,
                 enter = fadeIn(),
-                exit = slideOutHorizontally(animationSpec = spring()) + fadeOut()
+                exit = fadeOut()
             ) {
                 NativeSmallAd()
             }
@@ -172,8 +171,8 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                 item {
                     AnimatedVisibility(
                         visible = shouldShowMenu,
-                        enter = slideInVertically(animationSpec = spring()) + fadeIn(),
-                        exit = slideOutVertically(animationSpec = spring()) + fadeOut()
+                        enter = expandVertically() + fadeIn(),
+                        exit = fadeOut() + shrinkVertically()
                     ) {
                         Surface {
                             when (bottomSheetContentState) {
@@ -725,18 +724,24 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class
+    ExperimentalLifecycleComposeApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class
 )
 @Composable
 private fun NoteSearchMenuContent() {
     val viewModel = hiltViewModel<NoteViewModel>()
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scope = rememberCoroutineScope()
 
     SideEffect {
         if (viewModel.isMenuOpened.value) {
-            keyboardController?.show()
-            focusRequester.requestFocus()
+            scope.launch {
+                delay(100L)
+                keyboardController?.show()
+                focusRequester.requestFocus()
+            }
         } else {
             keyboardController?.hide()
         }
@@ -752,9 +757,9 @@ private fun NoteSearchMenuContent() {
             AnimatedVisibility(
                 visible = userInput.value.isNotBlank(),
                 enter = scaleIn(animationSpec = tween(300)) +
-                    expandVertically(expandFrom = Alignment.CenterVertically),
+                        expandVertically(expandFrom = Alignment.CenterVertically),
                 exit = scaleOut(animationSpec = tween(300)) +
-                    shrinkVertically(shrinkTowards = Alignment.CenterVertically)
+                        shrinkVertically(shrinkTowards = Alignment.CenterVertically)
             ) {
                 IconButton(
                     onClick = { viewModel.updateUserInput("") },
