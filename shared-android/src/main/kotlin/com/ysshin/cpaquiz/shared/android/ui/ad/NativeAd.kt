@@ -112,7 +112,6 @@ fun NativeSmallAd() {
             adView.callToActionView = btnCta
             adView.headlineView = tvHeadline
             adView.iconView = ivAppIcon
-            adView.priceView = tvPrice
             adView.storeView = tvStore
         }
 
@@ -133,10 +132,6 @@ fun NativeSmallAd() {
 
                     nativeAd.icon?.let { icon ->
                         ivAppIcon.setImageDrawable(icon.drawable)
-                    }
-
-                    nativeAd.price?.let { price ->
-                        tvPrice.text = price
                     }
 
                     nativeAd.store?.let { store ->

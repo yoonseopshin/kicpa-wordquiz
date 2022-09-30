@@ -11,15 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:minHeight="60dp"
-        android:paddingBottom="12dp">
+        android:paddingBottom="6dp">
 
         <ImageView
             android:id="@+id/iv_app_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="6dp"
             android:adjustViewBounds="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +33,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:minWidth="100dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/iv_app_icon"
             app:layout_constraintEnd_toStartOf="@id/layout_action"
@@ -46,17 +45,17 @@
             android:id="@+id/layout_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btn_cta"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
                 android:backgroundTint="@color/ad_button_background"
                 android:gravity="center"
                 android:textColor="@color/ad_button_text"
@@ -65,25 +64,12 @@
 
             <TextView
                 android:id="@+id/tv_store"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
+                android:gravity="center"
                 android:maxLines="1"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="1dp"
                 android:textSize="12sp"
                 tools:text="Google Play" />
-
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:maxLines="1"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="1dp"
-                android:textSize="12sp"
-                tools:text="Free" />
 
         </LinearLayout>
 
@@ -95,8 +81,8 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="12dp"
             android:paddingHorizontal="4dp"
-            android:paddingVertical="2dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/layout_action"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_app_icon"

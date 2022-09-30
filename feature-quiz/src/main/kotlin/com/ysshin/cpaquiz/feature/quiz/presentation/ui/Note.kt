@@ -159,42 +159,38 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
         val shouldShowNativeAd =
             shouldShowMenu.not() && windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
-        LazyColumn(
-            state = listState,
-            modifier = Modifier.padding(padding)
-        ) {
-            item {
-                AnimatedVisibility(
-                    visible = shouldShowMenu,
-                    enter = slideInVertically(animationSpec = spring()) + fadeIn(),
-                    exit = slideOutVertically(animationSpec = spring()) + fadeOut()
-                ) {
-                    Surface {
-                        when (bottomSheetContentState) {
-                            is NoteMenuContentState.Filter -> NoteFilterMenuContent()
-                            is NoteMenuContentState.Search -> NoteSearchMenuContent()
-                            is NoteMenuContentState.None -> Unit
+        Column(modifier = Modifier.padding(padding)) {
+            AnimatedVisibility(
+                visible = shouldShowNativeAd,
+                enter = fadeIn(),
+                exit = slideOutHorizontally(animationSpec = spring()) + fadeOut()
+            ) {
+                NativeSmallAd()
+            }
+
+            LazyColumn(state = listState) {
+                item {
+                    AnimatedVisibility(
+                        visible = shouldShowMenu,
+                        enter = slideInVertically(animationSpec = spring()) + fadeIn(),
+                        exit = slideOutVertically(animationSpec = spring()) + fadeOut()
+                    ) {
+                        Surface {
+                            when (bottomSheetContentState) {
+                                is NoteMenuContentState.Filter -> NoteFilterMenuContent()
+                                is NoteMenuContentState.Search -> NoteSearchMenuContent()
+                                is NoteMenuContentState.None -> Unit
+                            }
                         }
                     }
                 }
-            }
 
-            item {
-                AnimatedVisibility(
-                    visible = shouldShowNativeAd,
-                    enter = fadeIn(),
-                    exit = slideOutHorizontally(animationSpec = spring()) + fadeOut()
-                ) {
-                    // FIXME: Prevent recomposition when scrolling or new item added.
-                    NativeSmallAd()
+                when (uiState.value.userActionUiState) {
+                    UserActionUiState.OnViewing ->
+                        onViewingContent(viewModel, uiState.value, windowSizeClass)
+                    UserActionUiState.OnSearching ->
+                        onSearchingContent(uiState.value.searchedProblemsUiState, windowSizeClass)
                 }
-            }
-
-            when (uiState.value.userActionUiState) {
-                UserActionUiState.OnViewing ->
-                    onViewingContent(viewModel, uiState.value, windowSizeClass)
-                UserActionUiState.OnSearching ->
-                    onSearchingContent(uiState.value.searchedProblemsUiState, windowSizeClass)
             }
         }
     }
