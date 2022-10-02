@@ -23,10 +23,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
@@ -36,6 +38,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AssistChip
@@ -116,8 +119,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @OptIn(
-    ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class
+    ExperimentalLifecycleComposeApi::class,
+    ExperimentalMaterial3Api::class,
 )
 @Composable
 fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
@@ -142,6 +145,7 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                     )
                 }
                 is NoteUiEvent.ScrollToTop -> {
+                    // TODO: Not working at top position
                     listState.animateScrollToItem(0)
                 }
             }
@@ -178,7 +182,6 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                             when (bottomSheetContentState) {
                                 is NoteMenuContentState.Filter -> NoteFilterMenuContent()
                                 is NoteMenuContentState.Search -> NoteSearchMenuContent()
-                                is NoteMenuContentState.None -> Unit
                             }
                         }
                     }
@@ -649,7 +652,7 @@ fun NoteFilterMenuContent() {
     val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
     val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
 
-    BottomSheetFilterContent(
+    NoteFilterMenuContentDetail(
         isYearFiltering = isYearFiltering.value,
         isQuizTypeFiltering = isQuizTypeFiltering.value,
         onYearFilter = {
@@ -663,12 +666,14 @@ fun NoteFilterMenuContent() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun BottomSheetFilterContent(
+private fun NoteFilterMenuContentDetail(
     isYearFiltering: Boolean,
     isQuizTypeFiltering: Boolean,
     onYearFilter: Action,
     onTypeFilter: Action,
 ) {
+    val viewModel = hiltViewModel<NoteViewModel>()
+
     val yearAssistChipContainerColor =
         colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isYearFiltering))
     val yearAssistChipBorderColor =
@@ -683,8 +688,11 @@ private fun BottomSheetFilterContent(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
+            .defaultMinSize(minHeight = 64.dp)
             .background(colorResource(id = R.color.daynight_gray050s))
     ) {
+        Spacer(modifier = Modifier.width(12.dp))
+
         AssistChip(
             onClick = onYearFilter,
             modifier = Modifier.padding(all = 4.dp),
@@ -706,6 +714,19 @@ private fun BottomSheetFilterContent(
                 borderWidth = 0.5.dp
             )
         )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(
+            onClick = { viewModel.hideMenu() },
+            modifier = Modifier.padding(end = 4.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowUp,
+                contentDescription = stringResource(id = R.string.hide_menu),
+                tint = colorResource(id = R.color.daynight_gray500s)
+            )
+        }
     }
 }
 
@@ -726,7 +747,6 @@ private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = i
     ExperimentalComposeUiApi::class,
     ExperimentalLifecycleComposeApi::class,
     ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class
 )
 @Composable
 private fun NoteSearchMenuContent() {
@@ -747,40 +767,20 @@ private fun NoteSearchMenuContent() {
         }
     }
 
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
+            .defaultMinSize(minHeight = 64.dp)
             .background(colorResource(id = R.color.daynight_gray050s)),
     ) {
         val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
-        val closeIcon = @Composable {
-            AnimatedVisibility(
-                visible = userInput.value.isNotBlank(),
-                enter = scaleIn(animationSpec = tween(300)) +
-                        expandVertically(expandFrom = Alignment.CenterVertically),
-                exit = scaleOut(animationSpec = tween(300)) +
-                        shrinkVertically(shrinkTowards = Alignment.CenterVertically)
-            ) {
-                IconButton(
-                    onClick = { viewModel.updateUserInput("") },
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_cancel),
-                        contentDescription = stringResource(id = R.string.clear_note_searching),
-                        tint = colorResource(id = R.color.daynight_gray500s)
-                    )
-                }
-            }
-        }
 
         OutlinedTextField(
             value = userInput.value,
-            onValueChange = { text: String -> viewModel.updateUserInput(text) },
+            onValueChange = viewModel::updateUserInput,
             modifier = Modifier
-                .align(Alignment.Center)
+                .weight(1f)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
-                .fillMaxWidth()
                 .focusRequester(focusRequester),
             maxLines = 1,
             placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
@@ -792,9 +792,19 @@ private fun NoteSearchMenuContent() {
                 onDone = {
                     viewModel.hideMenu()
                 }
-            ),
-            trailingIcon = closeIcon
+            )
         )
+
+        IconButton(
+            onClick = viewModel::hideMenu,
+            modifier = Modifier.padding(end = 4.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowUp,
+                contentDescription = stringResource(id = R.string.hide_menu),
+                tint = colorResource(id = R.color.daynight_gray500s)
+            )
+        }
     }
 }
 
@@ -862,13 +872,13 @@ private fun NoteTopMenu(
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_search_off),
-                    contentDescription = stringResource(id = R.string.clear_note_searching),
+                    contentDescription = stringResource(id = R.string.clear_search),
                     tint = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.padding(start = 4.dp)
                 )
             },
             label = {
-                Text(text = stringResource(id = R.string.clear_note_searching))
+                Text(text = stringResource(id = R.string.clear_search))
             }
         )
     }
@@ -897,7 +907,7 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            viewModel.showMenu(NoteMenuContentState.Search)
+            viewModel.toggleMenu(NoteMenuContentState.Search)
         }, enabled = isFiltering.not()
     ) {
         val transition =
@@ -943,7 +953,7 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            viewModel.showMenu(NoteMenuContentState.Filter)
+            viewModel.toggleMenu(NoteMenuContentState.Filter)
         }, enabled = isSearching.not()
     ) {
         val transition =

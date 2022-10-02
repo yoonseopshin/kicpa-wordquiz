@@ -15,6 +15,7 @@ import com.ysshin.cpaquiz.shared.android.util.UiText
 import com.ysshin.cpaquiz.shared.base.Result
 import com.ysshin.cpaquiz.shared.base.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -188,21 +189,31 @@ class NoteViewModel @Inject constructor(
     }
 
     private val _noteMenuContentState: MutableState<NoteMenuContentState> =
-        mutableStateOf(NoteMenuContentState.None)
+        mutableStateOf(NoteMenuContentState.Search)
     val noteMenuContentState: State<NoteMenuContentState>
         get() = _noteMenuContentState
 
     private val _isMenuOpened = mutableStateOf(false)
     val isMenuOpened: State<Boolean> get() = _isMenuOpened
 
+    fun toggleMenu(newState: NoteMenuContentState) {
+        val originState = _noteMenuContentState.value
+        if (originState == newState && _isMenuOpened.value) {
+            hideMenu()
+        } else {
+            showMenu(newState)
+        }
+    }
+
     fun hideMenu() {
         _isMenuOpened.value = false
     }
 
-    fun showMenu(state: NoteMenuContentState) {
+    private fun showMenu(state: NoteMenuContentState) {
         _noteMenuContentState.value = state
         _isMenuOpened.value = true
         viewModelScope.launch {
+            delay(100L)
             _uiEvent.emit(NoteUiEvent.ScrollToTop)
         }
     }
@@ -248,5 +259,4 @@ sealed interface NoteUiEvent {
 sealed interface NoteMenuContentState {
     object Filter : NoteMenuContentState
     object Search : NoteMenuContentState
-    object None : NoteMenuContentState
 }
