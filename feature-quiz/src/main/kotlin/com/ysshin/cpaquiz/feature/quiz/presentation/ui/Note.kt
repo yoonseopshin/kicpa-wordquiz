@@ -36,6 +36,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -57,6 +58,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -359,7 +361,8 @@ private fun WrongNoteHeaderContent(
 
 @OptIn(
     ExperimentalFoundationApi::class,
-    ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class
+    ExperimentalLifecycleComposeApi::class,
+    ExperimentalMaterial3Api::class
 )
 @Composable
 private fun NoteSummaryContent(
@@ -829,7 +832,7 @@ private fun NoteHeader(
                     }
                 )
                 .fillMaxWidth()
-                .background(colorResource(id = R.color.daynight_gray050s))
+                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
                 .defaultMinSize(minHeight = 52.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -908,8 +911,11 @@ private fun NoteTopMenu(
     IconButton(
         onClick = {
             viewModel.toggleMenu(NoteMenuContentState.Search)
-        }, enabled = isFiltering.not()
+        },
+        enabled = isFiltering.not(),
     ) {
+        val isEnabled = isFiltering.not()
+
         val transition =
             updateTransition(
                 targetState = isMenuExpanded && bottomSheetContentState is NoteMenuContentState.Search,
@@ -929,7 +935,11 @@ private fun NoteTopMenu(
             if (isExpanded) {
                 MaterialTheme.colorScheme.primary
             } else {
-                LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                if (isEnabled) {
+                    LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                } else {
+                    LocalContentColor.current.copy(alpha = ContentAlpha.disabled)
+                }
             }
         }
 
@@ -954,8 +964,11 @@ private fun NoteTopMenu(
     IconButton(
         onClick = {
             viewModel.toggleMenu(NoteMenuContentState.Filter)
-        }, enabled = isSearching.not()
+        },
+        enabled = isSearching.not()
     ) {
+        val isEnabled = isSearching.not()
+
         val transition =
             updateTransition(
                 targetState = isMenuExpanded && bottomSheetContentState is NoteMenuContentState.Filter,
@@ -975,7 +988,11 @@ private fun NoteTopMenu(
             if (isExpanded) {
                 MaterialTheme.colorScheme.primary
             } else {
-                LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                if (isEnabled) {
+                    LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                } else {
+                    LocalContentColor.current.copy(alpha = ContentAlpha.disabled)
+                }
             }
         }
 
@@ -993,7 +1010,7 @@ private fun NoteTopMenu(
             painter = painterResource(id = R.drawable.ic_filter),
             contentDescription = stringResource(id = R.string.filter),
             tint = tint,
-            modifier = Modifier.size(size)
+            modifier = Modifier.size(size),
         )
     }
 }
