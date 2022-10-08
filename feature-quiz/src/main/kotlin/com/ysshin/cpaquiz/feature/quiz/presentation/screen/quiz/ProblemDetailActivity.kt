@@ -16,7 +16,14 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
-import com.ysshin.cpaquiz.shared.android.util.*
+import com.ysshin.cpaquiz.shared.android.util.blink
+import com.ysshin.cpaquiz.shared.android.util.color
+import com.ysshin.cpaquiz.shared.android.util.parcelable
+import com.ysshin.cpaquiz.shared.android.util.repeatOnLifecycleStarted
+import com.ysshin.cpaquiz.shared.android.util.scrollToView
+import com.ysshin.cpaquiz.shared.android.util.serializable
+import com.ysshin.cpaquiz.shared.android.util.setOnDoubleClick
+import com.ysshin.cpaquiz.shared.android.util.setOnThrottleClick
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
@@ -153,7 +160,7 @@ class ProblemDetailActivity : BaseActivity() {
 
     private fun parseIntent() {
         intent.extras?.let { extras ->
-            (extras.getSerializable(QuizConstants.mode) as ProblemDetailMode).let { mode ->
+            (extras.serializable(QuizConstants.mode, ProblemDetailMode::class.java))?.let { mode ->
                 viewModel.mode.value = mode
 
                 when (mode) {
@@ -171,7 +178,7 @@ class ProblemDetailActivity : BaseActivity() {
     }
 
     private fun parseQuizIntent(extras: Bundle) {
-        (extras.getSerializable(QuizConstants.quizType) as? QuizType)?.let { type ->
+        (extras.serializable(QuizConstants.quizType, QuizType::class.java))?.let { type ->
             viewModel.quizType.update { type }
         }
 
@@ -185,7 +192,7 @@ class ProblemDetailActivity : BaseActivity() {
     }
 
     private fun parseDetailIntent(extras: Bundle) {
-        (extras.getParcelable<ProblemModel>(QuizConstants.problemModel))?.let { problemModel ->
+        (extras.parcelable(QuizConstants.problemModel, ProblemModel::class.java))?.let { problemModel ->
             viewModel.problem.value = problemModel.toDomain()
         }
     }

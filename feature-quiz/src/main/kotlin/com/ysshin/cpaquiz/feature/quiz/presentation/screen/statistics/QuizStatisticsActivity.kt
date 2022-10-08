@@ -33,11 +33,12 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import com.ysshin.cpaquiz.shared.android.base.BaseActivity
 import com.ysshin.cpaquiz.shared.android.bridge.MainScreenNavigator
 import com.ysshin.cpaquiz.shared.android.util.AdConstants
+import com.ysshin.cpaquiz.shared.android.util.parcelableArrayList
 import com.ysshin.cpaquiz.shared.android.util.repeatOnLifecycleStarted
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuizStatisticsActivity : BaseActivity() {
@@ -184,7 +185,8 @@ class QuizStatisticsActivity : BaseActivity() {
             var userSelectedIndices: List<Int> = emptyList()
             var problems: List<Problem> = emptyList()
 
-            (extras.getParcelableArrayList<ProblemModel>(QuizConstants.problems))?.let { problemModel ->
+            (extras.parcelableArrayList(QuizConstants.problems,
+                ProblemModel::class.java))?.let { problemModel ->
                 problems = problemModel.toList().toDomain()
             }
 

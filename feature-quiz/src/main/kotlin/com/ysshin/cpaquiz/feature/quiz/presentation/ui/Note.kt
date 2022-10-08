@@ -53,11 +53,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -208,7 +208,7 @@ private fun NoteTopAppBar() {
     val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
     val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
 
-    SmallTopAppBar(
+    TopAppBar(
         title = {
             Text(
                 text = stringResource(id = R.string.note),
@@ -811,7 +811,7 @@ private fun NoteSearchMenuContent() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun NoteHeader(
     title: String = "",

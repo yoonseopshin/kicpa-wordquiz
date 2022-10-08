@@ -19,10 +19,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
@@ -79,8 +79,8 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
-        rememberTopAppBarState()
+        state = rememberTopAppBarState(),
+        flingAnimationSpec = decayAnimationSpec,
     )
 
     Scaffold(
@@ -112,7 +112,7 @@ private fun SettingsTopAppBar(
             scrollBehavior = scrollBehavior
         )
     } else {
-        SmallTopAppBar(
+        TopAppBar(
             title = {
                 Text(
                     text = stringResource(id = R.string.settings),

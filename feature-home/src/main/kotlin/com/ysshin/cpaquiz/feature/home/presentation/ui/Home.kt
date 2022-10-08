@@ -40,11 +40,11 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
@@ -148,8 +148,8 @@ fun HomeScreen(
 ) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec,
-        rememberTopAppBarState()
+        state = rememberTopAppBarState(),
+        flingAnimationSpec = decayAnimationSpec,
     )
 
     Scaffold(
@@ -246,7 +246,7 @@ fun HomeTopAppBar(
             scrollBehavior = scrollBehavior
         )
     } else {
-        SmallTopAppBar(
+        TopAppBar(
             title = {
                 Text(
                     text = if (dday.isBlank()) "" else stringResource(id = R.string.dday, dday),
