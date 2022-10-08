@@ -45,6 +45,7 @@ oss-licenses-plugin = "0.10.5"
 play-services-oss-licenses = "17.0.0"
 leakcanary = "2.9.1"
 accompanist = "0.26.5-rc"
+gms-google-services = "4.3.14"
 
 [libraries]
 android-r8 = { module = "com.android.tools:r8", version.ref = "android-r8" }
@@ -97,6 +98,7 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 spotless-gradle-plugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 versioning-gradle-plugin = { group = "com.github.ben-manes", name = "gradle-versions-plugin", version.ref = "versions" }
 oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
+gms-google-services-plugin = { group = "com.google.gms", name = "google-services", version.ref = "gms-google-services" }
 play-services-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "play-services-oss-licenses" }
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
