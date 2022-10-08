@@ -12,7 +12,8 @@ import org.junit.Test
  */
 @ExperimentalBaselineProfilesApi
 class BaselineProfileGenerator {
-    @get:Rule val baselineProfileRule = BaselineProfileRule()
+    @get:Rule
+    val baselineProfileRule = BaselineProfileRule()
 
     @Test
     fun generate() =
@@ -26,14 +27,17 @@ class BaselineProfileGenerator {
 
             // Navigate to home screen
             device.findObject(By.text("홈")).click()
-            device.waitForIdle(300L)
+
+            // Navigate to quiz screen
+            device.findObject(By.text("회계학")).click()
+
+            // Return to home screen
+            device.pressBack()
 
             // Navigate to note screen
             device.findObject(By.text("노트")).click()
-            device.waitForIdle(300L)
 
-            // Navigate to settings scree
+            // Navigate to settings screen
             device.findObject(By.text("설정")).click()
-            device.waitForIdle(300L)
         }
 }
