@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.ysshin.cpaquiz.shared.android.util
 
 import android.os.Build

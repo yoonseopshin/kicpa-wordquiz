@@ -14,7 +14,7 @@ buildscript {
         classpath(libs.firebase.crashlytics.gradle)
         classpath(libs.spotless.gradle.plugin)
         classpath(libs.oss.licenses.plugin)
-        classpath("com.google.gms:google-services:4.3.10")
+        classpath(libs.gms.google.services.plugin)
     }
 }
 
