@@ -81,6 +81,7 @@ import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.shared.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialog
+import com.ysshin.cpaquiz.shared.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
 import com.ysshin.cpaquiz.shared.base.Action
@@ -386,9 +387,10 @@ private fun QuizCard(
     Card(
         modifier = Modifier
             .clip(cornerShape)
-            .clickable(
+            .bounceClickable(
+                dampingRatio = 0.9f,
+                enabled = quizCardEnabled,
                 onClick = onClick,
-                enabled = quizCardEnabled
             ),
         shape = cornerShape,
     ) {

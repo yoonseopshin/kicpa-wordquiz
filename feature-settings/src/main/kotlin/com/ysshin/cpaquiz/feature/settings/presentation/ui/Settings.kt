@@ -3,7 +3,6 @@ package com.ysshin.cpaquiz.feature.settings.presentation.ui
 import android.content.Intent
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -56,6 +55,7 @@ import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsView
 import com.ysshin.cpaquiz.shared.android.BuildConfig
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
+import com.ysshin.cpaquiz.shared.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.shared.base.Action
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -253,7 +253,7 @@ private fun SettingsListItem(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(cornerShape)
-            .clickable(onClick = onClick)
+            .bounceClickable(dampingRatio = 0.95f, onClick = onClick)
             .fillMaxWidth(),
         shape = cornerShape,
     ) {
