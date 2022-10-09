@@ -27,10 +27,12 @@ fun Modifier.bounceClickable(
     onClick: Action = {},
 ) = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
-    val scale by animateFloatAsState(when (buttonState) {
-        ButtonState.Pressed -> dampingRatio
-        ButtonState.Idle -> 1f
-    })
+    val scale by animateFloatAsState(
+        when (buttonState) {
+            ButtonState.Pressed -> dampingRatio
+            ButtonState.Idle -> 1f
+        }
+    )
     val view = LocalView.current
 
     this
