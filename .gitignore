@@ -12,6 +12,9 @@ local.properties
 secrets.properties
 .secrets/secrets.tar
 
+# Deploy configuration file
+fastlane/
+
 # Log/OS Files
 *.log
 
@@ -123,11 +126,6 @@ proguard/
 *.ipr
 *~
 *.swp
-
-# Keystore files
-
-# Google Services (e.g. APIs or Firebase)
-# google-services.json
 
 # Android Patch
 

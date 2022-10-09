@@ -1,0 +1,47 @@
+name: Android CD with Fastlane
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    name: Deploy to Google Play Store
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[cd skip]')"
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v1
+
+      - name: Make scripts executable
+        run: chmod -R +x ./.secrets/scripts
+
+      - name: Decrypt secrets
+        run: ./.secrets/scripts/decrypt.sh "$secret_key"
+        env:
+          secret_key: ${{ secrets.SECRET_KEY }}
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Set up Ruby 3.0
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+
+      - name: Cache Ruby - Bundler
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install bundle
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Deploy to Google Play Store
+        run: bundle exec fastlane deploy
