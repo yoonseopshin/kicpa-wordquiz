@@ -21,39 +21,44 @@ private enum class ButtonState {
     Pressed, Idle;
 }
 
-fun Modifier.bounceClickable(dampingRatio: Float = 0.85f, enabled: Boolean = true, onClick: Action = {}) =
-    composed {
-        var buttonState by remember { mutableStateOf(ButtonState.Idle) }
-        val scale by animateFloatAsState(when (buttonState) {
+fun Modifier.bounceClickable(
+    dampingRatio: Float = 0.85f,
+    enabled: Boolean = true,
+    onClick: Action = {},
+) = composed {
+    var buttonState by remember { mutableStateOf(ButtonState.Idle) }
+    val scale by animateFloatAsState(
+        when (buttonState) {
             ButtonState.Pressed -> dampingRatio
             ButtonState.Idle -> 1f
-        })
-        val view = LocalView.current
+        }
+    )
+    val view = LocalView.current
 
-        this
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .clickable(
-                enabled = enabled,
-                onClick = onClick,
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-            )
-            .pointerInput(buttonState) {
-                awaitPointerEventScope {
-                    buttonState = when (buttonState) {
-                        ButtonState.Pressed -> {
-                            waitForUpOrCancellation()
-                            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-                            ButtonState.Idle
-                        }
-                        ButtonState.Idle -> {
-                            awaitFirstDown(false)
-                            ButtonState.Pressed
-                        }
+    this
+        .graphicsLayer {
+            scaleX = scale
+            scaleY = scale
+        }
+        .clickable(
+            enabled = enabled,
+            onClick = onClick,
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+        )
+        .pointerInput(buttonState) {
+            awaitPointerEventScope {
+                buttonState = when (buttonState) {
+                    ButtonState.Pressed -> {
+                        waitForUpOrCancellation()
+                        view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                        ButtonState.Idle
+                    }
+                    ButtonState.Idle -> {
+                        awaitFirstDown(false)
+                        ButtonState.Pressed
                     }
                 }
             }
-    }
+        }
+}
