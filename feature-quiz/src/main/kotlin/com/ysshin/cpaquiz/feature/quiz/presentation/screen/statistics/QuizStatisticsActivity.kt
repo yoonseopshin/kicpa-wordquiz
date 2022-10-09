@@ -15,7 +15,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.ActivityQuizStatisticsBinding
@@ -36,9 +35,9 @@ import com.ysshin.cpaquiz.shared.android.util.AdConstants
 import com.ysshin.cpaquiz.shared.android.util.parcelableArrayList
 import com.ysshin.cpaquiz.shared.android.util.repeatOnLifecycleStarted
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuizStatisticsActivity : BaseActivity() {
@@ -182,17 +181,10 @@ class QuizStatisticsActivity : BaseActivity() {
     private fun parseIntent() {
         intent.extras?.let { extras ->
             var times: List<Int> = emptyList()
-            var userSelectedIndices: List<Int> = emptyList()
-            var problems: List<Problem> = emptyList()
-
-            (extras.parcelableArrayList(QuizConstants.problems,
-                ProblemModel::class.java))?.let { problemModel ->
-                problems = problemModel.toList().toDomain()
-            }
-
-            (extras.getIntegerArrayList(QuizConstants.selected))?.let { selected ->
-                userSelectedIndices = selected
-            }
+            val userSelectedIndices = (extras.getIntegerArrayList(QuizConstants.selected)) ?: emptyList()
+            val problems =
+                (extras.parcelableArrayList(QuizConstants.problems, ProblemModel::class.java))
+                    ?.toList()?.toDomain() ?: emptyList()
 
             (extras.getIntegerArrayList(QuizConstants.timesPerProblem))?.let { timesPerProblem ->
                 times = timesPerProblem
