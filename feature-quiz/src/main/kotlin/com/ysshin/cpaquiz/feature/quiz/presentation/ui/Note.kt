@@ -692,7 +692,7 @@ private fun NoteFilterMenuContentDetail(
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 64.dp)
-            .background(colorResource(id = R.color.daynight_gray050s))
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
     ) {
         Spacer(modifier = Modifier.width(12.dp))
 
@@ -727,7 +727,7 @@ private fun NoteFilterMenuContentDetail(
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.hide_menu),
-                tint = colorResource(id = R.color.daynight_gray500s)
+                tint = colorResource(id = R.color.daynight_gray600s)
             )
         }
     }
@@ -774,7 +774,7 @@ private fun NoteSearchMenuContent() {
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 64.dp)
-            .background(colorResource(id = R.color.daynight_gray050s)),
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp)),
     ) {
         val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
 
@@ -805,7 +805,7 @@ private fun NoteSearchMenuContent() {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.hide_menu),
-                tint = colorResource(id = R.color.daynight_gray500s)
+                tint = colorResource(id = R.color.daynight_gray600s)
             )
         }
     }
