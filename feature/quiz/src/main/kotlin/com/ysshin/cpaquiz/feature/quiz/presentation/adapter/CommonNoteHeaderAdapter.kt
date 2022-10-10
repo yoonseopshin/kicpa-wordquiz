@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutCommonNoteHeaderBinding
-import com.ysshin.cpaquiz.shared.android.util.inflate
-import com.ysshin.cpaquiz.shared.android.util.visibleOrGone
-import com.ysshin.cpaquiz.shared.base.Action
+import com.ysshin.cpaquiz.core.android.util.inflate
+import com.ysshin.cpaquiz.core.android.util.visibleOrGone
+import com.ysshin.cpaquiz.core.common.Action
 
 class CommonNoteHeaderAdapter(val headerTitle: String) :
     RecyclerView.Adapter<CommonNoteHeaderAdapter.ItemViewHolder>() {

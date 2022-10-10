@@ -28,9 +28,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
-import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
-import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.shared.base.Consumer
+import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
+import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.core.common.Consumer
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable

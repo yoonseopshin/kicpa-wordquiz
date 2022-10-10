@@ -29,11 +29,11 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.from
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
-import com.ysshin.cpaquiz.shared.android.base.BaseActivity
-import com.ysshin.cpaquiz.shared.android.bridge.MainScreenNavigator
-import com.ysshin.cpaquiz.shared.android.util.AdConstants
-import com.ysshin.cpaquiz.shared.android.util.parcelableArrayList
-import com.ysshin.cpaquiz.shared.android.util.repeatOnLifecycleStarted
+import com.ysshin.cpaquiz.core.android.base.BaseActivity
+import com.ysshin.cpaquiz.core.android.bridge.MainScreenNavigator
+import com.ysshin.cpaquiz.core.android.util.AdConstants
+import com.ysshin.cpaquiz.core.android.util.parcelableArrayList
+import com.ysshin.cpaquiz.core.android.util.repeatOnLifecycleStarted
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest

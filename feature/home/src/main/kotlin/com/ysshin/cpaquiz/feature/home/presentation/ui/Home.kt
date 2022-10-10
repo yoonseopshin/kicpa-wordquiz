@@ -78,14 +78,14 @@ import com.google.accompanist.flowlayout.SizeMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
-import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
-import com.ysshin.cpaquiz.shared.android.ui.ad.NativeMediumAd
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppNumberPickerDialog
-import com.ysshin.cpaquiz.shared.android.ui.modifier.bounceClickable
-import com.ysshin.cpaquiz.shared.android.ui.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.shared.android.ui.theme.Typography
-import com.ysshin.cpaquiz.shared.base.Action
-import com.ysshin.cpaquiz.shared.base.Consumer
+import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
+import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
+import com.ysshin.cpaquiz.core.android.ui.dialog.AppNumberPickerDialog
+import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
+import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.core.android.ui.theme.Typography
+import com.ysshin.cpaquiz.core.common.Action
+import com.ysshin.cpaquiz.core.common.Consumer
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

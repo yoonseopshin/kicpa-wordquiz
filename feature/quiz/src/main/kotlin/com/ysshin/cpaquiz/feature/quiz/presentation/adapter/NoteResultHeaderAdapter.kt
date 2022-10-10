@@ -3,8 +3,8 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutNoteResultHeaderBinding
-import com.ysshin.cpaquiz.shared.android.util.inflate
-import com.ysshin.cpaquiz.shared.base.Action
+import com.ysshin.cpaquiz.core.android.util.inflate
+import com.ysshin.cpaquiz.core.common.Action
 
 class NoteResultHeaderAdapter : RecyclerView.Adapter<NoteResultHeaderAdapter.ItemViewHolder>() {
 

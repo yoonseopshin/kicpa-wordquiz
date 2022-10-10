@@ -6,7 +6,7 @@ import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.WrongProblem
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
-import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
+import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers

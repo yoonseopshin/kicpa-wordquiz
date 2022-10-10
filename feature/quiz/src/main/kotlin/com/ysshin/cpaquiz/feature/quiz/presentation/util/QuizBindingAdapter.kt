@@ -21,8 +21,8 @@ import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.SubDescriptionAdapter
-import com.ysshin.cpaquiz.shared.android.util.*
-import com.ysshin.cpaquiz.shared.base.isNullOrDefault
+import com.ysshin.cpaquiz.core.android.util.*
+import com.ysshin.cpaquiz.core.common.isNullOrDefault
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("year", "pid", requireAll = true)

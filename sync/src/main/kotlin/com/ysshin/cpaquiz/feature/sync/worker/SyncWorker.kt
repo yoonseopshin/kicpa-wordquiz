@@ -9,7 +9,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.*
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
-import com.ysshin.cpaquiz.shared.android.R
+import com.ysshin.cpaquiz.core.android.R
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers

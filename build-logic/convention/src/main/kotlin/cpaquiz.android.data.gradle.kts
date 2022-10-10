@@ -31,8 +31,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared-android"))
-    implementation(project(":shared-base"))
+    implementation(project(":core:common"))
+    implementation(project(":core:android"))
     implementation(project(":domain"))
 
     add("implementation", libs.findLibrary("hilt.android").get())

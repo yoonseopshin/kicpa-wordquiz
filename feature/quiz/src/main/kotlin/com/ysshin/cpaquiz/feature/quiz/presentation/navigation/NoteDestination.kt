@@ -4,7 +4,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteScreen
-import com.ysshin.shared.navigation.CpaQuizNavigationDestination
+import com.ysshin.core.navigation.CpaQuizNavigationDestination
 
 object NoteDestination : CpaQuizNavigationDestination {
     override val route = "NoteRoute"

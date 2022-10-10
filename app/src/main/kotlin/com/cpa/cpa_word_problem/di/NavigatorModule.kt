@@ -9,9 +9,9 @@ import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.NoteDestination
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.settings.presentation.navigation.SettingsDestination
-import com.ysshin.cpaquiz.shared.android.bridge.MainScreenNavigator
-import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
-import com.ysshin.cpaquiz.shared.android.util.Constants
+import com.ysshin.cpaquiz.core.android.bridge.MainScreenNavigator
+import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
+import com.ysshin.cpaquiz.core.android.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

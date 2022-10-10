@@ -1,8 +1,8 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.model
 
 import com.ysshin.cpaquiz.domain.model.Problem
-import com.ysshin.cpaquiz.shared.base.DEFAULT_INT
-import com.ysshin.cpaquiz.shared.base.DEFAULT_INVALID_INT
+import com.ysshin.cpaquiz.core.common.DEFAULT_INT
+import com.ysshin.cpaquiz.core.common.DEFAULT_INVALID_INT
 
 data class UserSolvedProblemModel(
     val elapsedTime: Int = DEFAULT_INT,

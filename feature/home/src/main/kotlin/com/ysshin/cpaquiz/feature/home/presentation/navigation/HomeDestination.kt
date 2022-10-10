@@ -4,8 +4,8 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ysshin.cpaquiz.feature.home.presentation.ui.HomeRoute
-import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
-import com.ysshin.shared.navigation.CpaQuizNavigationDestination
+import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
+import com.ysshin.core.navigation.CpaQuizNavigationDestination
 
 object HomeDestination : CpaQuizNavigationDestination {
     override val route = "HomeRoute"

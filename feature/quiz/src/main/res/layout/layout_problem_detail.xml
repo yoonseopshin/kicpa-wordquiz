@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.ysshin.cpaquiz.shared.android.ui.zigzag.ZigzagView
+        <com.ysshin.cpaquiz.core.android.ui.zigzag.ZigzagView
             android:id="@+id/layout_zigzag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.ysshin.cpaquiz.shared.android.ui.zigzag.ZigzagView>
+        </com.ysshin.cpaquiz.core.android.ui.zigzag.ZigzagView>
 
         <RadioGroup
             android:id="@+id/rg_questions"

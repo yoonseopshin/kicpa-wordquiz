@@ -8,10 +8,10 @@ import androidx.navigation.compose.NavHost
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.homeGraph
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.noteGraph
 import com.ysshin.cpaquiz.feature.settings.presentation.navigation.settingsGraph
-import com.ysshin.cpaquiz.shared.android.bridge.ProblemDetailNavigator
-import com.ysshin.cpaquiz.shared.base.Action
-import com.ysshin.cpaquiz.shared.base.Consumers
-import com.ysshin.shared.navigation.CpaQuizNavigationDestination
+import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
+import com.ysshin.cpaquiz.core.common.Action
+import com.ysshin.cpaquiz.core.common.Consumers
+import com.ysshin.core.navigation.CpaQuizNavigationDestination
 
 @Composable
 fun CpaQuizNavHost(

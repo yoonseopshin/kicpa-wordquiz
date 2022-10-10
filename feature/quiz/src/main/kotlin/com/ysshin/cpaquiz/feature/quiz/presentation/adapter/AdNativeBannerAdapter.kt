@@ -9,9 +9,9 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutAdNativeBannerBinding
-import com.ysshin.cpaquiz.shared.android.util.AdConstants
-import com.ysshin.cpaquiz.shared.android.util.color
-import com.ysshin.cpaquiz.shared.android.util.inflate
+import com.ysshin.cpaquiz.core.android.util.AdConstants
+import com.ysshin.cpaquiz.core.android.util.color
+import com.ysshin.cpaquiz.core.android.util.inflate
 
 class AdNativeBannerAdapter : RecyclerView.Adapter<AdNativeBannerAdapter.AdBannerViewHolder>() {
 

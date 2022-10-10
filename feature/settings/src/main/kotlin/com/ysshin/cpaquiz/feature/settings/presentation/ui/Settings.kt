@@ -52,11 +52,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
-import com.ysshin.cpaquiz.shared.android.BuildConfig
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppDialogType
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
-import com.ysshin.cpaquiz.shared.android.ui.modifier.bounceClickable
-import com.ysshin.cpaquiz.shared.base.Action
+import com.ysshin.cpaquiz.core.android.BuildConfig
+import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
+import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
+import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
+import com.ysshin.cpaquiz.core.common.Action
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

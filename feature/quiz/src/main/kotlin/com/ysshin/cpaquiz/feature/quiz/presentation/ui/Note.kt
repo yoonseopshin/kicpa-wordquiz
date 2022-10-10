@@ -111,10 +111,10 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.UserActionUiStat
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
-import com.ysshin.cpaquiz.shared.android.ui.ad.NativeSmallAd
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppCheckboxDialog
-import com.ysshin.cpaquiz.shared.android.ui.dialog.AppInfoDialog
-import com.ysshin.cpaquiz.shared.base.Action
+import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
+import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
+import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
+import com.ysshin.cpaquiz.core.common.Action
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

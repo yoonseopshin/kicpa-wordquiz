@@ -5,26 +5,26 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_background
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_error
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_onBackground
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_onError
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_onPrimary
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_onSecondary
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_onSurface
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_primary
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_secondary
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_dark_surface
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_background
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_error
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_onBackground
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_onError
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_onPrimary
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_onSecondary
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_onSurface
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_primary
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_secondary
-import com.ysshin.cpaquiz.shared.android.ui.theme.md_theme_light_surface
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_background
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_error
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_onBackground
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_onError
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_onPrimary
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_onSecondary
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_onSurface
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_primary
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_secondary
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_dark_surface
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_background
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_error
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_onBackground
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_onError
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_onPrimary
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_onSecondary
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_onSurface
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_primary
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_secondary
+import com.ysshin.cpaquiz.core.android.ui.theme.md_theme_light_surface
 
 private val LightColorScheme = lightColors(
     primary = md_theme_light_primary,

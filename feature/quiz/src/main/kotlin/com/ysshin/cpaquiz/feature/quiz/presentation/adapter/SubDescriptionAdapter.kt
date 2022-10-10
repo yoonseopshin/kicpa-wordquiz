@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ysshin.cpaquiz.feature.quiz.databinding.ListItemSubDescriptionBinding
-import com.ysshin.cpaquiz.shared.android.util.inflate
+import com.ysshin.cpaquiz.core.android.util.inflate
 
 class SubDescriptionAdapter :
     ListAdapter<String, SubDescriptionAdapter.DescriptionViewHolder>(DescriptionDiffCallback()) {

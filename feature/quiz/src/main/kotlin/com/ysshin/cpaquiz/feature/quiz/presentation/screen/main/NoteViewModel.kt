@@ -9,11 +9,11 @@ import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.feature.quiz.R
-import com.ysshin.cpaquiz.shared.android.base.BaseViewModel
-import com.ysshin.cpaquiz.shared.android.ui.dialog.SelectableTextItem
-import com.ysshin.cpaquiz.shared.android.util.UiText
-import com.ysshin.cpaquiz.shared.base.Result
-import com.ysshin.cpaquiz.shared.base.asResult
+import com.ysshin.cpaquiz.core.android.base.BaseViewModel
+import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
+import com.ysshin.cpaquiz.core.android.util.UiText
+import com.ysshin.cpaquiz.core.common.Result
+import com.ysshin.cpaquiz.core.common.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.delay

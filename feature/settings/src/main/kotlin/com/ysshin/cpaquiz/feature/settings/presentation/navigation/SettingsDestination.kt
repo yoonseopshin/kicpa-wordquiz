@@ -4,7 +4,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ysshin.cpaquiz.feature.settings.presentation.ui.SettingsScreen
-import com.ysshin.shared.navigation.CpaQuizNavigationDestination
+import com.ysshin.core.navigation.CpaQuizNavigationDestination
 
 object SettingsDestination : CpaQuizNavigationDestination {
     override val route = "SettingsRoute"
