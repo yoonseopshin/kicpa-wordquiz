@@ -8,7 +8,7 @@ jobs:
   deploy:
     name: Deploy to Google Play Store
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[cd skip]')"
+    if: "!contains(github.event.head_commit.message, '[skip cd]')"
 
     steps:
       - name: Clone repo
@@ -50,7 +50,7 @@ jobs:
     name: Push git tag
     needs: deploy
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[cd skip]')"
+    if: "!contains(github.event.head_commit.message, '[skip cd]')"
 
     steps:
       - name: Clone repo
