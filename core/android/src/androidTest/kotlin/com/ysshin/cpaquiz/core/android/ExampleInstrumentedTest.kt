@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.shared.android
+package com.ysshin.cpaquiz.core.android
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

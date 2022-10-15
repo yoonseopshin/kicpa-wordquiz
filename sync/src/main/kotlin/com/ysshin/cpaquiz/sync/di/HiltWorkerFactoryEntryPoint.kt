@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.feature.sync.di
+package com.ysshin.cpaquiz.sync.di
 
 import androidx.hilt.work.HiltWorkerFactory
 import dagger.hilt.EntryPoint

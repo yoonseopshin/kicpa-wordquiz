@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -50,13 +50,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import com.ysshin.cpaquiz.feature.settings.R
-import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 import com.ysshin.cpaquiz.core.android.BuildConfig
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.common.Action
+import com.ysshin.cpaquiz.feature.settings.R
+import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -249,17 +249,16 @@ private fun SettingsListItem(
 ) {
     val cornerShape = RoundedCornerShape(24.dp)
 
-    Card(
+    ElevatedCard(
+        shape = cornerShape,
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clip(cornerShape)
             .bounceClickable(dampingRatio = 0.95f, onClick = onClick)
             .fillMaxWidth(),
-        shape = cornerShape,
     ) {
         Row(
-            modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 16.dp),
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(

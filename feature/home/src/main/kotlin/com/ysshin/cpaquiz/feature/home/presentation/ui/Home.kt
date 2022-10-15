@@ -32,7 +32,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -75,9 +74,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
-import com.ysshin.cpaquiz.domain.model.QuizType
-import com.ysshin.cpaquiz.feature.home.R
-import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppNumberPickerDialog
@@ -86,6 +82,9 @@ import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.common.Action
 import com.ysshin.cpaquiz.core.common.Consumer
+import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.feature.home.R
+import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -384,7 +383,7 @@ private fun QuizCard(
     val disabledBackgroundAlpha = 0.09f
     val disabledContentAlpha = 0.36f
 
-    Card(
+    Surface(
         modifier = Modifier
             .clip(cornerShape)
             .bounceClickable(

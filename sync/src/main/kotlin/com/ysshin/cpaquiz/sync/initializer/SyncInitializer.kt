@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.feature.sync.initializer
+package com.ysshin.cpaquiz.sync.initializer
 
 import android.content.Context
 import androidx.startup.AppInitializer
@@ -6,7 +6,7 @@ import androidx.startup.Initializer
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkManagerInitializer
-import com.ysshin.cpaquiz.feature.sync.worker.SyncWorker
+import com.ysshin.cpaquiz.sync.worker.SyncWorker
 
 object Sync {
     fun initialize(context: Context) {

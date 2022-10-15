@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.feature.sync.worker
+package com.ysshin.cpaquiz.sync.worker
 
 import android.app.Notification
 import android.app.NotificationChannel

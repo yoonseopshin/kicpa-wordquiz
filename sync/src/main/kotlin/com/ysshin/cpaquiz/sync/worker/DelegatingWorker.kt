@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.feature.sync.worker
+package com.ysshin.cpaquiz.sync.worker
 
 import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory
@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
-import com.ysshin.cpaquiz.feature.sync.di.HiltWorkerFactoryEntryPoint
+import com.ysshin.cpaquiz.sync.di.HiltWorkerFactoryEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import kotlin.reflect.KClass
 
