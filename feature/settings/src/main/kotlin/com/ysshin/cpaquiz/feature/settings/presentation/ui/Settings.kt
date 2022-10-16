@@ -13,9 +13,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -23,9 +22,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -33,7 +30,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -86,9 +82,7 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            SettingsTopAppBar(windowSizeClass = windowSizeClass, scrollBehavior = scrollBehavior)
-        }
+        topBar = { SettingsTopAppBar() }
     ) { padding ->
         SettingsLazyVerticalGrid(modifier = Modifier.padding(padding), windowSizeClass = windowSizeClass)
     }
@@ -96,31 +90,15 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsTopAppBar(
-    windowSizeClass: WindowSizeClass,
-    scrollBehavior: TopAppBarScrollBehavior,
-) {
-    val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
-    if (shouldShowLargeTopAppBar) {
-        LargeTopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.settings),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            scrollBehavior = scrollBehavior
-        )
-    } else {
-        TopAppBar(
-            title = {
-                Text(
-                    text = stringResource(id = R.string.settings),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        )
-    }
+private fun SettingsTopAppBar() {
+    TopAppBar(
+        title = {
+            Text(
+                text = stringResource(id = R.string.settings),
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    )
 }
 
 @Composable
@@ -249,13 +227,16 @@ private fun SettingsListItem(
 ) {
     val cornerShape = RoundedCornerShape(24.dp)
 
-    ElevatedCard(
-        shape = cornerShape,
+    Card(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(cornerShape)
-            .bounceClickable(dampingRatio = 0.95f, onClick = onClick)
+            .bounceClickable(
+                dampingRatio = 0.95f,
+                onClick = onClick,
+                shape = cornerShape,
+            )
             .fillMaxWidth(),
+        shape = cornerShape,
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),

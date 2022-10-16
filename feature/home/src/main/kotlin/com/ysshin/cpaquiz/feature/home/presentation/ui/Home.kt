@@ -385,7 +385,6 @@ private fun QuizCard(
 
     Surface(
         modifier = Modifier
-            .clip(cornerShape)
             .bounceClickable(
                 dampingRatio = 0.9f,
                 enabled = quizCardEnabled,

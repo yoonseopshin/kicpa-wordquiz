@@ -12,6 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalView
@@ -25,10 +28,11 @@ fun Modifier.bounceClickable(
     dampingRatio: Float = 0.85f,
     enabled: Boolean = true,
     onClick: Action = {},
+    shape: Shape = RectangleShape,
 ) = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
     val scale by animateFloatAsState(
-        when (buttonState) {
+        targetValue = when (buttonState) {
             ButtonState.Pressed -> dampingRatio
             ButtonState.Idle -> 1f
         }
@@ -36,16 +40,18 @@ fun Modifier.bounceClickable(
     val view = LocalView.current
 
     this
-        .graphicsLayer {
-            scaleX = scale
-            scaleY = scale
-        }
+        .clip(shape)
         .clickable(
             enabled = enabled,
             onClick = onClick,
             interactionSource = remember { MutableInteractionSource() },
             indication = null,
         )
+        .graphicsLayer {
+            this.shape = shape
+            this.scaleX = scale
+            this.scaleY = scale
+        }
         .pointerInput(buttonState) {
             awaitPointerEventScope {
                 buttonState = when (buttonState) {
