@@ -4,7 +4,6 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ysshin.cpaquiz.feature.home.presentation.ui.HomeRoute
-import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
 import com.ysshin.core.navigation.CpaQuizNavigationDestination
 
 object HomeDestination : CpaQuizNavigationDestination {
@@ -12,8 +11,8 @@ object HomeDestination : CpaQuizNavigationDestination {
     override val destination = "HomeDestination"
 }
 
-fun NavGraphBuilder.homeGraph(navigator: ProblemDetailNavigator, windowSizeClass: WindowSizeClass) {
+fun NavGraphBuilder.homeGraph(windowSizeClass: WindowSizeClass) {
     composable(route = HomeDestination.route) {
-        HomeRoute(navigator = navigator, windowSizeClass = windowSizeClass)
+        HomeRoute(windowSizeClass = windowSizeClass)
     }
 }

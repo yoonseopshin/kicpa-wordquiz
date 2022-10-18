@@ -28,16 +28,12 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
-import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.common.Consumer
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun CpaQuizApp(
-    navigator: ProblemDetailNavigator,
-    appState: CpaQuizAppState,
-) {
+fun CpaQuizApp(appState: CpaQuizAppState) {
     CpaQuizTheme {
         Scaffold(
             bottomBar = {
@@ -69,7 +65,6 @@ fun CpaQuizApp(
                 }
 
                 CpaQuizNavHost(
-                    navigator = navigator,
                     navController = appState.navController,
                     onNavigateToDestination = appState::navigate,
                     onBackClick = appState::onBackClick,

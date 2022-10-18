@@ -74,7 +74,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
-import com.ysshin.cpaquiz.core.android.bridge.ProblemDetailNavigator
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppNumberPickerDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
@@ -84,12 +83,12 @@ import com.ysshin.cpaquiz.core.common.Action
 import com.ysshin.cpaquiz.core.common.Consumer
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
+import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizNavigationActionsProvider
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeRoute(
-    navigator: ProblemDetailNavigator,
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
@@ -103,6 +102,7 @@ fun HomeRoute(
     val useTimer by viewModel.useTimer.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
+    val appContext = context.applicationContext
 
     HomeScreen(
         windowSizeClass = windowSizeClass,
@@ -117,14 +117,11 @@ fun HomeRoute(
         useTimer = useTimer,
         onToggleTimer = viewModel::toggleTimer,
         onQuizCardClick = { type ->
-            // TODO: Migrate to Navigation Component
-            context.startActivity(
-                navigator.quizIntent(
-                    context = context,
-                    quizType = type,
-                    quizNumbers = quizNumber,
-                    useTimer = useTimer,
-                )
+            val quizNavActions = (appContext as QuizNavigationActionsProvider).quizNavActions
+            quizNavActions.onQuizStart(
+                quizType = type,
+                quizNumbers = quizNumber,
+                useTimer = useTimer,
             )
         }
     )
