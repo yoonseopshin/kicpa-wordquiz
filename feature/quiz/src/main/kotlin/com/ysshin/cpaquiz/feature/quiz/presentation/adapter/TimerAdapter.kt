@@ -2,9 +2,9 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ysshin.cpaquiz.core.android.util.*
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutResultTimerBinding
-import com.ysshin.cpaquiz.core.android.util.*
 
 class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
 

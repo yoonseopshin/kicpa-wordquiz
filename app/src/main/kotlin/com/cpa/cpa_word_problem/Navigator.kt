@@ -18,5 +18,4 @@ class Navigator(private val context: Context) : QuizNavigationActions {
             ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
     }
-
 }

@@ -39,12 +39,12 @@ import androidx.compose.ui.window.Dialog
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
-import com.ysshin.cpaquiz.domain.model.Problem
-import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.common.Action
 import com.ysshin.cpaquiz.core.common.Consumer
+import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.model.QuizType
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

@@ -18,10 +18,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
+import com.ysshin.core.navigation.CpaQuizNavigationDestination
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.NoteDestination
 import com.ysshin.cpaquiz.feature.settings.presentation.navigation.SettingsDestination
-import com.ysshin.core.navigation.CpaQuizNavigationDestination
 
 @Composable
 fun rememberCpaQuizAppState(

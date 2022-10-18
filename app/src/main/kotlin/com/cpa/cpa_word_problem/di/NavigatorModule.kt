@@ -39,5 +39,4 @@ object NavigatorModule {
                 flags?.let { addFlags(it) }
             }
     }
-
 }

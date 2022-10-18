@@ -1,10 +1,10 @@
 package com.ysshin.cpaquiz.feature.settings.presentation.screen.main
 
 import androidx.lifecycle.viewModelScope
-import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
-import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.util.UiText
+import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.feature.settings.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*

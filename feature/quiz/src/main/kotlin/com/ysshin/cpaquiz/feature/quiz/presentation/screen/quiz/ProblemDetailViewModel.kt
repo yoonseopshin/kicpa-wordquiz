@@ -1,14 +1,14 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz
 
 import androidx.lifecycle.viewModelScope
+import com.ysshin.cpaquiz.core.android.base.BaseViewModel
+import com.ysshin.cpaquiz.core.common.Action
+import com.ysshin.cpaquiz.core.common.DEFAULT_INT
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
-import com.ysshin.cpaquiz.core.android.base.BaseViewModel
-import com.ysshin.cpaquiz.core.common.Action
-import com.ysshin.cpaquiz.core.common.DEFAULT_INT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.*

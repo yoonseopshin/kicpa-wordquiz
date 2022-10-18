@@ -21,5 +21,4 @@ class CpaQuizApplication : Application(), QuizNavigationActionsProvider {
         Timber.initialize(context = this)
         AdMob.initialize(context = this)
     }
-
 }

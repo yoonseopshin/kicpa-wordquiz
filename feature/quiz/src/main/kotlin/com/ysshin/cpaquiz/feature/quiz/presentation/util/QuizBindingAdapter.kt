@@ -16,13 +16,13 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ysshin.cpaquiz.core.android.util.*
+import com.ysshin.cpaquiz.core.common.isNullOrDefault
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.adapter.SubDescriptionAdapter
-import com.ysshin.cpaquiz.core.android.util.*
-import com.ysshin.cpaquiz.core.common.isNullOrDefault
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("year", "pid", requireAll = true)

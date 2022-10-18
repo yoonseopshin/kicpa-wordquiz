@@ -15,6 +15,11 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ysshin.cpaquiz.core.android.base.BaseActivity
+import com.ysshin.cpaquiz.core.android.bridge.MainScreenNavigator
+import com.ysshin.cpaquiz.core.android.util.AdConstants
+import com.ysshin.cpaquiz.core.android.util.parcelableArrayList
+import com.ysshin.cpaquiz.core.android.util.repeatOnLifecycleStarted
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.ActivityQuizStatisticsBinding
@@ -29,11 +34,6 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.from
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
-import com.ysshin.cpaquiz.core.android.base.BaseActivity
-import com.ysshin.cpaquiz.core.android.bridge.MainScreenNavigator
-import com.ysshin.cpaquiz.core.android.util.AdConstants
-import com.ysshin.cpaquiz.core.android.util.parcelableArrayList
-import com.ysshin.cpaquiz.core.android.util.repeatOnLifecycleStarted
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest

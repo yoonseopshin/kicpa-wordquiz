@@ -1,13 +1,13 @@
 package com.ysshin.cpaquiz.feature.home.presentation.screen.main
 
 import androidx.lifecycle.viewModelScope
+import com.ysshin.cpaquiz.core.android.base.BaseViewModel
+import com.ysshin.cpaquiz.core.common.DEFAULT_STRING
 import com.ysshin.cpaquiz.domain.model.DEFAULT_QUIZ_NUMBER
 import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
-import com.ysshin.cpaquiz.core.android.base.BaseViewModel
-import com.ysshin.cpaquiz.core.common.DEFAULT_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.Duration
 import java.time.LocalDate
