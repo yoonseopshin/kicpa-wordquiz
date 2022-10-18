@@ -15,6 +15,7 @@ buildscript {
         classpath(libs.spotless.gradle.plugin)
         classpath(libs.oss.licenses.plugin)
         classpath(libs.gms.google.services.plugin)
+        classpath(libs.spotify.ruler.plugin)
     }
 }
 

@@ -12,13 +12,13 @@ versionName = "1.5.9"
 android-r8 = "3.3.75"
 android-gradle-plugin = "7.3.0"
 kotlin = "1.7.10"
-kotlinx-serialization-json = "1.4.0"
-androidx-core-ktx = "1.8.0"
+kotlinx-serialization-json = "1.4.1"
+androidx-core-ktx = "1.9.0"
 androidx-appcompat = "1.7.0-alpha01"
 androidx-legacy-support-v4 = "1.0.0"
 androidx-activity-ktx = "1.6.0"
 androidx-activity-compose = "1.5.0"
-androidx-fragment-ktx = "1.5.1"
+androidx-fragment-ktx = "1.5.3"
 androidx-customview-poolingcontainer = "1.0.0"
 material = "1.7.0-alpha03"
 material3 = "1.0.0-rc01"
@@ -46,6 +46,7 @@ play-services-oss-licenses = "17.0.0"
 leakcanary = "2.9.1"
 accompanist = "0.26.5-rc"
 gms-google-services = "4.3.14"
+spotify-ruler = "1.1.0"
 
 [libraries]
 android-r8 = { module = "com.android.tools:r8", version.ref = "android-r8" }
@@ -99,6 +100,7 @@ spotless-gradle-plugin = { group = "com.diffplug.spotless", name = "spotless-plu
 versioning-gradle-plugin = { group = "com.github.ben-manes", name = "gradle-versions-plugin", version.ref = "versions" }
 oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
 gms-google-services-plugin = { group = "com.google.gms", name = "google-services", version.ref = "gms-google-services" }
+spotify-ruler-plugin = { group = "com.spotify.ruler", name = "ruler-gradle-plugin", version.ref = "spotify-ruler" }
 play-services-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "play-services-oss-licenses" }
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }

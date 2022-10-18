@@ -9,6 +9,7 @@ plugins {
     id 'com.google.android.gms.oss-licenses-plugin'
     id 'cpaquiz.spotless'
     id 'cpaquiz.versioning'
+    id 'com.spotify.ruler'
 }
 
 def Secrets = new Properties()
@@ -121,4 +122,11 @@ configurations {
     compile.exclude group: 'org.jetbrains', module: 'annotations'
     compile.exclude group: 'com.intellij', module: 'annotations'
     compile.exclude group: 'org.intellij', module: 'annotations'
+}
+
+ruler {
+    abi.set("arm64-v8a")
+    locale.set("ko")
+    screenDensity.set(480)
+    sdkVersion.set(33)
 }
