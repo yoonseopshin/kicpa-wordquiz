@@ -33,7 +33,7 @@ android {
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:android"))
-    implementation(project(":domain"))
+    implementation(project(":core:domain"))
 
     add("implementation", libs.findLibrary("hilt.android").get())
     add("kapt", libs.findLibrary("hilt.compiler").get())

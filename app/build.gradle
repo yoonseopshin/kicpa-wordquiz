@@ -89,12 +89,12 @@ android {
 
 dependencies {
     implementation project(":nativetemplates")
-    implementation project(':core:common')
-    implementation project(':core:android')
-    implementation project(':core:navigation')
-    implementation project(":domain")
-    implementation project(":data")
-    implementation project(":data-network")
+    implementation project(":core:domain")
+    implementation project(":core:common")
+    implementation project(":core:android")
+    implementation project(":core:navigation")
+    implementation project(":core:data")
+    implementation project(":core:data-network")
     implementation project(":feature:home")
     implementation project(":feature:quiz")
     implementation project(":feature:settings")
