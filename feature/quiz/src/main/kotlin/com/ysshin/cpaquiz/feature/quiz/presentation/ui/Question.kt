@@ -117,12 +117,6 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
         // Handle UI event
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is QuestionViewModel.UiEvent.ShowCorrectAnimation -> {
-                    // TODO
-                }
-                is QuestionViewModel.UiEvent.ShowIncorrectAnimation -> {
-                    // TODO
-                }
                 is QuestionViewModel.UiEvent.NavigateToQuizResult -> {
                     Timber.d("Navigate to quiz result screen")
                     val quizEndNavActions =

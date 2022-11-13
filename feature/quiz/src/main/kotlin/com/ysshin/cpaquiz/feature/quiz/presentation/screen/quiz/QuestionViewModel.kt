@@ -109,10 +109,11 @@ class QuestionViewModel @Inject constructor(
         }
     }
 
-    val selectedQuestionIndex = MutableStateFlow(-1)
+    private val _selectedQuestionIndex = MutableStateFlow(-1)
+    val selectedQuestionIndex = _selectedQuestionIndex.asStateFlow()
 
     fun selectQuestion(index: Int) {
-        selectedQuestionIndex.value = index
+        _selectedQuestionIndex.value = index
     }
 
     fun selectAnswer() = viewModelScope.launch {
@@ -130,23 +131,22 @@ class QuestionViewModel @Inject constructor(
 
         _isAnimationShowing.value = true
         _selected.add(currentSelectedIndex)
+        _selectedQuestionIndex.value = -1
 
-        if (currentSelectedIndex == currentQuestion.value.answer) {
+        showQuizAnimation()
+        onQuizNext()
+    }
+
+    private suspend fun showQuizAnimation() {
+        if (selectedQuestionIndex.value == currentQuestion.value.answer) {
             _animationInfo.value = PopScaleAnimationInfo.Correct
-            _uiEvent.emit(UiEvent.ShowCorrectAnimation)
             Timber.d("Correct answer")
         } else {
             _animationInfo.value = PopScaleAnimationInfo.Incorrect
-            _uiEvent.emit(UiEvent.ShowIncorrectAnimation)
             Timber.d("Incorrect answer")
         }
-
-        selectedQuestionIndex.value = -1
-
         delay(300L)
         _isAnimationShowing.value = false
-
-        onQuizNext()
     }
 
     private fun onQuiz() {
@@ -161,9 +161,6 @@ class QuestionViewModel @Inject constructor(
 
         _isToolbarTitleVisible.value = false
         _isFabVisible.value = false
-
-        // 1. 정답 미리 표시
-        // 2. 클릭 안되게 수정.
     }
 
     init {
@@ -175,8 +172,6 @@ class QuestionViewModel @Inject constructor(
             }
         }
 
-        // TODO: mode는 State로 관리해야 함. 이에 따라 처리할게 좀 있음. 라디오 버튼 disable, fab hide, toolbar title 등등.
-
         when (mode.value) {
             ProblemDetailMode.Quiz -> onQuiz()
             ProblemDetailMode.Detail -> onDetail()
@@ -184,8 +179,6 @@ class QuestionViewModel @Inject constructor(
     }
 
     sealed interface UiEvent {
-        object ShowCorrectAnimation : UiEvent
-        object ShowIncorrectAnimation : UiEvent
         object NavigateToQuizResult : UiEvent
         object ScrollToTop : UiEvent
         data class ShowSnackbar(val message: UiText, val actionLabel: UiText) : UiEvent

@@ -17,16 +17,6 @@ class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
         quizNumbers: Int,
         useTimer: Boolean,
     ) {
-        // FIXME: Migrate to Jetpack Compose, overall to be reworked
-//        context.startActivity(
-//            ProblemDetailActivity.newIntent(
-//                context = context,
-//                quizType = quizType,
-//                quizNumbers = quizNumbers,
-//                useTimer = useTimer,
-//            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//        )
-
         activity.startActivity(
             QuestionActivity.newIntent(
                 context = activity,
