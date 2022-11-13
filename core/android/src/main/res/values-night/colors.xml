@@ -69,10 +69,10 @@
     <color name="timer_result_highlight_color">@color/daynight_pastel_deep_purple</color>
     <color name="timer_result_highlight_color_0.20">@color/daynight_pastel_deep_purple_0.20</color>
 
-    <color name="color_on_correct">#661B4125</color>
-    <color name="color_on_correct_bg">#661B4125</color>
-    <color name="color_on_incorrect">#66662228</color>
-    <color name="color_on_incorrect_bg">#66662228</color>
+    <color name="color_on_correct">#441B4125</color>
+    <color name="color_on_correct_bg">#441B4125</color>
+    <color name="color_on_incorrect">#44662228</color>
+    <color name="color_on_incorrect_bg">#44662228</color>
 
     <color name="theme_color">#121212</color>
     <color name="reverse_theme_color">#ffffff</color>

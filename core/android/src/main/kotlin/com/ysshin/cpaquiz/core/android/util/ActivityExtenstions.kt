@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import dagger.hilt.android.internal.managers.ViewComponentManager
+import com.ysshin.cpaquiz.core.android.base.BaseActivity
 
 fun Activity.hideKeyboard() {
     val imm = getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -16,11 +16,11 @@ fun Activity.hideKeyboard() {
     }
 }
 
-fun Context.findActivity(): Activity? {
-    return when (this) {
-        is ViewComponentManager.FragmentContextWrapper -> baseContext.findActivity()
-        is ContextWrapper -> baseContext.findActivity()
-        is AppCompatActivity -> this
-        else -> null
+fun Context.findActivity(): BaseActivity {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is BaseActivity) return context
+        context = context.baseContext
     }
+    throw IllegalStateException("Fail to find Activity from Context")
 }

@@ -29,6 +29,7 @@ fun Modifier.bounceClickable(
     enabled: Boolean = true,
     onClick: Action = {},
     shape: Shape = RectangleShape,
+    useHapticFeedback: Boolean = true,
 ) = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
     val scale by animateFloatAsState(
@@ -57,7 +58,7 @@ fun Modifier.bounceClickable(
                 buttonState = when (buttonState) {
                     ButtonState.Pressed -> {
                         waitForUpOrCancellation()
-                        view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                        if (useHapticFeedback) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                         ButtonState.Idle
                     }
                     ButtonState.Idle -> {

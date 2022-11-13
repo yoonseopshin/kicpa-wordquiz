@@ -32,7 +32,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.from
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -67,7 +67,7 @@ class QuizStatisticsActivity : BaseActivity() {
         NoteAdapter().also { adapter ->
             adapter.onProblemClick = { problem ->
                 startActivity(
-                    ProblemDetailActivity.newIntent(
+                    QuestionActivity.newIntent(
                         this,
                         ProblemDetailMode.Detail,
                         problem.toModel()

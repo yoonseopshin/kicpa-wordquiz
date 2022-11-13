@@ -19,7 +19,7 @@ fun List<UserSolvedProblemModel>.from(
 ): List<UserSolvedProblemModel> {
     val listSize = elapsedTimes.size
     assert(listSize == userSelectedIndices.size && listSize == problems.size) {
-        "Invalid size among elapsedTimes, userSelectedIndices and problems"
+        "Invalid size: elapsed-${elapsedTimes.size} selected-${userSelectedIndices.size} problems-${problems.size}"
     }
 
     return mutableListOf<UserSolvedProblemModel>().apply {

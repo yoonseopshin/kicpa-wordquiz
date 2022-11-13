@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.ysshin.cpaquiz.domain.model.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 val Context.quizDataStore: DataStore<Preferences> by preferencesDataStore(name = "quiz_prefs")
 
@@ -45,6 +46,11 @@ class QuizDatastoreManager @Inject constructor(private val dataStore: DataStore<
     }
 
     val shouldRequestInAppReview = dataStore.data.map { pref ->
+        if (BuildConfig.DEBUG) {
+            Timber.d("In-app review request is not available in debug build")
+            return@map false
+        }
+
         val solvedQuiz = pref[solvedQuizKey] ?: DEFAULT_SOLVED_QUIZ
 
         if (solvedQuiz == DEFAULT_SOLVED_QUIZ) {

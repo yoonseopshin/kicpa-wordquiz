@@ -79,11 +79,12 @@ import com.ysshin.cpaquiz.core.android.ui.dialog.AppNumberPickerDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
+import com.ysshin.cpaquiz.core.android.util.findActivity
 import com.ysshin.cpaquiz.core.common.Action
 import com.ysshin.cpaquiz.core.common.Consumer
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
-import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizNavigationActionsProvider
+import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizStartNavigationActionsProvider
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -102,6 +103,7 @@ fun HomeRoute(
     val useTimer by viewModel.useTimer.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
+    val activity = context.findActivity()
     val appContext = context.applicationContext
 
     HomeScreen(
@@ -113,12 +115,13 @@ fun HomeRoute(
         commercialLawCount = commercialLawCount,
         taxLawCount = taxLawCount,
         quizNumber = quizNumber,
-        onSetQuizTimer = viewModel::setQuizNumber,
+        onSetQuizNumber = viewModel::setQuizNumber,
         useTimer = useTimer,
         onToggleTimer = viewModel::toggleTimer,
         onQuizCardClick = { type ->
-            val quizNavActions = (appContext as QuizNavigationActionsProvider).quizNavActions
-            quizNavActions.onQuizStart(
+            val quizStartNavActions = (appContext as QuizStartNavigationActionsProvider).quizStartNavActions
+            quizStartNavActions.onQuizStart(
+                activity = activity,
                 quizType = type,
                 quizNumbers = quizNumber,
                 useTimer = useTimer,
@@ -138,7 +141,7 @@ fun HomeScreen(
     commercialLawCount: Int,
     taxLawCount: Int,
     quizNumber: Int,
-    onSetQuizTimer: Consumer<Int>,
+    onSetQuizNumber: Consumer<Int>,
     useTimer: Boolean,
     onToggleTimer: Action,
     onQuizCardClick: Consumer<QuizType>,
@@ -157,7 +160,7 @@ fun HomeScreen(
                 scrollBehavior = scrollBehavior,
                 dday = dday,
                 quizNumber = quizNumber,
-                onSetQuizTimer = onSetQuizTimer,
+                onSetQuizTimer = onSetQuizNumber,
                 useTimer = useTimer,
                 onToggleTimer = onToggleTimer
             )
@@ -551,7 +554,7 @@ private fun HomeScreenPreview() {
                 commercialLawCount = 25,
                 taxLawCount = 125,
                 quizNumber = 20,
-                onSetQuizTimer = {},
+                onSetQuizNumber = {},
                 useTimer = true,
                 onToggleTimer = {},
                 onQuizCardClick = {}

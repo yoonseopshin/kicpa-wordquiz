@@ -4,14 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.ysshin.cpaquiz.core.android.base.BaseActivity
-import com.ysshin.cpaquiz.core.android.util.blink
-import com.ysshin.cpaquiz.core.android.util.color
 import com.ysshin.cpaquiz.core.android.util.parcelable
 import com.ysshin.cpaquiz.core.android.util.repeatOnLifecycleStarted
-import com.ysshin.cpaquiz.core.android.util.scrollToView
 import com.ysshin.cpaquiz.core.android.util.serializable
 import com.ysshin.cpaquiz.core.android.util.setOnDoubleClick
 import com.ysshin.cpaquiz.core.android.util.setOnThrottleClick
@@ -20,16 +16,13 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.databinding.ActivityProblemDetailBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
-import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@Deprecated("Migrate to QuestionActivity")
 @AndroidEntryPoint
 class ProblemDetailActivity : BaseActivity() {
 
@@ -95,65 +88,8 @@ class ProblemDetailActivity : BaseActivity() {
 
     private fun observeViewModel() {
         repeatOnLifecycleStarted {
-            viewModel.quizState.collect { event ->
-                handleEvent(event)
+            viewModel.quizEvent.collect { event ->
                 Timber.d("$event")
-            }
-        }
-    }
-
-    private fun handleEvent(state: QuizEvent) {
-        when (state) {
-            is QuizEvent.Started -> {
-                viewModel.onStart {
-                    viewModel.next()
-                }
-            }
-            is QuizEvent.Paused -> viewModel.onPause()
-            is QuizEvent.Resumed -> viewModel.onResume()
-            is QuizEvent.Calculating -> viewModel.onCalculating(binding.getUserAnswerIndex())
-            is QuizEvent.Correct -> {
-                binding.coverView.blink(
-                    color(android.R.color.transparent),
-                    color(R.color.color_on_correct)
-                )
-            }
-            is QuizEvent.Incorrect -> {
-                binding.coverView.blink(
-                    color(android.R.color.transparent),
-                    color(R.color.color_on_incorrect)
-                )
-            }
-            is QuizEvent.Next -> {
-                viewModel.onNext {
-                    binding.layProblemDetail.rgQuestions.clearCheck()
-                    binding.scrollView.scrollToView(binding.toolbar)
-                }
-            }
-            is QuizEvent.Ended -> {
-                binding.fabNext.isEnabled = false
-                with(binding.layProblemDetail) {
-                    rb0.isEnabled = false
-                    rb1.isEnabled = false
-                    rb2.isEnabled = false
-                    rb3.isEnabled = false
-                    rb4.isEnabled = false
-                }
-
-                viewModel.onEnd {
-                    lifecycleScope.launch {
-                        delay(500L)
-                        startActivity(
-                            QuizStatisticsActivity.newIntent(
-                                context = this@ProblemDetailActivity,
-                                problems = viewModel.problems.toModel(),
-                                selected = viewModel.selected,
-                                timesPerProblem = viewModel.timesPerProblem,
-                            )
-                        )
-                        finish()
-                    }
-                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.common.Action
@@ -9,15 +10,25 @@ import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
+import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class ProblemDetailViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
-    private val quizUseCases: QuizUseCases
+    private val quizUseCases: QuizUseCases,
+    private val handle: SavedStateHandle,
 ) : BaseViewModel() {
 
     val useTimer = MutableStateFlow(false)
@@ -49,27 +60,21 @@ class ProblemDetailViewModel @Inject constructor(
 
     val quizType = MutableStateFlow(QuizType.Accounting)
 
-    private val _totalProblemNumbers = MutableStateFlow(DEFAULT_INT)
-    val totalProblemNumbers = _totalProblemNumbers.asStateFlow()
+    val totalProblemNumbers = handle.getStateFlow(QuizConstants.quizNumbers, DEFAULT_INT)
 
     private val _solvedProblemNumbers = MutableStateFlow(DEFAULT_INT)
     val solvedProblemNumbers = _solvedProblemNumbers.asStateFlow()
 
     private val _quizEvent = MutableSharedFlow<QuizEvent>()
-    val quizState = _quizEvent.asSharedFlow()
+    val quizEvent = _quizEvent.asSharedFlow()
 
-    fun start(quizNumbers: Int) {
-        if (_totalProblemNumbers.value == quizNumbers) return
-
-        viewModelScope.launch {
-            _totalProblemNumbers.value = quizNumbers
-            withContext(Dispatchers.Main) {
-                problemUseCases.getProblems(quizType.value, quizNumbers, this) {
-                    _problems.addAll(it)
-                }
+    fun start(quizNumbers: Int) = viewModelScope.launch {
+        withContext(Dispatchers.Main) {
+            problemUseCases.getProblems(quizType.value, quizNumbers, this) {
+                _problems.addAll(it)
             }
-            _quizEvent.emit(QuizEvent.Started)
         }
+        _quizEvent.emit(QuizEvent.Started)
     }
 
     fun onStart(onStartResult: Action) {

@@ -15,6 +15,9 @@
             android:name=".presentation.screen.quiz.ProblemDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.CpaQuiz.ProblemDetailActivity" />
+        <activity
+            android:name=".presentation.screen.quiz.QuestionActivity"
+            android:exported="false" />
 
     </application>
 

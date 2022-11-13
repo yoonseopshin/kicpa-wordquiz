@@ -15,5 +15,7 @@ dependencies {
 
     implementation("androidx.recyclerview:recyclerview:1.3.0-beta01")
 
+    implementation("com.wajahatkarim:flippable:1.0.6")
+
     implementation(libs.compose.material)
 }

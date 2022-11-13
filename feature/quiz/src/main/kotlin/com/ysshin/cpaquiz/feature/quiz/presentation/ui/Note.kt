@@ -34,6 +34,8 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ContentAlpha
@@ -73,6 +75,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -94,8 +97,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
+import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
+import com.ysshin.cpaquiz.core.android.ui.theme.Typography
+import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
+import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
+import com.ysshin.cpaquiz.core.android.util.filterChipBackgroundColorResourceIdByFiltering
+import com.ysshin.cpaquiz.core.android.util.filterChipStrokeColorResourceIdByFiltering
 import com.ysshin.cpaquiz.core.common.Action
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
@@ -113,7 +122,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.SearchedProblems
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.TotalProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.UserActionUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiState
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.ProblemDetailActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -396,11 +405,11 @@ private fun NoteSummaryContent(
             .combinedClickable(
                 onClick = {
                     context.startActivity(
-                        ProblemDetailActivity.newIntent(
-                            context,
-                            ProblemDetailMode.Detail,
-                            problem.toModel()
-                        ),
+                        QuestionActivity.newIntent(
+                            context = context,
+                            mode = ProblemDetailMode.Detail,
+                            problemModel = problem.toModel()
+                        )
                     )
                 },
                 onLongClick = {
@@ -423,53 +432,33 @@ private fun NoteSummaryContent(
                 val assistChipBorderColor =
                     colorResource(id = R.color.daynight_gray300s)
 
-                Box {
-                    AssistChip(
-                        modifier = Modifier.padding(all = 4.dp),
-                        onClick = {},
-                        label = {
-                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                Text(text = "${problem.year}년 ${problem.pid}번")
-                            }
-                        },
-                        colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                        border = AssistChipDefaults.assistChipBorder(
-                            borderColor = assistChipBorderColor,
-                            borderWidth = 0.5.dp
-                        )
+                NotClickableAssistedChip(
+                    modifier = Modifier.padding(all = 4.dp),
+                    label = {
+                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                            Text(text = "${problem.year}년 ${problem.pid}번")
+                        }
+                    },
+                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
+                    border = AssistChipDefaults.assistChipBorder(
+                        borderColor = assistChipBorderColor,
+                        borderWidth = 0.5.dp
                     )
+                )
 
-                    Box(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .alpha(0f)
-                            .clickable(onClick = {})
+                NotClickableAssistedChip(
+                    modifier = Modifier.padding(all = 4.dp),
+                    label = {
+                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                            Text(text = problem.source.toString())
+                        }
+                    },
+                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
+                    border = AssistChipDefaults.assistChipBorder(
+                        borderColor = assistChipBorderColor,
+                        borderWidth = 0.5.dp
                     )
-                }
-
-                Box {
-                    AssistChip(
-                        modifier = Modifier.padding(all = 4.dp),
-                        onClick = {},
-                        label = {
-                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                Text(text = problem.source.toString())
-                            }
-                        },
-                        colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                        border = AssistChipDefaults.assistChipBorder(
-                            borderColor = assistChipBorderColor,
-                            borderWidth = 0.5.dp
-                        )
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .alpha(0f)
-                            .clickable(onClick = {})
-                    )
-                }
+                )
             }
 
             Row(
@@ -478,19 +467,8 @@ private fun NoteSummaryContent(
                     .align(Alignment.TopEnd)
                     .padding(end = 8.dp)
             ) {
-                val containerColorResourceIdByType = when (problem.type) {
-                    QuizType.Accounting -> R.color.accounting_highlight_color_0_20
-                    QuizType.Business -> R.color.business_highlight_color_0_20
-                    QuizType.CommercialLaw -> R.color.commercial_law_highlight_color_0_20
-                    QuizType.TaxLaw -> R.color.tax_law_highlight_color_0_20
-                }
-
-                val borderColorResourceIdByType = when (problem.type) {
-                    QuizType.Accounting -> R.color.accounting_highlight_color
-                    QuizType.Business -> R.color.business_highlight_color
-                    QuizType.CommercialLaw -> R.color.commercial_law_highlight_color
-                    QuizType.TaxLaw -> R.color.tax_law_highlight_color
-                }
+                val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
+                val borderColorResourceIdByType = chipBorderColorResIdByType(problem.type)
 
                 Box {
                     AssistChip(
@@ -550,8 +528,7 @@ private fun NoteSummaryContent(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
                 .padding(top = 8.dp),
-            fontSize = 15.sp,
-            color = colorResource(id = R.color.daynight_gray700s)
+            style = Typography.bodyMedium
         )
     }
 }
@@ -733,28 +710,17 @@ private fun NoteFilterMenuContentDetail(
     }
 }
 
-// TODO: Move to designsystem module
-private fun filterChipBackgroundColorResourceIdByFiltering(isFiltering: Boolean) = if (isFiltering) {
-    R.color.primaryColor_0_15
-} else {
-    R.color.daynight_gray070s
-}
-
-private fun filterChipStrokeColorResourceIdByFiltering(isFiltering: Boolean) = if (isFiltering) {
-    R.color.primaryColor
-} else {
-    R.color.daynight_gray300s
-}
-
 @OptIn(
     ExperimentalComposeUiApi::class,
     ExperimentalLifecycleComposeApi::class,
     ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class,
 )
 @Composable
 private fun NoteSearchMenuContent() {
     val viewModel = hiltViewModel<NoteViewModel>()
     val focusRequester = remember { FocusRequester() }
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
 
@@ -774,7 +740,8 @@ private fun NoteSearchMenuContent() {
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 64.dp)
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp)),
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
+            .bringIntoViewRequester(bringIntoViewRequester),
     ) {
         val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
 
@@ -784,7 +751,14 @@ private fun NoteSearchMenuContent() {
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
-                .focusRequester(focusRequester),
+                .focusRequester(focusRequester)
+                .onFocusEvent { focusState ->
+                    if (focusState.hasFocus || focusState.isFocused) {
+                        scope.launch {
+                            bringIntoViewRequester.bringIntoView()
+                        }
+                    }
+                },
             maxLines = 1,
             placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
             keyboardOptions = KeyboardOptions(
@@ -793,6 +767,7 @@ private fun NoteSearchMenuContent() {
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
+                    keyboardController?.hide()
                     viewModel.hideMenu()
                 }
             )
