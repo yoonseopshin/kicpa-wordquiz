@@ -58,6 +58,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -382,6 +383,7 @@ private fun QuizCard(
     val quizCardEnabled = count > 0
     val disabledBackgroundAlpha = 0.09f
     val disabledContentAlpha = 0.36f
+    val elevation = 6.dp
 
     Surface(
         modifier = Modifier
@@ -389,7 +391,9 @@ private fun QuizCard(
                 dampingRatio = 0.9f,
                 enabled = quizCardEnabled,
                 onClick = onClick,
-            ),
+            )
+            .padding(elevation)
+            .shadow(elevation = elevation, shape = cornerShape),
         shape = cornerShape,
     ) {
         Column(

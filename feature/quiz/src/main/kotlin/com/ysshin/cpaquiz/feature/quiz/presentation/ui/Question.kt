@@ -42,7 +42,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
@@ -336,15 +336,17 @@ fun QuestionDetail(
             if (currentQuestion.subDescriptions.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(4.dp))
 
+                val elevation = 1.dp
                 Column(
                     modifier = Modifier
-                        .clip(shape = ShapeDefaults.Medium)
+                        .padding(all = elevation)
+                        .shadow(elevation = elevation, shape = ShapeDefaults.Medium)
                         .background(color = colorScheme.surfaceColorAtElevation(5.dp))
                         .padding(horizontal = 12.dp, vertical = 8.dp)
                         .fillMaxWidth()
                 ) {
-                    currentQuestion.subDescriptions.forEach {
-                        val (mark, str) = RegexUtils.getMarkedString(it)
+                    currentQuestion.subDescriptions.forEach { subDescription ->
+                        val (mark, description) = RegexUtils.getMarkedString(subDescription)
                         Row {
                             Text(
                                 text = mark,
@@ -352,7 +354,7 @@ fun QuestionDetail(
                                 color = colorResource(id = R.color.daynight_gray600s)
                             )
                             Text(
-                                text = str,
+                                text = description,
                                 style = Typography.bodyMedium,
                                 color = colorResource(id = R.color.daynight_gray600s)
                             )
