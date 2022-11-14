@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -47,6 +46,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -225,6 +226,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                         currentQuestion = currentQuestion.value,
                         selectedQuestionIndex = selectedQuestionIndex.value,
                         onQuestionClick = viewModel::selectQuestion,
+                        onSelectAnswer = viewModel::selectAnswer
                     )
                 }
 
@@ -292,6 +294,7 @@ fun QuestionDetail(
     currentQuestion: Problem,
     selectedQuestionIndex: Int,
     onQuestionClick: (Int) -> Unit,
+    onSelectAnswer: () -> Unit,
 ) {
     ElevatedCard(modifier = Modifier.padding(horizontal = 12.dp)) {
         Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
@@ -370,19 +373,30 @@ fun QuestionDetail(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .bounceClickable(dampingRatio = 0.95f, useHapticFeedback = false)
-                        .selectable(
-                            selected = when (mode) {
-                                ProblemDetailMode.Detail -> index == currentQuestion.answer
-                                ProblemDetailMode.Quiz -> index == selectedQuestionIndex
-                            },
+                        .bounceClickable(
+                            dampingRatio = 0.95f,
+                            useHapticFeedback = false,
                             onClick = {
                                 when (mode) {
                                     ProblemDetailMode.Detail -> Unit
                                     ProblemDetailMode.Quiz -> onQuestionClick(index)
                                 }
-                            }
+                            },
+                            onDoubleClick = {
+                                onQuestionClick(index)
+                                onSelectAnswer()
+                            },
+                            onLongClick = {
+                                onQuestionClick(index)
+                                onSelectAnswer()
+                            },
                         )
+                        .semantics {
+                            this.selected = when (mode) {
+                                ProblemDetailMode.Detail -> index == currentQuestion.answer
+                                ProblemDetailMode.Quiz -> index == selectedQuestionIndex
+                            }
+                        }
                         .padding(all = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {

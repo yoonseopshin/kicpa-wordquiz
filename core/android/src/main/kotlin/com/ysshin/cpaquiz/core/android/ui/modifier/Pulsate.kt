@@ -2,7 +2,8 @@ package com.ysshin.cpaquiz.core.android.ui.modifier
 
 import android.view.HapticFeedbackConstants
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -18,16 +19,18 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalView
-import com.ysshin.cpaquiz.core.common.Action
 
 private enum class ButtonState {
     Pressed, Idle;
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 fun Modifier.bounceClickable(
     dampingRatio: Float = 0.85f,
     enabled: Boolean = true,
-    onClick: Action = {},
+    onClick: () -> Unit = {},
+    onDoubleClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
     shape: Shape = RectangleShape,
     useHapticFeedback: Boolean = true,
 ) = composed {
@@ -42,9 +45,11 @@ fun Modifier.bounceClickable(
 
     this
         .clip(shape)
-        .clickable(
+        .combinedClickable(
             enabled = enabled,
             onClick = onClick,
+            onDoubleClick = onDoubleClick,
+            onLongClick = onLongClick,
             interactionSource = remember { MutableInteractionSource() },
             indication = null,
         )
