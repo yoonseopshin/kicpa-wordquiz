@@ -374,6 +374,7 @@ fun QuestionDetail(
                     modifier = Modifier
                         .fillMaxWidth()
                         .bounceClickable(
+                            enabled = mode == ProblemDetailMode.Quiz,
                             dampingRatio = 0.95f,
                             useHapticFeedback = false,
                             onClick = {
@@ -405,7 +406,7 @@ fun QuestionDetail(
                             ProblemDetailMode.Detail -> index == currentQuestion.answer
                             ProblemDetailMode.Quiz -> index == selectedQuestionIndex
                         },
-                        onClick = null
+                        onClick = null,
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
