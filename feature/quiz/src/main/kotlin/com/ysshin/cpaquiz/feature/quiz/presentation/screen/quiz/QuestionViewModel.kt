@@ -108,6 +108,7 @@ class QuestionViewModel @Inject constructor(
             quizUseCases.increaseSolvedQuiz()
             _uiEvent.emit(UiEvent.NavigateToQuizResult)
         }
+        _selectedQuestionIndex.value = -1
     }
 
     private val _selectedQuestionIndex = MutableStateFlow(-1)
@@ -132,14 +133,16 @@ class QuestionViewModel @Inject constructor(
 
         _isAnimationShowing.value = true
         _selected.add(currentSelectedIndex)
-        _selectedQuestionIndex.value = -1
 
         showQuizAnimation()
         onQuizNext()
     }
 
     private suspend fun showQuizAnimation() {
-        if (selectedQuestionIndex.value == currentQuestion.value.answer) {
+        val selectedQuestion = _selectedQuestionIndex.value
+        val answer = _currentQuestion.value.answer
+
+        if (selectedQuestion == answer) {
             _animationInfo.value = PopScaleAnimationInfo.Correct
             Timber.d("Correct answer")
         } else {
