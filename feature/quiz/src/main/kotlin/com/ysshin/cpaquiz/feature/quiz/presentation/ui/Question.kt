@@ -53,6 +53,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -80,13 +81,10 @@ import timber.log.Timber
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
-    val useTimer = viewModel.useTimer.collectAsStateWithLifecycle()
     val numOfSolvedQuestion = viewModel.numOfSolvedQuestions.collectAsStateWithLifecycle()
     val numOfTotalQuestion = viewModel.numOfTotalQuestions.collectAsStateWithLifecycle()
     val currentQuestion = viewModel.currentQuestion.collectAsStateWithLifecycle()
-    val elapsedTime = viewModel.elapsedTime.collectAsStateWithLifecycle()
     val isToolbarTitleVisible = viewModel.isToolbarTitleVisible.collectAsStateWithLifecycle()
-    val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
     val mode = viewModel.mode.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -119,6 +117,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is QuestionViewModel.UiEvent.NavigateToQuizResult -> {
+                    // FIXME: Sometimes not working properly
                     Timber.d("Navigate to quiz result screen")
                     val quizEndNavActions =
                         (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
@@ -233,27 +232,14 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                 Spacer(modifier = Modifier.weight(1f))
 
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    Box(contentAlignment = Alignment.BottomStart) {
-                        if (useTimer.value) {
-                            ClockTickingAnimation(
-                                modifier = Modifier.padding(16.dp),
-                                timeMillis = elapsedTime.value,
-                                clockSize = 64.dp,
-                                clockEndOffset = 12.dp,
-                                clockBackgroundColor = colorScheme.surfaceColorAtElevation(elevation = 2.dp),
-                                clockHandColor = colorScheme.primary.copy(alpha = 0.2f),
-                                clockHandStroke = 3.dp,
-                            ) {
-                                Text(
-                                    text = TimeFormatter.format(elapsedTime.value),
-                                    style = Typography.headlineSmall,
-                                    color = colorScheme.primary
-                                )
-                            }
-                        }
-                    }
+                    val useTimer = viewModel.useTimer.collectAsStateWithLifecycle()
+                    val elapsedTime = viewModel.elapsedTime.collectAsStateWithLifecycle()
+
+                    Clock(useTimer.value, elapsedTime.value)
 
                     Spacer(modifier = Modifier.weight(weight = 1f, fill = true))
+
+                    val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
 
                     if (isFabVisible.value) {
                         Box(contentAlignment = Alignment.BottomEnd) {
@@ -282,6 +268,35 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     imageVector = popScaleAnimationInfo.value.icon,
                     tint = colorResource(id = popScaleAnimationInfo.value.iconTintColorResId),
                     contentDescription = null,
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ClockPreview() {
+    Clock(useTimer = true, elapsedTime = 15000L)
+}
+
+@Composable
+private fun Clock(useTimer: Boolean, elapsedTime: Long) {
+    Box(contentAlignment = Alignment.BottomStart) {
+        if (useTimer) {
+            ClockTickingAnimation(
+                modifier = Modifier.padding(16.dp),
+                timeMillis = elapsedTime,
+                clockSize = 64.dp,
+                clockEndOffset = 12.dp,
+                clockBackgroundColor = colorScheme.surfaceColorAtElevation(elevation = 2.dp),
+                clockHandColor = colorScheme.primary.copy(alpha = 0.2f),
+                clockHandStroke = 3.dp,
+            ) {
+                Text(
+                    text = TimeFormatter.format(elapsedTime),
+                    style = Typography.headlineSmall,
+                    color = colorScheme.primary
                 )
             }
         }

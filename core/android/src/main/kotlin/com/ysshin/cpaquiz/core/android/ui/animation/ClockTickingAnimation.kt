@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import timber.log.Timber
 
 @Composable
 fun ClockTickingAnimation(
@@ -46,7 +45,6 @@ fun ClockTickingAnimation(
 
             withTransform(
                 transformBlock = {
-                    Timber.d("clock tick: $second")
                     rotate(360f * progressRotation, middle)
                 },
                 drawBlock = {

@@ -101,6 +101,7 @@ class QuestionViewModel @Inject constructor(
             }
             _uiEvent.emit(UiEvent.ScrollToTop)
         } else {
+            Timber.d("Quiz end")
             // quiz end
             timer.record()
             timer.pause()

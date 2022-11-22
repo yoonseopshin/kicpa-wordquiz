@@ -374,7 +374,7 @@ private fun WrongNoteHeaderContent(
     ExperimentalMaterial3Api::class
 )
 @Composable
-private fun NoteSummaryContent(
+private fun LazyItemScope.NoteSummaryContent(
     problem: Problem,
     onProblemLongClick: Action? = null,
 ) {
@@ -419,6 +419,7 @@ private fun NoteSummaryContent(
             )
             .fillMaxWidth()
             .padding(bottom = 20.dp)
+            .animateItemPlacement()
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -553,7 +554,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
 }
 
 @Composable
-fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
+private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
     when (state) {
         is SearchedProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -573,7 +574,7 @@ fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun NoteFilterMenuContent() {
+private fun NoteFilterMenuContent() {
     val viewModel = hiltViewModel<NoteViewModel>()
 
     val openYearFilterDialog = viewModel.isYearFilterDialogOpened.collectAsStateWithLifecycle()

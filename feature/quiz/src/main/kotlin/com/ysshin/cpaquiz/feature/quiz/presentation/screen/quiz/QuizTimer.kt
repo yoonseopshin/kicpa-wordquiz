@@ -40,7 +40,7 @@ class QuizTimer(private val scope: CoroutineScope) : Timer {
             var lastTimeMillis = System.currentTimeMillis()
 
             while (isActive) {
-                delay(250L)
+                delay(200L)
                 Timber.d("Timer tick")
                 timeMillis = timeMillis + System.currentTimeMillis() - lastTimeMillis
                 lastTimeMillis = System.currentTimeMillis()
