@@ -76,7 +76,6 @@ import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.QuizEndNavigationActionsProvider
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -112,13 +111,12 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(snackbarHostState) {
+    LaunchedEffect(Unit) {
         // Handle UI event
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is QuestionViewModel.UiEvent.NavigateToQuizResult -> {
                     // FIXME: Sometimes not working properly
-                    Timber.d("Navigate to quiz result screen")
                     val quizEndNavActions =
                         (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
                     quizEndNavActions.onQuizEnd(
