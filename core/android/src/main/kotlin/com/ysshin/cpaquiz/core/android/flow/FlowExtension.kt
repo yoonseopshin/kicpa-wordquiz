@@ -2,19 +2,25 @@ package com.ysshin.cpaquiz.core.android.flow
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 @Composable
-fun <T> Flow<T>.collectAsEffect(
-    context: CoroutineContext = EmptyCoroutineContext,
-    block: suspend (T) -> Unit,
+fun <T> Flow<T>.collectAsEffectWithLifecycle(
+    vararg keys: Any?,
+    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
+    collector: suspend CoroutineScope.(T) -> Unit
 ) {
-    LaunchedEffect(Unit) {
-        onEach(block).flowOn(context).launchIn(this)
+    val currentCollector by rememberUpdatedState(newValue = collector)
+    LaunchedEffect(this, lifecycle, minActiveState, *keys) {
+        lifecycle.repeatOnLifecycle(minActiveState) {
+            collect { currentCollector(it) }
+        }
     }
 }

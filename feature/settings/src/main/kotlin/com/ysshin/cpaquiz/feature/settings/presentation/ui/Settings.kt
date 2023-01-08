@@ -46,7 +46,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.core.android.BuildConfig
-import com.ysshin.cpaquiz.core.android.flow.collectAsEffect
+import com.ysshin.cpaquiz.core.android.flow.collectAsEffectWithLifecycle
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
@@ -60,7 +60,7 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
-    viewModel.uiEvent.collectAsEffect { event ->
+    viewModel.uiEvent.collectAsEffectWithLifecycle { event ->
         when (event) {
             is SettingsViewModel.UiEvent.ShowSnackbar -> {
                 snackbarHostState.showSnackbar(

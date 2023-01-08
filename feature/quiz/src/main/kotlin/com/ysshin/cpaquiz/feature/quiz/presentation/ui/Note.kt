@@ -95,7 +95,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ysshin.cpaquiz.core.android.flow.collectAsEffect
+import com.ysshin.cpaquiz.core.android.flow.collectAsEffectWithLifecycle
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
@@ -145,7 +145,7 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    viewModel.uiEvent.collectAsEffect { event ->
+    viewModel.uiEvent.collectAsEffectWithLifecycle { event ->
         when (event) {
             is NoteUiEvent.ShowSnackbar -> {
                 snackbarHostState.showSnackbar(
