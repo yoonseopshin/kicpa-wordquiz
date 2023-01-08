@@ -37,7 +37,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +58,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ysshin.cpaquiz.core.android.flow.collectAsEffect
 import com.ysshin.cpaquiz.core.android.ui.animation.ClockTickingAnimation
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
@@ -111,31 +111,28 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(Unit) {
-        // Handle UI event
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is QuestionViewModel.UiEvent.NavigateToQuizResult -> {
-                    // FIXME: Sometimes not working properly
-                    val quizEndNavActions =
-                        (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
-                    quizEndNavActions.onQuizEnd(
-                        activity = activity,
-                        problems = viewModel.questions,
-                        selected = viewModel.selected,
-                        timesPerProblem = viewModel.timesPerProblem,
-                    )
-                }
-                is QuestionViewModel.UiEvent.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(
-                        message = event.message.asString(context),
-                        actionLabel = event.actionLabel.asString(context),
-                        duration = SnackbarDuration.Short
-                    )
-                }
-                is QuestionViewModel.UiEvent.ScrollToTop -> {
-                    scrollState.animateScrollTo(value = 0)
-                }
+    viewModel.uiEvent.collectAsEffect { event ->
+        when (event) {
+            is QuestionViewModel.UiEvent.NavigateToQuizResult -> {
+                // FIXME: Sometimes not working properly
+                val quizEndNavActions =
+                    (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
+                quizEndNavActions.onQuizEnd(
+                    activity = activity,
+                    problems = viewModel.questions,
+                    selected = viewModel.selected,
+                    timesPerProblem = viewModel.timesPerProblem,
+                )
+            }
+            is QuestionViewModel.UiEvent.ShowSnackbar -> {
+                snackbarHostState.showSnackbar(
+                    message = event.message.asString(context),
+                    actionLabel = event.actionLabel.asString(context),
+                    duration = SnackbarDuration.Short
+                )
+            }
+            is QuestionViewModel.UiEvent.ScrollToTop -> {
+                scrollState.animateScrollTo(value = 0)
             }
         }
     }

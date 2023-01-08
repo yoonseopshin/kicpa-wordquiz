@@ -64,7 +64,6 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -96,6 +95,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ysshin.cpaquiz.core.android.flow.collectAsEffect
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
@@ -125,7 +125,6 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiS
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -146,19 +145,17 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(listState, snackbarHostState) {
-        viewModel.uiEvent.collectLatest { event ->
-            when (event) {
-                is NoteUiEvent.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(
-                        message = event.message.asString(context),
-                        actionLabel = event.actionLabel.asString(context)
-                    )
-                }
-                is NoteUiEvent.ScrollToTop -> {
-                    // TODO: Not working at top position
-                    listState.animateScrollToItem(0)
-                }
+    viewModel.uiEvent.collectAsEffect { event ->
+        when (event) {
+            is NoteUiEvent.ShowSnackbar -> {
+                snackbarHostState.showSnackbar(
+                    message = event.message.asString(context),
+                    actionLabel = event.actionLabel.asString(context)
+                )
+            }
+            is NoteUiEvent.ScrollToTop -> {
+                // TODO: Not working at top position
+                listState.animateScrollToItem(0)
             }
         }
     }

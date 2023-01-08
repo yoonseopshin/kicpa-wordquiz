@@ -26,7 +26,6 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +46,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.core.android.BuildConfig
+import com.ysshin.cpaquiz.core.android.flow.collectAsEffect
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
@@ -60,15 +60,13 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(snackbarHostState) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is SettingsViewModel.UiEvent.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(
-                        message = event.message.asString(context),
-                        actionLabel = event.actionLabel.asString(context)
-                    )
-                }
+    viewModel.uiEvent.collectAsEffect { event ->
+        when (event) {
+            is SettingsViewModel.UiEvent.ShowSnackbar -> {
+                snackbarHostState.showSnackbar(
+                    message = event.message.asString(context),
+                    actionLabel = event.actionLabel.asString(context)
+                )
             }
         }
     }
