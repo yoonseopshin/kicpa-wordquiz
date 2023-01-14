@@ -86,6 +86,8 @@ import com.ysshin.cpaquiz.core.common.Consumer
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizStartNavigationActionsProvider
+import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeInfoUiState
+import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeQuizUiState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -95,13 +97,8 @@ fun HomeRoute(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val dday by viewModel.dday.collectAsStateWithLifecycle()
-    val accountingCount by viewModel.accountingCount.collectAsStateWithLifecycle()
-    val businessCount by viewModel.businessCount.collectAsStateWithLifecycle()
-    val commercialLawCount by viewModel.commercialLawCount.collectAsStateWithLifecycle()
-    val taxLawCount by viewModel.taxLawCount.collectAsStateWithLifecycle()
-    val quizNumber by viewModel.quizNumber.collectAsStateWithLifecycle()
-    val useTimer by viewModel.useTimer.collectAsStateWithLifecycle()
+    val homeQuizUiState by viewModel.homeQuizUiState.collectAsStateWithLifecycle()
+    val homeInfoUiState by viewModel.homeInfoUiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val activity = context.findActivity()
@@ -110,23 +107,22 @@ fun HomeRoute(
     HomeScreen(
         windowSizeClass = windowSizeClass,
         modifier = modifier,
-        dday = dday,
-        accountingCount = accountingCount,
-        businessCount = businessCount,
-        commercialLawCount = commercialLawCount,
-        taxLawCount = taxLawCount,
-        quizNumber = quizNumber,
+        homeQuizUiState = homeQuizUiState,
+        homeInfoUiState = homeInfoUiState,
         onSetQuizNumber = viewModel::setQuizNumber,
-        useTimer = useTimer,
         onToggleTimer = viewModel::toggleTimer,
         onQuizCardClick = { type ->
-            val quizStartNavActions = (appContext as QuizStartNavigationActionsProvider).quizStartNavActions
-            quizStartNavActions.onQuizStart(
-                activity = activity,
-                quizType = type,
-                quizNumbers = quizNumber,
-                useTimer = useTimer,
-            )
+            if (homeInfoUiState is HomeInfoUiState.Success) {
+                val quizStartNavActions = (appContext as QuizStartNavigationActionsProvider).quizStartNavActions
+                val quizNumber = (homeInfoUiState as HomeInfoUiState.Success).quizNumber
+                val useTimer = (homeInfoUiState as HomeInfoUiState.Success).useTimer
+                quizStartNavActions.onQuizStart(
+                    activity = activity,
+                    quizType = type,
+                    quizNumbers = quizNumber,
+                    useTimer = useTimer,
+                )
+            }
         }
     )
 }
@@ -136,14 +132,9 @@ fun HomeRoute(
 fun HomeScreen(
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
-    dday: String,
-    accountingCount: Int,
-    businessCount: Int,
-    commercialLawCount: Int,
-    taxLawCount: Int,
-    quizNumber: Int,
+    homeQuizUiState: HomeQuizUiState,
+    homeInfoUiState: HomeInfoUiState,
     onSetQuizNumber: Consumer<Int>,
-    useTimer: Boolean,
     onToggleTimer: Action,
     onQuizCardClick: Consumer<QuizType>,
 ) {
@@ -159,10 +150,8 @@ fun HomeScreen(
             HomeTopAppBar(
                 windowSizeClass = windowSizeClass,
                 scrollBehavior = scrollBehavior,
-                dday = dday,
-                quizNumber = quizNumber,
+                homeInfoUiState = homeInfoUiState,
                 onSetQuizTimer = onSetQuizNumber,
-                useTimer = useTimer,
                 onToggleTimer = onToggleTimer
             )
         }
@@ -179,39 +168,45 @@ fun HomeScreen(
             crossAxisSpacing = 20.dp,
             mainAxisSpacing = 20.dp
         ) {
-            QuizCard(
-                cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
-                iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
-                count = accountingCount,
-                title = stringResource(id = R.string.accounting),
-                onClick = { onQuizCardClick(QuizType.Accounting) }
-            )
 
-            QuizCard(
-                cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
-                iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
-                count = businessCount,
-                title = stringResource(id = R.string.business),
-                onClick = { onQuizCardClick(QuizType.Business) }
-            )
+            when (homeQuizUiState) {
+                is HomeQuizUiState.Loading -> Unit
+                is HomeQuizUiState.Success -> {
+                    QuizCard(
+                        cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
+                        iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
+                        count = homeQuizUiState.accountingCount,
+                        title = stringResource(id = R.string.accounting),
+                        onClick = { onQuizCardClick(QuizType.Accounting) }
+                    )
 
-            QuizCard(
-                cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
-                iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
-                count = commercialLawCount,
-                title = stringResource(id = R.string.commercial_law),
-                onClick = { onQuizCardClick(QuizType.CommercialLaw) }
-            )
+                    QuizCard(
+                        cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
+                        iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
+                        count = homeQuizUiState.businessCount,
+                        title = stringResource(id = R.string.business),
+                        onClick = { onQuizCardClick(QuizType.Business) }
+                    )
 
-            QuizCard(
-                cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
-                iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
-                count = taxLawCount,
-                title = stringResource(id = R.string.tax_law),
-                onClick = { onQuizCardClick(QuizType.TaxLaw) }
-            )
+                    QuizCard(
+                        cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
+                        iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
+                        count = homeQuizUiState.commercialLawCount,
+                        title = stringResource(id = R.string.commercial_law),
+                        onClick = { onQuizCardClick(QuizType.CommercialLaw) }
+                    )
 
-            NativeMediumAd()
+                    QuizCard(
+                        cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
+                        iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
+                        count = homeQuizUiState.taxLawCount,
+                        title = stringResource(id = R.string.tax_law),
+                        onClick = { onQuizCardClick(QuizType.TaxLaw) }
+                    )
+
+                    NativeMediumAd()
+                }
+            }
         }
     }
 }
@@ -221,48 +216,59 @@ fun HomeScreen(
 fun HomeTopAppBar(
     windowSizeClass: WindowSizeClass,
     scrollBehavior: TopAppBarScrollBehavior,
-    dday: String,
-    quizNumber: Int,
+    homeInfoUiState: HomeInfoUiState,
     onSetQuizTimer: Consumer<Int>,
-    useTimer: Boolean,
     onToggleTimer: Action,
 ) {
-    val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
-    if (shouldShowLargeTopAppBar) {
-        LargeTopAppBar(
-            title = {
-                Text(
-                    text = if (dday.isBlank()) "" else stringResource(id = R.string.dday, dday),
-                    modifier = Modifier.fillMaxWidth(),
+    when (homeInfoUiState) {
+        is HomeInfoUiState.Loading -> Unit
+        is HomeInfoUiState.Success -> {
+            val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+            if (shouldShowLargeTopAppBar) {
+                LargeTopAppBar(
+                    title = {
+                        Text(
+                            text = if (homeInfoUiState.dday.isBlank()) {
+                                ""
+                            } else {
+                                stringResource(id = R.string.dday, homeInfoUiState.dday)
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    },
+                    actions = {
+                        HomeTopMenu(
+                            quizNumber = homeInfoUiState.quizNumber,
+                            onSetQuizTimer = onSetQuizTimer,
+                            useTimer = homeInfoUiState.useTimer,
+                            onToggleTimer = onToggleTimer
+                        )
+                    },
+                    scrollBehavior = scrollBehavior
                 )
-            },
-            actions = {
-                HomeTopMenu(
-                    quizNumber = quizNumber,
-                    onSetQuizTimer = onSetQuizTimer,
-                    useTimer = useTimer,
-                    onToggleTimer = onToggleTimer
-                )
-            },
-            scrollBehavior = scrollBehavior
-        )
-    } else {
-        TopAppBar(
-            title = {
-                Text(
-                    text = if (dday.isBlank()) "" else stringResource(id = R.string.dday, dday),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            actions = {
-                HomeTopMenu(
-                    quizNumber = quizNumber,
-                    onSetQuizTimer = onSetQuizTimer,
-                    useTimer = useTimer,
-                    onToggleTimer = onToggleTimer
+            } else {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = if (homeInfoUiState.dday.isBlank()) {
+                                ""
+                            } else {
+                                stringResource(id = R.string.dday, homeInfoUiState.dday)
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    },
+                    actions = {
+                        HomeTopMenu(
+                            quizNumber = homeInfoUiState.quizNumber,
+                            onSetQuizTimer = onSetQuizTimer,
+                            useTimer = homeInfoUiState.useTimer,
+                            onToggleTimer = onToggleTimer
+                        )
+                    }
                 )
             }
-        )
+        }
     }
 }
 
@@ -552,14 +558,18 @@ private fun HomeScreenPreview() {
         BoxWithConstraints {
             HomeScreen(
                 windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
-                dday = "123",
-                accountingCount = 100,
-                businessCount = 50,
-                commercialLawCount = 25,
-                taxLawCount = 125,
-                quizNumber = 20,
+                homeQuizUiState = HomeQuizUiState.Success(
+                    accountingCount = 10,
+                    businessCount = 20,
+                    commercialLawCount = 30,
+                    taxLawCount = 40,
+                ),
+                homeInfoUiState = HomeInfoUiState.Success(
+                    dday = "365",
+                    quizNumber = 20,
+                    useTimer = true
+                ),
                 onSetQuizNumber = {},
-                useTimer = true,
                 onToggleTimer = {},
                 onQuizCardClick = {}
             )

@@ -68,8 +68,10 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -105,6 +107,7 @@ import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.core.common.Action
+import com.ysshin.cpaquiz.core.common.Consumer
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
@@ -118,7 +121,6 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.SearchedProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.TotalProblemsUiState
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.UserActionUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isFiltering
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isQuizTypeFiltering
@@ -135,34 +137,52 @@ import timber.log.Timber
 )
 @Composable
 fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
-    BackHandler(enabled = viewModel.isMenuOpened.value) {
-        viewModel.hideMenu()
-    }
-
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
     val noteUiState = viewModel.uiState.collectAsStateWithLifecycle()
-    val noteMenuContentState by viewModel.noteMenuContentState
+    var isMenuOpened by remember { mutableStateOf(false) }
+    var noteMenuContent by remember { mutableStateOf<NoteMenuContent>(NoteMenuContent.Search) }
+
+    BackHandler(enabled = isMenuOpened) {
+        isMenuOpened = false
+    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
-            NoteTopAppBar(noteUiState.value)
+            NoteTopAppBar(
+                noteUiState = noteUiState.value,
+                isMenuOpened = isMenuOpened,
+                toggleMenu = { newNoteMenuContent ->
+                    if (isMenuOpened && noteMenuContent == newNoteMenuContent) {
+                        isMenuOpened = false
+                    } else {
+                        isMenuOpened = true
+                    }
+                    noteMenuContent = newNoteMenuContent
+                },
+                noteMenuContent = noteMenuContent
+            )
         }
     ) { padding ->
-        val shouldShowMenu = viewModel.isMenuOpened.value
         val shouldShowNativeAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
         Column(modifier = Modifier.padding(padding)) {
             AnimatedVisibility(
-                visible = shouldShowMenu,
+                visible = isMenuOpened,
                 enter = expandVertically() + fadeIn(),
                 exit = fadeOut() + shrinkVertically()
             ) {
                 Surface {
-                    when (noteMenuContentState) {
-                        is NoteMenuContent.Filter -> NoteFilterMenuContent(snackbarHostState)
-                        is NoteMenuContent.Search -> NoteSearchMenuContent()
+                    when (noteMenuContent) {
+                        is NoteMenuContent.Filter -> NoteFilterMenuContent(
+                            hideMenu = { isMenuOpened = false },
+                            snackbarHostState = snackbarHostState
+                        )
+                        is NoteMenuContent.Search -> NoteSearchMenuContent(
+                            isMenuOpened = isMenuOpened,
+                            hideMenu = { isMenuOpened = false }
+                        )
                     }
                 }
             }
@@ -176,16 +196,16 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
             }
 
             LazyColumn(state = listState) {
-                when (val userActionUiState = noteUiState.value.userActionUiState) {
-                    is UserActionUiState.View ->
+                when (val uiState = noteUiState.value) {
+                    is NoteUiState.View ->
                         onViewingContent(
                             viewModel,
-                            userActionUiState.totalProblemsUiState,
-                            userActionUiState.wrongProblemsUiState,
+                            uiState.totalProblemsUiState,
+                            uiState.wrongProblemsUiState,
                             windowSizeClass
                         )
-                    is UserActionUiState.Search ->
-                        onSearchingContent(userActionUiState.searchedProblemsUiState, windowSizeClass)
+                    is NoteUiState.Search ->
+                        onSearchingContent(uiState.searchedProblemsUiState, windowSizeClass)
                 }
             }
         }
@@ -194,16 +214,22 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun NoteTopAppBar(uiState: NoteUiState) {
+private fun NoteTopAppBar(
+    noteUiState: NoteUiState,
+    isMenuOpened: Boolean,
+    toggleMenu: Consumer<NoteMenuContent>,
+    noteMenuContent: NoteMenuContent,
+) {
     val isSearching: Boolean
     val isFiltering: Boolean
-    when (val userActionUiState = uiState.userActionUiState) {
-        is UserActionUiState.View -> {
+
+    when (noteUiState) {
+        is NoteUiState.View -> {
             isSearching = false
-            isFiltering = userActionUiState.filter.isFiltering()
+            isFiltering = noteUiState.filter.isFiltering()
         }
-        is UserActionUiState.Search -> {
-            isSearching = userActionUiState.keyword.isNotBlank()
+        is NoteUiState.Search -> {
+            isSearching = noteUiState.keyword.isNotBlank()
             isFiltering = false
         }
     }
@@ -217,6 +243,9 @@ private fun NoteTopAppBar(uiState: NoteUiState) {
         },
         actions = {
             NoteTopMenu(
+                isMenuOpened = isMenuOpened,
+                toggleMenu = toggleMenu,
+                noteMenuContent = noteMenuContent,
                 isSearching = isSearching,
                 isFiltering = isFiltering,
             )
@@ -566,7 +595,7 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-private fun NoteFilterMenuContent(snackbarHostState: SnackbarHostState) {
+private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarHostState) {
     val viewModel = hiltViewModel<NoteViewModel>()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -635,17 +664,16 @@ private fun NoteFilterMenuContent(snackbarHostState: SnackbarHostState) {
     }
 
     val noteUiState = viewModel.uiState.collectAsStateWithLifecycle()
-    val userActionUiState = noteUiState.value.userActionUiState
 
     val isYearFiltering: Boolean
     val isQuizTypeFiltering: Boolean
 
-    when (userActionUiState) {
-        is UserActionUiState.View -> {
-            isYearFiltering = userActionUiState.filter.isYearFiltering()
-            isQuizTypeFiltering = userActionUiState.filter.isQuizTypeFiltering()
+    when (val uiState = noteUiState.value) {
+        is NoteUiState.View -> {
+            isYearFiltering = uiState.filter.isYearFiltering()
+            isQuizTypeFiltering = uiState.filter.isQuizTypeFiltering()
         }
-        is UserActionUiState.Search -> {
+        is NoteUiState.Search -> {
             isYearFiltering = false
             isQuizTypeFiltering = false
         }
@@ -660,6 +688,7 @@ private fun NoteFilterMenuContent(snackbarHostState: SnackbarHostState) {
         onTypeFilter = {
             viewModel.updateQuizTypeFilterDialogOpened(true)
         },
+        hideMenu = hideMenu
     )
 }
 
@@ -670,9 +699,8 @@ private fun NoteFilterMenuContentDetail(
     isQuizTypeFiltering: Boolean,
     onYearFilter: Action,
     onTypeFilter: Action,
+    hideMenu: Action,
 ) {
-    val viewModel = hiltViewModel<NoteViewModel>()
-
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -683,7 +711,6 @@ private fun NoteFilterMenuContentDetail(
     ) {
         Spacer(modifier = Modifier.width(12.dp))
 
-        // FIXME: refactor to FilterChip
         FilterChip(
             selected = isYearFiltering,
             onClick = onYearFilter,
@@ -711,7 +738,7 @@ private fun NoteFilterMenuContentDetail(
         Spacer(modifier = Modifier.weight(1f))
 
         IconButton(
-            onClick = { viewModel.hideMenu() },
+            onClick = { hideMenu() },
             modifier = Modifier.padding(end = 4.dp)
         ) {
             Icon(
@@ -730,7 +757,7 @@ private fun NoteFilterMenuContentDetail(
     ExperimentalFoundationApi::class,
 )
 @Composable
-private fun NoteSearchMenuContent() {
+private fun NoteSearchMenuContent(isMenuOpened: Boolean, hideMenu: Action) {
     val viewModel = hiltViewModel<NoteViewModel>()
     val focusRequester = remember { FocusRequester() }
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
@@ -738,7 +765,7 @@ private fun NoteSearchMenuContent() {
     val scope = rememberCoroutineScope()
 
     SideEffect {
-        if (viewModel.isMenuOpened.value) {
+        if (isMenuOpened) {
             scope.launch {
                 delay(100L)
                 keyboardController?.show()
@@ -782,13 +809,13 @@ private fun NoteSearchMenuContent() {
             keyboardActions = KeyboardActions(
                 onDone = {
                     keyboardController?.hide()
-                    viewModel.hideMenu()
+                    hideMenu()
                 }
             )
         )
 
         IconButton(
-            onClick = viewModel::hideMenu,
+            onClick = hideMenu,
             modifier = Modifier.padding(end = 4.dp)
         ) {
             Icon(
@@ -846,12 +873,15 @@ private fun NoteHeader(
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun NoteTopMenu(
+    isMenuOpened: Boolean,
+    toggleMenu: Consumer<NoteMenuContent>,
+    noteMenuContent: NoteMenuContent,
     isSearching: Boolean,
     isFiltering: Boolean,
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
-    val isMenuExpanded = viewModel.isMenuOpened.value
-    val bottomSheetContentState = viewModel.noteMenuContentState.value
+    val isMenuExpanded = isMenuOpened
+    val bottomSheetContentState = noteMenuContent
 
     AnimatedVisibility(
         visible = isSearching,
@@ -899,7 +929,7 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            viewModel.toggleMenu(NoteMenuContent.Search)
+            toggleMenu(NoteMenuContent.Search)
         },
         enabled = isFiltering.not(),
     ) {
@@ -952,7 +982,7 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            viewModel.toggleMenu(NoteMenuContent.Filter)
+            toggleMenu(NoteMenuContent.Filter)
         },
         enabled = isSearching.not()
     ) {

@@ -1,8 +1,5 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.main
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
@@ -39,10 +36,10 @@ class NoteViewModel @Inject constructor(
             searchKeyword,
             _noteFilter,
         ) { totalResult, wrongResult, keyword, noteFilter ->
-            val userActionUiState = if (isSearching) {
+            if (isSearching) {
                 val searchedProblems = problemUseCases.searchProblems(keyword)
                 val searchedProblemsUiState = SearchedProblemsUiState.Success(searchedProblems)
-                UserActionUiState.Search(keyword, searchedProblemsUiState)
+                NoteUiState.Search(keyword, searchedProblemsUiState)
             } else {
                 val totalProblemsUiState = if (totalResult is Result.Success) {
                     val filteredProblems = totalResult.data.filter { problem ->
@@ -61,20 +58,16 @@ class NoteViewModel @Inject constructor(
                 } else {
                     WrongProblemsUiState.Error
                 }
-                UserActionUiState.View(noteFilter, totalProblemsUiState, wrongProblemsUiState)
+                NoteUiState.View(noteFilter, totalProblemsUiState, wrongProblemsUiState)
             }
-
-            NoteUiState(userActionUiState)
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = NoteUiState(
-                    UserActionUiState.View(
-                        NoteFilter.default(),
-                        TotalProblemsUiState.Loading,
-                        WrongProblemsUiState.Loading
-                    )
+                initialValue = NoteUiState.View(
+                    NoteFilter.default(),
+                    TotalProblemsUiState.Loading,
+                    WrongProblemsUiState.Loading
                 )
             )
 
@@ -148,31 +141,6 @@ class NoteViewModel @Inject constructor(
     fun updateQuizTypeFilterDialogOpened(value: Boolean) {
         _isQuizTypeFilterDialogOpened.update { value }
     }
-
-    private val _isMenuOpened = mutableStateOf(false)
-    val isMenuOpened: State<Boolean> get() = _isMenuOpened
-
-    private val _noteMenuContentState: MutableState<NoteMenuContent> =
-        mutableStateOf(NoteMenuContent.Search)
-    val noteMenuContentState: State<NoteMenuContent>
-        get() = _noteMenuContentState
-
-    fun toggleMenu(newState: NoteMenuContent) {
-        if (_isMenuOpened.value && _noteMenuContentState.value == newState) {
-            hideMenu()
-        } else {
-            showMenu()
-        }
-        _noteMenuContentState.value = newState
-    }
-
-    fun hideMenu() {
-        _isMenuOpened.value = false
-    }
-
-    private fun showMenu() {
-        _isMenuOpened.value = true
-    }
 }
 
 sealed interface TotalProblemsUiState {
@@ -193,17 +161,17 @@ sealed interface SearchedProblemsUiState {
     object Loading : SearchedProblemsUiState
 }
 
-sealed interface UserActionUiState {
+sealed interface NoteUiState {
     data class View(
         val filter: NoteFilter,
         val totalProblemsUiState: TotalProblemsUiState,
         val wrongProblemsUiState: WrongProblemsUiState,
-    ) : UserActionUiState
+    ) : NoteUiState
 
     data class Search(
         val keyword: String,
         val searchedProblemsUiState: SearchedProblemsUiState,
-    ) : UserActionUiState
+    ) : NoteUiState
 }
 
 data class NoteFilter(val years: List<Int>, val types: List<QuizType>) {
@@ -215,10 +183,6 @@ data class NoteFilter(val years: List<Int>, val types: List<QuizType>) {
 internal fun NoteFilter.isYearFiltering() = years.size != Problem.allYears().size
 internal fun NoteFilter.isQuizTypeFiltering() = types.size != QuizType.all().size
 internal fun NoteFilter.isFiltering() = isYearFiltering() || isQuizTypeFiltering()
-
-data class NoteUiState(
-    val userActionUiState: UserActionUiState,
-)
 
 sealed interface NoteMenuContent {
     object Filter : NoteMenuContent
