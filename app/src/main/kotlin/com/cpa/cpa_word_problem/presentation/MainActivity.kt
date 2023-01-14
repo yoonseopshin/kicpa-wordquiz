@@ -8,7 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import com.cpa.cpa_word_problem.presentation.ui.CpaQuizApp
 import com.cpa.cpa_word_problem.presentation.ui.rememberCpaQuizAppState
 import com.ysshin.cpaquiz.core.android.base.BaseActivity
-import com.ysshin.cpaquiz.core.android.util.Constants
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,15 +18,11 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val route = intent?.extras?.let { extras ->
-            extras.getString(Constants.destination) ?: HomeDestination.route
-        } ?: HomeDestination.route
-
         setContent {
             val appState = rememberCpaQuizAppState(
                 navController = rememberNavController(),
                 windowSizeClass = calculateWindowSizeClass(activity = this),
-                startDestination = route,
+                startDestination = HomeDestination.route,
             )
             CpaQuizApp(appState = appState)
         }

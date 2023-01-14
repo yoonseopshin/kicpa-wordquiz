@@ -55,7 +55,7 @@ class QuizStatisticsActivity : BaseActivity() {
         NoteResultHeaderAdapter().also { adapter ->
             adapter.onNoteResultHeaderClick = {
                 startActivity(
-                    mainScreenNavigator.noteScreenIntent(
+                    mainScreenNavigator.homeScreenIntent(
                         context = this,
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                     )
