@@ -2,6 +2,9 @@ package com.ysshin.cpaquiz.feature.home.presentation.screen.main
 
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
+import com.ysshin.cpaquiz.core.common.zip
+import com.ysshin.cpaquiz.domain.model.DEFAULT_QUIZ_NUMBER
+import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
@@ -23,7 +26,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val homeQuizUiState: StateFlow<HomeQuizUiState> =
-        combine(
+        zip(
             problemUseCases.getProblemCount(QuizType.Accounting),
             problemUseCases.getProblemCount(QuizType.Business),
             problemUseCases.getProblemCount(QuizType.CommercialLaw),
@@ -46,12 +49,16 @@ class HomeViewModel @Inject constructor(
             val now = LocalDate.now()
             val target = LocalDate.parse(nextExamDate, DateTimeFormatter.ISO_DATE)
             val dday = Duration.between(now.atStartOfDay(), target.atStartOfDay()).toDays().toString()
-            HomeInfoUiState.Success(dday, quizNumber, useTimer)
+            HomeInfoUiState(dday, quizNumber, useTimer)
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = HomeInfoUiState.Loading
+                initialValue = HomeInfoUiState(
+                    dday = "",
+                    quizNumber = DEFAULT_QUIZ_NUMBER,
+                    useTimer = DEFAULT_USE_TIMER
+                )
             )
 
     private fun setTimer(value: Boolean) {
@@ -61,10 +68,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun toggleTimer() {
-        val infoUiState = homeInfoUiState.value
-        if (infoUiState is HomeInfoUiState.Success) {
-            setTimer(infoUiState.useTimer.not())
-        }
+        setTimer(homeInfoUiState.value.useTimer.not())
     }
 
     fun setQuizNumber(value: Int) {
@@ -84,11 +88,8 @@ sealed interface HomeQuizUiState {
     ) : HomeQuizUiState
 }
 
-sealed interface HomeInfoUiState {
-    object Loading : HomeInfoUiState
-    data class Success(
-        val dday: String,
-        val quizNumber: Int,
-        val useTimer: Boolean,
-    ) : HomeInfoUiState
-}
+data class HomeInfoUiState(
+    val dday: String,
+    val quizNumber: Int,
+    val useTimer: Boolean,
+)

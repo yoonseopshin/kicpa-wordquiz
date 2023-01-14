@@ -112,17 +112,14 @@ fun HomeRoute(
         onSetQuizNumber = viewModel::setQuizNumber,
         onToggleTimer = viewModel::toggleTimer,
         onQuizCardClick = { type ->
-            if (homeInfoUiState is HomeInfoUiState.Success) {
-                val quizStartNavActions = (appContext as QuizStartNavigationActionsProvider).quizStartNavActions
-                val quizNumber = (homeInfoUiState as HomeInfoUiState.Success).quizNumber
-                val useTimer = (homeInfoUiState as HomeInfoUiState.Success).useTimer
-                quizStartNavActions.onQuizStart(
-                    activity = activity,
-                    quizType = type,
-                    quizNumbers = quizNumber,
-                    useTimer = useTimer,
-                )
-            }
+            val quizStartNavActions =
+                (appContext as QuizStartNavigationActionsProvider).quizStartNavActions
+            quizStartNavActions.onQuizStart(
+                activity = activity,
+                quizType = type,
+                quizNumbers = homeInfoUiState.quizNumber,
+                useTimer = homeInfoUiState.useTimer,
+            )
         }
     )
 }
@@ -168,7 +165,6 @@ fun HomeScreen(
             crossAxisSpacing = 20.dp,
             mainAxisSpacing = 20.dp
         ) {
-
             when (homeQuizUiState) {
                 is HomeQuizUiState.Loading -> Unit
                 is HomeQuizUiState.Success -> {
@@ -220,55 +216,51 @@ fun HomeTopAppBar(
     onSetQuizTimer: Consumer<Int>,
     onToggleTimer: Action,
 ) {
-    when (homeInfoUiState) {
-        is HomeInfoUiState.Loading -> Unit
-        is HomeInfoUiState.Success -> {
-            val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
-            if (shouldShowLargeTopAppBar) {
-                LargeTopAppBar(
-                    title = {
-                        Text(
-                            text = if (homeInfoUiState.dday.isBlank()) {
-                                ""
-                            } else {
-                                stringResource(id = R.string.dday, homeInfoUiState.dday)
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                        )
+
+    val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+    if (shouldShowLargeTopAppBar) {
+        LargeTopAppBar(
+            title = {
+                Text(
+                    text = if (homeInfoUiState.dday.isBlank()) {
+                        ""
+                    } else {
+                        stringResource(id = R.string.dday, homeInfoUiState.dday)
                     },
-                    actions = {
-                        HomeTopMenu(
-                            quizNumber = homeInfoUiState.quizNumber,
-                            onSetQuizTimer = onSetQuizTimer,
-                            useTimer = homeInfoUiState.useTimer,
-                            onToggleTimer = onToggleTimer
-                        )
-                    },
-                    scrollBehavior = scrollBehavior
+                    modifier = Modifier.fillMaxWidth(),
                 )
-            } else {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = if (homeInfoUiState.dday.isBlank()) {
-                                ""
-                            } else {
-                                stringResource(id = R.string.dday, homeInfoUiState.dday)
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                        )
+            },
+            actions = {
+                HomeTopMenu(
+                    quizNumber = homeInfoUiState.quizNumber,
+                    onSetQuizTimer = onSetQuizTimer,
+                    useTimer = homeInfoUiState.useTimer,
+                    onToggleTimer = onToggleTimer
+                )
+            },
+            scrollBehavior = scrollBehavior
+        )
+    } else {
+        TopAppBar(
+            title = {
+                Text(
+                    text = if (homeInfoUiState.dday.isBlank()) {
+                        ""
+                    } else {
+                        stringResource(id = R.string.dday, homeInfoUiState.dday)
                     },
-                    actions = {
-                        HomeTopMenu(
-                            quizNumber = homeInfoUiState.quizNumber,
-                            onSetQuizTimer = onSetQuizTimer,
-                            useTimer = homeInfoUiState.useTimer,
-                            onToggleTimer = onToggleTimer
-                        )
-                    }
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            actions = {
+                HomeTopMenu(
+                    quizNumber = homeInfoUiState.quizNumber,
+                    onSetQuizTimer = onSetQuizTimer,
+                    useTimer = homeInfoUiState.useTimer,
+                    onToggleTimer = onToggleTimer
                 )
             }
-        }
+        )
     }
 }
 
@@ -564,7 +556,7 @@ private fun HomeScreenPreview() {
                     commercialLawCount = 30,
                     taxLawCount = 40,
                 ),
-                homeInfoUiState = HomeInfoUiState.Success(
+                homeInfoUiState = HomeInfoUiState(
                     dday = "365",
                     quizNumber = 20,
                     useTimer = true
