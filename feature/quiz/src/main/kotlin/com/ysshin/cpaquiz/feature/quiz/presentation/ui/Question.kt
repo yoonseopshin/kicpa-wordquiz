@@ -121,7 +121,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     activity = activity,
                     problems = viewModel.questions,
                     selected = viewModel.selected,
-                    timesPerProblem = viewModel.timesPerProblem,
+                    timesPerQuestion = viewModel.timesPerQuestion,
                 )
             }
             is QuestionViewModel.UiEvent.ShowSnackbar -> {

@@ -105,8 +105,6 @@ import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
-import com.ysshin.cpaquiz.core.android.util.filterChipBackgroundColorResourceIdByFiltering
-import com.ysshin.cpaquiz.core.android.util.filterChipStrokeColorResourceIdByFiltering
 import com.ysshin.cpaquiz.core.common.Action
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
@@ -138,8 +136,6 @@ import timber.log.Timber
 )
 @Composable
 fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
-    val context = LocalContext.current
-
     BackHandler(enabled = viewModel.isMenuOpened.value) {
         viewModel.hideMenu()
     }
@@ -677,16 +673,6 @@ private fun NoteFilterMenuContentDetail(
     onTypeFilter: Action,
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
-
-    val yearAssistChipContainerColor =
-        colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isYearFiltering))
-    val yearAssistChipBorderColor =
-        colorResource(id = filterChipStrokeColorResourceIdByFiltering(isYearFiltering))
-
-    val quizTypeAssistChipContainerColor =
-        colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isQuizTypeFiltering))
-    val quizTypeAssistChipBorderColor =
-        colorResource(id = filterChipStrokeColorResourceIdByFiltering(isQuizTypeFiltering))
 
     Row(
         horizontalArrangement = Arrangement.Center,

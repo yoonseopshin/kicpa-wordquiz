@@ -1,21 +1,21 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.model
 
-import com.ysshin.cpaquiz.core.common.DEFAULT_INT
 import com.ysshin.cpaquiz.core.common.DEFAULT_INVALID_INT
+import com.ysshin.cpaquiz.core.common.DEFAULT_LONG
 import com.ysshin.cpaquiz.domain.model.Problem
 
 data class UserSolvedProblemModel(
-    val elapsedTime: Int = DEFAULT_INT,
+    val elapsedTime: Long = DEFAULT_LONG,
     val userSelectedIndex: Int = DEFAULT_INVALID_INT,
+    val createdAt: Long = System.currentTimeMillis(),
     val problem: Problem,
-    val createdAt: Long = System.currentTimeMillis()
 )
 
 @JvmName("userSolvedProblemModelJoin")
 fun List<UserSolvedProblemModel>.from(
-    elapsedTimes: List<Int>,
+    elapsedTimes: List<Long>,
     userSelectedIndices: List<Int>,
-    problems: List<Problem>
+    problems: List<Problem>,
 ): List<UserSolvedProblemModel> {
     val listSize = elapsedTimes.size
     assert(listSize == userSelectedIndices.size && listSize == problems.size) {
