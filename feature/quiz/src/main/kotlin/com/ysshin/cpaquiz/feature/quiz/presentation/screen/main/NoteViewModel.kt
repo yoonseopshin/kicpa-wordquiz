@@ -9,7 +9,6 @@ import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +17,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
@@ -42,19 +42,13 @@ class NoteViewModel @Inject constructor(
                 NoteUiState.Search(keyword, searchedProblemsUiState)
             } else {
                 val totalProblemsUiState = if (totalResult is Result.Success) {
-                    val filteredProblems = totalResult.data.filter { problem ->
-                        problem.year in noteFilter.years && problem.type in noteFilter.types
-                    }
-                    TotalProblemsUiState.Success(filteredProblems)
+                    TotalProblemsUiState.Success(totalResult.data.filter(noteFilter::contains))
                 } else {
                     TotalProblemsUiState.Error
                 }
 
                 val wrongProblemsUiState = if (wrongResult is Result.Success) {
-                    val filteredProblems = wrongResult.data.filter { problem ->
-                        problem.year in noteFilter.years && problem.type in noteFilter.types
-                    }
-                    WrongProblemsUiState.Success(filteredProblems)
+                    WrongProblemsUiState.Success(wrongResult.data.filter(noteFilter::contains))
                 } else {
                     WrongProblemsUiState.Error
                 }
@@ -179,6 +173,9 @@ data class NoteFilter(val years: List<Int>, val types: List<QuizType>) {
         fun default() = NoteFilter(years = Problem.allYears(), types = QuizType.all())
     }
 }
+
+internal fun NoteFilter.contains(problem: Problem) =
+    years.contains(problem.year) && types.contains(problem.type)
 
 internal fun NoteFilter.isYearFiltering() = years.size != Problem.allYears().size
 internal fun NoteFilter.isQuizTypeFiltering() = types.size != QuizType.all().size
