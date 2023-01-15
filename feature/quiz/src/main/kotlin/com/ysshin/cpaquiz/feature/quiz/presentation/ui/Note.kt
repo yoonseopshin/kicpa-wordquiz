@@ -105,6 +105,7 @@ import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
+import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
@@ -143,7 +144,8 @@ import timber.log.Timber
 fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
-    val noteUiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val noteUiState = viewModel.noteUiState.collectAsStateWithLifecycle()
+    val searchKeyword = viewModel.searchKeyword.collectAsStateWithLifecycle()
     var isMenuOpened by rememberSaveable { mutableStateOf(false) }
     var noteMenuContent by rememberSaveable { mutableStateOf<NoteMenuContent>(NoteMenuContent.Search) }
 
@@ -161,7 +163,9 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                     isMenuOpened = (isMenuOpened && noteMenuContent == newNoteMenuContent).not()
                     noteMenuContent = newNoteMenuContent
                 },
-                noteMenuContent = noteMenuContent
+                noteMenuContent = noteMenuContent,
+                updateSearchKeyword = viewModel::updateSearchKeyword,
+                setFilter = viewModel::setFilter,
             )
         }
     ) { padding ->
@@ -176,12 +180,18 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                 Surface {
                     when (noteMenuContent) {
                         is NoteMenuContent.Filter -> NoteFilterMenuContent(
+                            noteUiState = noteUiState.value,
                             hideMenu = { isMenuOpened = false },
+                            selectableFilteredYears = viewModel.selectableFilteredYears,
+                            selectableFilteredTypes = viewModel.selectableFilteredTypes,
+                            setFilter = viewModel::setFilter,
                             snackbarHostState = snackbarHostState
                         )
                         is NoteMenuContent.Search -> NoteSearchMenuContent(
                             isMenuOpened = isMenuOpened,
-                            hideMenu = { isMenuOpened = false }
+                            hideMenu = { isMenuOpened = false },
+                            searchKeyword = searchKeyword.value,
+                            updateSearchKeyword = viewModel::updateSearchKeyword
                         )
                     }
                 }
@@ -209,13 +219,13 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                 when (val uiState = noteUiState.value) {
                     is NoteUiState.View ->
                         onViewingContent(
-                            viewModel = viewModel,
                             totalProblemsUiState = uiState.totalProblemsUiState,
                             wrongProblemsUiState = uiState.wrongProblemsUiState,
                             isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
                             updateDeletingAllWrongProblemsDialog = { isOpened ->
                                 isDeleteAllWrongProblemsDialogOpened = isOpened
                             },
+                            deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
                             isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
                             updateDeletingWrongProblemDialogOpened = { dialog ->
                                 isDeleteWrongProblemDialogOpened =
@@ -225,6 +235,7 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                                     )
                                 Timber.d("dialog info: $dialog")
                             },
+                            deleteTargetWrongProblem = viewModel::deleteTargetWrongProblem,
                             windowSizeClass = windowSizeClass
                         )
                     is NoteUiState.Search ->
@@ -242,6 +253,8 @@ private fun NoteTopAppBar(
     isMenuOpened: Boolean,
     toggleMenu: Consumer<NoteMenuContent>,
     noteMenuContent: NoteMenuContent,
+    updateSearchKeyword: Consumer<String>,
+    setFilter: (List<Int>, List<QuizType>) -> Unit,
 ) {
     val isSearching: Boolean
     val isFiltering: Boolean
@@ -271,6 +284,8 @@ private fun NoteTopAppBar(
                 noteMenuContent = noteMenuContent,
                 isSearching = isSearching,
                 isFiltering = isFiltering,
+                updateSearchKeyword = updateSearchKeyword,
+                setFilter = setFilter,
             )
         },
     )
@@ -299,34 +314,37 @@ private fun LazyListScope.onSearchingContent(
 }
 
 private fun LazyListScope.onViewingContent(
-    viewModel: NoteViewModel,
     totalProblemsUiState: TotalProblemsUiState,
     wrongProblemsUiState: WrongProblemsUiState,
     isDeleteAllWrongProblemsDialogOpened: Boolean,
     updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
+    deleteAllWrongProblems: Action,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
+    deleteTargetWrongProblem: Consumer<Problem>,
     windowSizeClass: WindowSizeClass,
 ) {
     wrongProblemsContent(
-        viewModel,
         wrongProblemsUiState,
         isDeleteAllWrongProblemsDialogOpened,
         updateDeletingAllWrongProblemsDialog,
+        deleteAllWrongProblems,
         isDeleteWrongProblemDialogOpened,
         updateDeletingWrongProblemDialogOpened,
-        windowSizeClass
+        deleteTargetWrongProblem,
+        windowSizeClass,
     )
     totalProblemsContent(totalProblemsUiState, windowSizeClass)
 }
 
 private fun LazyListScope.wrongProblemsContent(
-    viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
     isDeleteAllWrongProblemsDialogOpened: Boolean,
     updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
+    deleteAllWrongProblems: Action,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
+    deleteTargetWrongProblem: Consumer<Problem>,
     windowSizeClass: WindowSizeClass,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
@@ -339,7 +357,7 @@ private fun LazyListScope.wrongProblemsContent(
                     title = stringResource(id = R.string.delete_wrong_note),
                     description = stringResource(id = R.string.question_delete_all_wrong_note),
                     onConfirm = {
-                        viewModel.deleteAllWrongProblems()
+                        deleteAllWrongProblems()
                         updateDeletingAllWrongProblemsDialog(false)
                     },
                     onDismiss = {
@@ -371,7 +389,8 @@ private fun LazyListScope.wrongProblemsContent(
                     )
                 },
                 isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
-                updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened
+                updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened,
+                deleteTargetWrongProblem = deleteTargetWrongProblem,
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
@@ -452,8 +471,8 @@ private fun LazyItemScope.NoteSummaryContent(
     onProblemLongClick: Action? = null,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>? = null,
+    deleteTargetWrongProblem: Consumer<Problem>? = null,
 ) {
-    val viewModel = hiltViewModel<NoteViewModel>()
     val context = LocalContext.current
 
     isDeleteWrongProblemDialogOpened?.let { dialog ->
@@ -463,7 +482,7 @@ private fun LazyItemScope.NoteSummaryContent(
                 title = stringResource(id = R.string.delete_wrong_problem),
                 description = stringResource(id = R.string.question_delete_wrong_note),
                 onConfirm = {
-                    viewModel.deleteTargetWrongProblem(dialog.problem.toDomain())
+                    deleteTargetWrongProblem?.invoke(dialog.problem.toDomain())
                     updateDeletingWrongProblemDialogOpened?.invoke(
                         isDeleteWrongProblemDialogOpened.copy(isOpened = false)
                     )
@@ -662,10 +681,15 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarHostState) {
-    val viewModel = hiltViewModel<NoteViewModel>()
+private fun NoteFilterMenuContent(
+    noteUiState: NoteUiState,
+    hideMenu: Action,
+    selectableFilteredYears: List<SelectableTextItem>,
+    selectableFilteredTypes: List<SelectableTextItem>,
+    setFilter: (List<Int>, List<QuizType>) -> Unit,
+    snackbarHostState: SnackbarHostState,
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -676,7 +700,7 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
             icon = painterResource(id = R.drawable.ic_filter),
             title = stringResource(id = R.string.year),
             description = stringResource(id = R.string.choose_filtered_years),
-            selectableItems = viewModel.selectableFilteredYears,
+            selectableItems = selectableFilteredYears,
             onConfirm = { items ->
                 Timber.d("Selected: $items")
 
@@ -691,7 +715,7 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
                     return@AppCheckboxDialog
                 }
 
-                viewModel.setFilter(years = items.filter { it.isSelected }.map { it.text.toInt() })
+                setFilter(items.filter { it.isSelected }.map { it.text.toInt() }, emptyList())
                 isYearFilterDialogOpened = false
             },
             onDismiss = {
@@ -707,7 +731,7 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
             icon = painterResource(id = R.drawable.ic_filter),
             title = stringResource(id = R.string.quiz_type),
             description = stringResource(id = R.string.choose_filtered_types),
-            selectableItems = viewModel.selectableFilteredTypes,
+            selectableItems = selectableFilteredTypes,
             onConfirm = { items ->
                 Timber.d("Selected: $items")
 
@@ -722,9 +746,7 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
                     return@AppCheckboxDialog
                 }
 
-                viewModel.setFilter(
-                    types = items.filter { it.isSelected }.map { QuizType.from(it.text) }
-                )
+                setFilter(emptyList(), items.filter { it.isSelected }.map { QuizType.from(it.text) })
                 isQuizTypeFilterDialogOpened = false
             },
             onDismiss = {
@@ -733,15 +755,13 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
         )
     }
 
-    val noteUiState = viewModel.uiState.collectAsStateWithLifecycle()
-
     val isYearFiltering: Boolean
     val isQuizTypeFiltering: Boolean
 
-    when (val uiState = noteUiState.value) {
+    when (noteUiState) {
         is NoteUiState.View -> {
-            isYearFiltering = uiState.filter.isYearFiltering()
-            isQuizTypeFiltering = uiState.filter.isQuizTypeFiltering()
+            isYearFiltering = noteUiState.filter.isYearFiltering()
+            isQuizTypeFiltering = noteUiState.filter.isQuizTypeFiltering()
         }
         is NoteUiState.Search -> {
             isYearFiltering = false
@@ -822,13 +842,16 @@ private fun NoteFilterMenuContentDetail(
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalLifecycleComposeApi::class,
     ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class,
 )
 @Composable
-private fun NoteSearchMenuContent(isMenuOpened: Boolean, hideMenu: Action) {
-    val viewModel = hiltViewModel<NoteViewModel>()
+private fun NoteSearchMenuContent(
+    isMenuOpened: Boolean,
+    hideMenu: Action,
+    searchKeyword: String,
+    updateSearchKeyword: Consumer<String>,
+) {
     val focusRequester = remember { FocusRequester() }
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -854,11 +877,9 @@ private fun NoteSearchMenuContent(isMenuOpened: Boolean, hideMenu: Action) {
             .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
             .bringIntoViewRequester(bringIntoViewRequester),
     ) {
-        val userInput = viewModel.searchKeyword.collectAsStateWithLifecycle()
-
         OutlinedTextField(
-            value = userInput.value,
-            onValueChange = viewModel::updateSearchKeyword,
+            value = searchKeyword,
+            onValueChange = updateSearchKeyword,
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -948,16 +969,16 @@ private fun NoteTopMenu(
     noteMenuContent: NoteMenuContent,
     isSearching: Boolean,
     isFiltering: Boolean,
+    updateSearchKeyword: Consumer<String>,
+    setFilter: (List<Int>, List<QuizType>) -> Unit,
 ) {
-    val viewModel = hiltViewModel<NoteViewModel>()
-
     AnimatedVisibility(
         visible = isSearching,
         enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
         AssistChip(
-            onClick = { viewModel.updateSearchKeyword("") },
+            onClick = { updateSearchKeyword("") },
             modifier = Modifier.padding(all = 4.dp),
             leadingIcon = {
                 Icon(
@@ -979,7 +1000,7 @@ private fun NoteTopMenu(
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
         AssistChip(
-            onClick = { viewModel.setFilter(years = Problem.allYears(), types = QuizType.all()) },
+            onClick = { setFilter(Problem.allYears(), QuizType.all()) },
             modifier = Modifier.padding(all = 4.dp),
             label = {
                 Text(text = stringResource(id = R.string.clear_filter))

@@ -11,7 +11,6 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
@@ -31,7 +31,7 @@ class NoteViewModel @Inject constructor(
 
     private val _noteFilter = MutableStateFlow(NoteFilter.default())
 
-    val uiState: StateFlow<NoteUiState> =
+    val noteUiState: StateFlow<NoteUiState> =
         combine(
             problemUseCases.getTotalProblems().asResult(),
             problemUseCases.getWrongProblems().asResult(),
@@ -84,10 +84,15 @@ class NoteViewModel @Inject constructor(
         }
 
     fun setFilter(
-        years: List<Int> = _noteFilter.value.years,
-        types: List<QuizType> = _noteFilter.value.types,
+        years: List<Int>,
+        types: List<QuizType>,
     ) {
-        _noteFilter.update { NoteFilter(years, types) }
+        _noteFilter.update {
+            NoteFilter(
+                years = years.ifEmpty { _noteFilter.value.years },
+                types = types.ifEmpty { _noteFilter.value.types }
+            )
+        }
     }
 
     fun updateSearchKeyword(keyword: String) {
