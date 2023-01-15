@@ -3,6 +3,7 @@ package com.ysshin.cpaquiz.feature.settings.presentation.ui
 import android.content.Intent
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,10 +24,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -39,37 +44,37 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.core.android.BuildConfig
-import com.ysshin.cpaquiz.core.android.flow.collectAsEffectWithLifecycle
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
+import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.common.Action
+import com.ysshin.cpaquiz.core.common.Consumer
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
+import kotlinx.coroutines.launch
+
+@Composable
+fun SettingsRoute(windowSizeClass: WindowSizeClass, viewModel: SettingsViewModel = hiltViewModel()) {
+    SettingsScreen(
+        windowSizeClass = windowSizeClass,
+        deleteAllWrongProblems = viewModel::deleteAllWrongProblems
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewModel = hiltViewModel()) {
-    val context = LocalContext.current
+fun SettingsScreen(
+    windowSizeClass: WindowSizeClass,
+    deleteAllWrongProblems: Action,
+) {
     val snackbarHostState = remember { SnackbarHostState() }
-
-    viewModel.uiEvent.collectAsEffectWithLifecycle { event ->
-        when (event) {
-            is SettingsViewModel.UiEvent.ShowSnackbar -> {
-                snackbarHostState.showSnackbar(
-                    message = event.message.asString(context),
-                    actionLabel = event.actionLabel.asString(context)
-                )
-            }
-        }
-    }
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -82,7 +87,12 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, viewModel: SettingsViewMode
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = { SettingsTopAppBar() }
     ) { padding ->
-        SettingsLazyVerticalGrid(modifier = Modifier.padding(padding), windowSizeClass = windowSizeClass)
+        SettingsLazyVerticalGrid(
+            modifier = Modifier.padding(padding),
+            windowSizeClass = windowSizeClass,
+            snackbarHostState = snackbarHostState,
+            deleteAllWrongProblems = deleteAllWrongProblems
+        )
     }
 }
 
@@ -100,8 +110,12 @@ private fun SettingsTopAppBar() {
 }
 
 @Composable
-private fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeClass: WindowSizeClass) {
-    val viewModel = hiltViewModel<SettingsViewModel>()
+private fun SettingsLazyVerticalGrid(
+    modifier: Modifier = Modifier,
+    windowSizeClass: WindowSizeClass,
+    snackbarHostState: SnackbarHostState,
+    deleteAllWrongProblems: Action,
+) {
     val context = LocalContext.current
 
     val numberOfColumns = when (windowSizeClass.widthSizeClass) {
@@ -109,7 +123,19 @@ private fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeCl
         else -> 1
     }
 
-    InitSettingsDialog()
+    var (isDeleteWrongProblemDialogOpened, setDeleteWrongProblemDialogOpened) = rememberSaveable {
+        mutableStateOf(false)
+    }
+    var (isAppVersionDialogOpened, setAppVersionDialogOpened) = rememberSaveable { mutableStateOf(false) }
+
+    InitSettingsDialog(
+        isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+        setDeleteWrongProblemDialogOpened = setDeleteWrongProblemDialogOpened,
+        deleteAllWrongProblems = deleteAllWrongProblems,
+        snackbarHostState = snackbarHostState,
+        isAppVersionDialogOpened = isAppVersionDialogOpened,
+        setAppVersionDialogOpened = setAppVersionDialogOpened,
+    )
 
     LazyVerticalGrid(
         modifier = modifier,
@@ -121,7 +147,7 @@ private fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeCl
                 settingsIcon = painterResource(id = R.drawable.ic_delete),
                 settingsText = stringResource(id = R.string.delete_wrong_note),
                 onClick = {
-                    viewModel.updateDeleteWrongProblemDialogOpened(true)
+                    isDeleteWrongProblemDialogOpened = true
                 },
             )
         }
@@ -131,7 +157,7 @@ private fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeCl
                 settingsIcon = painterResource(id = R.drawable.ic_info),
                 settingsText = stringResource(id = R.string.app_version),
                 onClick = {
-                    viewModel.updateAppVersionDialogOpened(true)
+                    isAppVersionDialogOpened = true
                 }
             )
         }
@@ -175,20 +201,32 @@ private fun SettingsLazyVerticalGrid(modifier: Modifier = Modifier, windowSizeCl
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-private fun InitSettingsDialog() {
-    val viewModel = hiltViewModel<SettingsViewModel>()
-    val openDeleteWrongProblemDialog =
-        viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
-    if (openDeleteWrongProblemDialog.value) {
+private fun InitSettingsDialog(
+    isDeleteWrongProblemDialogOpened: Boolean,
+    setDeleteWrongProblemDialogOpened: Consumer<Boolean>,
+    deleteAllWrongProblems: Action,
+    snackbarHostState: SnackbarHostState,
+    isAppVersionDialogOpened: Boolean,
+    setAppVersionDialogOpened: Consumer<Boolean>,
+) {
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    if (isDeleteWrongProblemDialogOpened) {
         AppInfoDialog(
             onConfirm = {
-                viewModel.deleteAllWrongProblems()
-                viewModel.updateDeleteWrongProblemDialogOpened(false)
+                deleteAllWrongProblems()
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = context.getString(R.string.success_delete_all_wrong_note),
+                        actionLabel = context.getString(R.string.confirm)
+                    )
+                }
+                setDeleteWrongProblemDialogOpened(false)
             },
             onDismiss = {
-                viewModel.updateDeleteWrongProblemDialogOpened(false)
+                setDeleteWrongProblemDialogOpened(false)
             },
             icon = painterResource(id = R.drawable.ic_delete),
             title = stringResource(id = R.string.delete_wrong_note),
@@ -196,14 +234,13 @@ private fun InitSettingsDialog() {
         )
     }
 
-    val openAppVersionDialog = viewModel.isAppVersionDialogOpened.collectAsStateWithLifecycle()
-    if (openAppVersionDialog.value) {
+    if (isAppVersionDialogOpened) {
         AppInfoDialog(
             onConfirm = {
-                viewModel.updateAppVersionDialogOpened(false)
+                setAppVersionDialogOpened(false)
             },
             onDismiss = {
-                viewModel.updateAppVersionDialogOpened(false)
+                setAppVersionDialogOpened(false)
             },
             icon = painterResource(id = R.drawable.ic_info),
             title = stringResource(id = R.string.app_version),
@@ -265,4 +302,18 @@ private fun SettingsItemPreview() {
         settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
         settingsText = stringResource(id = R.string.open_source_license),
     )
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true)
+@Composable
+private fun SettingsScreenPreview() {
+    CpaQuizTheme {
+        BoxWithConstraints {
+            SettingsScreen(
+                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
+                deleteAllWrongProblems = {},
+            )
+        }
+    }
 }

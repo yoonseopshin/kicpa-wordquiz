@@ -4,7 +4,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ysshin.core.navigation.CpaQuizNavigationDestination
-import com.ysshin.cpaquiz.feature.settings.presentation.ui.SettingsScreen
+import com.ysshin.cpaquiz.feature.settings.presentation.ui.SettingsRoute
 
 object SettingsDestination : CpaQuizNavigationDestination {
     override val route = "SettingsRoute"
@@ -13,6 +13,6 @@ object SettingsDestination : CpaQuizNavigationDestination {
 
 fun NavGraphBuilder.settingsGraph(windowSizeClass: WindowSizeClass) {
     composable(SettingsDestination.route) {
-        SettingsScreen(windowSizeClass)
+        SettingsRoute(windowSizeClass = windowSizeClass)
     }
 }

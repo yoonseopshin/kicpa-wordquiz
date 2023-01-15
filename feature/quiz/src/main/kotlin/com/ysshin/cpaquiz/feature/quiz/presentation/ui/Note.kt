@@ -1205,7 +1205,7 @@ fun NoteScreenViewPreview() {
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)
 @Composable
-fun NoteScreenSearchPreview() {
+private fun NoteScreenSearchPreview() {
     CpaQuizTheme {
         BoxWithConstraints {
             NoteScreen(
