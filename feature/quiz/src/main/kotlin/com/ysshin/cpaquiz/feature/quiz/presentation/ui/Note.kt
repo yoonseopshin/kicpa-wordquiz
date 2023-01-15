@@ -950,7 +950,6 @@ private fun NoteTopMenu(
     isFiltering: Boolean,
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
-    val isMenuExpanded = isMenuOpened
 
     AnimatedVisibility(
         visible = isSearching,
@@ -1006,7 +1005,7 @@ private fun NoteTopMenu(
 
         val transition =
             updateTransition(
-                targetState = isMenuExpanded && noteMenuContent is NoteMenuContent.Search,
+                targetState = isMenuOpened && noteMenuContent is NoteMenuContent.Search,
                 label = "SearchingMenuIconTransition"
             )
 
@@ -1042,7 +1041,7 @@ private fun NoteTopMenu(
         }
 
         Icon(
-            imageVector = if (isMenuExpanded) Icons.Filled.Search else Icons.Outlined.Search,
+            imageVector = if (isMenuOpened) Icons.Filled.Search else Icons.Outlined.Search,
             contentDescription = stringResource(id = R.string.search),
             tint = tint,
             modifier = Modifier.size(size)
@@ -1059,7 +1058,7 @@ private fun NoteTopMenu(
 
         val transition =
             updateTransition(
-                targetState = isMenuExpanded && noteMenuContent is NoteMenuContent.Filter,
+                targetState = isMenuOpened && noteMenuContent is NoteMenuContent.Filter,
                 label = "FilteringMenuIconTransition"
             )
 
