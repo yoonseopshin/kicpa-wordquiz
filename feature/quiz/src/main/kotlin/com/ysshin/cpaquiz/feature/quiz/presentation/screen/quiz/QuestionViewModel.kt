@@ -39,7 +39,7 @@ class QuestionViewModel @Inject constructor(
     private val quizUseCases: QuizUseCases,
     private val handle: SavedStateHandle,
 ) : BaseViewModel() {
-    
+
     private val _uiEvent = MutableSharedFlow<UiEvent>(
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
         extraBufferCapacity = 1

@@ -21,6 +21,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -64,6 +65,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
@@ -96,16 +98,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
+import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
@@ -121,6 +125,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.DeleteWrongProblemDialog
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteFilter
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteMenuContent
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
@@ -136,16 +141,42 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(
-    ExperimentalLifecycleComposeApi::class,
-    ExperimentalMaterial3Api::class,
-)
 @Composable
-fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
-    val listState = rememberLazyListState()
-    val snackbarHostState = remember { SnackbarHostState() }
+fun NoteRoute(
+    windowSizeClass: WindowSizeClass,
+    viewModel: NoteViewModel = hiltViewModel(),
+) {
     val noteUiState = viewModel.noteUiState.collectAsStateWithLifecycle()
     val searchKeyword = viewModel.searchKeyword.collectAsStateWithLifecycle()
+
+    NoteScreen(
+        windowSizeClass = windowSizeClass,
+        noteUiState = noteUiState.value,
+        searchKeyword = searchKeyword.value,
+        updateSearchKeyword = viewModel::updateSearchKeyword,
+        setFilter = viewModel::setFilter,
+        selectableFilteredYears = viewModel.selectableFilteredYears,
+        selectableFilteredTypes = viewModel.selectableFilteredTypes,
+        deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
+        deleteTargetWrongProblem = viewModel::deleteTargetWrongProblem,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NoteScreen(
+    windowSizeClass: WindowSizeClass,
+    noteUiState: NoteUiState,
+    searchKeyword: String,
+    updateSearchKeyword: Consumer<String>,
+    setFilter: (List<Int>, List<QuizType>) -> Unit,
+    selectableFilteredYears: List<SelectableTextItem>,
+    selectableFilteredTypes: List<SelectableTextItem>,
+    deleteAllWrongProblems: Action,
+    deleteTargetWrongProblem: Consumer<Problem>,
+) {
+    val listState = rememberLazyListState()
+    val snackbarHostState = remember { SnackbarHostState() }
     var isMenuOpened by rememberSaveable { mutableStateOf(false) }
     var noteMenuContent by rememberSaveable { mutableStateOf<NoteMenuContent>(NoteMenuContent.Search) }
 
@@ -157,15 +188,15 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             NoteTopAppBar(
-                noteUiState = noteUiState.value,
+                noteUiState = noteUiState,
                 isMenuOpened = isMenuOpened,
                 toggleMenu = { newNoteMenuContent ->
                     isMenuOpened = (isMenuOpened && noteMenuContent == newNoteMenuContent).not()
                     noteMenuContent = newNoteMenuContent
                 },
                 noteMenuContent = noteMenuContent,
-                updateSearchKeyword = viewModel::updateSearchKeyword,
-                setFilter = viewModel::setFilter,
+                updateSearchKeyword = updateSearchKeyword,
+                setFilter = setFilter,
             )
         }
     ) { padding ->
@@ -180,18 +211,18 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                 Surface {
                     when (noteMenuContent) {
                         is NoteMenuContent.Filter -> NoteFilterMenuContent(
-                            noteUiState = noteUiState.value,
+                            noteUiState = noteUiState,
                             hideMenu = { isMenuOpened = false },
-                            selectableFilteredYears = viewModel.selectableFilteredYears,
-                            selectableFilteredTypes = viewModel.selectableFilteredTypes,
-                            setFilter = viewModel::setFilter,
+                            selectableFilteredYears = selectableFilteredYears,
+                            selectableFilteredTypes = selectableFilteredTypes,
+                            setFilter = setFilter,
                             snackbarHostState = snackbarHostState
                         )
                         is NoteMenuContent.Search -> NoteSearchMenuContent(
                             isMenuOpened = isMenuOpened,
                             hideMenu = { isMenuOpened = false },
-                            searchKeyword = searchKeyword.value,
-                            updateSearchKeyword = viewModel::updateSearchKeyword
+                            searchKeyword = searchKeyword,
+                            updateSearchKeyword = updateSearchKeyword
                         )
                     }
                 }
@@ -216,16 +247,16 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
             }
 
             LazyColumn(state = listState) {
-                when (val uiState = noteUiState.value) {
+                when (noteUiState) {
                     is NoteUiState.View ->
                         onViewingContent(
-                            totalProblemsUiState = uiState.totalProblemsUiState,
-                            wrongProblemsUiState = uiState.wrongProblemsUiState,
+                            totalProblemsUiState = noteUiState.totalProblemsUiState,
+                            wrongProblemsUiState = noteUiState.wrongProblemsUiState,
                             isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
                             updateDeletingAllWrongProblemsDialog = { isOpened ->
                                 isDeleteAllWrongProblemsDialogOpened = isOpened
                             },
-                            deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
+                            deleteAllWrongProblems = deleteAllWrongProblems,
                             isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
                             updateDeletingWrongProblemDialogOpened = { dialog ->
                                 isDeleteWrongProblemDialogOpened =
@@ -235,11 +266,11 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                                     )
                                 Timber.d("dialog info: $dialog")
                             },
-                            deleteTargetWrongProblem = viewModel::deleteTargetWrongProblem,
+                            deleteTargetWrongProblem = deleteTargetWrongProblem,
                             windowSizeClass = windowSizeClass
                         )
                     is NoteUiState.Search ->
-                        onSearchingContent(uiState.searchedProblemsUiState, windowSizeClass)
+                        onSearchingContent(noteUiState.searchedProblemsUiState, windowSizeClass)
                 }
             }
         }
@@ -1120,5 +1151,88 @@ private fun NoteTopMenu(
             tint = tint,
             modifier = Modifier.size(size),
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true)
+@Composable
+fun NoteScreenViewPreview() {
+    CpaQuizTheme {
+        BoxWithConstraints {
+            NoteScreen(
+                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
+                noteUiState = NoteUiState.View(
+                    filter = NoteFilter.default(),
+                    totalProblemsUiState = TotalProblemsUiState.Success(
+                        listOf(
+                            Problem(year = 2023, pid = 1, type = QuizType.Accounting, description = "blah"),
+                            Problem(year = 2023, pid = 2, type = QuizType.Business, description = "blahblah"),
+                        )
+                    ),
+                    wrongProblemsUiState = WrongProblemsUiState.Success(
+                        listOf(
+                            Problem(year = 2022,
+                                pid = 15,
+                                type = QuizType.CommercialLaw,
+                                description = "hello"),
+                            Problem(year = 2021, pid = 22, type = QuizType.TaxLaw, description = "world"),
+                        )
+                    ),
+                ),
+                searchKeyword = "",
+                updateSearchKeyword = {},
+                setFilter = { _, _ -> },
+                selectableFilteredYears = listOf(),
+                selectableFilteredTypes = listOf(),
+                deleteAllWrongProblems = { },
+                deleteTargetWrongProblem = { },
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true)
+@Composable
+fun NoteScreenSearchPreview() {
+    CpaQuizTheme {
+        BoxWithConstraints {
+            NoteScreen(
+                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
+                noteUiState = NoteUiState.Search(
+                    searchedProblemsUiState = SearchedProblemsUiState.Success(
+                        listOf(
+                            Problem(
+                                year = 2022,
+                                pid = 15,
+                                type = QuizType.CommercialLaw,
+                                description = "blah"
+                            ),
+                            Problem(
+                                year = 2021,
+                                pid = 22,
+                                type = QuizType.TaxLaw,
+                                description = "blahblah"
+                            ),
+                            Problem(
+                                year = 2020,
+                                pid = 12,
+                                type = QuizType.Business,
+                                description = "blahblahblah"
+                            ),
+                        )
+                    ),
+                    keyword = "blah"
+                ),
+                searchKeyword = "blah",
+                updateSearchKeyword = {},
+                setFilter = { _, _ -> },
+                selectableFilteredYears = listOf(),
+                selectableFilteredTypes = listOf(),
+                deleteAllWrongProblems = { },
+                deleteTargetWrongProblem = { },
+            )
+        }
     }
 }
