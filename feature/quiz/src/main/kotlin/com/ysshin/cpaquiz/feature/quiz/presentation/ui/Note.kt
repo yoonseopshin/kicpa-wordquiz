@@ -32,7 +32,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
@@ -47,6 +47,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Badge
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -264,13 +265,13 @@ private fun LazyListScope.onSearchingContent(
             SearchedNoteHeaderContent(uiState)
         }
 
-        items(
-            items = uiState.data,
-            key = { problem ->
-                problem.hashCode()
-            }
-        ) { problem ->
+        val items = uiState.data
+        itemsIndexed(items = items) { index, problem ->
             NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
+
+            if (index < items.lastIndex) {
+                NoteSummaryDivider()
+            }
         }
     }
 }
@@ -320,7 +321,8 @@ private fun LazyListScope.wrongProblemsContent(
             )
         }
 
-        items(items = uiState.data.map { it.toWrongProblemModel() }) { wrongProblemModel ->
+        val items = uiState.data.map { it.toWrongProblemModel() }
+        itemsIndexed(items = items) { index, wrongProblemModel ->
             val problem = wrongProblemModel.problem
             NoteSummaryContent(
                 problem = problem,
@@ -329,6 +331,10 @@ private fun LazyListScope.wrongProblemsContent(
                     viewModel.updateDeleteWrongProblemDialogOpened(true, problem)
                 }
             ).takeIf { problem.isValid() }
+
+            if (index < items.lastIndex) {
+                NoteSummaryDivider()
+            }
         }
     }
 }
@@ -344,8 +350,13 @@ private fun LazyListScope.totalProblemsContent(
             TotalNoteHeaderContent(uiState)
         }
 
-        items(items = uiState.data) { problem ->
+        val items = uiState.data
+        itemsIndexed(items = items) { index, problem ->
             NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
+
+            if (index < items.lastIndex) {
+                NoteSummaryDivider()
+            }
         }
     }
 }
@@ -553,6 +564,17 @@ private fun LazyItemScope.NoteSummaryContent(
             style = Typography.bodyMedium
         )
     }
+}
+
+@Composable
+private fun NoteSummaryDivider() {
+    Divider(
+        modifier = Modifier
+            .padding(horizontal = 12.dp)
+            .fillMaxWidth(),
+        thickness = 1.dp,
+        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+    )
 }
 
 @Composable
