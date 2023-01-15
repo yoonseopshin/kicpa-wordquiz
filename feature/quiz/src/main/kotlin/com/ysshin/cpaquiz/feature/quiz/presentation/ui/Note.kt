@@ -118,6 +118,7 @@ import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.DeleteWrongProblemDialog
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteMenuContent
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
@@ -194,7 +195,12 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
             }
 
             var isDeleteAllWrongProblemsDialogOpened by rememberSaveable { mutableStateOf(false) }
-            var isDeleteWrongProblemDialogOpened by rememberSaveable { mutableStateOf(false) }
+            var isDeleteWrongProblemDialogOpened by rememberSaveable {
+                mutableStateOf(DeleteWrongProblemDialog(
+                    isOpened = false,
+                    problem = Problem()
+                ))
+            }
 
             LazyColumn(state = listState) {
                 when (val uiState = noteUiState.value) {
@@ -209,7 +215,7 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                             },
                             isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
                             updateDeletingWrongProblemDialogOpened = { isOpened ->
-                                isDeleteWrongProblemDialogOpened = isOpened
+                                isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened.copy(isOpened = isOpened)
                             },
                             windowSizeClass = windowSizeClass
                         )
@@ -290,7 +296,7 @@ private fun LazyListScope.onViewingContent(
     wrongProblemsUiState: WrongProblemsUiState,
     isDeleteAllWrongProblemsDialogOpened: Boolean,
     updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
-    isDeleteWrongProblemDialogOpened: Boolean,
+    isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
     updateDeletingWrongProblemDialogOpened: Consumer<Boolean>,
     windowSizeClass: WindowSizeClass,
 ) {
@@ -311,7 +317,7 @@ private fun LazyListScope.wrongProblemsContent(
     uiState: WrongProblemsUiState,
     isDeleteAllWrongProblemsDialogOpened: Boolean,
     updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
-    isDeleteWrongProblemDialogOpened: Boolean,
+    isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
     updateDeletingWrongProblemDialogOpened: Consumer<Boolean>,
     windowSizeClass: WindowSizeClass,
 ) {
@@ -431,25 +437,27 @@ private fun WrongNoteHeaderContent(
 private fun LazyItemScope.NoteSummaryContent(
     problem: Problem,
     onProblemLongClick: Action? = null,
-    isDeleteWrongProblemDialogOpened : Boolean? = null,
+    isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
     updateDeletingWrongProblemDialogOpened: Consumer<Boolean>? = null,
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
     val context = LocalContext.current
 
-    if (isDeleteWrongProblemDialogOpened == true) {
-        AppInfoDialog(
-            icon = painterResource(id = R.drawable.ic_delete),
-            title = stringResource(id = R.string.delete_wrong_problem),
-            description = stringResource(id = R.string.question_delete_wrong_note),
-            onConfirm = {
-                viewModel.deleteTargetWrongProblem(problem)
-                updateDeletingWrongProblemDialogOpened?.invoke(false)
-            },
-            onDismiss = {
-                updateDeletingWrongProblemDialogOpened?.invoke(false)
-            }
-        )
+    isDeleteWrongProblemDialogOpened?.let { dialog ->
+        if (dialog.isOpened) {
+            AppInfoDialog(
+                icon = painterResource(id = R.drawable.ic_delete),
+                title = stringResource(id = R.string.delete_wrong_problem),
+                description = stringResource(id = R.string.question_delete_wrong_note),
+                onConfirm = {
+                    viewModel.deleteTargetWrongProblem(dialog.problem)
+                    updateDeletingWrongProblemDialogOpened?.invoke(false)
+                },
+                onDismiss = {
+                    updateDeletingWrongProblemDialogOpened?.invoke(false)
+                }
+            )
+        }
     }
 
     val haptic = LocalHapticFeedback.current
