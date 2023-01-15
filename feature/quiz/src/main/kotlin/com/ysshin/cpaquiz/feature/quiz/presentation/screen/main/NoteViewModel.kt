@@ -92,28 +92,10 @@ class NoteViewModel @Inject constructor(
         searchKeyword.update { keyword }
     }
 
-    private val _isDeleteWrongProblemDialogOpened = MutableStateFlow(false)
-    val isDeleteWrongProblemDialogOpened = _isDeleteWrongProblemDialogOpened.asStateFlow()
-    private lateinit var targetProblem: Problem
-
-    private val _isDeleteAllWrongProblemsDialogOpened = MutableStateFlow(false)
-    val isDeleteAllWrongProblemsDialogOpened = _isDeleteAllWrongProblemsDialogOpened.asStateFlow()
-
-    fun updateDeleteWrongProblemDialogOpened(value: Boolean, problem: Problem? = null) {
-        _isDeleteWrongProblemDialogOpened.update { value }
-        if (value && problem != null) {
-            targetProblem = problem
-        }
-    }
-
-    fun deleteTargetWrongProblem() {
+    fun deleteTargetWrongProblem(problem: Problem) {
         viewModelScope.launch {
-            problemUseCases.deleteWrongProblem(targetProblem)
+            problemUseCases.deleteWrongProblem(problem)
         }
-    }
-
-    fun updateDeleteAllWrongProblemsDialogOpened(value: Boolean) {
-        _isDeleteAllWrongProblemsDialogOpened.update { value }
     }
 
     fun deleteAllWrongProblems() {

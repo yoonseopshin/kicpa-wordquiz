@@ -72,6 +72,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -155,11 +156,7 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                 noteUiState = noteUiState.value,
                 isMenuOpened = isMenuOpened,
                 toggleMenu = { newNoteMenuContent ->
-                    if (isMenuOpened && noteMenuContent == newNoteMenuContent) {
-                        isMenuOpened = false
-                    } else {
-                        isMenuOpened = true
-                    }
+                    isMenuOpened = (isMenuOpened && noteMenuContent == newNoteMenuContent).not()
                     noteMenuContent = newNoteMenuContent
                 },
                 noteMenuContent = noteMenuContent
@@ -196,14 +193,25 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                 NativeSmallAd()
             }
 
+            var isDeleteAllWrongProblemsDialogOpened by rememberSaveable { mutableStateOf(false) }
+            var isDeleteWrongProblemDialogOpened by rememberSaveable { mutableStateOf(false) }
+
             LazyColumn(state = listState) {
                 when (val uiState = noteUiState.value) {
                     is NoteUiState.View ->
                         onViewingContent(
-                            viewModel,
-                            uiState.totalProblemsUiState,
-                            uiState.wrongProblemsUiState,
-                            windowSizeClass
+                            viewModel = viewModel,
+                            totalProblemsUiState = uiState.totalProblemsUiState,
+                            wrongProblemsUiState = uiState.wrongProblemsUiState,
+                            isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
+                            updateDeletingAllWrongProblemsDialog = { isOpened ->
+                                isDeleteAllWrongProblemsDialogOpened = isOpened
+                            },
+                            isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                            updateDeletingWrongProblemDialogOpened = { isOpened ->
+                                isDeleteWrongProblemDialogOpened = isOpened
+                            },
+                            windowSizeClass = windowSizeClass
                         )
                     is NoteUiState.Search ->
                         onSearchingContent(uiState.searchedProblemsUiState, windowSizeClass)
@@ -280,35 +288,48 @@ private fun LazyListScope.onViewingContent(
     viewModel: NoteViewModel,
     totalProblemsUiState: TotalProblemsUiState,
     wrongProblemsUiState: WrongProblemsUiState,
+    isDeleteAllWrongProblemsDialogOpened: Boolean,
+    updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
+    isDeleteWrongProblemDialogOpened: Boolean,
+    updateDeletingWrongProblemDialogOpened: Consumer<Boolean>,
     windowSizeClass: WindowSizeClass,
 ) {
-    wrongProblemsContent(viewModel, wrongProblemsUiState, windowSizeClass)
+    wrongProblemsContent(
+        viewModel,
+        wrongProblemsUiState,
+        isDeleteAllWrongProblemsDialogOpened,
+        updateDeletingAllWrongProblemsDialog,
+        isDeleteWrongProblemDialogOpened,
+        updateDeletingWrongProblemDialogOpened,
+        windowSizeClass
+    )
     totalProblemsContent(totalProblemsUiState, windowSizeClass)
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 private fun LazyListScope.wrongProblemsContent(
     viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
+    isDeleteAllWrongProblemsDialogOpened: Boolean,
+    updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
+    isDeleteWrongProblemDialogOpened: Boolean,
+    updateDeletingWrongProblemDialogOpened: Consumer<Boolean>,
     windowSizeClass: WindowSizeClass,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is WrongProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
-            val openDeleteAllWrongProblemsDialog =
-                viewModel.isDeleteAllWrongProblemsDialogOpened.collectAsStateWithLifecycle()
-            if (openDeleteAllWrongProblemsDialog.value) {
+            if (isDeleteAllWrongProblemsDialogOpened) {
                 AppInfoDialog(
                     icon = painterResource(id = R.drawable.ic_delete),
                     title = stringResource(id = R.string.delete_wrong_note),
                     description = stringResource(id = R.string.question_delete_all_wrong_note),
                     onConfirm = {
                         viewModel.deleteAllWrongProblems()
-                        viewModel.updateDeleteAllWrongProblemsDialogOpened(false)
+                        updateDeletingAllWrongProblemsDialog(false)
                     },
                     onDismiss = {
-                        viewModel.updateDeleteAllWrongProblemsDialogOpened(false)
+                        updateDeletingAllWrongProblemsDialog(false)
                     }
                 )
             }
@@ -316,7 +337,7 @@ private fun LazyListScope.wrongProblemsContent(
             WrongNoteHeaderContent(
                 state = uiState,
                 onHeaderLongClick = {
-                    viewModel.updateDeleteAllWrongProblemsDialogOpened(true)
+                    updateDeletingAllWrongProblemsDialog(true)
                 }
             )
         }
@@ -328,8 +349,10 @@ private fun LazyListScope.wrongProblemsContent(
                 problem = problem,
                 onProblemLongClick = {
                     Timber.d("Target problem: $problem")
-                    viewModel.updateDeleteWrongProblemDialogOpened(true, problem)
-                }
+                    updateDeletingWrongProblemDialogOpened(true)
+                },
+                isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
@@ -402,30 +425,29 @@ private fun WrongNoteHeaderContent(
 
 @OptIn(
     ExperimentalFoundationApi::class,
-    ExperimentalLifecycleComposeApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
 private fun LazyItemScope.NoteSummaryContent(
     problem: Problem,
     onProblemLongClick: Action? = null,
+    isDeleteWrongProblemDialogOpened : Boolean? = null,
+    updateDeletingWrongProblemDialogOpened: Consumer<Boolean>? = null,
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
     val context = LocalContext.current
 
-    val openDeleteWrongProblemDialog =
-        viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
-    if (openDeleteWrongProblemDialog.value) {
+    if (isDeleteWrongProblemDialogOpened == true) {
         AppInfoDialog(
             icon = painterResource(id = R.drawable.ic_delete),
             title = stringResource(id = R.string.delete_wrong_problem),
             description = stringResource(id = R.string.question_delete_wrong_note),
             onConfirm = {
-                viewModel.deleteTargetWrongProblem()
-                viewModel.updateDeleteWrongProblemDialogOpened(false)
+                viewModel.deleteTargetWrongProblem(problem)
+                updateDeletingWrongProblemDialogOpened?.invoke(false)
             },
             onDismiss = {
-                viewModel.updateDeleteWrongProblemDialogOpened(false)
+                updateDeletingWrongProblemDialogOpened?.invoke(false)
             }
         )
     }
