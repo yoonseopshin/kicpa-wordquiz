@@ -1,5 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.main
 
+import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
@@ -8,16 +9,17 @@ import com.ysshin.cpaquiz.core.common.asResult
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
+import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
@@ -103,20 +105,6 @@ class NoteViewModel @Inject constructor(
             problemUseCases.deleteAllWrongProblems.invoke()
         }
     }
-
-    private val _isYearFilterDialogOpened = MutableStateFlow(false)
-    val isYearFilterDialogOpened = _isYearFilterDialogOpened.asStateFlow()
-
-    fun updateYearFilterDialogOpened(value: Boolean) {
-        _isYearFilterDialogOpened.update { value }
-    }
-
-    private val _isQuizTypeFilterDialogOpened = MutableStateFlow(false)
-    val isQuizTypeFilterDialogOpened = _isQuizTypeFilterDialogOpened.asStateFlow()
-
-    fun updateQuizTypeFilterDialogOpened(value: Boolean) {
-        _isQuizTypeFilterDialogOpened.update { value }
-    }
 }
 
 sealed interface TotalProblemsUiState {
@@ -163,9 +151,15 @@ internal fun NoteFilter.isYearFiltering() = years.size != Problem.allYears().siz
 internal fun NoteFilter.isQuizTypeFiltering() = types.size != QuizType.all().size
 internal fun NoteFilter.isFiltering() = isYearFiltering() || isQuizTypeFiltering()
 
-sealed interface NoteMenuContent {
+@Parcelize
+sealed interface NoteMenuContent : Parcelable {
+
+    @Parcelize
     object Filter : NoteMenuContent
+
+    @Parcelize
     object Search : NoteMenuContent
 }
 
-data class DeleteWrongProblemDialog(val isOpened: Boolean, val problem: Problem)
+@Parcelize
+data class DeleteWrongProblemDialog(val isOpened: Boolean, val problem: ProblemModel) : Parcelable

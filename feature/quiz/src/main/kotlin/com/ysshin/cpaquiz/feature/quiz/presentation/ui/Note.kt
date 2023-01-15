@@ -115,6 +115,7 @@ import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.isValid
 import com.ysshin.cpaquiz.feature.quiz.R
+import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
@@ -143,8 +144,8 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
     val noteUiState = viewModel.uiState.collectAsStateWithLifecycle()
-    var isMenuOpened by remember { mutableStateOf(false) }
-    var noteMenuContent by remember { mutableStateOf<NoteMenuContent>(NoteMenuContent.Search) }
+    var isMenuOpened by rememberSaveable { mutableStateOf(false) }
+    var noteMenuContent by rememberSaveable { mutableStateOf<NoteMenuContent>(NoteMenuContent.Search) }
 
     BackHandler(enabled = isMenuOpened) {
         isMenuOpened = false
@@ -196,10 +197,12 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
 
             var isDeleteAllWrongProblemsDialogOpened by rememberSaveable { mutableStateOf(false) }
             var isDeleteWrongProblemDialogOpened by rememberSaveable {
-                mutableStateOf(DeleteWrongProblemDialog(
-                    isOpened = false,
-                    problem = Problem()
-                ))
+                mutableStateOf(
+                    DeleteWrongProblemDialog(
+                        isOpened = false,
+                        problem = Problem().toModel()
+                    )
+                )
             }
 
             LazyColumn(state = listState) {
@@ -214,8 +217,13 @@ fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hilt
                                 isDeleteAllWrongProblemsDialogOpened = isOpened
                             },
                             isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
-                            updateDeletingWrongProblemDialogOpened = { isOpened ->
-                                isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened.copy(isOpened = isOpened)
+                            updateDeletingWrongProblemDialogOpened = { dialog ->
+                                isDeleteWrongProblemDialogOpened =
+                                    isDeleteWrongProblemDialogOpened.copy(
+                                        isOpened = dialog.isOpened,
+                                        problem = dialog.problem
+                                    )
+                                Timber.d("dialog info: $dialog")
                             },
                             windowSizeClass = windowSizeClass
                         )
@@ -297,7 +305,7 @@ private fun LazyListScope.onViewingContent(
     isDeleteAllWrongProblemsDialogOpened: Boolean,
     updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
-    updateDeletingWrongProblemDialogOpened: Consumer<Boolean>,
+    updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
     windowSizeClass: WindowSizeClass,
 ) {
     wrongProblemsContent(
@@ -318,7 +326,7 @@ private fun LazyListScope.wrongProblemsContent(
     isDeleteAllWrongProblemsDialogOpened: Boolean,
     updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
-    updateDeletingWrongProblemDialogOpened: Consumer<Boolean>,
+    updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
     windowSizeClass: WindowSizeClass,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
@@ -355,7 +363,12 @@ private fun LazyListScope.wrongProblemsContent(
                 problem = problem,
                 onProblemLongClick = {
                     Timber.d("Target problem: $problem")
-                    updateDeletingWrongProblemDialogOpened(true)
+                    updateDeletingWrongProblemDialogOpened(
+                        isDeleteWrongProblemDialogOpened.copy(
+                            isOpened = true,
+                            problem = problem.toModel(),
+                        )
+                    )
                 },
                 isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
                 updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened
@@ -438,7 +451,7 @@ private fun LazyItemScope.NoteSummaryContent(
     problem: Problem,
     onProblemLongClick: Action? = null,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
-    updateDeletingWrongProblemDialogOpened: Consumer<Boolean>? = null,
+    updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>? = null,
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
     val context = LocalContext.current
@@ -450,11 +463,15 @@ private fun LazyItemScope.NoteSummaryContent(
                 title = stringResource(id = R.string.delete_wrong_problem),
                 description = stringResource(id = R.string.question_delete_wrong_note),
                 onConfirm = {
-                    viewModel.deleteTargetWrongProblem(dialog.problem)
-                    updateDeletingWrongProblemDialogOpened?.invoke(false)
+                    viewModel.deleteTargetWrongProblem(dialog.problem.toDomain())
+                    updateDeletingWrongProblemDialogOpened?.invoke(
+                        isDeleteWrongProblemDialogOpened.copy(isOpened = false)
+                    )
                 },
                 onDismiss = {
-                    updateDeletingWrongProblemDialogOpened?.invoke(false)
+                    updateDeletingWrongProblemDialogOpened?.invoke(
+                        isDeleteWrongProblemDialogOpened.copy(isOpened = false)
+                    )
                 }
             )
         }
@@ -652,8 +669,9 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val openYearFilterDialog = viewModel.isYearFilterDialogOpened.collectAsStateWithLifecycle()
-    if (openYearFilterDialog.value) {
+    var isYearFilterDialogOpened by rememberSaveable { mutableStateOf(false) }
+
+    if (isYearFilterDialogOpened) {
         AppCheckboxDialog(
             icon = painterResource(id = R.drawable.ic_filter),
             title = stringResource(id = R.string.year),
@@ -669,22 +687,22 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
                             actionLabel = context.getString(R.string.confirm)
                         )
                     }
-                    viewModel.updateYearFilterDialogOpened(false)
+                    isYearFilterDialogOpened = false
                     return@AppCheckboxDialog
                 }
 
                 viewModel.setFilter(years = items.filter { it.isSelected }.map { it.text.toInt() })
-                viewModel.updateYearFilterDialogOpened(false)
+                isYearFilterDialogOpened = false
             },
             onDismiss = {
-                viewModel.updateYearFilterDialogOpened(false)
+                isYearFilterDialogOpened = false
             }
         )
     }
 
-    val openQuizTypeFilterDialog =
-        viewModel.isQuizTypeFilterDialogOpened.collectAsStateWithLifecycle()
-    if (openQuizTypeFilterDialog.value) {
+    var isQuizTypeFilterDialogOpened by rememberSaveable { mutableStateOf(false) }
+
+    if (isQuizTypeFilterDialogOpened) {
         AppCheckboxDialog(
             icon = painterResource(id = R.drawable.ic_filter),
             title = stringResource(id = R.string.quiz_type),
@@ -700,17 +718,17 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
                             actionLabel = context.getString(R.string.confirm)
                         )
                     }
-                    viewModel.updateQuizTypeFilterDialogOpened(false)
+                    isQuizTypeFilterDialogOpened = false
                     return@AppCheckboxDialog
                 }
 
                 viewModel.setFilter(
                     types = items.filter { it.isSelected }.map { QuizType.from(it.text) }
                 )
-                viewModel.updateQuizTypeFilterDialogOpened(false)
+                isQuizTypeFilterDialogOpened = false
             },
             onDismiss = {
-                viewModel.updateQuizTypeFilterDialogOpened(false)
+                isQuizTypeFilterDialogOpened = false
             }
         )
     }
@@ -735,10 +753,10 @@ private fun NoteFilterMenuContent(hideMenu: Action, snackbarHostState: SnackbarH
         isYearFiltering = isYearFiltering,
         isQuizTypeFiltering = isQuizTypeFiltering,
         onYearFilter = {
-            viewModel.updateYearFilterDialogOpened(true)
+            isYearFilterDialogOpened = true
         },
         onTypeFilter = {
-            viewModel.updateQuizTypeFilterDialogOpened(true)
+            isQuizTypeFilterDialogOpened = true
         },
         hideMenu = hideMenu
     )
@@ -933,7 +951,6 @@ private fun NoteTopMenu(
 ) {
     val viewModel = hiltViewModel<NoteViewModel>()
     val isMenuExpanded = isMenuOpened
-    val bottomSheetContentState = noteMenuContent
 
     AnimatedVisibility(
         visible = isSearching,
@@ -989,7 +1006,7 @@ private fun NoteTopMenu(
 
         val transition =
             updateTransition(
-                targetState = isMenuExpanded && bottomSheetContentState is NoteMenuContent.Search,
+                targetState = isMenuExpanded && noteMenuContent is NoteMenuContent.Search,
                 label = "SearchingMenuIconTransition"
             )
 
@@ -1042,7 +1059,7 @@ private fun NoteTopMenu(
 
         val transition =
             updateTransition(
-                targetState = isMenuExpanded && bottomSheetContentState is NoteMenuContent.Filter,
+                targetState = isMenuExpanded && noteMenuContent is NoteMenuContent.Filter,
                 label = "FilteringMenuIconTransition"
             )
 
