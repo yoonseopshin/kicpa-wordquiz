@@ -216,7 +216,6 @@ fun HomeTopAppBar(
     onSetQuizTimer: Consumer<Int>,
     onToggleTimer: Action,
 ) {
-
     val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
     if (shouldShowLargeTopAppBar) {
         LargeTopAppBar(
@@ -543,7 +542,7 @@ private fun HomeSettingsListItem(
 }
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
     CpaQuizTheme {

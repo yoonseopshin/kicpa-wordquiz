@@ -159,5 +159,5 @@ fun NativeSmallAd() {
 @Preview(showBackground = true)
 @Composable
 private fun NativeSmallAdPreview() {
-    NativeMediumAd()
+    NativeSmallAd()
 }
