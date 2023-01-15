@@ -147,11 +147,13 @@ fun NoteRoute(
     viewModel: NoteViewModel = hiltViewModel(),
 ) {
     val noteUiState = viewModel.noteUiState.collectAsStateWithLifecycle()
+    val noteFilter = viewModel.noteFilter.collectAsStateWithLifecycle()
     val searchKeyword = viewModel.searchKeyword.collectAsStateWithLifecycle()
 
     NoteScreen(
         windowSizeClass = windowSizeClass,
         noteUiState = noteUiState.value,
+        noteFilter = noteFilter.value,
         searchKeyword = searchKeyword.value,
         updateSearchKeyword = viewModel::updateSearchKeyword,
         setFilter = viewModel::setFilter,
@@ -167,6 +169,7 @@ fun NoteRoute(
 fun NoteScreen(
     windowSizeClass: WindowSizeClass,
     noteUiState: NoteUiState,
+    noteFilter: NoteFilter,
     searchKeyword: String,
     updateSearchKeyword: Consumer<String>,
     setFilter: (List<Int>, List<QuizType>) -> Unit,
@@ -177,6 +180,7 @@ fun NoteScreen(
 ) {
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
+
     var isMenuOpened by rememberSaveable { mutableStateOf(false) }
     var noteMenuContent by rememberSaveable { mutableStateOf<NoteMenuContent>(NoteMenuContent.Search) }
 
@@ -188,13 +192,14 @@ fun NoteScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             NoteTopAppBar(
-                noteUiState = noteUiState,
                 isMenuOpened = isMenuOpened,
                 toggleMenu = { newNoteMenuContent ->
                     isMenuOpened = (isMenuOpened && noteMenuContent == newNoteMenuContent).not()
                     noteMenuContent = newNoteMenuContent
                 },
                 noteMenuContent = noteMenuContent,
+                noteFilter = noteFilter,
+                searchKeyword = searchKeyword,
                 updateSearchKeyword = updateSearchKeyword,
                 setFilter = setFilter,
             )
@@ -211,7 +216,8 @@ fun NoteScreen(
                 Surface {
                     when (noteMenuContent) {
                         is NoteMenuContent.Filter -> NoteFilterMenuContent(
-                            noteUiState = noteUiState,
+                            noteMenuContent = noteMenuContent,
+                            noteFilter = noteFilter,
                             hideMenu = { isMenuOpened = false },
                             selectableFilteredYears = selectableFilteredYears,
                             selectableFilteredTypes = selectableFilteredTypes,
@@ -247,30 +253,29 @@ fun NoteScreen(
             }
 
             LazyColumn(state = listState) {
-                when (noteUiState) {
-                    is NoteUiState.View ->
-                        onViewingContent(
-                            totalProblemsUiState = noteUiState.totalProblemsUiState,
-                            wrongProblemsUiState = noteUiState.wrongProblemsUiState,
-                            isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
-                            updateDeletingAllWrongProblemsDialog = { isOpened ->
-                                isDeleteAllWrongProblemsDialogOpened = isOpened
-                            },
-                            deleteAllWrongProblems = deleteAllWrongProblems,
-                            isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
-                            updateDeletingWrongProblemDialogOpened = { dialog ->
-                                isDeleteWrongProblemDialogOpened =
-                                    isDeleteWrongProblemDialogOpened.copy(
-                                        isOpened = dialog.isOpened,
-                                        problem = dialog.problem
-                                    )
-                                Timber.d("dialog info: $dialog")
-                            },
-                            deleteTargetWrongProblem = deleteTargetWrongProblem,
-                            windowSizeClass = windowSizeClass
-                        )
-                    is NoteUiState.Search ->
-                        onSearchingContent(noteUiState.searchedProblemsUiState, windowSizeClass)
+                if (searchKeyword.isBlank()) {
+                    onViewingContent(
+                        totalProblemsUiState = noteUiState.totalProblemsUiState,
+                        wrongProblemsUiState = noteUiState.wrongProblemsUiState,
+                        isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
+                        updateDeletingAllWrongProblemsDialog = { isOpened ->
+                            isDeleteAllWrongProblemsDialogOpened = isOpened
+                        },
+                        deleteAllWrongProblems = deleteAllWrongProblems,
+                        isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                        updateDeletingWrongProblemDialogOpened = { dialog ->
+                            isDeleteWrongProblemDialogOpened =
+                                isDeleteWrongProblemDialogOpened.copy(
+                                    isOpened = dialog.isOpened,
+                                    problem = dialog.problem
+                                )
+                            Timber.d("dialog info: $dialog")
+                        },
+                        deleteTargetWrongProblem = deleteTargetWrongProblem,
+                        windowSizeClass = windowSizeClass
+                    )
+                } else {
+                    onSearchingContent(noteUiState.searchedProblemsUiState, windowSizeClass)
                 }
             }
         }
@@ -280,23 +285,24 @@ fun NoteScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NoteTopAppBar(
-    noteUiState: NoteUiState,
     isMenuOpened: Boolean,
     toggleMenu: Consumer<NoteMenuContent>,
     noteMenuContent: NoteMenuContent,
+    noteFilter: NoteFilter,
+    searchKeyword: String,
     updateSearchKeyword: Consumer<String>,
     setFilter: (List<Int>, List<QuizType>) -> Unit,
 ) {
     val isSearching: Boolean
     val isFiltering: Boolean
 
-    when (noteUiState) {
-        is NoteUiState.View -> {
+    when (noteMenuContent) {
+        is NoteMenuContent.Filter -> {
             isSearching = false
-            isFiltering = noteUiState.filter.isFiltering()
+            isFiltering = noteFilter.isFiltering()
         }
-        is NoteUiState.Search -> {
-            isSearching = noteUiState.keyword.isNotBlank()
+        is NoteMenuContent.Search -> {
+            isSearching = searchKeyword.isNotBlank()
             isFiltering = false
         }
     }
@@ -714,7 +720,8 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
 
 @Composable
 private fun NoteFilterMenuContent(
-    noteUiState: NoteUiState,
+    noteMenuContent: NoteMenuContent,
+    noteFilter: NoteFilter,
     hideMenu: Action,
     selectableFilteredYears: List<SelectableTextItem>,
     selectableFilteredTypes: List<SelectableTextItem>,
@@ -789,12 +796,12 @@ private fun NoteFilterMenuContent(
     val isYearFiltering: Boolean
     val isQuizTypeFiltering: Boolean
 
-    when (noteUiState) {
-        is NoteUiState.View -> {
-            isYearFiltering = noteUiState.filter.isYearFiltering()
-            isQuizTypeFiltering = noteUiState.filter.isQuizTypeFiltering()
+    when (noteMenuContent) {
+        is NoteMenuContent.Filter -> {
+            isYearFiltering = noteFilter.isYearFiltering()
+            isQuizTypeFiltering = noteFilter.isQuizTypeFiltering()
         }
-        is NoteUiState.Search -> {
+        is NoteMenuContent.Search -> {
             isYearFiltering = false
             isQuizTypeFiltering = false
         }
@@ -1162,8 +1169,7 @@ fun NoteScreenViewPreview() {
         BoxWithConstraints {
             NoteScreen(
                 windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
-                noteUiState = NoteUiState.View(
-                    filter = NoteFilter.default(),
+                noteUiState = NoteUiState(
                     totalProblemsUiState = TotalProblemsUiState.Success(
                         listOf(
                             Problem(year = 2023, pid = 1, type = QuizType.Accounting, description = "blah"),
@@ -1172,13 +1178,16 @@ fun NoteScreenViewPreview() {
                     ),
                     wrongProblemsUiState = WrongProblemsUiState.Success(
                         listOf(
-                            Problem(year = 2022,
+                            Problem(
+                                year = 2022,
                                 pid = 15,
                                 type = QuizType.CommercialLaw,
-                                description = "hello"),
+                                description = "hello"
+                            ),
                             Problem(year = 2021, pid = 22, type = QuizType.TaxLaw, description = "world"),
                         )
                     ),
+                    searchedProblemsUiState = SearchedProblemsUiState.Loading,
                 ),
                 searchKeyword = "",
                 updateSearchKeyword = {},
@@ -1187,6 +1196,7 @@ fun NoteScreenViewPreview() {
                 selectableFilteredTypes = listOf(),
                 deleteAllWrongProblems = { },
                 deleteTargetWrongProblem = { },
+                noteFilter = NoteFilter.default(),
             )
         }
     }
@@ -1200,7 +1210,9 @@ fun NoteScreenSearchPreview() {
         BoxWithConstraints {
             NoteScreen(
                 windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
-                noteUiState = NoteUiState.Search(
+                noteUiState = NoteUiState(
+                    totalProblemsUiState = TotalProblemsUiState.Loading,
+                    wrongProblemsUiState = WrongProblemsUiState.Loading,
                     searchedProblemsUiState = SearchedProblemsUiState.Success(
                         listOf(
                             Problem(
@@ -1223,7 +1235,6 @@ fun NoteScreenSearchPreview() {
                             ),
                         )
                     ),
-                    keyword = "blah"
                 ),
                 searchKeyword = "blah",
                 updateSearchKeyword = {},
@@ -1232,6 +1243,7 @@ fun NoteScreenSearchPreview() {
                 selectableFilteredTypes = listOf(),
                 deleteAllWrongProblems = { },
                 deleteTargetWrongProblem = { },
+                noteFilter = NoteFilter.default(),
             )
         }
     }

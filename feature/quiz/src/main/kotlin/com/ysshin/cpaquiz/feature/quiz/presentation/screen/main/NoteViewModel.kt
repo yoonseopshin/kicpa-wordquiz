@@ -15,6 +15,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -26,44 +27,43 @@ class NoteViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
 ) : BaseViewModel() {
 
-    val searchKeyword = MutableStateFlow("")
-    private val isSearching get() = searchKeyword.value.isNotBlank()
+    private val _searchKeyword = MutableStateFlow("")
+    val searchKeyword = _searchKeyword.asStateFlow()
 
     private val _noteFilter = MutableStateFlow(NoteFilter.default())
+    val noteFilter = _noteFilter.asStateFlow()
 
     val noteUiState: StateFlow<NoteUiState> =
         combine(
             problemUseCases.getTotalProblems().asResult(),
             problemUseCases.getWrongProblems().asResult(),
-            searchKeyword,
+            _searchKeyword,
             _noteFilter,
-        ) { totalResult, wrongResult, keyword, noteFilter ->
-            if (isSearching) {
-                val searchedProblems = problemUseCases.searchProblems(keyword)
-                val searchedProblemsUiState = SearchedProblemsUiState.Success(searchedProblems)
-                NoteUiState.Search(keyword, searchedProblemsUiState)
+        ) { totalResult, wrongResult, searchKeyword, noteFilter ->
+            val totalProblemsUiState = if (totalResult is Result.Success) {
+                TotalProblemsUiState.Success(totalResult.data.filter(noteFilter::contains))
             } else {
-                val totalProblemsUiState = if (totalResult is Result.Success) {
-                    TotalProblemsUiState.Success(totalResult.data.filter(noteFilter::contains))
-                } else {
-                    TotalProblemsUiState.Error
-                }
-
-                val wrongProblemsUiState = if (wrongResult is Result.Success) {
-                    WrongProblemsUiState.Success(wrongResult.data.filter(noteFilter::contains))
-                } else {
-                    WrongProblemsUiState.Error
-                }
-                NoteUiState.View(noteFilter, totalProblemsUiState, wrongProblemsUiState)
+                TotalProblemsUiState.Error
             }
+
+            val wrongProblemsUiState = if (wrongResult is Result.Success) {
+                WrongProblemsUiState.Success(wrongResult.data.filter(noteFilter::contains))
+            } else {
+                WrongProblemsUiState.Error
+            }
+
+            val searchedProblems = problemUseCases.searchProblems(searchKeyword)
+            val searchedProblemsUiState = SearchedProblemsUiState.Success(searchedProblems)
+
+            NoteUiState(totalProblemsUiState, wrongProblemsUiState, searchedProblemsUiState)
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = NoteUiState.View(
-                    NoteFilter.default(),
+                initialValue = NoteUiState(
                     TotalProblemsUiState.Loading,
-                    WrongProblemsUiState.Loading
+                    WrongProblemsUiState.Loading,
+                    SearchedProblemsUiState.Loading
                 )
             )
 
@@ -96,7 +96,7 @@ class NoteViewModel @Inject constructor(
     }
 
     fun updateSearchKeyword(keyword: String) {
-        searchKeyword.update { keyword }
+        _searchKeyword.update { keyword }
     }
 
     fun deleteTargetWrongProblem(problem: Problem) {
@@ -130,18 +130,11 @@ sealed interface SearchedProblemsUiState {
     object Loading : SearchedProblemsUiState
 }
 
-sealed interface NoteUiState {
-    data class View(
-        val filter: NoteFilter,
-        val totalProblemsUiState: TotalProblemsUiState,
-        val wrongProblemsUiState: WrongProblemsUiState,
-    ) : NoteUiState
-
-    data class Search(
-        val keyword: String,
-        val searchedProblemsUiState: SearchedProblemsUiState,
-    ) : NoteUiState
-}
+data class NoteUiState(
+    val totalProblemsUiState: TotalProblemsUiState,
+    val wrongProblemsUiState: WrongProblemsUiState,
+    val searchedProblemsUiState: SearchedProblemsUiState,
+)
 
 data class NoteFilter(val years: List<Int>, val types: List<QuizType>) {
     companion object {
