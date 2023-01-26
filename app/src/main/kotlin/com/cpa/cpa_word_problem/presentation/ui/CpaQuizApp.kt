@@ -29,7 +29,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.core.common.Consumer
+import com.ysshin.cpaquiz.core.base.Consumer
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable

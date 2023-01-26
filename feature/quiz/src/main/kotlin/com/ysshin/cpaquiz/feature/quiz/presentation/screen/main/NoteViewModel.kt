@@ -4,8 +4,8 @@ import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
-import com.ysshin.cpaquiz.core.common.Result
-import com.ysshin.cpaquiz.core.common.asResult
+import com.ysshin.cpaquiz.core.base.Result
+import com.ysshin.cpaquiz.core.base.asResult
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases

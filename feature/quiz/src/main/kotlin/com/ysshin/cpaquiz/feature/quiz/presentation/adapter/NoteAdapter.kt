@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ysshin.cpaquiz.core.android.util.inflate
-import com.ysshin.cpaquiz.core.common.Consumer
+import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.feature.quiz.databinding.ListItemProblemBinding
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel

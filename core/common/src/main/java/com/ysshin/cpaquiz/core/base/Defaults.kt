@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.core.common
+package com.ysshin.cpaquiz.core.base
 
 const val DEFAULT_INT = 0
 const val DEFAULT_LONG = 0L

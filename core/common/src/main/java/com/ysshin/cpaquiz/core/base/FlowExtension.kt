@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.core.common
+package com.ysshin.cpaquiz.core.base
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

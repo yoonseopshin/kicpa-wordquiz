@@ -19,8 +19,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialFadeThrough
-import com.ysshin.cpaquiz.core.common.Action
-import com.ysshin.cpaquiz.core.common.Consumer
+import com.ysshin.cpaquiz.core.base.Action
+import com.ysshin.cpaquiz.core.base.Consumer
 import kotlin.math.abs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

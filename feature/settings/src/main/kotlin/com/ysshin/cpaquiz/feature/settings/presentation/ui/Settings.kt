@@ -54,8 +54,8 @@ import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.core.common.Action
-import com.ysshin.cpaquiz.core.common.Consumer
+import com.ysshin.cpaquiz.core.base.Action
+import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 import kotlinx.coroutines.launch

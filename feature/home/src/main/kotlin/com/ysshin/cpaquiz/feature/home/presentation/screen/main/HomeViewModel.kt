@@ -2,7 +2,7 @@ package com.ysshin.cpaquiz.feature.home.presentation.screen.main
 
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
-import com.ysshin.cpaquiz.core.common.zip
+import com.ysshin.cpaquiz.core.base.zip
 import com.ysshin.cpaquiz.domain.model.DEFAULT_QUIZ_NUMBER
 import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
 import com.ysshin.cpaquiz.domain.model.QuizType

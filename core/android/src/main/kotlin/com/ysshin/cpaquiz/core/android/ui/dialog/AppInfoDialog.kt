@@ -30,7 +30,7 @@ import androidx.compose.ui.window.Dialog
 import com.ysshin.cpaquiz.core.android.BuildConfig
 import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
-import com.ysshin.cpaquiz.core.common.Action
+import com.ysshin.cpaquiz.core.base.Action
 
 @Composable
 fun AppInfoDialog(

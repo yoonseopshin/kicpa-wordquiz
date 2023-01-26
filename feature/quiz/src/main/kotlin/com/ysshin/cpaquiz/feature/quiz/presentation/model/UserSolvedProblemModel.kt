@@ -1,7 +1,7 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.model
 
-import com.ysshin.cpaquiz.core.common.DEFAULT_INVALID_INT
-import com.ysshin.cpaquiz.core.common.DEFAULT_LONG
+import com.ysshin.cpaquiz.core.base.DEFAULT_INVALID_INT
+import com.ysshin.cpaquiz.core.base.DEFAULT_LONG
 import com.ysshin.cpaquiz.domain.model.Problem
 
 data class UserSolvedProblemModel(

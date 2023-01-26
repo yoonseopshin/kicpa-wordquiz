@@ -81,8 +81,8 @@ import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.findActivity
-import com.ysshin.cpaquiz.core.common.Action
-import com.ysshin.cpaquiz.core.common.Consumer
+import com.ysshin.cpaquiz.core.base.Action
+import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizStartNavigationActionsProvider
