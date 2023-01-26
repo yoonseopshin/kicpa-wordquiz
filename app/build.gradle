@@ -100,7 +100,6 @@ dependencies {
     implementation project(":feature:settings")
     implementation project(":sync")
 
-    implementation(libs.bundles.compose)
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.windowsizeclass)
 

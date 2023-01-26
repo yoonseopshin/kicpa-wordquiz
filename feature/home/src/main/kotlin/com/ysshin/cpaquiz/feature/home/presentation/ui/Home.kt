@@ -70,7 +70,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
@@ -90,7 +89,6 @@ import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeInfoUiState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeQuizUiState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeRoute(
     windowSizeClass: WindowSizeClass,
