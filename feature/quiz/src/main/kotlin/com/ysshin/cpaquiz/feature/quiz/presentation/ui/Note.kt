@@ -960,36 +960,34 @@ private fun NoteHeader(
     onHeaderClick: Action = {},
     onHeaderLongClick: Action = {},
 ) {
-    if (numOfProblems > 0) {
-        val haptic = LocalHapticFeedback.current
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .combinedClickable(
-                    onClick = onHeaderClick,
-                    onLongClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onHeaderLongClick()
-                    }
-                )
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
-                .defaultMinSize(minHeight = 52.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = title,
-                    modifier = Modifier.padding(start = 16.dp, end = 8.dp),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Badge(containerColor = MaterialTheme.colorScheme.primaryContainer) {
-                    Text(
-                        text = numOfProblems.toString(),
-                        color = MaterialTheme.colorScheme.primary
-                    )
+    val haptic = LocalHapticFeedback.current
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .combinedClickable(
+                onClick = onHeaderClick,
+                onLongClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onHeaderLongClick()
                 }
+            )
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
+            .defaultMinSize(minHeight = 52.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = title,
+                modifier = Modifier.padding(start = 16.dp, end = 8.dp),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Badge(containerColor = MaterialTheme.colorScheme.primaryContainer) {
+                Text(
+                    text = numOfProblems.toString(),
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }
