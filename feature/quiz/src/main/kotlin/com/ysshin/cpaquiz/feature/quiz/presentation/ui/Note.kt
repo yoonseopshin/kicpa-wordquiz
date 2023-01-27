@@ -486,11 +486,13 @@ private fun WrongNoteHeaderContent(
             }
             Timber.d("Wrong problems(${problems.size}) added.")
 
-            NoteHeader(
-                title = stringResource(id = R.string.wrong_note),
-                numOfProblems = problems.size,
-                onHeaderLongClick = onHeaderLongClick
-            )
+            if (problems.isNotEmpty()) {
+                NoteHeader(
+                    title = stringResource(id = R.string.wrong_note),
+                    numOfProblems = problems.size,
+                    onHeaderLongClick = onHeaderLongClick
+                )
+            }
         }
         is WrongProblemsUiState.Error -> Unit
         is WrongProblemsUiState.Loading -> Unit
