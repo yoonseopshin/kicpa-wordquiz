@@ -122,11 +122,11 @@ private fun SettingsLazyVerticalGrid(
         WindowWidthSizeClass.Expanded -> 2
         else -> 1
     }
-
-    var (isDeleteWrongProblemDialogOpened, setDeleteWrongProblemDialogOpened) = rememberSaveable {
+    
+    val (isDeleteWrongProblemDialogOpened, setDeleteWrongProblemDialogOpened) = rememberSaveable {
         mutableStateOf(false)
     }
-    var (isAppVersionDialogOpened, setAppVersionDialogOpened) = rememberSaveable { mutableStateOf(false) }
+    val (isAppVersionDialogOpened, setAppVersionDialogOpened) = rememberSaveable { mutableStateOf(false) }
 
     InitSettingsDialog(
         isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
@@ -147,7 +147,7 @@ private fun SettingsLazyVerticalGrid(
                 settingsIcon = painterResource(id = R.drawable.ic_delete),
                 settingsText = stringResource(id = R.string.delete_wrong_note),
                 onClick = {
-                    isDeleteWrongProblemDialogOpened = true
+                    setDeleteWrongProblemDialogOpened(true)
                 },
             )
         }
@@ -157,7 +157,7 @@ private fun SettingsLazyVerticalGrid(
                 settingsIcon = painterResource(id = R.drawable.ic_info),
                 settingsText = stringResource(id = R.string.app_version),
                 onClick = {
-                    isAppVersionDialogOpened = true
+                    setAppVersionDialogOpened(true)
                 }
             )
         }
