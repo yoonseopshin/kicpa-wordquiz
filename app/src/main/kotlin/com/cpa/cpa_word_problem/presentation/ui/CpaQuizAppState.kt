@@ -16,6 +16,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navOptions
 import com.cpa.cpa_word_problem.R
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
 import com.ysshin.core.navigation.CpaQuizNavigationDestination
@@ -27,7 +28,7 @@ import com.ysshin.cpaquiz.feature.settings.presentation.navigation.SettingsDesti
 fun rememberCpaQuizAppState(
     navController: NavHostController,
     windowSizeClass: WindowSizeClass,
-    startDestination: String
+    startDestination: String,
 ): CpaQuizAppState {
     return remember(navController) {
         CpaQuizAppState(navController, windowSizeClass, startDestination)
@@ -38,7 +39,7 @@ fun rememberCpaQuizAppState(
 class CpaQuizAppState(
     val navController: NavHostController,
     val windowSizeClass: WindowSizeClass,
-    val startDestination: String
+    val startDestination: String,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
@@ -74,17 +75,18 @@ class CpaQuizAppState(
         get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Medium ||
             windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded
 
-    fun navigate(destination: CpaQuizNavigationDestination, route: String? = null) {
+    fun navigate(destination: CpaQuizNavigationDestination) {
         if (destination is TopLevelDestination) {
-            navController.navigate(route ?: destination.route) {
+            val topLevelNavOptions = navOptions {
                 popUpTo(navController.graph.findStartDestination().id) {
                     saveState = true
                 }
                 launchSingleTop = true
                 restoreState = true
             }
+            navController.navigate(destination.route, topLevelNavOptions)
         } else {
-            navController.navigate(route ?: destination.route)
+            navController.navigate(destination.route)
         }
     }
 
