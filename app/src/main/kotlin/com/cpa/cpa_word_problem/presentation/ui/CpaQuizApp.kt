@@ -22,19 +22,29 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Consumer
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun CpaQuizApp(appState: CpaQuizAppState) {
     CpaQuizTheme {
+        val isOffline by appState.isOffline.collectAsStateWithLifecycle()
+        LaunchedEffect(isOffline) {
+            // TODO: Implement network offline UI
+            Timber.d("Network offline")
+        }
+
         Scaffold(
             bottomBar = {
                 if (appState.shouldShowBottomBar) {
