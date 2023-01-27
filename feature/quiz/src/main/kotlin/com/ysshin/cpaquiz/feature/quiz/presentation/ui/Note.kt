@@ -1,9 +1,11 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
@@ -15,6 +17,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -952,7 +955,7 @@ private fun NoteSearchMenuContent(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 private fun NoteHeader(
     title: String = "",
@@ -983,11 +986,21 @@ private fun NoteHeader(
                 fontWeight = FontWeight.Bold
             )
 
-            Badge(containerColor = MaterialTheme.colorScheme.primaryContainer) {
-                Text(
-                    text = numOfProblems.toString(),
-                    color = MaterialTheme.colorScheme.primary
-                )
+            Badge(
+                modifier = Modifier.animateContentSize(),
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ) {
+                AnimatedContent(
+                    targetState = numOfProblems,
+                    transitionSpec = {
+                        fadeIn() with fadeOut()
+                    }
+                ) { numOfProblems ->
+                    Text(
+                        text = numOfProblems.toString(),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }
