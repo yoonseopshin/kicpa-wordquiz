@@ -205,7 +205,7 @@ fun NoteScreen(
             )
         }
     ) { padding ->
-        val shouldShowNativeAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+        val shouldShowAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
         Column(modifier = Modifier.padding(padding)) {
             AnimatedVisibility(
@@ -234,11 +234,7 @@ fun NoteScreen(
                 }
             }
 
-            AnimatedVisibility(
-                visible = shouldShowNativeAd,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
+            if (shouldShowAd) {
                 NativeSmallAd()
             }
 

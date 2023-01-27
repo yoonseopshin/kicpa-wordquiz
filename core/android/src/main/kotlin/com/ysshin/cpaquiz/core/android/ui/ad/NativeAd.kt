@@ -11,65 +11,57 @@ import com.ysshin.cpaquiz.core.android.databinding.LayoutNativeAdMediumBinding
 import com.ysshin.cpaquiz.core.android.databinding.LayoutNativeAdSmallBinding
 import com.ysshin.cpaquiz.core.android.util.AdConstants
 import com.ysshin.cpaquiz.core.android.util.visible
-import timber.log.Timber
 
 @Composable
 fun NativeMediumAd() {
-    var isAdRequested = false
+    AndroidViewBinding(
+        factory = { inflater, parent, attachToParent ->
+            val binding = LayoutNativeAdMediumBinding.inflate(inflater, parent, attachToParent)
 
-    AndroidViewBinding(factory = LayoutNativeAdMediumBinding::inflate) {
-        if (isAdRequested) {
-            Timber.d("NativeMediumAd is already requested.")
-            return@AndroidViewBinding
-        }
+            val adView = binding.root.also { adView ->
+                adView.advertiserView = binding.tvAdvertiser
+                adView.bodyView = binding.tvBody
+                adView.callToActionView = binding.btnCta
+                adView.headlineView = binding.tvHeadline
+                adView.iconView = binding.ivAppIcon
+                adView.priceView = binding.tvPrice
+                adView.starRatingView = binding.rtbStars
+                adView.storeView = binding.tvStore
+                adView.mediaView = binding.mvContent
+            }
 
-        Timber.d("Create LayoutNativeAdMediumBinding.")
-
-        val adView = root.also { adView ->
-            adView.advertiserView = tvAdvertiser
-            adView.bodyView = tvBody
-            adView.callToActionView = btnCta
-            adView.headlineView = tvHeadline
-            adView.iconView = ivAppIcon
-            adView.priceView = tvPrice
-            adView.starRatingView = rtbStars
-            adView.storeView = tvStore
-            adView.mediaView = mvContent
-        }
-
-        runCatching {
-            AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
+            val adLoader = AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
                 .forNativeAd { nativeAd ->
                     nativeAd.advertiser?.let { advertiser ->
-                        tvAdvertiser.text = advertiser
+                        binding.tvAdvertiser.text = advertiser
                     }
 
                     nativeAd.body?.let { body ->
-                        tvBody.text = body
+                        binding.tvBody.text = body
                     }
 
                     nativeAd.callToAction?.let { cta ->
-                        btnCta.text = cta
+                        binding.btnCta.text = cta
                     }
 
                     nativeAd.headline?.let { headline ->
-                        tvHeadline.text = headline
+                        binding.tvHeadline.text = headline
                     }
 
                     nativeAd.icon?.let { icon ->
-                        ivAppIcon.setImageDrawable(icon.drawable)
+                        binding.ivAppIcon.setImageDrawable(icon.drawable)
                     }
 
                     nativeAd.price?.let { price ->
-                        tvPrice.text = price
+                        binding.tvPrice.text = price
                     }
 
                     nativeAd.starRating?.let { rating ->
-                        rtbStars.rating = rating.toFloat()
+                        binding.rtbStars.rating = rating.toFloat()
                     }
 
                     nativeAd.store?.let { store ->
-                        tvStore.text = store
+                        binding.tvStore.text = store
                     }
 
                     adView.setNativeAd(nativeAd)
@@ -82,12 +74,11 @@ fun NativeMediumAd() {
                 })
                 .withNativeAdOptions(NativeAdOptions.Builder().build())
                 .build()
-        }.onSuccess {
-            Timber.d("Load NativeMediumAd.")
-            it.loadAd(AdRequest.Builder().build())
-            isAdRequested = true
+            adLoader.loadAd(AdRequest.Builder().build())
+
+            binding
         }
-    }
+    )
 }
 
 @Preview(showBackground = true)
@@ -98,62 +89,38 @@ private fun NativeMediumAdPreview() {
 
 @Composable
 fun NativeSmallAd() {
-    var isAdRequested = false
+    AndroidViewBinding(factory = { inflater, parent, attachToParent ->
+        val binding = LayoutNativeAdSmallBinding.inflate(inflater, parent, attachToParent)
 
-    AndroidViewBinding(factory = LayoutNativeAdSmallBinding::inflate) {
-        if (isAdRequested) {
-            Timber.d("NativeSmallAd is already requested.")
-            return@AndroidViewBinding
-        }
-        Timber.d("Create LayoutNativeAdSmallBinding.")
-
-        val adView = root.also { adView ->
-            adView.bodyView = tvBody
-            adView.callToActionView = btnCta
-            adView.headlineView = tvHeadline
-            adView.iconView = ivAppIcon
-            adView.storeView = tvStore
+        val adView = binding.root.also { adView ->
+            adView.bodyView = binding.tvBody
+            adView.callToActionView = binding.btnCta
+            adView.headlineView = binding.tvHeadline
+            adView.iconView = binding.ivAppIcon
+            adView.storeView = binding.tvStore
         }
 
-        runCatching {
-            AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_SMALL)
-                .forNativeAd { nativeAd ->
-                    nativeAd.body?.let { body ->
-                        tvBody.text = body
-                    }
-
-                    nativeAd.callToAction?.let { cta ->
-                        btnCta.text = cta
-                    }
-
-                    nativeAd.headline?.let { headline ->
-                        tvHeadline.text = headline
-                    }
-
-                    nativeAd.icon?.let { icon ->
-                        ivAppIcon.setImageDrawable(icon.drawable)
-                    }
-
-                    nativeAd.store?.let { store ->
-                        tvStore.text = store
-                    }
-
-                    adView.setNativeAd(nativeAd)
+        val adLoader = AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_SMALL)
+            .forNativeAd { nativeAd ->
+                nativeAd.body?.let { binding.tvBody.text = it }
+                nativeAd.callToAction?.let { binding.btnCta.text = it }
+                nativeAd.headline?.let { binding.tvHeadline.text = it }
+                nativeAd.icon?.let { binding.ivAppIcon.setImageDrawable(it.drawable) }
+                nativeAd.store?.let { binding.tvStore.text = it }
+                adView.setNativeAd(nativeAd)
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    adView.visible(withAnimation = true)
                 }
-                .withAdListener(object : AdListener() {
-                    override fun onAdLoaded() {
-                        super.onAdLoaded()
-                        adView.visible(withAnimation = true)
-                    }
-                })
-                .withNativeAdOptions(NativeAdOptions.Builder().build())
-                .build()
-        }.onSuccess {
-            Timber.d("Load NativeSmallAd.")
-            it.loadAd(AdRequest.Builder().build())
-            isAdRequested = true
-        }
-    }
+            })
+            .withNativeAdOptions(NativeAdOptions.Builder().build())
+            .build()
+        adLoader.loadAd(AdRequest.Builder().build())
+
+        binding
+    })
 }
 
 @Preview(showBackground = true)
