@@ -85,6 +85,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -94,10 +95,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
@@ -895,6 +898,9 @@ private fun NoteSearchMenuContent(
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
+    var keyword by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue(searchKeyword))
+    }
 
     SideEffect {
         if (isMenuOpened) {
@@ -917,8 +923,11 @@ private fun NoteSearchMenuContent(
             .bringIntoViewRequester(bringIntoViewRequester),
     ) {
         OutlinedTextField(
-            value = searchKeyword,
-            onValueChange = updateSearchKeyword,
+            value = keyword,
+            onValueChange = { newKeyword ->
+                keyword = newKeyword
+                updateSearchKeyword(keyword.text)
+            },
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -928,6 +937,11 @@ private fun NoteSearchMenuContent(
                         scope.launch {
                             bringIntoViewRequester.bringIntoView()
                         }
+                    }
+                }
+                .onFocusChanged { focusState ->
+                    if (focusState.isFocused) {
+                        keyword = keyword.copy(selection = TextRange(keyword.text.length))
                     }
                 },
             maxLines = 1,

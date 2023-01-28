@@ -122,7 +122,7 @@ private fun SettingsLazyVerticalGrid(
         WindowWidthSizeClass.Expanded -> 2
         else -> 1
     }
-    
+
     val (isDeleteWrongProblemDialogOpened, setDeleteWrongProblemDialogOpened) = rememberSaveable {
         mutableStateOf(false)
     }
