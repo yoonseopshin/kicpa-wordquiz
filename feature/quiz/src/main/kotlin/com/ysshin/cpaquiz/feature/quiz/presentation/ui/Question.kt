@@ -430,6 +430,24 @@ fun QuestionDetail(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun QuestionDetailPreview() {
+    QuestionDetail(
+        mode = ProblemDetailMode.Detail,
+        currentQuestion = Problem(
+            year = 2022,
+            pid = 15,
+            description = "Sample description",
+            subDescriptions = listOf("A. Hello", "B. World"),
+            questions = listOf("Q1", "Q2", "Q3", "Q4", "Q5")
+        ),
+        selectedQuestionIndex = 1,
+        onQuestionClick = {},
+        onSelectAnswer = {}
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionTopAppBar(isVisible: Boolean, total: Int, solved: Int) {

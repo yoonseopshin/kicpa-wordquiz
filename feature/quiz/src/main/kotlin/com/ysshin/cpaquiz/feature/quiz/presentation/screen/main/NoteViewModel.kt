@@ -33,6 +33,8 @@ class NoteViewModel @Inject constructor(
     private val _noteFilter = MutableStateFlow(NoteFilter.default())
     val noteFilter = _noteFilter.asStateFlow()
 
+    val selectedQuestion: MutableStateFlow<Problem?> = MutableStateFlow(null)
+
     val noteUiState: StateFlow<NoteUiState> =
         combine(
             problemUseCases.getTotalProblems().asResult(),
@@ -103,12 +105,18 @@ class NoteViewModel @Inject constructor(
         viewModelScope.launch {
             problemUseCases.deleteWrongProblem(problem)
         }
+        setSelectedQuestion(null)
     }
 
     fun deleteAllWrongProblems() {
         viewModelScope.launch {
             problemUseCases.deleteAllWrongProblems.invoke()
         }
+        setSelectedQuestion(null)
+    }
+
+    fun setSelectedQuestion(problem: Problem?) {
+        selectedQuestion.value = problem
     }
 }
 

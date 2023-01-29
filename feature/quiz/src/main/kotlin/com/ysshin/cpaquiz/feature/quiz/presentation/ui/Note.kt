@@ -3,6 +3,7 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateContentSize
@@ -20,7 +21,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,9 +29,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -40,8 +42,10 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.icons.Icons
@@ -71,8 +75,9 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -82,7 +87,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -155,18 +159,21 @@ fun NoteRoute(
     val noteUiState = viewModel.noteUiState.collectAsStateWithLifecycle()
     val noteFilter = viewModel.noteFilter.collectAsStateWithLifecycle()
     val searchKeyword = viewModel.searchKeyword.collectAsStateWithLifecycle()
+    val selectedQuestionInSplitScreen = viewModel.selectedQuestion.collectAsStateWithLifecycle()
 
     NoteScreen(
         windowSizeClass = windowSizeClass,
         noteUiState = noteUiState.value,
         noteFilter = noteFilter.value,
         searchKeyword = searchKeyword.value,
+        selectedQuestionInSplitScreen = selectedQuestionInSplitScreen.value,
         updateSearchKeyword = viewModel::updateSearchKeyword,
         setFilter = viewModel::setFilter,
         selectableFilteredYears = viewModel.selectableFilteredYears,
         selectableFilteredTypes = viewModel.selectableFilteredTypes,
         deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
         deleteTargetWrongProblem = viewModel::deleteTargetWrongProblem,
+        setSelectedQuestion = viewModel::setSelectedQuestion
     )
 }
 
@@ -177,18 +184,24 @@ fun NoteScreen(
     noteUiState: NoteUiState,
     noteFilter: NoteFilter,
     searchKeyword: String,
+    selectedQuestionInSplitScreen: Problem?,
     updateSearchKeyword: Consumer<String>,
     setFilter: (List<Int>, List<QuizType>) -> Unit,
     selectableFilteredYears: List<SelectableTextItem>,
     selectableFilteredTypes: List<SelectableTextItem>,
     deleteAllWrongProblems: Action,
     deleteTargetWrongProblem: Consumer<Problem>,
+    setSelectedQuestion: (Problem?) -> Unit,
 ) {
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
-
+    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     var isMenuOpened by rememberSaveable { mutableStateOf(false) }
     var noteMenuContent by rememberSaveable { mutableStateOf<NoteMenuContent>(NoteMenuContent.Search) }
+
+    BackHandler(enabled = useSplitScreen && selectedQuestionInSplitScreen != null) {
+        setSelectedQuestion(null)
+    }
 
     BackHandler(enabled = isMenuOpened) {
         isMenuOpened = false
@@ -254,33 +267,137 @@ fun NoteScreen(
                 )
             }
 
-            LazyColumn(state = listState) {
-                if (searchKeyword.isBlank()) {
-                    onViewingContent(
-                        totalProblemsUiState = noteUiState.totalProblemsUiState,
-                        wrongProblemsUiState = noteUiState.wrongProblemsUiState,
-                        isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
-                        updateDeletingAllWrongProblemsDialog = { isOpened ->
-                            isDeleteAllWrongProblemsDialogOpened = isOpened
-                        },
-                        deleteAllWrongProblems = deleteAllWrongProblems,
-                        isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
-                        updateDeletingWrongProblemDialogOpened = { dialog ->
-                            isDeleteWrongProblemDialogOpened =
-                                isDeleteWrongProblemDialogOpened.copy(
-                                    isOpened = dialog.isOpened,
-                                    problem = dialog.problem
-                                )
-                            Timber.d("dialog info: $dialog")
-                        },
-                        deleteTargetWrongProblem = deleteTargetWrongProblem,
-                        windowSizeClass = windowSizeClass
-                    )
+            val context = LocalContext.current
+
+            val onProblemClick: (Problem) -> Unit = { problem ->
+                if (useSplitScreen) {
+                    setSelectedQuestion(problem)
                 } else {
-                    onSearchingContent(noteUiState.searchedProblemsUiState, windowSizeClass)
+                    setSelectedQuestion(problem)
+                    context.startActivity(
+                        QuestionActivity.newIntent(
+                            context = context,
+                            mode = ProblemDetailMode.Detail,
+                            problemModel = problem.toModel()
+                        )
+                    )
+                }
+            }
+
+            when (getNoteScreenType(useSplitScreen)) {
+                NoteScreenType.Question -> {
+                    LazyColumn(state = listState) {
+                        if (searchKeyword.isBlank()) {
+                            onViewingContent(
+                                totalProblemsUiState = noteUiState.totalProblemsUiState,
+                                wrongProblemsUiState = noteUiState.wrongProblemsUiState,
+                                isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
+                                updateDeletingAllWrongProblemsDialog = { isOpened ->
+                                    isDeleteAllWrongProblemsDialogOpened = isOpened
+                                },
+                                deleteAllWrongProblems = deleteAllWrongProblems,
+                                isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                                updateDeletingWrongProblemDialogOpened = { dialog ->
+                                    isDeleteWrongProblemDialogOpened =
+                                        isDeleteWrongProblemDialogOpened.copy(
+                                            isOpened = dialog.isOpened,
+                                            problem = dialog.problem
+                                        )
+                                    Timber.d("dialog info: $dialog")
+                                },
+                                deleteTargetWrongProblem = deleteTargetWrongProblem,
+                                onProblemClick = onProblemClick,
+                                windowSizeClass = windowSizeClass
+                            )
+                        } else {
+                            onSearchingContent(
+                                noteUiState.searchedProblemsUiState,
+                                windowSizeClass,
+                                onProblemClick
+                            )
+                        }
+                    }
+                }
+                NoteScreenType.QuestionWithDetails -> {
+                    Row {
+                        LazyColumn(state = listState) {
+                            if (searchKeyword.isBlank()) {
+                                onViewingContent(
+                                    totalProblemsUiState = noteUiState.totalProblemsUiState,
+                                    wrongProblemsUiState = noteUiState.wrongProblemsUiState,
+                                    isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
+                                    updateDeletingAllWrongProblemsDialog = { isOpened ->
+                                        isDeleteAllWrongProblemsDialogOpened = isOpened
+                                    },
+                                    deleteAllWrongProblems = deleteAllWrongProblems,
+                                    isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                                    updateDeletingWrongProblemDialogOpened = { dialog ->
+                                        isDeleteWrongProblemDialogOpened =
+                                            isDeleteWrongProblemDialogOpened.copy(
+                                                isOpened = dialog.isOpened,
+                                                problem = dialog.problem
+                                            )
+                                        Timber.d("dialog info: $dialog")
+                                    },
+                                    deleteTargetWrongProblem = deleteTargetWrongProblem,
+                                    onProblemClick = onProblemClick,
+                                    windowSizeClass = windowSizeClass
+                                )
+                            } else {
+                                onSearchingContent(
+                                    noteUiState.searchedProblemsUiState,
+                                    windowSizeClass,
+                                    onProblemClick
+                                )
+                            }
+                        }
+
+                        val scrollState = rememberScrollState()
+
+                        LaunchedEffect(selectedQuestionInSplitScreen) {
+                            scrollState.animateScrollTo(0)
+                        }
+
+                        Crossfade(targetState = selectedQuestionInSplitScreen) { selectedQuestion ->
+                            if (selectedQuestion == null) {
+                                NoSelectedQuestionScreen()
+                            } else {
+                                Surface(modifier = Modifier.verticalScroll(scrollState)) {
+                                    QuestionDetail(
+                                        mode = ProblemDetailMode.Detail,
+                                        currentQuestion = selectedQuestion,
+                                        selectedQuestionIndex = -1,
+                                        onQuestionClick = {},
+                                        onSelectAnswer = {},
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun NoSelectedQuestionScreen() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        val minSize = 100.dp
+        val maxSize = 140.dp
+        Icon(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .sizeIn(
+                    minWidth = minSize,
+                    minHeight = minSize,
+                    maxWidth = maxSize,
+                    maxHeight = maxSize,
+                ),
+            painter = painterResource(id = R.drawable.quiz),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+        )
     }
 }
 
@@ -333,20 +450,25 @@ private fun NoteTopAppBar(
 private fun LazyListScope.onSearchingContent(
     uiState: SearchedProblemsUiState,
     windowSizeClass: WindowSizeClass,
+    onProblemClick: ((Problem) -> Unit)? = null,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is SearchedProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
-            SearchedNoteHeaderContent(uiState)
+            SearchedNoteHeaderContent(uiState, windowSizeClass)
         }
 
         val items = uiState.data
         itemsIndexed(items = items) { index, problem ->
-            NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
+            NoteSummaryContent(
+                problem = problem,
+                windowSizeClass = windowSizeClass,
+                onProblemClick = onProblemClick,
+            ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
-                NoteSummaryDivider()
+                NoteSummaryDivider(windowSizeClass)
             }
         }
     }
@@ -361,6 +483,7 @@ private fun LazyListScope.onViewingContent(
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
     deleteTargetWrongProblem: Consumer<Problem>,
+    onProblemClick: (Problem) -> Unit,
     windowSizeClass: WindowSizeClass,
 ) {
     wrongProblemsContent(
@@ -371,9 +494,10 @@ private fun LazyListScope.onViewingContent(
         isDeleteWrongProblemDialogOpened,
         updateDeletingWrongProblemDialogOpened,
         deleteTargetWrongProblem,
+        onProblemClick,
         windowSizeClass,
     )
-    totalProblemsContent(totalProblemsUiState, windowSizeClass)
+    totalProblemsContent(totalProblemsUiState, windowSizeClass, onProblemClick)
 }
 
 private fun LazyListScope.wrongProblemsContent(
@@ -384,6 +508,7 @@ private fun LazyListScope.wrongProblemsContent(
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
     deleteTargetWrongProblem: Consumer<Problem>,
+    onProblemClick: (Problem) -> Unit,
     windowSizeClass: WindowSizeClass,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
@@ -409,7 +534,8 @@ private fun LazyListScope.wrongProblemsContent(
                 state = uiState,
                 onHeaderLongClick = {
                     updateDeletingAllWrongProblemsDialog(true)
-                }
+                },
+                windowSizeClass = windowSizeClass
             )
         }
 
@@ -418,6 +544,8 @@ private fun LazyListScope.wrongProblemsContent(
             val problem = wrongProblemModel.problem
             NoteSummaryContent(
                 problem = problem,
+                windowSizeClass = windowSizeClass,
+                onProblemClick = onProblemClick,
                 onProblemLongClick = {
                     Timber.d("Target problem: $problem")
                     updateDeletingWrongProblemDialogOpened(
@@ -433,7 +561,7 @@ private fun LazyListScope.wrongProblemsContent(
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
-                NoteSummaryDivider()
+                NoteSummaryDivider(windowSizeClass)
             }
         }
     }
@@ -442,20 +570,25 @@ private fun LazyListScope.wrongProblemsContent(
 private fun LazyListScope.totalProblemsContent(
     uiState: TotalProblemsUiState,
     windowSizeClass: WindowSizeClass,
+    onProblemClick: (Problem) -> Unit,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is TotalProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
-            TotalNoteHeaderContent(uiState)
+            TotalNoteHeaderContent(uiState, windowSizeClass)
         }
 
         val items = uiState.data
         itemsIndexed(items = items) { index, problem ->
-            NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
+            NoteSummaryContent(
+                problem = problem,
+                windowSizeClass = windowSizeClass,
+                onProblemClick = onProblemClick,
+            ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
-                NoteSummaryDivider()
+                NoteSummaryDivider(windowSizeClass)
             }
         }
     }
@@ -481,6 +614,7 @@ private fun LazyListScope.itemHeader(
 private fun WrongNoteHeaderContent(
     state: WrongProblemsUiState,
     onHeaderLongClick: Action,
+    windowSizeClass: WindowSizeClass,
 ) {
     when (state) {
         is WrongProblemsUiState.Success -> {
@@ -491,6 +625,7 @@ private fun WrongNoteHeaderContent(
 
             if (problems.isNotEmpty()) {
                 NoteHeader(
+                    windowSizeClass = windowSizeClass,
                     title = stringResource(id = R.string.wrong_note),
                     numOfProblems = problems.size,
                     onHeaderLongClick = onHeaderLongClick
@@ -509,12 +644,14 @@ private fun WrongNoteHeaderContent(
 @Composable
 private fun LazyItemScope.NoteSummaryContent(
     problem: Problem,
+    windowSizeClass: WindowSizeClass,
+    onProblemClick: ((Problem) -> Unit)? = null,
     onProblemLongClick: Action? = null,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>? = null,
     deleteTargetWrongProblem: Consumer<Problem>? = null,
 ) {
-    val context = LocalContext.current
+    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
 
     isDeleteWrongProblemDialogOpened?.let { dialog ->
         if (dialog.isOpened) {
@@ -543,24 +680,18 @@ private fun LazyItemScope.NoteSummaryContent(
         modifier = Modifier
             .combinedClickable(
                 onClick = {
-                    context.startActivity(
-                        QuestionActivity.newIntent(
-                            context = context,
-                            mode = ProblemDetailMode.Detail,
-                            problemModel = problem.toModel()
-                        )
-                    )
+                    onProblemClick?.invoke(problem)
                 },
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     onProblemLongClick?.invoke()
                 }
             )
-            .fillMaxWidth()
+            .widthBySplit(useSplitScreen)
             .padding(bottom = 20.dp)
             .animateItemPlacement()
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Box {
             Row(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
@@ -599,42 +730,25 @@ private fun LazyItemScope.NoteSummaryContent(
                         borderWidth = 0.5.dp
                     )
                 )
-            }
 
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(end = 8.dp)
-            ) {
                 val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
                 val borderColorResourceIdByType = chipBorderColorResIdByType(problem.type)
 
-                Box {
-                    AssistChip(
-                        modifier = Modifier.padding(all = 4.dp),
-                        onClick = {},
-                        label = {
-                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                Text(text = problem.type.toKorean())
-                            }
-                        },
-                        colors = AssistChipDefaults.assistChipColors(
-                            containerColor = colorResource(id = containerColorResourceIdByType)
-                        ),
-                        border = AssistChipDefaults.assistChipBorder(
-                            borderColor = colorResource(id = borderColorResourceIdByType),
-                            borderWidth = 0.5.dp,
-                        )
+                NotClickableAssistedChip(
+                    modifier = Modifier.padding(all = 4.dp),
+                    label = {
+                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                            Text(text = problem.type.toKorean())
+                        }
+                    },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = colorResource(id = containerColorResourceIdByType)
+                    ),
+                    border = AssistChipDefaults.assistChipBorder(
+                        borderColor = colorResource(id = borderColorResourceIdByType),
+                        borderWidth = 0.5.dp,
                     )
-
-                    Box(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .alpha(0f)
-                            .clickable(onClick = {})
-                    )
-                }
+                )
             }
         }
 
@@ -665,7 +779,7 @@ private fun LazyItemScope.NoteSummaryContent(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .fillMaxWidth()
+                .widthBySplit(useSplitScreen)
                 .padding(horizontal = 12.dp)
                 .padding(top = 8.dp),
             style = Typography.bodyMedium
@@ -674,18 +788,19 @@ private fun LazyItemScope.NoteSummaryContent(
 }
 
 @Composable
-private fun NoteSummaryDivider() {
+private fun NoteSummaryDivider(windowSizeClass: WindowSizeClass) {
+    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     Divider(
         modifier = Modifier
             .padding(horizontal = 12.dp)
-            .fillMaxWidth(),
+            .widthBySplit(useSplitScreen),
         thickness = 1.dp,
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
     )
 }
 
 @Composable
-private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
+private fun TotalNoteHeaderContent(state: TotalProblemsUiState, windowSizeClass: WindowSizeClass) {
     when (state) {
         is TotalProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -694,6 +809,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
             Timber.d("Total problems(${problems.size}) added.")
 
             NoteHeader(
+                windowSizeClass = windowSizeClass,
                 title = stringResource(id = R.string.total_note),
                 numOfProblems = problems.size
             )
@@ -704,7 +820,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
 }
 
 @Composable
-private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
+private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState, windowSizeClass: WindowSizeClass) {
     when (state) {
         is SearchedProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -713,6 +829,7 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
             Timber.d("Searched problems(${problems.size}) added.")
 
             NoteHeader(
+                windowSizeClass = windowSizeClass,
                 title = stringResource(id = R.string.searched_problem),
                 numOfProblems = problems.size
             )
@@ -902,13 +1019,11 @@ private fun NoteSearchMenuContent(
         mutableStateOf(TextFieldValue(searchKeyword))
     }
 
-    SideEffect {
+    LaunchedEffect(isMenuOpened) {
         if (isMenuOpened) {
-            scope.launch {
-                delay(100L)
-                keyboardController?.show()
-                focusRequester.requestFocus()
-            }
+            delay(100L)
+            keyboardController?.show()
+            focusRequester.requestFocus()
         } else {
             keyboardController?.hide()
         }
@@ -974,12 +1089,15 @@ private fun NoteSearchMenuContent(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 private fun NoteHeader(
+    windowSizeClass: WindowSizeClass,
     title: String = "",
     numOfProblems: Int = 0,
     onHeaderClick: Action = {},
     onHeaderLongClick: Action = {},
 ) {
     val haptic = LocalHapticFeedback.current
+    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -990,7 +1108,7 @@ private fun NoteHeader(
                     onHeaderLongClick()
                 }
             )
-            .fillMaxWidth()
+            .widthBySplit(useSplitScreen)
             .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
             .defaultMinSize(minHeight = 52.dp)
     ) {
@@ -1213,6 +1331,7 @@ fun NoteScreenViewPreview() {
                     searchedProblemsUiState = SearchedProblemsUiState.Loading,
                 ),
                 searchKeyword = "",
+                selectedQuestionInSplitScreen = Problem(),
                 updateSearchKeyword = {},
                 setFilter = { _, _ -> },
                 selectableFilteredYears = listOf(),
@@ -1220,6 +1339,7 @@ fun NoteScreenViewPreview() {
                 deleteAllWrongProblems = { },
                 deleteTargetWrongProblem = { },
                 noteFilter = NoteFilter.default(),
+                setSelectedQuestion = {},
             )
         }
     }
@@ -1260,6 +1380,7 @@ private fun NoteScreenSearchPreview() {
                     ),
                 ),
                 searchKeyword = "blah",
+                selectedQuestionInSplitScreen = Problem(),
                 updateSearchKeyword = {},
                 setFilter = { _, _ -> },
                 selectableFilteredYears = listOf(),
@@ -1267,7 +1388,19 @@ private fun NoteScreenSearchPreview() {
                 deleteAllWrongProblems = { },
                 deleteTargetWrongProblem = { },
                 noteFilter = NoteFilter.default(),
+                setSelectedQuestion = {},
             )
         }
     }
 }
+
+private enum class NoteScreenType {
+    Question,
+    QuestionWithDetails
+}
+
+private fun getNoteScreenType(useSplitScreen: Boolean) =
+    if (useSplitScreen) NoteScreenType.QuestionWithDetails else NoteScreenType.Question
+
+private fun Modifier.widthBySplit(useSplitScreen: Boolean) =
+    this.then(if (useSplitScreen) Modifier.width(300.dp) else Modifier.fillMaxWidth())
