@@ -382,7 +382,11 @@ fun NoteScreen(
 
 @Composable
 fun NoSelectedQuestionScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 64.dp)
+    ) {
         val minSize = 100.dp
         val maxSize = 140.dp
         Icon(
