@@ -1,9 +1,9 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.model
 
 import android.os.Parcelable
-import com.ysshin.cpaquiz.core.common.DEFAULT_INT
-import com.ysshin.cpaquiz.core.common.DEFAULT_STRING
-import com.ysshin.cpaquiz.core.common.DEFAULT_STRING_LIST
+import com.ysshin.cpaquiz.core.base.DEFAULT_INT
+import com.ysshin.cpaquiz.core.base.DEFAULT_STRING
+import com.ysshin.cpaquiz.core.base.DEFAULT_STRING_LIST
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import kotlinx.parcelize.Parcelize

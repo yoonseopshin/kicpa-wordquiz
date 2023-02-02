@@ -8,7 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.util.UiText
-import com.ysshin.cpaquiz.core.common.DEFAULT_INT
+import com.ysshin.cpaquiz.core.base.DEFAULT_INT
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
@@ -20,12 +20,9 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -37,12 +34,6 @@ class QuestionViewModel @Inject constructor(
     private val quizUseCases: QuizUseCases,
     private val handle: SavedStateHandle,
 ) : BaseViewModel() {
-
-    private val _uiEvent = MutableSharedFlow<UiEvent>(
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-        extraBufferCapacity = 1
-    )
-    val uiEvent = _uiEvent.asSharedFlow()
 
     val useTimer: StateFlow<Boolean> = handle.getStateFlow(QuizConstants.useTimer, false)
 
@@ -56,6 +47,9 @@ class QuestionViewModel @Inject constructor(
 
     private val _isFabVisible = MutableStateFlow(false)
     val isFabVisible = _isFabVisible.asStateFlow()
+
+    val quizState = MutableStateFlow<QuizState>(QuizState.Solving)
+    val snackbarState = MutableStateFlow<SnackbarState>(SnackbarState.Hide)
 
     fun onPause() {
         timer.pause()
@@ -83,7 +77,7 @@ class QuestionViewModel @Inject constructor(
     private val _selected = mutableListOf<Int>()
     val selected: List<Int> = _selected
 
-    val timesPerProblem get() = timer.timesPerQuestion
+    val timesPerQuestion get() = timer.timesPerQuestion
 
     val mode = handle.getStateFlow(QuizConstants.mode, ProblemDetailMode.Detail)
 
@@ -96,23 +90,28 @@ class QuestionViewModel @Inject constructor(
     private fun onQuizNext() = viewModelScope.launch {
         if (_questions.isEmpty()) return@launch
 
-        if (_numOfSolvedQuestions.value < _questions.size) {
-            // next quiz
-            _currentQuestion.value = _questions[_numOfSolvedQuestions.value]
-            _numOfSolvedQuestions.update { solved ->
-                if (solved > 0) timer.record()
-                solved + 1
+        val numOfSolvedQuestions = _numOfSolvedQuestions.value
+        val numOfTotalQuestions = _questions.size
+
+        if (numOfSolvedQuestions > numOfTotalQuestions) {
+            // Can't be reached
+            Timber.d("Solved number($numOfSolvedQuestions) can't be more than total number($numOfTotalQuestions)")
+            return@launch
+        } else if (numOfSolvedQuestions < numOfTotalQuestions) {
+            // Next quiz
+            _currentQuestion.value = _questions[numOfSolvedQuestions]
+            _numOfSolvedQuestions.update {
+                if (numOfSolvedQuestions > 0) timer.record()
+                numOfSolvedQuestions + 1
             }
-            _uiEvent.emit(UiEvent.ScrollToTop)
+            quizState.value = QuizState.Solving
         } else {
-            Timber.d("Quiz end")
-            // quiz end
+            // End up quiz
             timer.record()
             timer.pause()
             quizUseCases.increaseSolvedQuiz()
-            _uiEvent.emit(UiEvent.NavigateToQuizResult)
+            quizState.value = QuizState.End
         }
-        _selectedQuestionIndex.value = -1
     }
 
     private val _selectedQuestionIndex = MutableStateFlow(-1)
@@ -126,23 +125,22 @@ class QuestionViewModel @Inject constructor(
         val currentSelectedIndex = selectedQuestionIndex.value
 
         if (currentSelectedIndex !in 0..4) {
-            _uiEvent.emit(
-                UiEvent.ShowSnackbar(
-                    message = UiText.StringResource(R.string.msg_need_answer),
-                    actionLabel = UiText.StringResource(R.string.confirm)
-                )
-            )
+            snackbarState.value =
+                SnackbarState.Show(message = UiText.StringResource(R.string.msg_need_answer))
+            quizState.value = QuizState.Solving
             return@launch
         }
 
         _isAnimationShowing.value = true
         _selected.add(currentSelectedIndex)
+        _selectedQuestionIndex.value = -1
 
-        showQuizAnimation()
+        onGrading()
         onQuizNext()
     }
 
-    private suspend fun showQuizAnimation() {
+    private suspend fun onGrading() {
+        quizState.value = QuizState.Grading
         val selectedQuestion = _selectedQuestionIndex.value
         val answer = _currentQuestion.value.answer
 
@@ -185,12 +183,6 @@ class QuestionViewModel @Inject constructor(
             ProblemDetailMode.Detail -> onDetail()
         }
     }
-
-    sealed interface UiEvent {
-        object NavigateToQuizResult : UiEvent
-        object ScrollToTop : UiEvent
-        data class ShowSnackbar(val message: UiText, val actionLabel: UiText) : UiEvent
-    }
 }
 
 sealed class PopScaleAnimationInfo(
@@ -203,4 +195,19 @@ sealed class PopScaleAnimationInfo(
 
     object Incorrect :
         PopScaleAnimationInfo(R.color.color_on_incorrect, R.color.daynight_pastel_red, Icons.Default.Close)
+}
+
+sealed interface SnackbarState {
+    object Hide : SnackbarState
+    data class Show(
+        val message: UiText,
+        val actionLabel: UiText = UiText.DynamicString(""),
+    ) : SnackbarState
+}
+
+sealed interface QuizState {
+    object Solving : QuizState
+
+    object Grading : QuizState
+    object End : QuizState
 }

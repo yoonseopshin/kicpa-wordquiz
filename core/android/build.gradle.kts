@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    api(platform(libs.androidx.compose.bom))
     api(libs.bundles.compose)
     androidTestApi(libs.compose.ui.test)
     debugApi(libs.compose.ui.tooling)

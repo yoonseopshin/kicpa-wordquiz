@@ -75,6 +75,8 @@ import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.QuizEndNavigationActionsProvider
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizState
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.SnackbarState
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,6 +87,8 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val currentQuestion = viewModel.currentQuestion.collectAsStateWithLifecycle()
     val isToolbarTitleVisible = viewModel.isToolbarTitleVisible.collectAsStateWithLifecycle()
     val mode = viewModel.mode.collectAsStateWithLifecycle()
+    val quizState = viewModel.quizState.collectAsStateWithLifecycle()
+    val snackbarState = viewModel.snackbarState.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -111,32 +115,34 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(Unit) {
-        // Handle UI event
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is QuestionViewModel.UiEvent.NavigateToQuizResult -> {
-                    // FIXME: Sometimes not working properly
-                    val quizEndNavActions =
-                        (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
-                    quizEndNavActions.onQuizEnd(
-                        activity = activity,
-                        problems = viewModel.questions,
-                        selected = viewModel.selected,
-                        timesPerProblem = viewModel.timesPerProblem,
-                    )
-                }
-                is QuestionViewModel.UiEvent.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(
-                        message = event.message.asString(context),
-                        actionLabel = event.actionLabel.asString(context),
-                        duration = SnackbarDuration.Short
-                    )
-                }
-                is QuestionViewModel.UiEvent.ScrollToTop -> {
-                    scrollState.animateScrollTo(value = 0)
-                }
+    LaunchedEffect(quizState.value) {
+        when (val state = quizState.value) {
+            is QuizState.Solving -> scrollState.animateScrollTo(0)
+            QuizState.Grading -> Unit
+            QuizState.End -> {
+                val quizEndNavActions =
+                    (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
+                quizEndNavActions.onQuizEnd(
+                    activity = activity,
+                    problems = viewModel.questions,
+                    selected = viewModel.selected,
+                    timesPerQuestion = viewModel.timesPerQuestion,
+                )
             }
+        }
+    }
+
+    LaunchedEffect(snackbarState.value) {
+        when (val state = snackbarState.value) {
+            is SnackbarState.Show -> {
+                snackbarHostState.showSnackbar(
+                    message = state.message.asString(context),
+                    actionLabel = state.actionLabel.asString(context),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
+                )
+            }
+            SnackbarState.Hide -> Unit
         }
     }
 
@@ -396,10 +402,6 @@ fun QuestionDetail(
                                     ProblemDetailMode.Quiz -> onQuestionClick(index)
                                 }
                             },
-                            onDoubleClick = {
-                                onQuestionClick(index)
-                                onSelectAnswer()
-                            },
                             onLongClick = {
                                 onQuestionClick(index)
                                 onSelectAnswer()
@@ -431,6 +433,24 @@ fun QuestionDetail(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun QuestionDetailPreview() {
+    QuestionDetail(
+        mode = ProblemDetailMode.Detail,
+        currentQuestion = Problem(
+            year = 2022,
+            pid = 15,
+            description = "Sample description",
+            subDescriptions = listOf("A. Hello", "B. World"),
+            questions = listOf("Q1", "Q2", "Q3", "Q4", "Q5")
+        ),
+        selectedQuestionIndex = 1,
+        onQuestionClick = {},
+        onSelectAnswer = {}
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

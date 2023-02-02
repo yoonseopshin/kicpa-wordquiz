@@ -31,14 +31,14 @@ class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
         activity: BaseActivity,
         problems: List<Problem>,
         selected: List<Int>,
-        timesPerProblem: List<Long>,
+        timesPerQuestion: List<Long>,
     ) {
         activity.startActivity(
             QuizStatisticsActivity.newIntent(
                 context = activity,
                 problems = problems.toModel(),
                 selected = selected,
-                timesPerProblem = timesPerProblem,
+                timesPerQuestion = timesPerQuestion,
             )
         )
         activity.finish()

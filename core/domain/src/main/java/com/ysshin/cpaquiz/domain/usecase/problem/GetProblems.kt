@@ -1,6 +1,6 @@
 package com.ysshin.cpaquiz.domain.usecase.problem
 
-import com.ysshin.cpaquiz.core.common.Consumer
+import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.repository.QuizRepository

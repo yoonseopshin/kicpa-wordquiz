@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.core.common
+package com.ysshin.cpaquiz.core.base
 
 typealias Action = () -> Unit
 typealias Supplier<T> = () -> T

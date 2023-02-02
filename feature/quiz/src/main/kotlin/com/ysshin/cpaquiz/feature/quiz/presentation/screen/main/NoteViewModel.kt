@@ -1,100 +1,63 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.main
 
-import androidx.annotation.StringRes
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
-import com.ysshin.cpaquiz.core.android.util.UiText
-import com.ysshin.cpaquiz.core.common.Result
-import com.ysshin.cpaquiz.core.common.asResult
+import com.ysshin.cpaquiz.core.base.Result
+import com.ysshin.cpaquiz.core.base.asResult
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
-import com.ysshin.cpaquiz.feature.quiz.R
+import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
 ) : BaseViewModel() {
 
-    private val totalProblems = problemUseCases.getTotalProblems().asResult()
+    private val _searchKeyword = MutableStateFlow("")
+    val searchKeyword = _searchKeyword.asStateFlow()
 
-    private val wrongProblems = problemUseCases.getWrongProblems().asResult()
+    private val _noteFilter = MutableStateFlow(NoteFilter.default())
+    val noteFilter = _noteFilter.asStateFlow()
 
-    val userInputText = MutableStateFlow("")
-    private val isSearching get() = userInputText.value.isNotBlank()
+    val selectedQuestion: MutableStateFlow<Problem?> = MutableStateFlow(null)
 
-    private val noteFilter = MutableStateFlow(NoteFilter())
-
-    private val _isYearFiltering = MutableStateFlow(false)
-    val isYearFiltering = _isYearFiltering.asStateFlow()
-
-    private val _isQuizTypeFiltering = MutableStateFlow(false)
-    val isQuizTypeFiltering = _isQuizTypeFiltering.asStateFlow()
-
-    private val _uiEvent = MutableSharedFlow<NoteUiEvent>()
-    val uiEvent = _uiEvent.asSharedFlow()
-
-    val uiState: StateFlow<NoteUiState> =
+    val noteUiState: StateFlow<NoteUiState> =
         combine(
-            totalProblems,
-            wrongProblems,
-            userInputText,
-            noteFilter
-        ) { totalResult, wrongResult, userInput, filter ->
-            var totalAndWrongProblemSize = 0
-
+            problemUseCases.getTotalProblems().asResult(),
+            problemUseCases.getWrongProblems().asResult(),
+            _searchKeyword,
+            _noteFilter,
+        ) { totalResult, wrongResult, searchKeyword, noteFilter ->
             val totalProblemsUiState = if (totalResult is Result.Success) {
-                val filtered = totalResult.data.filter { problem ->
-                    problem.year in filter.years && problem.type in filter.types
-                }
-                totalAndWrongProblemSize += filtered.size
-                TotalProblemsUiState.Success(filtered)
+                TotalProblemsUiState.Success(totalResult.data.filter(noteFilter::contains))
             } else {
                 TotalProblemsUiState.Error
             }
 
             val wrongProblemsUiState = if (wrongResult is Result.Success) {
-                val filtered = wrongResult.data.filter { problem ->
-                    problem.year in filter.years && problem.type in filter.types
-                }
-                totalAndWrongProblemSize += filtered.size
-                WrongProblemsUiState.Success(filtered)
+                WrongProblemsUiState.Success(wrongResult.data.filter(noteFilter::contains))
             } else {
                 WrongProblemsUiState.Error
             }
 
-            val searched = problemUseCases.searchProblems(userInput)
-            val searchedProblemsUiState = SearchedProblemsUiState.Success(searched)
+            val searchedProblems = problemUseCases.searchProblems(searchKeyword)
+            val searchedProblemsUiState = SearchedProblemsUiState.Success(searchedProblems)
 
-            val userActionUiState = if (isSearching) {
-                UserActionUiState.OnSearching
-            } else {
-                UserActionUiState.OnViewing
-            }
-
-            NoteUiState(
-                totalProblemsUiState,
-                wrongProblemsUiState,
-                searchedProblemsUiState,
-                userActionUiState
-            )
+            NoteUiState(totalProblemsUiState, wrongProblemsUiState, searchedProblemsUiState)
         }
             .stateIn(
                 scope = viewModelScope,
@@ -102,8 +65,7 @@ class NoteViewModel @Inject constructor(
                 initialValue = NoteUiState(
                     TotalProblemsUiState.Loading,
                     WrongProblemsUiState.Loading,
-                    SearchedProblemsUiState.Loading,
-                    UserActionUiState.OnViewing
+                    SearchedProblemsUiState.Loading
                 )
             )
 
@@ -111,7 +73,7 @@ class NoteViewModel @Inject constructor(
         get() = Problem.allYears().map {
             SelectableTextItem(
                 text = it.toString(),
-                isSelected = noteFilter.value.years.contains(it)
+                isSelected = _noteFilter.value.years.contains(it)
             )
         }
 
@@ -119,103 +81,42 @@ class NoteViewModel @Inject constructor(
         get() = QuizType.all().map {
             SelectableTextItem(
                 text = it.toKorean(),
-                isSelected = noteFilter.value.types.contains(it)
+                isSelected = _noteFilter.value.types.contains(it)
             )
         }
 
-    fun setFilter(years: List<Int> = noteFilter.value.years, types: List<QuizType> = noteFilter.value.types) {
-        noteFilter.update { NoteFilter(years, types) }
-        _isYearFiltering.update { Problem.allYears().size != years.size }
-        _isQuizTypeFiltering.update { QuizType.all().size != types.size }
-    }
-
-    fun updateUserInput(text: String) {
-        userInputText.update { text }
-    }
-
-    fun showSnackbar(messageResId: Int, @StringRes actionLabelResId: Int = R.string.confirm) {
-        viewModelScope.launch {
-            _uiEvent.emit(
-                NoteUiEvent.ShowSnackbar(
-                    UiText.StringResource(resId = messageResId),
-                    UiText.StringResource(resId = actionLabelResId)
-                )
+    fun setFilter(
+        years: List<Int>,
+        types: List<QuizType>,
+    ) {
+        _noteFilter.update {
+            NoteFilter(
+                years = years.ifEmpty { _noteFilter.value.years },
+                types = types.ifEmpty { _noteFilter.value.types }
             )
         }
     }
 
-    private val _isDeleteWrongProblemDialogOpened = MutableStateFlow(false)
-    val isDeleteWrongProblemDialogOpened = _isDeleteWrongProblemDialogOpened.asStateFlow()
-    private lateinit var targetProblem: Problem
-
-    private val _isDeleteAllWrongProblemsDialogOpened = MutableStateFlow(false)
-    val isDeleteAllWrongProblemsDialogOpened = _isDeleteAllWrongProblemsDialogOpened.asStateFlow()
-
-    fun updateDeleteWrongProblemDialogOpened(value: Boolean, problem: Problem? = null) {
-        _isDeleteWrongProblemDialogOpened.update { value }
-        if (value && problem != null) {
-            targetProblem = problem
-        }
+    fun updateSearchKeyword(keyword: String) {
+        _searchKeyword.update { keyword }
     }
 
-    fun deleteTargetWrongProblem() {
+    fun deleteTargetWrongProblem(problem: Problem) {
         viewModelScope.launch {
-            problemUseCases.deleteWrongProblem(targetProblem)
+            problemUseCases.deleteWrongProblem(problem)
         }
-    }
-
-    fun updateDeleteAllWrongProblemsDialogOpened(value: Boolean) {
-        _isDeleteAllWrongProblemsDialogOpened.update { value }
+        setSelectedQuestion(null)
     }
 
     fun deleteAllWrongProblems() {
         viewModelScope.launch {
             problemUseCases.deleteAllWrongProblems.invoke()
         }
+        setSelectedQuestion(null)
     }
 
-    private val _isYearFilterDialogOpened = MutableStateFlow(false)
-    val isYearFilterDialogOpened = _isYearFilterDialogOpened.asStateFlow()
-
-    fun updateYearFilterDialogOpened(value: Boolean) {
-        _isYearFilterDialogOpened.update { value }
-    }
-
-    private val _isQuizTypeFilterDialogOpened = MutableStateFlow(false)
-    val isQuizTypeFilterDialogOpened = _isQuizTypeFilterDialogOpened.asStateFlow()
-
-    fun updateQuizTypeFilterDialogOpened(value: Boolean) {
-        _isQuizTypeFilterDialogOpened.update { value }
-    }
-
-    private val _noteMenuContentState: MutableState<NoteMenuContentState> =
-        mutableStateOf(NoteMenuContentState.Search)
-    val noteMenuContentState: State<NoteMenuContentState>
-        get() = _noteMenuContentState
-
-    private val _isMenuOpened = mutableStateOf(false)
-    val isMenuOpened: State<Boolean> get() = _isMenuOpened
-
-    fun toggleMenu(newState: NoteMenuContentState) {
-        val originState = _noteMenuContentState.value
-        if (originState == newState && _isMenuOpened.value) {
-            hideMenu()
-        } else {
-            showMenu(newState)
-        }
-    }
-
-    fun hideMenu() {
-        _isMenuOpened.value = false
-    }
-
-    private fun showMenu(state: NoteMenuContentState) {
-        _noteMenuContentState.value = state
-        _isMenuOpened.value = true
-        viewModelScope.launch {
-            delay(100L)
-            _uiEvent.emit(NoteUiEvent.ScrollToTop)
-        }
+    fun setSelectedQuestion(problem: Problem?) {
+        selectedQuestion.value = problem
     }
 }
 
@@ -237,26 +138,34 @@ sealed interface SearchedProblemsUiState {
     object Loading : SearchedProblemsUiState
 }
 
-sealed interface UserActionUiState {
-    object OnViewing : UserActionUiState
-    object OnSearching : UserActionUiState
-}
-
-data class NoteFilter(val years: List<Int> = Problem.allYears(), val types: List<QuizType> = QuizType.all())
-
 data class NoteUiState(
     val totalProblemsUiState: TotalProblemsUiState,
     val wrongProblemsUiState: WrongProblemsUiState,
     val searchedProblemsUiState: SearchedProblemsUiState,
-    val userActionUiState: UserActionUiState,
 )
 
-sealed interface NoteUiEvent {
-    data class ShowSnackbar(val message: UiText, val actionLabel: UiText) : NoteUiEvent
-    object ScrollToTop : NoteUiEvent
+data class NoteFilter(val years: List<Int>, val types: List<QuizType>) {
+    companion object {
+        fun default() = NoteFilter(years = Problem.allYears(), types = QuizType.all())
+    }
 }
 
-sealed interface NoteMenuContentState {
-    object Filter : NoteMenuContentState
-    object Search : NoteMenuContentState
+internal fun NoteFilter.contains(problem: Problem) =
+    years.contains(problem.year) && types.contains(problem.type)
+
+internal fun NoteFilter.isYearFiltering() = years.size != Problem.allYears().size
+internal fun NoteFilter.isQuizTypeFiltering() = types.size != QuizType.all().size
+internal fun NoteFilter.isFiltering() = isYearFiltering() || isQuizTypeFiltering()
+
+@Parcelize
+sealed interface NoteMenuContent : Parcelable {
+
+    @Parcelize
+    object Filter : NoteMenuContent
+
+    @Parcelize
+    object Search : NoteMenuContent
 }
+
+@Parcelize
+data class DeleteWrongProblemDialog(val isOpened: Boolean, val problem: ProblemModel) : Parcelable

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ysshin.cpaquiz.core.android.util.*
-import com.ysshin.cpaquiz.core.common.isNullOrDefault
+import com.ysshin.cpaquiz.core.base.isNullOrDefault
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType

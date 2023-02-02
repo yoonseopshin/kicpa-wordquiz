@@ -8,7 +8,7 @@ import com.ysshin.cpaquiz.feature.quiz.databinding.LayoutResultTimerBinding
 
 class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
 
-    var timesPerProblem: List<Int> = emptyList()
+    var timesPerProblem: List<Long> = emptyList()
 
     class ItemViewHolder(private val binding: LayoutResultTimerBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -22,7 +22,7 @@ class TimerAdapter : RecyclerView.Adapter<TimerAdapter.ItemViewHolder>() {
             )
         }
 
-        fun bind(timesPerProblem: List<Int>) {
+        fun bind(timesPerProblem: List<Long>) {
             val totalElapsedTime = timesPerProblem.sum()
             if (totalElapsedTime > 0) {
                 binding.root.visible()

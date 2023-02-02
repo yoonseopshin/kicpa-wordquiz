@@ -7,6 +7,6 @@ object QuizConstants {
     const val quizNumbers = "quizNumbers"
     const val problems = "problems"
     const val selected = "selected"
-    const val timesPerProblem = "timesPerProblem"
+    const val timesPerQuestion = "timesPerQuestion"
     const val useTimer = "useTimer"
 }

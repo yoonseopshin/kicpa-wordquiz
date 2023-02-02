@@ -15,7 +15,7 @@
 
         <variable
             name="elapsedTime"
-            type="int" />
+            type="long" />
 
         <variable
             name="userSelectedIndex"

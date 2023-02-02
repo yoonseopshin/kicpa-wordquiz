@@ -8,6 +8,6 @@ interface QuizEndNavigationActions {
         activity: BaseActivity,
         problems: List<Problem> = listOf(),
         selected: List<Int> = listOf(),
-        timesPerProblem: List<Long> = listOf(),
+        timesPerQuestion: List<Long> = listOf(),
     )
 }

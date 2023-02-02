@@ -3,8 +3,8 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
-import com.ysshin.cpaquiz.core.common.Action
-import com.ysshin.cpaquiz.core.common.DEFAULT_INT
+import com.ysshin.cpaquiz.core.base.Action
+import com.ysshin.cpaquiz.core.base.DEFAULT_INT
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType

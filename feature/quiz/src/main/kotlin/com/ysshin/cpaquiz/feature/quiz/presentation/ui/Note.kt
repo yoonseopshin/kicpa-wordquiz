@@ -1,9 +1,12 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
@@ -15,29 +18,34 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.icons.Icons
@@ -47,7 +55,10 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Badge
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -61,20 +72,24 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -84,138 +99,336 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
+import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
+import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
-import com.ysshin.cpaquiz.core.android.util.filterChipBackgroundColorResourceIdByFiltering
-import com.ysshin.cpaquiz.core.android.util.filterChipStrokeColorResourceIdByFiltering
-import com.ysshin.cpaquiz.core.common.Action
+import com.ysshin.cpaquiz.core.base.Action
+import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.isValid
 import com.ysshin.cpaquiz.feature.quiz.R
+import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteMenuContentState
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiEvent
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.DeleteWrongProblemDialog
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteFilter
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteMenuContent
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.NoteViewModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.SearchedProblemsUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.TotalProblemsUiState
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.UserActionUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiState
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isFiltering
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isQuizTypeFiltering
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isYearFiltering
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(
-    ExperimentalLifecycleComposeApi::class,
-    ExperimentalMaterial3Api::class,
-)
 @Composable
-fun NoteScreen(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
-    val context = LocalContext.current
+fun NoteRoute(
+    windowSizeClass: WindowSizeClass,
+    viewModel: NoteViewModel = hiltViewModel(),
+) {
+    val noteUiState = viewModel.noteUiState.collectAsStateWithLifecycle()
+    val noteFilter = viewModel.noteFilter.collectAsStateWithLifecycle()
+    val searchKeyword = viewModel.searchKeyword.collectAsStateWithLifecycle()
+    val selectedQuestionInSplitScreen = viewModel.selectedQuestion.collectAsStateWithLifecycle()
 
-    BackHandler(enabled = viewModel.isMenuOpened.value) {
-        viewModel.hideMenu()
-    }
+    NoteScreen(
+        windowSizeClass = windowSizeClass,
+        noteUiState = noteUiState.value,
+        noteFilter = noteFilter.value,
+        searchKeyword = searchKeyword.value,
+        selectedQuestionInSplitScreen = selectedQuestionInSplitScreen.value,
+        updateSearchKeyword = viewModel::updateSearchKeyword,
+        setFilter = viewModel::setFilter,
+        selectableFilteredYears = viewModel.selectableFilteredYears,
+        selectableFilteredTypes = viewModel.selectableFilteredTypes,
+        deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
+        deleteTargetWrongProblem = viewModel::deleteTargetWrongProblem,
+        setSelectedQuestion = viewModel::setSelectedQuestion
+    )
+}
 
-    val bottomSheetContentState by viewModel.noteMenuContentState
-
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NoteScreen(
+    windowSizeClass: WindowSizeClass,
+    noteUiState: NoteUiState,
+    noteFilter: NoteFilter,
+    searchKeyword: String,
+    selectedQuestionInSplitScreen: Problem?,
+    updateSearchKeyword: Consumer<String>,
+    setFilter: (List<Int>, List<QuizType>) -> Unit,
+    selectableFilteredYears: List<SelectableTextItem>,
+    selectableFilteredTypes: List<SelectableTextItem>,
+    deleteAllWrongProblems: Action,
+    deleteTargetWrongProblem: Consumer<Problem>,
+    setSelectedQuestion: (Problem?) -> Unit,
+) {
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+    var isMenuOpened by rememberSaveable { mutableStateOf(false) }
+    var noteMenuContent by rememberSaveable { mutableStateOf<NoteMenuContent>(NoteMenuContent.Search) }
 
-    LaunchedEffect(listState, snackbarHostState) {
-        viewModel.uiEvent.collectLatest { event ->
-            when (event) {
-                is NoteUiEvent.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(
-                        message = event.message.asString(context),
-                        actionLabel = event.actionLabel.asString(context)
-                    )
-                }
-                is NoteUiEvent.ScrollToTop -> {
-                    // TODO: Not working at top position
-                    listState.animateScrollToItem(0)
-                }
-            }
-        }
+    BackHandler(enabled = useSplitScreen && selectedQuestionInSplitScreen != null) {
+        setSelectedQuestion(null)
+    }
+
+    BackHandler(enabled = isMenuOpened) {
+        isMenuOpened = false
     }
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
-            NoteTopAppBar()
+            NoteTopAppBar(
+                isMenuOpened = isMenuOpened,
+                toggleMenu = { newNoteMenuContent ->
+                    isMenuOpened = (isMenuOpened && noteMenuContent == newNoteMenuContent).not()
+                    noteMenuContent = newNoteMenuContent
+                },
+                noteMenuContent = noteMenuContent,
+                noteFilter = noteFilter,
+                searchKeyword = searchKeyword,
+                updateSearchKeyword = updateSearchKeyword,
+                setFilter = setFilter,
+            )
         }
     ) { padding ->
-        val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-        val shouldShowMenu = viewModel.isMenuOpened.value
-        val shouldShowNativeAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+        val shouldShowAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
         Column(modifier = Modifier.padding(padding)) {
             AnimatedVisibility(
-                visible = shouldShowNativeAd,
-                enter = fadeIn(),
-                exit = fadeOut()
+                visible = isMenuOpened,
+                enter = expandVertically() + fadeIn(),
+                exit = fadeOut() + shrinkVertically()
             ) {
+                Surface {
+                    when (noteMenuContent) {
+                        is NoteMenuContent.Filter -> NoteFilterMenuContent(
+                            noteMenuContent = noteMenuContent,
+                            noteFilter = noteFilter,
+                            hideMenu = { isMenuOpened = false },
+                            selectableFilteredYears = selectableFilteredYears,
+                            selectableFilteredTypes = selectableFilteredTypes,
+                            setFilter = setFilter,
+                            snackbarHostState = snackbarHostState
+                        )
+                        is NoteMenuContent.Search -> NoteSearchMenuContent(
+                            isMenuOpened = isMenuOpened,
+                            hideMenu = { isMenuOpened = false },
+                            searchKeyword = searchKeyword,
+                            updateSearchKeyword = updateSearchKeyword
+                        )
+                    }
+                }
+            }
+
+            if (shouldShowAd) {
                 NativeSmallAd()
             }
 
-            LazyColumn(state = listState) {
-                item {
-                    AnimatedVisibility(
-                        visible = shouldShowMenu,
-                        enter = expandVertically() + fadeIn(),
-                        exit = fadeOut() + shrinkVertically()
-                    ) {
-                        Surface {
-                            when (bottomSheetContentState) {
-                                is NoteMenuContentState.Filter -> NoteFilterMenuContent()
-                                is NoteMenuContentState.Search -> NoteSearchMenuContent()
-                            }
+            var isDeleteAllWrongProblemsDialogOpened by rememberSaveable { mutableStateOf(false) }
+            var isDeleteWrongProblemDialogOpened by rememberSaveable {
+                mutableStateOf(
+                    DeleteWrongProblemDialog(
+                        isOpened = false,
+                        problem = Problem().toModel()
+                    )
+                )
+            }
+
+            val context = LocalContext.current
+
+            val onProblemClick: (Problem) -> Unit = { problem ->
+                if (useSplitScreen) {
+                    setSelectedQuestion(problem)
+                } else {
+                    setSelectedQuestion(problem)
+                    context.startActivity(
+                        QuestionActivity.newIntent(
+                            context = context,
+                            mode = ProblemDetailMode.Detail,
+                            problemModel = problem.toModel()
+                        )
+                    )
+                }
+            }
+
+            when (getNoteScreenType(useSplitScreen)) {
+                NoteScreenType.Question -> {
+                    LazyColumn(state = listState) {
+                        if (searchKeyword.isBlank()) {
+                            onViewingContent(
+                                totalProblemsUiState = noteUiState.totalProblemsUiState,
+                                wrongProblemsUiState = noteUiState.wrongProblemsUiState,
+                                isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
+                                updateDeletingAllWrongProblemsDialog = { isOpened ->
+                                    isDeleteAllWrongProblemsDialogOpened = isOpened
+                                },
+                                deleteAllWrongProblems = deleteAllWrongProblems,
+                                isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                                updateDeletingWrongProblemDialogOpened = { dialog ->
+                                    isDeleteWrongProblemDialogOpened =
+                                        isDeleteWrongProblemDialogOpened.copy(
+                                            isOpened = dialog.isOpened,
+                                            problem = dialog.problem
+                                        )
+                                    Timber.d("dialog info: $dialog")
+                                },
+                                deleteTargetWrongProblem = deleteTargetWrongProblem,
+                                onProblemClick = onProblemClick,
+                                windowSizeClass = windowSizeClass
+                            )
+                        } else {
+                            onSearchingContent(
+                                noteUiState.searchedProblemsUiState,
+                                windowSizeClass,
+                                onProblemClick
+                            )
                         }
                     }
                 }
+                NoteScreenType.QuestionWithDetails -> {
+                    Row {
+                        LazyColumn(state = listState) {
+                            if (searchKeyword.isBlank()) {
+                                onViewingContent(
+                                    totalProblemsUiState = noteUiState.totalProblemsUiState,
+                                    wrongProblemsUiState = noteUiState.wrongProblemsUiState,
+                                    isDeleteAllWrongProblemsDialogOpened = isDeleteAllWrongProblemsDialogOpened,
+                                    updateDeletingAllWrongProblemsDialog = { isOpened ->
+                                        isDeleteAllWrongProblemsDialogOpened = isOpened
+                                    },
+                                    deleteAllWrongProblems = deleteAllWrongProblems,
+                                    isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                                    updateDeletingWrongProblemDialogOpened = { dialog ->
+                                        isDeleteWrongProblemDialogOpened =
+                                            isDeleteWrongProblemDialogOpened.copy(
+                                                isOpened = dialog.isOpened,
+                                                problem = dialog.problem
+                                            )
+                                        Timber.d("dialog info: $dialog")
+                                    },
+                                    deleteTargetWrongProblem = deleteTargetWrongProblem,
+                                    onProblemClick = onProblemClick,
+                                    windowSizeClass = windowSizeClass
+                                )
+                            } else {
+                                onSearchingContent(
+                                    noteUiState.searchedProblemsUiState,
+                                    windowSizeClass,
+                                    onProblemClick
+                                )
+                            }
+                        }
 
-                when (uiState.value.userActionUiState) {
-                    UserActionUiState.OnViewing ->
-                        onViewingContent(viewModel, uiState.value, windowSizeClass)
-                    UserActionUiState.OnSearching ->
-                        onSearchingContent(uiState.value.searchedProblemsUiState, windowSizeClass)
+                        val scrollState = rememberScrollState()
+
+                        LaunchedEffect(selectedQuestionInSplitScreen) {
+                            scrollState.animateScrollTo(0)
+                        }
+
+                        Crossfade(targetState = selectedQuestionInSplitScreen) { selectedQuestion ->
+                            if (selectedQuestion == null) {
+                                NoSelectedQuestionScreen()
+                            } else {
+                                Surface(modifier = Modifier.verticalScroll(scrollState)) {
+                                    QuestionDetail(
+                                        mode = ProblemDetailMode.Detail,
+                                        currentQuestion = selectedQuestion,
+                                        selectedQuestionIndex = -1,
+                                        onQuestionClick = {},
+                                        onSelectAnswer = {},
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun NoteTopAppBar() {
-    val viewModel = hiltViewModel<NoteViewModel>()
-    val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
-    val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
-    val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
+fun NoSelectedQuestionScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 64.dp)
+    ) {
+        val minSize = 100.dp
+        val maxSize = 140.dp
+        Icon(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .sizeIn(
+                    minWidth = minSize,
+                    minHeight = minSize,
+                    maxWidth = maxSize,
+                    maxHeight = maxSize,
+                ),
+            painter = painterResource(id = R.drawable.quiz),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun NoteTopAppBar(
+    isMenuOpened: Boolean,
+    toggleMenu: Consumer<NoteMenuContent>,
+    noteMenuContent: NoteMenuContent,
+    noteFilter: NoteFilter,
+    searchKeyword: String,
+    updateSearchKeyword: Consumer<String>,
+    setFilter: (List<Int>, List<QuizType>) -> Unit,
+) {
+    val isSearching: Boolean
+    val isFiltering: Boolean
+
+    when (noteMenuContent) {
+        is NoteMenuContent.Filter -> {
+            isSearching = false
+            isFiltering = noteFilter.isFiltering()
+        }
+        is NoteMenuContent.Search -> {
+            isSearching = searchKeyword.isNotBlank()
+            isFiltering = false
+        }
+    }
 
     TopAppBar(
         title = {
@@ -226,8 +439,13 @@ private fun NoteTopAppBar() {
         },
         actions = {
             NoteTopMenu(
-                userInput.value.isNotBlank(),
-                isYearFiltering.value || isQuizTypeFiltering.value,
+                isMenuOpened = isMenuOpened,
+                toggleMenu = toggleMenu,
+                noteMenuContent = noteMenuContent,
+                isSearching = isSearching,
+                isFiltering = isFiltering,
+                updateSearchKeyword = updateSearchKeyword,
+                setFilter = setFilter,
             )
         },
     )
@@ -236,57 +454,82 @@ private fun NoteTopAppBar() {
 private fun LazyListScope.onSearchingContent(
     uiState: SearchedProblemsUiState,
     windowSizeClass: WindowSizeClass,
+    onProblemClick: ((Problem) -> Unit)? = null,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is SearchedProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
-            SearchedNoteHeaderContent(uiState)
+            SearchedNoteHeaderContent(uiState, windowSizeClass)
         }
 
-        items(
-            items = uiState.data,
-            key = { problem ->
-                problem.hashCode()
+        val items = uiState.data
+        itemsIndexed(items = items) { index, problem ->
+            NoteSummaryContent(
+                problem = problem,
+                windowSizeClass = windowSizeClass,
+                onProblemClick = onProblemClick,
+            ).takeIf { problem.isValid() }
+
+            if (index < items.lastIndex) {
+                NoteSummaryDivider(windowSizeClass)
             }
-        ) { problem ->
-            NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
         }
     }
 }
 
 private fun LazyListScope.onViewingContent(
-    viewModel: NoteViewModel,
-    uiState: NoteUiState,
+    totalProblemsUiState: TotalProblemsUiState,
+    wrongProblemsUiState: WrongProblemsUiState,
+    isDeleteAllWrongProblemsDialogOpened: Boolean,
+    updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
+    deleteAllWrongProblems: Action,
+    isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
+    updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
+    deleteTargetWrongProblem: Consumer<Problem>,
+    onProblemClick: (Problem) -> Unit,
     windowSizeClass: WindowSizeClass,
 ) {
-    wrongProblemsContent(viewModel, uiState.wrongProblemsUiState, windowSizeClass)
-    totalProblemsContent(uiState.totalProblemsUiState, windowSizeClass)
+    wrongProblemsContent(
+        wrongProblemsUiState,
+        isDeleteAllWrongProblemsDialogOpened,
+        updateDeletingAllWrongProblemsDialog,
+        deleteAllWrongProblems,
+        isDeleteWrongProblemDialogOpened,
+        updateDeletingWrongProblemDialogOpened,
+        deleteTargetWrongProblem,
+        onProblemClick,
+        windowSizeClass,
+    )
+    totalProblemsContent(totalProblemsUiState, windowSizeClass, onProblemClick)
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 private fun LazyListScope.wrongProblemsContent(
-    viewModel: NoteViewModel,
     uiState: WrongProblemsUiState,
+    isDeleteAllWrongProblemsDialogOpened: Boolean,
+    updateDeletingAllWrongProblemsDialog: Consumer<Boolean>,
+    deleteAllWrongProblems: Action,
+    isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
+    updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
+    deleteTargetWrongProblem: Consumer<Problem>,
+    onProblemClick: (Problem) -> Unit,
     windowSizeClass: WindowSizeClass,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is WrongProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
-            val openDeleteAllWrongProblemsDialog =
-                viewModel.isDeleteAllWrongProblemsDialogOpened.collectAsStateWithLifecycle()
-            if (openDeleteAllWrongProblemsDialog.value) {
+            if (isDeleteAllWrongProblemsDialogOpened) {
                 AppInfoDialog(
                     icon = painterResource(id = R.drawable.ic_delete),
                     title = stringResource(id = R.string.delete_wrong_note),
                     description = stringResource(id = R.string.question_delete_all_wrong_note),
                     onConfirm = {
-                        viewModel.deleteAllWrongProblems()
-                        viewModel.updateDeleteAllWrongProblemsDialogOpened(false)
+                        deleteAllWrongProblems()
+                        updateDeletingAllWrongProblemsDialog(false)
                     },
                     onDismiss = {
-                        viewModel.updateDeleteAllWrongProblemsDialogOpened(false)
+                        updateDeletingAllWrongProblemsDialog(false)
                     }
                 )
             }
@@ -294,20 +537,36 @@ private fun LazyListScope.wrongProblemsContent(
             WrongNoteHeaderContent(
                 state = uiState,
                 onHeaderLongClick = {
-                    viewModel.updateDeleteAllWrongProblemsDialogOpened(true)
-                }
+                    updateDeletingAllWrongProblemsDialog(true)
+                },
+                windowSizeClass = windowSizeClass
             )
         }
 
-        items(items = uiState.data.map { it.toWrongProblemModel() }) { wrongProblemModel ->
+        val items = uiState.data.map { it.toWrongProblemModel() }
+        itemsIndexed(items = items) { index, wrongProblemModel ->
             val problem = wrongProblemModel.problem
             NoteSummaryContent(
                 problem = problem,
+                windowSizeClass = windowSizeClass,
+                onProblemClick = onProblemClick,
                 onProblemLongClick = {
                     Timber.d("Target problem: $problem")
-                    viewModel.updateDeleteWrongProblemDialogOpened(true, problem)
-                }
+                    updateDeletingWrongProblemDialogOpened(
+                        isDeleteWrongProblemDialogOpened.copy(
+                            isOpened = true,
+                            problem = problem.toModel(),
+                        )
+                    )
+                },
+                isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened,
+                deleteTargetWrongProblem = deleteTargetWrongProblem,
             ).takeIf { problem.isValid() }
+
+            if (index < items.lastIndex) {
+                NoteSummaryDivider(windowSizeClass)
+            }
         }
     }
 }
@@ -315,16 +574,26 @@ private fun LazyListScope.wrongProblemsContent(
 private fun LazyListScope.totalProblemsContent(
     uiState: TotalProblemsUiState,
     windowSizeClass: WindowSizeClass,
+    onProblemClick: (Problem) -> Unit,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is TotalProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
-            TotalNoteHeaderContent(uiState)
+            TotalNoteHeaderContent(uiState, windowSizeClass)
         }
 
-        items(items = uiState.data) { problem ->
-            NoteSummaryContent(problem = problem).takeIf { problem.isValid() }
+        val items = uiState.data
+        itemsIndexed(items = items) { index, problem ->
+            NoteSummaryContent(
+                problem = problem,
+                windowSizeClass = windowSizeClass,
+                onProblemClick = onProblemClick,
+            ).takeIf { problem.isValid() }
+
+            if (index < items.lastIndex) {
+                NoteSummaryDivider(windowSizeClass)
+            }
         }
     }
 }
@@ -349,6 +618,7 @@ private fun LazyListScope.itemHeader(
 private fun WrongNoteHeaderContent(
     state: WrongProblemsUiState,
     onHeaderLongClick: Action,
+    windowSizeClass: WindowSizeClass,
 ) {
     when (state) {
         is WrongProblemsUiState.Success -> {
@@ -357,11 +627,14 @@ private fun WrongNoteHeaderContent(
             }
             Timber.d("Wrong problems(${problems.size}) added.")
 
-            NoteHeader(
-                title = stringResource(id = R.string.wrong_note),
-                numOfProblems = problems.size,
-                onHeaderLongClick = onHeaderLongClick
-            )
+            if (problems.isNotEmpty()) {
+                NoteHeader(
+                    windowSizeClass = windowSizeClass,
+                    title = stringResource(id = R.string.wrong_note),
+                    numOfProblems = problems.size,
+                    onHeaderLongClick = onHeaderLongClick
+                )
+            }
         }
         is WrongProblemsUiState.Error -> Unit
         is WrongProblemsUiState.Loading -> Unit
@@ -370,32 +643,39 @@ private fun WrongNoteHeaderContent(
 
 @OptIn(
     ExperimentalFoundationApi::class,
-    ExperimentalLifecycleComposeApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
 private fun LazyItemScope.NoteSummaryContent(
     problem: Problem,
+    windowSizeClass: WindowSizeClass,
+    onProblemClick: ((Problem) -> Unit)? = null,
     onProblemLongClick: Action? = null,
+    isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
+    updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>? = null,
+    deleteTargetWrongProblem: Consumer<Problem>? = null,
 ) {
-    val viewModel = hiltViewModel<NoteViewModel>()
-    val context = LocalContext.current
+    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
 
-    val openDeleteWrongProblemDialog =
-        viewModel.isDeleteWrongProblemDialogOpened.collectAsStateWithLifecycle()
-    if (openDeleteWrongProblemDialog.value) {
-        AppInfoDialog(
-            icon = painterResource(id = R.drawable.ic_delete),
-            title = stringResource(id = R.string.delete_wrong_problem),
-            description = stringResource(id = R.string.question_delete_wrong_note),
-            onConfirm = {
-                viewModel.deleteTargetWrongProblem()
-                viewModel.updateDeleteWrongProblemDialogOpened(false)
-            },
-            onDismiss = {
-                viewModel.updateDeleteWrongProblemDialogOpened(false)
-            }
-        )
+    isDeleteWrongProblemDialogOpened?.let { dialog ->
+        if (dialog.isOpened) {
+            AppInfoDialog(
+                icon = painterResource(id = R.drawable.ic_delete),
+                title = stringResource(id = R.string.delete_wrong_problem),
+                description = stringResource(id = R.string.question_delete_wrong_note),
+                onConfirm = {
+                    deleteTargetWrongProblem?.invoke(dialog.problem.toDomain())
+                    updateDeletingWrongProblemDialogOpened?.invoke(
+                        isDeleteWrongProblemDialogOpened.copy(isOpened = false)
+                    )
+                },
+                onDismiss = {
+                    updateDeletingWrongProblemDialogOpened?.invoke(
+                        isDeleteWrongProblemDialogOpened.copy(isOpened = false)
+                    )
+                }
+            )
+        }
     }
 
     val haptic = LocalHapticFeedback.current
@@ -404,24 +684,18 @@ private fun LazyItemScope.NoteSummaryContent(
         modifier = Modifier
             .combinedClickable(
                 onClick = {
-                    context.startActivity(
-                        QuestionActivity.newIntent(
-                            context = context,
-                            mode = ProblemDetailMode.Detail,
-                            problemModel = problem.toModel()
-                        )
-                    )
+                    onProblemClick?.invoke(problem)
                 },
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     onProblemLongClick?.invoke()
                 }
             )
-            .fillMaxWidth()
+            .widthBySplit(useSplitScreen)
             .padding(bottom = 20.dp)
             .animateItemPlacement()
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Box {
             Row(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
@@ -460,42 +734,25 @@ private fun LazyItemScope.NoteSummaryContent(
                         borderWidth = 0.5.dp
                     )
                 )
-            }
 
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(end = 8.dp)
-            ) {
                 val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
                 val borderColorResourceIdByType = chipBorderColorResIdByType(problem.type)
 
-                Box {
-                    AssistChip(
-                        modifier = Modifier.padding(all = 4.dp),
-                        onClick = {},
-                        label = {
-                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                Text(text = problem.type.toKorean())
-                            }
-                        },
-                        colors = AssistChipDefaults.assistChipColors(
-                            containerColor = colorResource(id = containerColorResourceIdByType)
-                        ),
-                        border = AssistChipDefaults.assistChipBorder(
-                            borderColor = colorResource(id = borderColorResourceIdByType),
-                            borderWidth = 0.5.dp,
-                        )
+                NotClickableAssistedChip(
+                    modifier = Modifier.padding(all = 4.dp),
+                    label = {
+                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                            Text(text = problem.type.toKorean())
+                        }
+                    },
+                    colors = AssistChipDefaults.assistChipColors(
+                        containerColor = colorResource(id = containerColorResourceIdByType)
+                    ),
+                    border = AssistChipDefaults.assistChipBorder(
+                        borderColor = colorResource(id = borderColorResourceIdByType),
+                        borderWidth = 0.5.dp,
                     )
-
-                    Box(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .alpha(0f)
-                            .clickable(onClick = {})
-                    )
-                }
+                )
             }
         }
 
@@ -526,7 +783,7 @@ private fun LazyItemScope.NoteSummaryContent(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .fillMaxWidth()
+                .widthBySplit(useSplitScreen)
                 .padding(horizontal = 12.dp)
                 .padding(top = 8.dp),
             style = Typography.bodyMedium
@@ -535,7 +792,19 @@ private fun LazyItemScope.NoteSummaryContent(
 }
 
 @Composable
-private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
+private fun NoteSummaryDivider(windowSizeClass: WindowSizeClass) {
+    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+    Divider(
+        modifier = Modifier
+            .padding(horizontal = 12.dp)
+            .widthBySplit(useSplitScreen),
+        thickness = 1.dp,
+        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+    )
+}
+
+@Composable
+private fun TotalNoteHeaderContent(state: TotalProblemsUiState, windowSizeClass: WindowSizeClass) {
     when (state) {
         is TotalProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -544,6 +813,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
             Timber.d("Total problems(${problems.size}) added.")
 
             NoteHeader(
+                windowSizeClass = windowSizeClass,
                 title = stringResource(id = R.string.total_note),
                 numOfProblems = problems.size
             )
@@ -554,7 +824,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState) {
 }
 
 @Composable
-private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
+private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState, windowSizeClass: WindowSizeClass) {
     when (state) {
         is SearchedProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -563,6 +833,7 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
             Timber.d("Searched problems(${problems.size}) added.")
 
             NoteHeader(
+                windowSizeClass = windowSizeClass,
                 title = stringResource(id = R.string.searched_problem),
                 numOfProblems = problems.size
             )
@@ -572,76 +843,105 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState) {
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-private fun NoteFilterMenuContent() {
-    val viewModel = hiltViewModel<NoteViewModel>()
+private fun NoteFilterMenuContent(
+    noteMenuContent: NoteMenuContent,
+    noteFilter: NoteFilter,
+    hideMenu: Action,
+    selectableFilteredYears: List<SelectableTextItem>,
+    selectableFilteredTypes: List<SelectableTextItem>,
+    setFilter: (List<Int>, List<QuizType>) -> Unit,
+    snackbarHostState: SnackbarHostState,
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
-    val openYearFilterDialog = viewModel.isYearFilterDialogOpened.collectAsStateWithLifecycle()
-    if (openYearFilterDialog.value) {
+    var isYearFilterDialogOpened by rememberSaveable { mutableStateOf(false) }
+
+    if (isYearFilterDialogOpened) {
         AppCheckboxDialog(
             icon = painterResource(id = R.drawable.ic_filter),
             title = stringResource(id = R.string.year),
             description = stringResource(id = R.string.choose_filtered_years),
-            selectableItems = viewModel.selectableFilteredYears,
+            selectableItems = selectableFilteredYears,
             onConfirm = { items ->
                 Timber.d("Selected: $items")
 
                 if (!items.any { it.isSelected }) {
-                    viewModel.showSnackbar(R.string.msg_need_filtered_year)
-                    viewModel.updateYearFilterDialogOpened(false)
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(R.string.msg_need_filtered_year),
+                            actionLabel = context.getString(R.string.confirm)
+                        )
+                    }
+                    isYearFilterDialogOpened = false
                     return@AppCheckboxDialog
                 }
 
-                viewModel.setFilter(years = items.filter { it.isSelected }.map { it.text.toInt() })
-                viewModel.updateYearFilterDialogOpened(false)
+                setFilter(items.filter { it.isSelected }.map { it.text.toInt() }, emptyList())
+                isYearFilterDialogOpened = false
             },
             onDismiss = {
-                viewModel.updateYearFilterDialogOpened(false)
+                isYearFilterDialogOpened = false
             }
         )
     }
 
-    val openQuizTypeFilterDialog =
-        viewModel.isQuizTypeFilterDialogOpened.collectAsStateWithLifecycle()
-    if (openQuizTypeFilterDialog.value) {
+    var isQuizTypeFilterDialogOpened by rememberSaveable { mutableStateOf(false) }
+
+    if (isQuizTypeFilterDialogOpened) {
         AppCheckboxDialog(
             icon = painterResource(id = R.drawable.ic_filter),
             title = stringResource(id = R.string.quiz_type),
             description = stringResource(id = R.string.choose_filtered_types),
-            selectableItems = viewModel.selectableFilteredTypes,
+            selectableItems = selectableFilteredTypes,
             onConfirm = { items ->
                 Timber.d("Selected: $items")
 
                 if (!items.any { it.isSelected }) {
-                    viewModel.showSnackbar(R.string.msg_need_filtered_quiz_type)
-                    viewModel.updateQuizTypeFilterDialogOpened(false)
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(R.string.msg_need_filtered_quiz_type),
+                            actionLabel = context.getString(R.string.confirm)
+                        )
+                    }
+                    isQuizTypeFilterDialogOpened = false
                     return@AppCheckboxDialog
                 }
 
-                viewModel.setFilter(
-                    types = items.filter { it.isSelected }.map { QuizType.from(it.text) }
-                )
-                viewModel.updateQuizTypeFilterDialogOpened(false)
+                setFilter(emptyList(), items.filter { it.isSelected }.map { QuizType.from(it.text) })
+                isQuizTypeFilterDialogOpened = false
             },
             onDismiss = {
-                viewModel.updateQuizTypeFilterDialogOpened(false)
+                isQuizTypeFilterDialogOpened = false
             }
         )
     }
 
-    val isYearFiltering = viewModel.isYearFiltering.collectAsStateWithLifecycle()
-    val isQuizTypeFiltering = viewModel.isQuizTypeFiltering.collectAsStateWithLifecycle()
+    val isYearFiltering: Boolean
+    val isQuizTypeFiltering: Boolean
+
+    when (noteMenuContent) {
+        is NoteMenuContent.Filter -> {
+            isYearFiltering = noteFilter.isYearFiltering()
+            isQuizTypeFiltering = noteFilter.isQuizTypeFiltering()
+        }
+        is NoteMenuContent.Search -> {
+            isYearFiltering = false
+            isQuizTypeFiltering = false
+        }
+    }
 
     NoteFilterMenuContentDetail(
-        isYearFiltering = isYearFiltering.value,
-        isQuizTypeFiltering = isQuizTypeFiltering.value,
+        isYearFiltering = isYearFiltering,
+        isQuizTypeFiltering = isQuizTypeFiltering,
         onYearFilter = {
-            viewModel.updateYearFilterDialogOpened(true)
+            isYearFilterDialogOpened = true
         },
         onTypeFilter = {
-            viewModel.updateQuizTypeFilterDialogOpened(true)
+            isQuizTypeFilterDialogOpened = true
         },
+        hideMenu = hideMenu
     )
 }
 
@@ -652,21 +952,11 @@ private fun NoteFilterMenuContentDetail(
     isQuizTypeFiltering: Boolean,
     onYearFilter: Action,
     onTypeFilter: Action,
+    hideMenu: Action,
 ) {
-    val viewModel = hiltViewModel<NoteViewModel>()
-
-    val yearAssistChipContainerColor =
-        colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isYearFiltering))
-    val yearAssistChipBorderColor =
-        colorResource(id = filterChipStrokeColorResourceIdByFiltering(isYearFiltering))
-
-    val quizTypeAssistChipContainerColor =
-        colorResource(id = filterChipBackgroundColorResourceIdByFiltering(isQuizTypeFiltering))
-    val quizTypeAssistChipBorderColor =
-        colorResource(id = filterChipStrokeColorResourceIdByFiltering(isQuizTypeFiltering))
-
     Row(
         horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 64.dp)
@@ -674,32 +964,34 @@ private fun NoteFilterMenuContentDetail(
     ) {
         Spacer(modifier = Modifier.width(12.dp))
 
-        AssistChip(
+        FilterChip(
+            selected = isYearFiltering,
             onClick = onYearFilter,
-            modifier = Modifier.padding(all = 4.dp),
-            label = { Text(text = stringResource(id = R.string.year)) },
-            colors = AssistChipDefaults.assistChipColors(containerColor = yearAssistChipContainerColor),
-            border = AssistChipDefaults.assistChipBorder(
-                borderColor = yearAssistChipBorderColor,
-                borderWidth = 0.5.dp
-            )
+            modifier = Modifier.padding(horizontal = 4.dp),
+            label = {
+                ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                    Text(text = stringResource(id = R.string.year))
+                }
+            },
+            colors = FilterChipDefaults.filterChipColors()
         )
 
-        AssistChip(
+        FilterChip(
+            selected = isQuizTypeFiltering,
             onClick = onTypeFilter,
-            modifier = Modifier.padding(all = 4.dp),
-            label = { Text(text = stringResource(id = R.string.quiz_type)) },
-            colors = AssistChipDefaults.assistChipColors(containerColor = quizTypeAssistChipContainerColor),
-            border = AssistChipDefaults.assistChipBorder(
-                borderColor = quizTypeAssistChipBorderColor,
-                borderWidth = 0.5.dp
-            )
+            modifier = Modifier.padding(horizontal = 4.dp),
+            label = {
+                ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                    Text(text = stringResource(id = R.string.quiz_type))
+                }
+            },
+            colors = FilterChipDefaults.filterChipColors()
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         IconButton(
-            onClick = { viewModel.hideMenu() },
+            onClick = { hideMenu() },
             modifier = Modifier.padding(end = 4.dp)
         ) {
             Icon(
@@ -713,42 +1005,48 @@ private fun NoteFilterMenuContentDetail(
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalLifecycleComposeApi::class,
     ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class,
 )
 @Composable
-private fun NoteSearchMenuContent() {
-    val viewModel = hiltViewModel<NoteViewModel>()
+private fun NoteSearchMenuContent(
+    isMenuOpened: Boolean,
+    hideMenu: Action,
+    searchKeyword: String,
+    updateSearchKeyword: Consumer<String>,
+) {
     val focusRequester = remember { FocusRequester() }
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
+    var keyword by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue(searchKeyword))
+    }
 
-    SideEffect {
-        if (viewModel.isMenuOpened.value) {
-            scope.launch {
-                delay(100L)
-                keyboardController?.show()
-                focusRequester.requestFocus()
-            }
+    LaunchedEffect(isMenuOpened) {
+        if (isMenuOpened) {
+            delay(100L)
+            keyboardController?.show()
+            focusRequester.requestFocus()
         } else {
             keyboardController?.hide()
         }
     }
 
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 64.dp)
             .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
             .bringIntoViewRequester(bringIntoViewRequester),
     ) {
-        val userInput = viewModel.userInputText.collectAsStateWithLifecycle()
-
         OutlinedTextField(
-            value = userInput.value,
-            onValueChange = viewModel::updateUserInput,
+            value = keyword,
+            onValueChange = { newKeyword ->
+                keyword = newKeyword
+                updateSearchKeyword(keyword.text)
+            },
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -758,6 +1056,11 @@ private fun NoteSearchMenuContent() {
                         scope.launch {
                             bringIntoViewRequester.bringIntoView()
                         }
+                    }
+                }
+                .onFocusChanged { focusState ->
+                    if (focusState.isFocused) {
+                        keyword = keyword.copy(selection = TextRange(keyword.text.length))
                     }
                 },
             maxLines = 1,
@@ -769,13 +1072,13 @@ private fun NoteSearchMenuContent() {
             keyboardActions = KeyboardActions(
                 onDone = {
                     keyboardController?.hide()
-                    viewModel.hideMenu()
+                    hideMenu()
                 }
             )
         )
 
         IconButton(
-            onClick = viewModel::hideMenu,
+            onClick = hideMenu,
             modifier = Modifier.padding(end = 4.dp)
         ) {
             Icon(
@@ -787,39 +1090,50 @@ private fun NoteSearchMenuContent() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 private fun NoteHeader(
+    windowSizeClass: WindowSizeClass,
     title: String = "",
     numOfProblems: Int = 0,
     onHeaderClick: Action = {},
     onHeaderLongClick: Action = {},
 ) {
-    if (numOfProblems > 0) {
-        val haptic = LocalHapticFeedback.current
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .combinedClickable(
-                    onClick = onHeaderClick,
-                    onLongClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onHeaderLongClick()
-                    }
-                )
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
-                .defaultMinSize(minHeight = 52.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = title,
-                    modifier = Modifier.padding(start = 16.dp, end = 8.dp),
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
+    val haptic = LocalHapticFeedback.current
+    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
 
-                Badge(containerColor = MaterialTheme.colorScheme.primaryContainer) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .combinedClickable(
+                onClick = onHeaderClick,
+                onLongClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onHeaderLongClick()
+                }
+            )
+            .widthBySplit(useSplitScreen)
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
+            .defaultMinSize(minHeight = 52.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = title,
+                modifier = Modifier.padding(start = 16.dp, end = 8.dp),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Badge(
+                modifier = Modifier.animateContentSize(),
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ) {
+                AnimatedContent(
+                    targetState = numOfProblems,
+                    transitionSpec = {
+                        fadeIn() with fadeOut()
+                    }
+                ) { numOfProblems ->
                     Text(
                         text = numOfProblems.toString(),
                         color = MaterialTheme.colorScheme.primary
@@ -833,20 +1147,21 @@ private fun NoteHeader(
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun NoteTopMenu(
+    isMenuOpened: Boolean,
+    toggleMenu: Consumer<NoteMenuContent>,
+    noteMenuContent: NoteMenuContent,
     isSearching: Boolean,
     isFiltering: Boolean,
+    updateSearchKeyword: Consumer<String>,
+    setFilter: (List<Int>, List<QuizType>) -> Unit,
 ) {
-    val viewModel = hiltViewModel<NoteViewModel>()
-    val isMenuExpanded = viewModel.isMenuOpened.value
-    val bottomSheetContentState = viewModel.noteMenuContentState.value
-
     AnimatedVisibility(
         visible = isSearching,
         enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
         AssistChip(
-            onClick = { viewModel.updateUserInput("") },
+            onClick = { updateSearchKeyword("") },
             modifier = Modifier.padding(all = 4.dp),
             leadingIcon = {
                 Icon(
@@ -868,7 +1183,7 @@ private fun NoteTopMenu(
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
         AssistChip(
-            onClick = { viewModel.setFilter(years = Problem.allYears(), types = QuizType.all()) },
+            onClick = { setFilter(Problem.allYears(), QuizType.all()) },
             modifier = Modifier.padding(all = 4.dp),
             label = {
                 Text(text = stringResource(id = R.string.clear_filter))
@@ -886,7 +1201,7 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            viewModel.toggleMenu(NoteMenuContentState.Search)
+            toggleMenu(NoteMenuContent.Search)
         },
         enabled = isFiltering.not(),
     ) {
@@ -894,7 +1209,7 @@ private fun NoteTopMenu(
 
         val transition =
             updateTransition(
-                targetState = isMenuExpanded && bottomSheetContentState is NoteMenuContentState.Search,
+                targetState = isMenuOpened && noteMenuContent is NoteMenuContent.Search,
                 label = "SearchingMenuIconTransition"
             )
 
@@ -930,7 +1245,7 @@ private fun NoteTopMenu(
         }
 
         Icon(
-            imageVector = if (isMenuExpanded) Icons.Filled.Search else Icons.Outlined.Search,
+            imageVector = if (isMenuOpened) Icons.Filled.Search else Icons.Outlined.Search,
             contentDescription = stringResource(id = R.string.search),
             tint = tint,
             modifier = Modifier.size(size)
@@ -939,7 +1254,7 @@ private fun NoteTopMenu(
 
     IconButton(
         onClick = {
-            viewModel.toggleMenu(NoteMenuContentState.Filter)
+            toggleMenu(NoteMenuContent.Filter)
         },
         enabled = isSearching.not()
     ) {
@@ -947,7 +1262,7 @@ private fun NoteTopMenu(
 
         val transition =
             updateTransition(
-                targetState = isMenuExpanded && bottomSheetContentState is NoteMenuContentState.Filter,
+                targetState = isMenuOpened && noteMenuContent is NoteMenuContent.Filter,
                 label = "FilteringMenuIconTransition"
             )
 
@@ -990,3 +1305,106 @@ private fun NoteTopMenu(
         )
     }
 }
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true)
+@Composable
+fun NoteScreenViewPreview() {
+    CpaQuizTheme {
+        BoxWithConstraints {
+            NoteScreen(
+                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
+                noteUiState = NoteUiState(
+                    totalProblemsUiState = TotalProblemsUiState.Success(
+                        listOf(
+                            Problem(year = 2023, pid = 1, type = QuizType.Accounting, description = "blah"),
+                            Problem(year = 2023, pid = 2, type = QuizType.Business, description = "blahblah"),
+                        )
+                    ),
+                    wrongProblemsUiState = WrongProblemsUiState.Success(
+                        listOf(
+                            Problem(
+                                year = 2022,
+                                pid = 15,
+                                type = QuizType.CommercialLaw,
+                                description = "hello"
+                            ),
+                            Problem(year = 2021, pid = 22, type = QuizType.TaxLaw, description = "world"),
+                        )
+                    ),
+                    searchedProblemsUiState = SearchedProblemsUiState.Loading,
+                ),
+                searchKeyword = "",
+                selectedQuestionInSplitScreen = Problem(),
+                updateSearchKeyword = {},
+                setFilter = { _, _ -> },
+                selectableFilteredYears = listOf(),
+                selectableFilteredTypes = listOf(),
+                deleteAllWrongProblems = { },
+                deleteTargetWrongProblem = { },
+                noteFilter = NoteFilter.default(),
+                setSelectedQuestion = {},
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true)
+@Composable
+private fun NoteScreenSearchPreview() {
+    CpaQuizTheme {
+        BoxWithConstraints {
+            NoteScreen(
+                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
+                noteUiState = NoteUiState(
+                    totalProblemsUiState = TotalProblemsUiState.Loading,
+                    wrongProblemsUiState = WrongProblemsUiState.Loading,
+                    searchedProblemsUiState = SearchedProblemsUiState.Success(
+                        listOf(
+                            Problem(
+                                year = 2022,
+                                pid = 15,
+                                type = QuizType.CommercialLaw,
+                                description = "blah"
+                            ),
+                            Problem(
+                                year = 2021,
+                                pid = 22,
+                                type = QuizType.TaxLaw,
+                                description = "blahblah"
+                            ),
+                            Problem(
+                                year = 2020,
+                                pid = 12,
+                                type = QuizType.Business,
+                                description = "blahblahblah"
+                            ),
+                        )
+                    ),
+                ),
+                searchKeyword = "blah",
+                selectedQuestionInSplitScreen = Problem(),
+                updateSearchKeyword = {},
+                setFilter = { _, _ -> },
+                selectableFilteredYears = listOf(),
+                selectableFilteredTypes = listOf(),
+                deleteAllWrongProblems = { },
+                deleteTargetWrongProblem = { },
+                noteFilter = NoteFilter.default(),
+                setSelectedQuestion = {},
+            )
+        }
+    }
+}
+
+private enum class NoteScreenType {
+    Question,
+    QuestionWithDetails
+}
+
+private fun getNoteScreenType(useSplitScreen: Boolean) =
+    if (useSplitScreen) NoteScreenType.QuestionWithDetails else NoteScreenType.Question
+
+private fun Modifier.widthBySplit(useSplitScreen: Boolean) =
+    this.then(if (useSplitScreen) Modifier.width(300.dp) else Modifier.fillMaxWidth())

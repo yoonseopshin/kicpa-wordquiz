@@ -55,7 +55,7 @@ class QuizStatisticsActivity : BaseActivity() {
         NoteResultHeaderAdapter().also { adapter ->
             adapter.onNoteResultHeaderClick = {
                 startActivity(
-                    mainScreenNavigator.noteScreenIntent(
+                    mainScreenNavigator.homeScreenIntent(
                         context = this,
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                     )
@@ -180,16 +180,17 @@ class QuizStatisticsActivity : BaseActivity() {
 
     private fun parseIntent() {
         intent.extras?.let { extras ->
-            var times: List<Int> = emptyList()
+            val times = mutableListOf<Long>()
             val userSelectedIndices = (extras.getIntegerArrayList(QuizConstants.selected)) ?: emptyList()
             val problems =
                 (extras.parcelableArrayList(QuizConstants.problems, ProblemModel::class.java))
                     ?.toList()?.toDomain() ?: emptyList()
 
-            (extras.getIntegerArrayList(QuizConstants.timesPerProblem))?.let { timesPerProblem ->
-                times = timesPerProblem
-                if (times.sum() > 0) {
-                    timerAdapter.timesPerProblem = timesPerProblem
+            extras.getLongArray(QuizConstants.timesPerQuestion)?.let { timesPerProblem ->
+                times.clear()
+                times.addAll(timesPerProblem.toList())
+                if (times.sum() > 0L) {
+                    timerAdapter.timesPerProblem = times
                     timerAdapter.notifyItemInserted(0)
                 }
             }
@@ -216,11 +217,11 @@ class QuizStatisticsActivity : BaseActivity() {
             context: Context,
             problems: List<ProblemModel> = listOf(),
             selected: List<Int> = listOf(),
-            timesPerProblem: List<Long> = listOf(),
+            timesPerQuestion: List<Long> = listOf(),
         ) = Intent(context, QuizStatisticsActivity::class.java).apply {
             putParcelableArrayListExtra(QuizConstants.problems, ArrayList(problems))
             putExtra(QuizConstants.selected, ArrayList(selected))
-            putExtra(QuizConstants.timesPerProblem, ArrayList(timesPerProblem))
+            putExtra(QuizConstants.timesPerQuestion, timesPerQuestion.toLongArray())
         }
     }
 }
