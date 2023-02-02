@@ -20,17 +20,12 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @HiltViewModel
@@ -39,12 +34,6 @@ class QuestionViewModel @Inject constructor(
     private val quizUseCases: QuizUseCases,
     private val handle: SavedStateHandle,
 ) : BaseViewModel() {
-
-    private val _uiEvent = MutableSharedFlow<UiEvent>(
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-        extraBufferCapacity = 1
-    )
-    val uiEvent = _uiEvent.asSharedFlow()
 
     val useTimer: StateFlow<Boolean> = handle.getStateFlow(QuizConstants.useTimer, false)
 
@@ -58,6 +47,9 @@ class QuestionViewModel @Inject constructor(
 
     private val _isFabVisible = MutableStateFlow(false)
     val isFabVisible = _isFabVisible.asStateFlow()
+
+    val quizState = MutableStateFlow<QuizState>(QuizState.Solving)
+    val snackbarState = MutableStateFlow<SnackbarState>(SnackbarState.Hide)
 
     fun onPause() {
         timer.pause()
@@ -112,17 +104,13 @@ class QuestionViewModel @Inject constructor(
                 if (numOfSolvedQuestions > 0) timer.record()
                 numOfSolvedQuestions + 1
             }
-            withContext(Dispatchers.Main.immediate) {
-                _uiEvent.emit(UiEvent.ScrollToTop)
-            }
+            quizState.value = QuizState.Solving
         } else {
             // End up quiz
             timer.record()
             timer.pause()
             quizUseCases.increaseSolvedQuiz()
-            withContext(Dispatchers.Main.immediate) {
-                _uiEvent.emit(UiEvent.NavigateToQuizResult)
-            }
+            quizState.value = QuizState.End
         }
     }
 
@@ -137,14 +125,9 @@ class QuestionViewModel @Inject constructor(
         val currentSelectedIndex = selectedQuestionIndex.value
 
         if (currentSelectedIndex !in 0..4) {
-            withContext(Dispatchers.Main.immediate) {
-                _uiEvent.emit(
-                    UiEvent.ShowSnackbar(
-                        message = UiText.StringResource(R.string.msg_need_answer),
-                        actionLabel = UiText.StringResource(R.string.confirm)
-                    )
-                )
-            }
+            snackbarState.value =
+                SnackbarState.Show(message = UiText.StringResource(R.string.msg_need_answer))
+            quizState.value = QuizState.Solving
             return@launch
         }
 
@@ -152,11 +135,12 @@ class QuestionViewModel @Inject constructor(
         _selected.add(currentSelectedIndex)
         _selectedQuestionIndex.value = -1
 
-        showQuizAnimation()
+        onGrading()
         onQuizNext()
     }
 
-    private suspend fun showQuizAnimation() {
+    private suspend fun onGrading() {
+        quizState.value = QuizState.Grading
         val selectedQuestion = _selectedQuestionIndex.value
         val answer = _currentQuestion.value.answer
 
@@ -199,12 +183,6 @@ class QuestionViewModel @Inject constructor(
             ProblemDetailMode.Detail -> onDetail()
         }
     }
-
-    sealed interface UiEvent {
-        object NavigateToQuizResult : UiEvent
-        object ScrollToTop : UiEvent
-        data class ShowSnackbar(val message: UiText, val actionLabel: UiText) : UiEvent
-    }
 }
 
 sealed class PopScaleAnimationInfo(
@@ -217,4 +195,19 @@ sealed class PopScaleAnimationInfo(
 
     object Incorrect :
         PopScaleAnimationInfo(R.color.color_on_incorrect, R.color.daynight_pastel_red, Icons.Default.Close)
+}
+
+sealed interface SnackbarState {
+    object Hide : SnackbarState
+    data class Show(
+        val message: UiText,
+        val actionLabel: UiText = UiText.DynamicString(""),
+    ) : SnackbarState
+}
+
+sealed interface QuizState {
+    object Solving : QuizState
+
+    object Grading : QuizState
+    object End : QuizState
 }
