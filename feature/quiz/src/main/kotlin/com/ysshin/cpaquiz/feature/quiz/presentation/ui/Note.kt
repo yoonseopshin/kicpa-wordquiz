@@ -783,7 +783,7 @@ private fun LazyItemScope.NoteSummaryContent(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .widthBySplit(useSplitScreen)
+                .fillMaxWidth()
                 .padding(horizontal = 12.dp)
                 .padding(top = 8.dp),
             style = Typography.bodyMedium
@@ -1407,4 +1407,4 @@ private fun getNoteScreenType(useSplitScreen: Boolean) =
     if (useSplitScreen) NoteScreenType.QuestionWithDetails else NoteScreenType.Question
 
 private fun Modifier.widthBySplit(useSplitScreen: Boolean) =
-    this.then(if (useSplitScreen) Modifier.width(300.dp) else Modifier.fillMaxWidth())
+    this.then(Modifier.fillMaxWidth(if (useSplitScreen) 0.45f else 1f))
