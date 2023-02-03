@@ -91,6 +91,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -307,13 +308,15 @@ fun NoteScreen(
                                 },
                                 deleteTargetWrongProblem = deleteTargetWrongProblem,
                                 onProblemClick = onProblemClick,
-                                windowSizeClass = windowSizeClass
+                                windowSizeClass = windowSizeClass,
+                                selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
                             )
                         } else {
                             onSearchingContent(
                                 noteUiState.searchedProblemsUiState,
                                 windowSizeClass,
-                                onProblemClick
+                                onProblemClick,
+                                selectedQuestionInSplitScreen
                             )
                         }
                     }
@@ -341,13 +344,15 @@ fun NoteScreen(
                                     },
                                     deleteTargetWrongProblem = deleteTargetWrongProblem,
                                     onProblemClick = onProblemClick,
-                                    windowSizeClass = windowSizeClass
+                                    windowSizeClass = windowSizeClass,
+                                    selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
                                 )
                             } else {
                                 onSearchingContent(
                                     noteUiState.searchedProblemsUiState,
                                     windowSizeClass,
-                                    onProblemClick
+                                    onProblemClick,
+                                    selectedQuestionInSplitScreen
                                 )
                             }
                         }
@@ -455,6 +460,7 @@ private fun LazyListScope.onSearchingContent(
     uiState: SearchedProblemsUiState,
     windowSizeClass: WindowSizeClass,
     onProblemClick: ((Problem) -> Unit)? = null,
+    selectedQuestionInSplitScreen: Problem? = null,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
@@ -469,6 +475,7 @@ private fun LazyListScope.onSearchingContent(
                 problem = problem,
                 windowSizeClass = windowSizeClass,
                 onProblemClick = onProblemClick,
+                selectedQuestionInSplitScreen = selectedQuestionInSplitScreen
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
@@ -489,6 +496,7 @@ private fun LazyListScope.onViewingContent(
     deleteTargetWrongProblem: Consumer<Problem>,
     onProblemClick: (Problem) -> Unit,
     windowSizeClass: WindowSizeClass,
+    selectedQuestionInSplitScreen: Problem?,
 ) {
     wrongProblemsContent(
         wrongProblemsUiState,
@@ -500,8 +508,14 @@ private fun LazyListScope.onViewingContent(
         deleteTargetWrongProblem,
         onProblemClick,
         windowSizeClass,
+        selectedQuestionInSplitScreen
     )
-    totalProblemsContent(totalProblemsUiState, windowSizeClass, onProblemClick)
+    totalProblemsContent(
+        totalProblemsUiState,
+        windowSizeClass,
+        onProblemClick,
+        selectedQuestionInSplitScreen
+    )
 }
 
 private fun LazyListScope.wrongProblemsContent(
@@ -514,6 +528,7 @@ private fun LazyListScope.wrongProblemsContent(
     deleteTargetWrongProblem: Consumer<Problem>,
     onProblemClick: (Problem) -> Unit,
     windowSizeClass: WindowSizeClass,
+    selectedQuestionInSplitScreen: Problem?,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
@@ -562,6 +577,7 @@ private fun LazyListScope.wrongProblemsContent(
                 isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
                 updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened,
                 deleteTargetWrongProblem = deleteTargetWrongProblem,
+                selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
@@ -575,6 +591,7 @@ private fun LazyListScope.totalProblemsContent(
     uiState: TotalProblemsUiState,
     windowSizeClass: WindowSizeClass,
     onProblemClick: (Problem) -> Unit,
+    selectedQuestionInSplitScreen: Problem? = null,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
@@ -589,6 +606,7 @@ private fun LazyListScope.totalProblemsContent(
                 problem = problem,
                 windowSizeClass = windowSizeClass,
                 onProblemClick = onProblemClick,
+                selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
@@ -654,6 +672,7 @@ private fun LazyItemScope.NoteSummaryContent(
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>? = null,
     deleteTargetWrongProblem: Consumer<Problem>? = null,
+    selectedQuestionInSplitScreen: Problem? = null,
 ) {
     val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
 
@@ -690,6 +709,10 @@ private fun LazyItemScope.NoteSummaryContent(
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     onProblemLongClick?.invoke()
                 }
+            )
+            .selectableBackground(
+                isSelected = problem == selectedQuestionInSplitScreen,
+                selectedColor = MaterialTheme.colorScheme.surfaceColorAtElevation(0.5.dp)
             )
             .widthBySplit(useSplitScreen)
             .padding(bottom = 20.dp)
@@ -1408,3 +1431,6 @@ private fun getNoteScreenType(useSplitScreen: Boolean) =
 
 private fun Modifier.widthBySplit(useSplitScreen: Boolean) =
     this.then(Modifier.fillMaxWidth(if (useSplitScreen) 0.45f else 1f))
+
+private fun Modifier.selectableBackground(isSelected: Boolean, selectedColor: Color) =
+    this.then(if (isSelected) Modifier.background(color = selectedColor) else this)
