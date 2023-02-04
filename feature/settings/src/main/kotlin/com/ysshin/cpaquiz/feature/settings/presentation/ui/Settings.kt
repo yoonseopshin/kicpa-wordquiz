@@ -119,7 +119,7 @@ private fun SettingsLazyVerticalGrid(
     val context = LocalContext.current
 
     val numberOfColumns = when (windowSizeClass.widthSizeClass) {
-        WindowWidthSizeClass.Expanded -> 2
+        WindowWidthSizeClass.Medium, WindowWidthSizeClass.Expanded -> 2
         else -> 1
     }
 

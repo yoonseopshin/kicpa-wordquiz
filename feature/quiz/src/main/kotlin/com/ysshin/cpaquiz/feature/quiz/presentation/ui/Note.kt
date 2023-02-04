@@ -91,7 +91,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -115,6 +114,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
@@ -367,7 +367,11 @@ fun NoteScreen(
                             if (selectedQuestion == null) {
                                 NoSelectedQuestionScreen()
                             } else {
-                                Surface(modifier = Modifier.verticalScroll(scrollState)) {
+                                Surface(
+                                    modifier = Modifier
+                                        .verticalScroll(scrollState)
+                                        .padding(bottom = 8.dp)
+                                ) {
                                     QuestionDetail(
                                         mode = ProblemDetailMode.Detail,
                                         currentQuestion = selectedQuestion,
@@ -390,7 +394,6 @@ fun NoSelectedQuestionScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 64.dp)
     ) {
         val minSize = 100.dp
         val maxSize = 140.dp
@@ -710,10 +713,9 @@ private fun LazyItemScope.NoteSummaryContent(
                     onProblemLongClick?.invoke()
                 }
             )
-            .selectableBackground(
-                isSelected = problem == selectedQuestionInSplitScreen,
-                selectedColor = MaterialTheme.colorScheme.surfaceColorAtElevation(0.5.dp)
-            )
+            .modifyIf(useSplitScreen && problem == selectedQuestionInSplitScreen) {
+                background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(0.5.dp))
+            }
             .widthBySplit(useSplitScreen)
             .padding(bottom = 20.dp)
             .animateItemPlacement()
@@ -821,7 +823,6 @@ private fun NoteSummaryDivider(windowSizeClass: WindowSizeClass) {
         modifier = Modifier
             .padding(horizontal = 12.dp)
             .widthBySplit(useSplitScreen),
-        thickness = 1.dp,
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
     )
 }
@@ -1020,7 +1021,7 @@ private fun NoteFilterMenuContentDetail(
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.hide_menu),
-                tint = colorResource(id = R.color.daynight_gray600s)
+                tint = MaterialTheme.colorScheme.secondary
             )
         }
     }
@@ -1042,7 +1043,7 @@ private fun NoteSearchMenuContent(
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
-    var keyword by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+    var keyword by remember {
         mutableStateOf(TextFieldValue(searchKeyword))
     }
 
@@ -1054,6 +1055,11 @@ private fun NoteSearchMenuContent(
         } else {
             keyboardController?.hide()
         }
+    }
+
+    LaunchedEffect(searchKeyword) {
+        Timber.d("search keyword: $searchKeyword")
+        Timber.d("search keyword by wrapping TextFieldValue: ${keyword.text}")
     }
 
     Row(
@@ -1107,7 +1113,7 @@ private fun NoteSearchMenuContent(
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.hide_menu),
-                tint = colorResource(id = R.color.daynight_gray600s)
+                tint = MaterialTheme.colorScheme.secondary
             )
         }
     }
@@ -1431,6 +1437,3 @@ private fun getNoteScreenType(useSplitScreen: Boolean) =
 
 private fun Modifier.widthBySplit(useSplitScreen: Boolean) =
     this.then(Modifier.fillMaxWidth(if (useSplitScreen) 0.45f else 1f))
-
-private fun Modifier.selectableBackground(isSelected: Boolean, selectedColor: Color) =
-    this.then(if (isSelected) Modifier.background(color = selectedColor) else this)

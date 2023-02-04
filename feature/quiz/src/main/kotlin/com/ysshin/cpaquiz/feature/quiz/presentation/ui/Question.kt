@@ -38,10 +38,17 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
@@ -54,11 +61,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.ui.animation.ClockTickingAnimation
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
@@ -79,6 +88,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.SnackbarState
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 
+// TODO: Hoist to QuestionRoute
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
@@ -116,12 +126,11 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val scrollState = rememberScrollState()
 
     LaunchedEffect(quizState.value) {
-        when (val state = quizState.value) {
+        when (quizState.value) {
             is QuizState.Solving -> scrollState.animateScrollTo(0)
             QuizState.Grading -> Unit
             QuizState.End -> {
-                val quizEndNavActions =
-                    (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
+                val quizEndNavActions = (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
                 quizEndNavActions.onQuizEnd(
                     activity = activity,
                     problems = viewModel.questions,
@@ -149,36 +158,70 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val selectedQuestionIndex = viewModel.selectedQuestionIndex.collectAsStateWithLifecycle()
     val isPopScaleAnimationShowing = viewModel.isAnimationShowing.collectAsStateWithLifecycle()
     val popScaleAnimationInfo = viewModel.animationInfo.collectAsStateWithLifecycle()
+    val useTimer = viewModel.useTimer.collectAsStateWithLifecycle()
+    val elapsedTime = viewModel.elapsedTime.collectAsStateWithLifecycle()
+
+    var fabSize by remember { mutableStateOf(IntSize.Zero) }
+    var fabPosition by remember { mutableStateOf(Offset.Zero) }
+    var quizDetailSize by remember { mutableStateOf(IntSize.Zero) }
+    var quizDetailPosition by remember { mutableStateOf(Offset.Zero) }
 
     CpaQuizTheme {
-        Scaffold(
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-            topBar = {
-                QuestionTopAppBar(
-                    isToolbarTitleVisible.value,
-                    numOfTotalQuestion.value,
-                    numOfSolvedQuestion.value
-                )
-            },
-        ) { contentPadding ->
+        Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }, topBar = {
+            QuestionTopAppBar(
+                isToolbarTitleVisible.value,
+                numOfTotalQuestion.value,
+                numOfSolvedQuestion.value,
+                useTimer.value,
+                elapsedTime.value,
+            )
+        }, floatingActionButton = {
+            val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
+            val areFabAndQuizDetailScreenOverlapped =
+                fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
+
+            if (isFabVisible.value) {
+                FloatingActionButton(
+                    modifier = Modifier
+                        .bounceClickable()
+                        .padding(16.dp)
+                        .onGloballyPositioned { coordinates ->
+                            fabSize = coordinates.size
+                            fabPosition = coordinates.positionInWindow()
+                        }
+                        .modifyIf(areFabAndQuizDetailScreenOverlapped) {
+                            alpha(0.25f)
+                        },
+                    onClick = viewModel::selectAnswer,
+                ) {
+                    Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
+                }
+            }
+        }) { contentPadding ->
             Column(
                 modifier = Modifier
                     .padding(contentPadding)
                     .fillMaxSize()
                     .verticalScroll(scrollState)
+                    .padding(bottom = 8.dp)
             ) {
-                Column {
-                    Box(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.onGloballyPositioned { coordinates ->
+                        quizDetailSize = coordinates.size
+                        quizDetailPosition = coordinates.positionInWindow()
+                    }
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Row(
                             horizontalArrangement = Arrangement.Start,
                             modifier = Modifier
                                 .align(Alignment.TopStart)
                                 .padding(start = 8.dp)
                         ) {
-                            val assistChipContainerColor =
-                                colorResource(id = R.color.daynight_gray070s)
-                            val assistChipBorderColor =
-                                colorResource(id = R.color.daynight_gray300s)
+                            val assistChipContainerColor = colorResource(id = R.color.daynight_gray070s)
+                            val assistChipBorderColor = colorResource(id = R.color.daynight_gray300s)
 
                             NotClickableAssistedChip(
                                 modifier = Modifier.padding(all = 4.dp),
@@ -207,8 +250,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                 chipBorderColorResIdByType(currentQuestion.value.type)
 
                             NotClickableAssistedChip(
-                                modifier = Modifier.padding(all = 4.dp),
-                                label = {
+                                modifier = Modifier.padding(all = 4.dp), label = {
                                     ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
                                         Text(text = currentQuestion.value.type.toKorean())
                                     }
@@ -231,32 +273,6 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                         onQuestionClick = viewModel::selectQuestion,
                         onSelectAnswer = viewModel::selectAnswer
                     )
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    val useTimer = viewModel.useTimer.collectAsStateWithLifecycle()
-                    val elapsedTime = viewModel.elapsedTime.collectAsStateWithLifecycle()
-
-                    Clock(useTimer.value, elapsedTime.value)
-
-                    Spacer(modifier = Modifier.weight(weight = 1f, fill = true))
-
-                    val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
-
-                    if (isFabVisible.value) {
-                        Box(contentAlignment = Alignment.BottomEnd) {
-                            FloatingActionButton(
-                                modifier = Modifier
-                                    .bounceClickable()
-                                    .padding(16.dp),
-                                onClick = viewModel::selectAnswer,
-                            ) {
-                                Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
-                            }
-                        }
-                    }
                 }
             }
 
@@ -291,15 +307,15 @@ private fun Clock(useTimer: Boolean, elapsedTime: Long) {
             ClockTickingAnimation(
                 modifier = Modifier.padding(16.dp),
                 timeMillis = elapsedTime,
-                clockSize = 64.dp,
-                clockEndOffset = 12.dp,
+                clockSize = 52.dp,
+                clockEndOffset = 8.dp,
                 clockBackgroundColor = colorScheme.surfaceColorAtElevation(elevation = 2.dp),
                 clockHandColor = colorScheme.primary.copy(alpha = 0.2f),
                 clockHandStroke = 3.dp,
             ) {
                 Text(
                     text = TimeFormatter.format(elapsedTime),
-                    style = Typography.headlineSmall,
+                    style = Typography.titleLarge,
                     color = colorScheme.primary
                 )
             }
@@ -383,7 +399,8 @@ fun QuestionDetail(
             Divider(
                 modifier = Modifier
                     .padding(horizontal = 12.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                color = colorScheme.surfaceColorAtElevation(4.dp)
             )
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -447,38 +464,35 @@ fun QuestionDetailPreview() {
             subDescriptions = listOf("A. Hello", "B. World"),
             questions = listOf("Q1", "Q2", "Q3", "Q4", "Q5")
         ),
-        selectedQuestionIndex = 1,
-        onQuestionClick = {},
-        onSelectAnswer = {}
+        selectedQuestionIndex = 1, onQuestionClick = {}, onSelectAnswer = {}
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuestionTopAppBar(isVisible: Boolean, total: Int, solved: Int) {
+fun QuestionTopAppBar(isVisible: Boolean, total: Int, solved: Int, useTimer: Boolean, elapsedTime: Long) {
     val activity = LocalContext.current.findActivity()
 
-    TopAppBar(
-        title = {
-            if (isVisible) {
-                Column {
-                    Text(
-                        text = stringResource(id = R.string.quiz),
-                        modifier = Modifier.fillMaxWidth(),
-                        style = Typography.headlineSmall,
-                    )
-                    Text(
-                        text = "$solved/$total",
-                        modifier = Modifier.fillMaxWidth(),
-                        style = Typography.bodyLarge,
-                    )
-                }
+    TopAppBar(title = {
+        if (isVisible) {
+            Column {
+                Text(
+                    text = stringResource(id = R.string.quiz),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = Typography.headlineSmall,
+                )
+                Text(
+                    text = "$solved/$total",
+                    modifier = Modifier.fillMaxWidth(),
+                    style = Typography.bodyLarge,
+                )
             }
-        },
-        navigationIcon = {
-            IconButton(onClick = activity::finish) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
-            }
-        },
-    )
+        }
+    }, navigationIcon = {
+        IconButton(onClick = activity::finish) {
+            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+        }
+    }, actions = {
+        Clock(useTimer, elapsedTime)
+    })
 }
