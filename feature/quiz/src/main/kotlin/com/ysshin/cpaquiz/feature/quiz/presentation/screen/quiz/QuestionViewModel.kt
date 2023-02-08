@@ -104,6 +104,7 @@ class QuestionViewModel @Inject constructor(
                 if (numOfSolvedQuestions > 0) timer.record()
                 numOfSolvedQuestions + 1
             }
+            _selectedQuestionIndex.value = -1
             quizState.value = QuizState.Solving
         } else {
             // End up quiz
@@ -133,7 +134,6 @@ class QuestionViewModel @Inject constructor(
 
         _isAnimationShowing.value = true
         _selected.add(currentSelectedIndex)
-        _selectedQuestionIndex.value = -1
 
         onGrading()
         onQuizNext()
