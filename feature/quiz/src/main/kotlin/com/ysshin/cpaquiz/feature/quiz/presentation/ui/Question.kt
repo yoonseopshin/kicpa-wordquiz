@@ -21,6 +21,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -179,6 +180,10 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
             val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
             val areFabAndQuizDetailScreenOverlapped =
                 fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
+            val fabElevation =
+                if (areFabAndQuizDetailScreenOverlapped) FloatingActionButtonDefaults.elevation(
+                    0.dp, 0.dp, 0.dp, 0.dp
+                ) else FloatingActionButtonDefaults.elevation()
 
             if (isFabVisible.value) {
                 FloatingActionButton(
@@ -193,6 +198,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                             alpha(0.25f)
                         },
                     onClick = viewModel::selectAnswer,
+                    elevation = fabElevation,
                 ) {
                     Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
                 }
