@@ -821,8 +821,8 @@ private fun NoteSummaryDivider(windowSizeClass: WindowSizeClass) {
     val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     Divider(
         modifier = Modifier
-            .padding(horizontal = 12.dp)
-            .widthBySplit(useSplitScreen),
+            .widthBySplit(useSplitScreen)
+            .padding(horizontal = 12.dp),
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
     )
 }

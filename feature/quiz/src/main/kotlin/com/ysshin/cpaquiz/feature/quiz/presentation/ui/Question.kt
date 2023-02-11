@@ -337,7 +337,7 @@ fun QuestionDetail(
     onQuestionClick: (Int) -> Unit,
     onSelectAnswer: () -> Unit,
 ) {
-    ElevatedCard(modifier = Modifier.padding(horizontal = 12.dp)) {
+    ElevatedCard(modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp)) {
         Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
             Text(
                 modifier = Modifier
