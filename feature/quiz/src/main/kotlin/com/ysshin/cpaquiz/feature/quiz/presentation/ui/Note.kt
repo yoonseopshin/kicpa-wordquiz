@@ -21,6 +21,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -91,6 +92,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -715,6 +717,7 @@ private fun LazyItemScope.NoteSummaryContent(
             )
             .modifyIf(useSplitScreen && problem == selectedQuestionInSplitScreen) {
                 background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(0.5.dp))
+                    .then(border(width = 1.dp, color = MaterialTheme.colorScheme.primary, shape = RectangleShape))
             }
             .widthBySplit(useSplitScreen)
             .padding(bottom = 20.dp)
