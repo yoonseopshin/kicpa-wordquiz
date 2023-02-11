@@ -1058,8 +1058,9 @@ private fun NoteSearchMenuContent(
     }
 
     LaunchedEffect(searchKeyword) {
-        Timber.d("search keyword: $searchKeyword")
-        Timber.d("search keyword by wrapping TextFieldValue: ${keyword.text}")
+        if (searchKeyword != keyword.text) {
+            keyword = TextFieldValue(text = searchKeyword, selection = TextRange(keyword.text.length))
+        }
     }
 
     Row(
