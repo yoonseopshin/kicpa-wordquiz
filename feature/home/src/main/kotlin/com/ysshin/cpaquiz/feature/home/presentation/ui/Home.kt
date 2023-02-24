@@ -156,7 +156,7 @@ fun HomeScreen(
         FlowRow(
             modifier = Modifier
                 .padding(padding)
-                .padding(vertical = 28.dp)
+                .padding(top = 28.dp)
                 .verticalScroll(verticalScrollState),
             mainAxisAlignment = MainAxisAlignment.Center,
             mainAxisSize = SizeMode.Expand,
