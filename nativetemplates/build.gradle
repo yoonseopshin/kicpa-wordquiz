@@ -27,6 +27,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'com.google.android.gms:play-services-ads:20.6.0'
+    implementation(libs.gms.play.services.ads)
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 }

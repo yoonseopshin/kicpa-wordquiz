@@ -46,6 +46,7 @@ play-services-oss-licenses = "17.0.0"
 leakcanary = "2.10"
 accompanist = "0.26.5-rc"
 gms-google-services = "4.3.14"
+gms-play-services-ads = "21.5.0"
 spotify-ruler = "1.1.0"
 
 [libraries]
@@ -97,6 +98,7 @@ retrofit-kotlinx-serialization = { module = "com.jakewharton.retrofit:retrofit2-
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
 okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+gms-play-services-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "gms-play-services-ads" }
 spotless-gradle-plugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 versioning-gradle-plugin = { group = "com.github.ben-manes", name = "gradle-versions-plugin", version.ref = "versions" }
 oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
