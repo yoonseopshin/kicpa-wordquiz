@@ -30,51 +30,30 @@ fun NativeMediumAd() {
                 adView.mediaView = binding.mvContent
             }
 
-            val adLoader = AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
-                .forNativeAd { nativeAd ->
-                    nativeAd.advertiser?.let { advertiser ->
-                        binding.tvAdvertiser.text = advertiser
+            try {
+                val adLoader = AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
+                    .forNativeAd { nativeAd ->
+                        nativeAd.advertiser?.let { binding.tvAdvertiser.text = it }
+                        nativeAd.body?.let { binding.tvBody.text = it }
+                        nativeAd.callToAction?.let { binding.btnCta.text = it }
+                        nativeAd.headline?.let { binding.tvHeadline.text = it }
+                        nativeAd.icon?.let { binding.ivAppIcon.setImageDrawable(it.drawable) }
+                        nativeAd.price?.let { binding.tvPrice.text = it }
+                        nativeAd.starRating?.let { binding.rtbStars.rating = it.toFloat() }
+                        nativeAd.store?.let { binding.tvStore.text = it }
+                        adView.setNativeAd(nativeAd)
                     }
-
-                    nativeAd.body?.let { body ->
-                        binding.tvBody.text = body
-                    }
-
-                    nativeAd.callToAction?.let { cta ->
-                        binding.btnCta.text = cta
-                    }
-
-                    nativeAd.headline?.let { headline ->
-                        binding.tvHeadline.text = headline
-                    }
-
-                    nativeAd.icon?.let { icon ->
-                        binding.ivAppIcon.setImageDrawable(icon.drawable)
-                    }
-
-                    nativeAd.price?.let { price ->
-                        binding.tvPrice.text = price
-                    }
-
-                    nativeAd.starRating?.let { rating ->
-                        binding.rtbStars.rating = rating.toFloat()
-                    }
-
-                    nativeAd.store?.let { store ->
-                        binding.tvStore.text = store
-                    }
-
-                    adView.setNativeAd(nativeAd)
-                }
-                .withAdListener(object : AdListener() {
-                    override fun onAdLoaded() {
-                        super.onAdLoaded()
-                        adView.visible(withAnimation = true)
-                    }
-                })
-                .withNativeAdOptions(NativeAdOptions.Builder().build())
-                .build()
-            adLoader.loadAd(AdRequest.Builder().build())
+                    .withAdListener(object : AdListener() {
+                        override fun onAdLoaded() {
+                            super.onAdLoaded()
+                            adView.visible(withAnimation = true)
+                        }
+                    })
+                    .withNativeAdOptions(NativeAdOptions.Builder().build())
+                    .build()
+                adLoader.loadAd(AdRequest.Builder().build())
+            } catch (ignore: Exception) {
+            }
 
             binding
         }
@@ -100,24 +79,27 @@ fun NativeSmallAd() {
             adView.storeView = binding.tvStore
         }
 
-        val adLoader = AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_SMALL)
-            .forNativeAd { nativeAd ->
-                nativeAd.body?.let { binding.tvBody.text = it }
-                nativeAd.callToAction?.let { binding.btnCta.text = it }
-                nativeAd.headline?.let { binding.tvHeadline.text = it }
-                nativeAd.icon?.let { binding.ivAppIcon.setImageDrawable(it.drawable) }
-                nativeAd.store?.let { binding.tvStore.text = it }
-                adView.setNativeAd(nativeAd)
-            }
-            .withAdListener(object : AdListener() {
-                override fun onAdLoaded() {
-                    super.onAdLoaded()
-                    adView.visible(withAnimation = true)
+        try {
+            val adLoader = AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_SMALL)
+                .forNativeAd { nativeAd ->
+                    nativeAd.body?.let { binding.tvBody.text = it }
+                    nativeAd.callToAction?.let { binding.btnCta.text = it }
+                    nativeAd.headline?.let { binding.tvHeadline.text = it }
+                    nativeAd.icon?.let { binding.ivAppIcon.setImageDrawable(it.drawable) }
+                    nativeAd.store?.let { binding.tvStore.text = it }
+                    adView.setNativeAd(nativeAd)
                 }
-            })
-            .withNativeAdOptions(NativeAdOptions.Builder().build())
-            .build()
-        adLoader.loadAd(AdRequest.Builder().build())
+                .withAdListener(object : AdListener() {
+                    override fun onAdLoaded() {
+                        super.onAdLoaded()
+                        adView.visible(withAnimation = true)
+                    }
+                })
+                .withNativeAdOptions(NativeAdOptions.Builder().build())
+                .build()
+            adLoader.loadAd(AdRequest.Builder().build())
+        } catch (ignore: Exception) {
+        }
 
         binding
     })
