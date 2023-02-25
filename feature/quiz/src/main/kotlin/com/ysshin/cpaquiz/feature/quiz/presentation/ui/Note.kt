@@ -622,7 +622,7 @@ private fun LazyListScope.totalProblemsContent(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.itemHeader(
+fun LazyListScope.itemHeader(
     shouldShowListHeaderAsSticky: Boolean,
     content: @Composable LazyItemScope.() -> Unit,
 ) {
@@ -669,9 +669,10 @@ private fun WrongNoteHeaderContent(
     ExperimentalMaterial3Api::class
 )
 @Composable
-private fun LazyItemScope.NoteSummaryContent(
+fun LazyItemScope.NoteSummaryContent(
     problem: Problem,
-    windowSizeClass: WindowSizeClass,
+    modifier: Modifier = Modifier,
+    windowSizeClass: WindowSizeClass? = null,
     onProblemClick: ((Problem) -> Unit)? = null,
     onProblemLongClick: Action? = null,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
@@ -679,7 +680,9 @@ private fun LazyItemScope.NoteSummaryContent(
     deleteTargetWrongProblem: Consumer<Problem>? = null,
     selectedQuestionInSplitScreen: Problem? = null,
 ) {
-    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+    val useSplitScreen = if (windowSizeClass == null) false else {
+        windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+    }
 
     isDeleteWrongProblemDialogOpened?.let { dialog ->
         if (dialog.isOpened) {
@@ -705,7 +708,7 @@ private fun LazyItemScope.NoteSummaryContent(
     val haptic = LocalHapticFeedback.current
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .combinedClickable(
                 onClick = {
                     onProblemClick?.invoke(problem)
@@ -717,7 +720,13 @@ private fun LazyItemScope.NoteSummaryContent(
             )
             .modifyIf(useSplitScreen && problem == selectedQuestionInSplitScreen) {
                 background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(0.5.dp))
-                    .then(border(width = 1.dp, color = MaterialTheme.colorScheme.primary, shape = RectangleShape))
+                    .then(
+                        border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RectangleShape
+                        )
+                    )
             }
             .widthBySplit(useSplitScreen)
             .padding(bottom = 20.dp)
@@ -1125,15 +1134,17 @@ private fun NoteSearchMenuContent(
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-private fun NoteHeader(
-    windowSizeClass: WindowSizeClass,
+fun NoteHeader(
+    windowSizeClass: WindowSizeClass? = null,
     title: String = "",
     numOfProblems: Int = 0,
     onHeaderClick: Action = {},
     onHeaderLongClick: Action = {},
 ) {
     val haptic = LocalHapticFeedback.current
-    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+    val useSplitScreen = if (windowSizeClass == null) false else {
+        windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+    }
 
     Column(
         verticalArrangement = Arrangement.Center,

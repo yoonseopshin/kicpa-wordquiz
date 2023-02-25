@@ -69,14 +69,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.modifier.modifyIf
-import com.ysshin.cpaquiz.core.android.ui.animation.ClockTickingAnimation
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.RegexUtils
-import com.ysshin.cpaquiz.core.android.util.TimeFormatter
 import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.findActivity
@@ -175,6 +173,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                 numOfSolvedQuestion.value,
                 useTimer.value,
                 elapsedTime.value,
+                activity::finish
             )
         }, floatingActionButton = {
             val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
@@ -294,35 +293,6 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     imageVector = popScaleAnimationInfo.value.icon,
                     tint = colorResource(id = popScaleAnimationInfo.value.iconTintColorResId),
                     contentDescription = null,
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun ClockPreview() {
-    Clock(useTimer = true, elapsedTime = 15000L)
-}
-
-@Composable
-private fun Clock(useTimer: Boolean, elapsedTime: Long) {
-    Box(contentAlignment = Alignment.BottomStart) {
-        if (useTimer) {
-            ClockTickingAnimation(
-                modifier = Modifier.padding(16.dp),
-                timeMillis = elapsedTime,
-                clockSize = 52.dp,
-                clockEndOffset = 8.dp,
-                clockBackgroundColor = colorScheme.surfaceColorAtElevation(elevation = 2.dp),
-                clockHandColor = colorScheme.primary.copy(alpha = 0.2f),
-                clockHandStroke = 3.dp,
-            ) {
-                Text(
-                    text = TimeFormatter.format(elapsedTime),
-                    style = Typography.titleLarge,
-                    color = colorScheme.primary
                 )
             }
         }
@@ -476,9 +446,14 @@ fun QuestionDetailPreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuestionTopAppBar(isVisible: Boolean, total: Int, solved: Int, useTimer: Boolean, elapsedTime: Long) {
-    val activity = LocalContext.current.findActivity()
-
+fun QuestionTopAppBar(
+    isVisible: Boolean,
+    total: Int,
+    solved: Int,
+    useTimer: Boolean,
+    elapsedTime: Long,
+    onBackClick: () -> Unit,
+) {
     TopAppBar(title = {
         if (isVisible) {
             Column {
@@ -495,10 +470,25 @@ fun QuestionTopAppBar(isVisible: Boolean, total: Int, solved: Int, useTimer: Boo
             }
         }
     }, navigationIcon = {
-        IconButton(onClick = activity::finish) {
+        IconButton(onClick = onBackClick) {
             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
         }
     }, actions = {
         Clock(useTimer, elapsedTime)
     })
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun QuestionTopAppBarPreview() {
+    CpaQuizTheme {
+        QuestionTopAppBar(
+            isVisible = true,
+            total = 10,
+            solved = 8,
+            useTimer = true,
+            elapsedTime = 20000L,
+            onBackClick = {}
+        )
+    }
 }

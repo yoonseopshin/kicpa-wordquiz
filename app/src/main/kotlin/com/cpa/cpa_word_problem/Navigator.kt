@@ -7,7 +7,7 @@ import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizStartNavigati
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.QuizEndNavigationActions
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizStatisticsActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizResultActivity
 
 class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
 
@@ -34,7 +34,7 @@ class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
         timesPerQuestion: List<Long>,
     ) {
         activity.startActivity(
-            QuizStatisticsActivity.newIntent(
+            QuizResultActivity.newIntent(
                 context = activity,
                 problems = problems.toModel(),
                 selected = selected,

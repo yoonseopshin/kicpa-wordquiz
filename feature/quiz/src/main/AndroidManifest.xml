@@ -8,7 +8,7 @@
     <application android:theme="@style/Theme.CpaQuiz">
 
         <activity
-            android:name=".presentation.screen.statistics.QuizStatisticsActivity"
+            android:name=".presentation.screen.statistics.QuizResultActivity"
             android:exported="false"
             android:theme="@style/Theme.CpaQuiz.SlideAnimationActivity" />
         <activity
