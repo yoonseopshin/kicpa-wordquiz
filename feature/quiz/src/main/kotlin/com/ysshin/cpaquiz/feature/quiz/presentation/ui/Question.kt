@@ -1,6 +1,7 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -180,9 +181,16 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
             val areFabAndQuizDetailScreenOverlapped =
                 fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
             val fabElevation =
-                if (areFabAndQuizDetailScreenOverlapped) FloatingActionButtonDefaults.elevation(
-                    0.dp, 0.dp, 0.dp, 0.dp
-                ) else FloatingActionButtonDefaults.elevation()
+                if (areFabAndQuizDetailScreenOverlapped) {
+                    FloatingActionButtonDefaults.elevation(
+                        0.dp,
+                        0.dp,
+                        0.dp,
+                        0.dp
+                    )
+                } else {
+                    FloatingActionButtonDefaults.elevation()
+                }
 
             if (isFabVisible.value) {
                 FloatingActionButton(
@@ -195,6 +203,13 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                         }
                         .modifyIf(areFabAndQuizDetailScreenOverlapped) {
                             alpha(0.25f)
+                                .then(
+                                    border(
+                                        width = 1.dp,
+                                        color = colorScheme.primary,
+                                        shape = FloatingActionButtonDefaults.shape
+                                    )
+                                )
                         },
                     onClick = viewModel::selectAnswer,
                     elevation = fabElevation,
