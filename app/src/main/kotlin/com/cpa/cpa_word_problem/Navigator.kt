@@ -7,7 +7,7 @@ import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizStartNavigati
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.QuizEndNavigationActions
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizResultActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultActivity
 
 class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
 

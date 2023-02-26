@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics
+package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope

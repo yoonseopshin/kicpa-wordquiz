@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics
+package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult
 
 import android.content.Context
 import android.content.Intent

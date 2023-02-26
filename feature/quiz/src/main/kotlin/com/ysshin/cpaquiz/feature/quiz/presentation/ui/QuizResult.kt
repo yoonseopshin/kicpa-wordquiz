@@ -33,8 +33,8 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizResultUiState
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.statistics.QuizResultViewModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultUiState
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultViewModel
 import timber.log.Timber
 
 @Composable
