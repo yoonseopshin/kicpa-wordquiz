@@ -100,26 +100,33 @@
 
         <TextView
             android:id="@+id/tv_advertiser"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:ellipsize="marquee"
+            android:maxLines="1"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/layout_action"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_app_icon" />
+            app:layout_constraintTop_toBottomOf="@id/iv_app_icon"
+            tools:text="Google Google Google Google Google Google Google"
+            tools:visibility="visible" />
 
         <RatingBar
             android:id="@+id/rtb_stars"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize="0.5"
-            app:layout_constraintBottom_toBottomOf="@id/tv_advertiser"
-            app:layout_constraintStart_toEndOf="@id/tv_advertiser"
-            app:layout_constraintTop_toTopOf="@id/tv_advertiser"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_advertiser"
             tools:rating="4.5" />
 
         <TextView

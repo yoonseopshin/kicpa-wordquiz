@@ -33,7 +33,12 @@ fun NativeMediumAd() {
             try {
                 val adLoader = AdLoader.Builder(adView.context, AdConstants.QUIZ_NATIVE_AD_MEDIUM)
                     .forNativeAd { nativeAd ->
-                        nativeAd.advertiser?.let { binding.tvAdvertiser.text = it }
+                        nativeAd.advertiser?.let {
+                            if (it.isNotBlank()) {
+                                binding.tvAdvertiser.text = it
+                                binding.tvAdvertiser.visible()
+                            }
+                        }
                         nativeAd.body?.let { binding.tvBody.text = it }
                         nativeAd.callToAction?.let { binding.btnCta.text = it }
                         nativeAd.headline?.let { binding.tvHeadline.text = it }
