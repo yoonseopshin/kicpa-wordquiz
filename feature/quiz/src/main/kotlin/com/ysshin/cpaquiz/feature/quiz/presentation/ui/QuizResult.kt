@@ -112,14 +112,14 @@ fun QuizResultScreen(
                     val solvedQuestions = quizResultUiState.solvedQuestions
 
                     itemHeader(shouldShowListHeaderAsSticky = true) {
-                        NoteHeader(
+                        QuestionSummaryHeader(
                             title = stringResource(id = R.string.solved_problems),
                             numOfProblems = solvedQuestions.size
                         )
                     }
 
                     itemsIndexed(items = solvedQuestions) { index, problemModel ->
-                        NoteSummaryContent(
+                        QuestionSummaryContent(
                             problem = problemModel.toDomain(),
                             modifier = if (quizResultUiState.selectedIndices[index] == problemModel.answer) {
                                 Modifier.background(color = colorResource(id = R.color.color_on_correct_bg))

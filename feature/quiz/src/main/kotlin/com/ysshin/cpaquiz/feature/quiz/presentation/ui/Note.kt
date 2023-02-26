@@ -1,12 +1,10 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
@@ -18,11 +16,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -54,9 +49,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.Badge
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -92,40 +84,24 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
-import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.core.android.ui.theme.Typography
-import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
-import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.domain.model.Problem
@@ -133,7 +109,6 @@ import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.isValid
 import com.ysshin.cpaquiz.feature.quiz.R
-import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
@@ -149,7 +124,6 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isFiltering
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isQuizTypeFiltering
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isYearFiltering
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
-import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -476,7 +450,7 @@ private fun LazyListScope.onSearchingContent(
 
         val items = uiState.data
         itemsIndexed(items = items) { index, problem ->
-            NoteSummaryContent(
+            QuestionSummaryContent(
                 problem = problem,
                 windowSizeClass = windowSizeClass,
                 onProblemClick = onProblemClick,
@@ -484,7 +458,7 @@ private fun LazyListScope.onSearchingContent(
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
-                NoteSummaryDivider(windowSizeClass)
+                QuestionSummaryDivider(windowSizeClass)
             }
         }
     }
@@ -566,7 +540,7 @@ private fun LazyListScope.wrongProblemsContent(
         val items = uiState.data.map { it.toWrongProblemModel() }
         itemsIndexed(items = items) { index, wrongProblemModel ->
             val problem = wrongProblemModel.problem
-            NoteSummaryContent(
+            QuestionSummaryContent(
                 problem = problem,
                 windowSizeClass = windowSizeClass,
                 onProblemClick = onProblemClick,
@@ -586,7 +560,7 @@ private fun LazyListScope.wrongProblemsContent(
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
-                NoteSummaryDivider(windowSizeClass)
+                QuestionSummaryDivider(windowSizeClass)
             }
         }
     }
@@ -607,7 +581,7 @@ private fun LazyListScope.totalProblemsContent(
 
         val items = uiState.data
         itemsIndexed(items = items) { index, problem ->
-            NoteSummaryContent(
+            QuestionSummaryContent(
                 problem = problem,
                 windowSizeClass = windowSizeClass,
                 onProblemClick = onProblemClick,
@@ -615,7 +589,7 @@ private fun LazyListScope.totalProblemsContent(
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
-                NoteSummaryDivider(windowSizeClass)
+                QuestionSummaryDivider(windowSizeClass)
             }
         }
     }
@@ -651,7 +625,7 @@ private fun WrongNoteHeaderContent(
             Timber.d("Wrong problems(${problems.size}) added.")
 
             if (problems.isNotEmpty()) {
-                NoteHeader(
+                QuestionSummaryHeader(
                     windowSizeClass = windowSizeClass,
                     title = stringResource(id = R.string.wrong_note),
                     numOfProblems = problems.size,
@@ -664,181 +638,6 @@ private fun WrongNoteHeaderContent(
     }
 }
 
-@OptIn(
-    ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class
-)
-@Composable
-fun LazyItemScope.NoteSummaryContent(
-    problem: Problem,
-    modifier: Modifier = Modifier,
-    windowSizeClass: WindowSizeClass? = null,
-    onProblemClick: ((Problem) -> Unit)? = null,
-    onProblemLongClick: Action? = null,
-    isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
-    updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>? = null,
-    deleteTargetWrongProblem: Consumer<Problem>? = null,
-    selectedQuestionInSplitScreen: Problem? = null,
-) {
-    val useSplitScreen = if (windowSizeClass == null) false else {
-        windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
-    }
-
-    isDeleteWrongProblemDialogOpened?.let { dialog ->
-        if (dialog.isOpened) {
-            AppInfoDialog(
-                icon = painterResource(id = R.drawable.ic_delete),
-                title = stringResource(id = R.string.delete_wrong_problem),
-                description = stringResource(id = R.string.question_delete_wrong_note),
-                onConfirm = {
-                    deleteTargetWrongProblem?.invoke(dialog.problem.toDomain())
-                    updateDeletingWrongProblemDialogOpened?.invoke(
-                        isDeleteWrongProblemDialogOpened.copy(isOpened = false)
-                    )
-                },
-                onDismiss = {
-                    updateDeletingWrongProblemDialogOpened?.invoke(
-                        isDeleteWrongProblemDialogOpened.copy(isOpened = false)
-                    )
-                }
-            )
-        }
-    }
-
-    val haptic = LocalHapticFeedback.current
-
-    Column(
-        modifier = modifier
-            .combinedClickable(
-                onClick = {
-                    onProblemClick?.invoke(problem)
-                },
-                onLongClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onProblemLongClick?.invoke()
-                }
-            )
-            .modifyIf(useSplitScreen && problem == selectedQuestionInSplitScreen) {
-                background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(0.5.dp))
-                    .then(
-                        border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RectangleShape
-                        )
-                    )
-            }
-            .widthBySplit(useSplitScreen)
-            .padding(bottom = 20.dp)
-            .animateItemPlacement()
-    ) {
-        Box {
-            Row(
-                horizontalArrangement = Arrangement.Start,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(start = 8.dp)
-            ) {
-                val assistChipContainerColor =
-                    colorResource(id = R.color.daynight_gray070s)
-                val assistChipBorderColor =
-                    colorResource(id = R.color.daynight_gray300s)
-
-                NotClickableAssistedChip(
-                    modifier = Modifier.padding(all = 4.dp),
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                            Text(text = "${problem.year}년 ${problem.pid}번")
-                        }
-                    },
-                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                    border = AssistChipDefaults.assistChipBorder(
-                        borderColor = assistChipBorderColor,
-                        borderWidth = 0.5.dp
-                    )
-                )
-
-                NotClickableAssistedChip(
-                    modifier = Modifier.padding(all = 4.dp),
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                            Text(text = problem.source.toString())
-                        }
-                    },
-                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                    border = AssistChipDefaults.assistChipBorder(
-                        borderColor = assistChipBorderColor,
-                        borderWidth = 0.5.dp
-                    )
-                )
-
-                val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
-                val borderColorResourceIdByType = chipBorderColorResIdByType(problem.type)
-
-                NotClickableAssistedChip(
-                    modifier = Modifier.padding(all = 4.dp),
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                            Text(text = problem.type.toKorean())
-                        }
-                    },
-                    colors = AssistChipDefaults.assistChipColors(
-                        containerColor = colorResource(id = containerColorResourceIdByType)
-                    ),
-                    border = AssistChipDefaults.assistChipBorder(
-                        borderColor = colorResource(id = borderColorResourceIdByType),
-                        borderWidth = 0.5.dp,
-                    )
-                )
-            }
-        }
-
-        Text(
-            text = buildAnnotatedString {
-                for (keyword in QuizUtil.highlightKeywords) {
-                    if (problem.description.contains(keyword)) {
-                        val start = problem.description.indexOf(keyword)
-                        val end = start + keyword.length
-
-                        append(problem.description.substring(0, start))
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                                color = colorResource(id = R.color.daynight_gray900s),
-                                textDecoration = TextDecoration.Underline,
-                            )
-                        ) {
-                            append(problem.description.substring(start, end))
-                        }
-                        append(problem.description.substring(end))
-                        return@buildAnnotatedString
-                    }
-                }
-
-                append(problem.description)
-            },
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp)
-                .padding(top = 8.dp),
-            style = Typography.bodyMedium
-        )
-    }
-}
-
-@Composable
-private fun NoteSummaryDivider(windowSizeClass: WindowSizeClass) {
-    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
-    Divider(
-        modifier = Modifier
-            .widthBySplit(useSplitScreen)
-            .padding(horizontal = 12.dp),
-        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-    )
-}
-
 @Composable
 private fun TotalNoteHeaderContent(state: TotalProblemsUiState, windowSizeClass: WindowSizeClass) {
     when (state) {
@@ -848,7 +647,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState, windowSizeClass:
             }
             Timber.d("Total problems(${problems.size}) added.")
 
-            NoteHeader(
+            QuestionSummaryHeader(
                 windowSizeClass = windowSizeClass,
                 title = stringResource(id = R.string.total_note),
                 numOfProblems = problems.size
@@ -868,7 +667,7 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState, windowSize
             }
             Timber.d("Searched problems(${problems.size}) added.")
 
-            NoteHeader(
+            QuestionSummaryHeader(
                 windowSizeClass = windowSizeClass,
                 title = stringResource(id = R.string.searched_problem),
                 numOfProblems = problems.size
@@ -1128,62 +927,6 @@ private fun NoteSearchMenuContent(
                 contentDescription = stringResource(id = R.string.hide_menu),
                 tint = MaterialTheme.colorScheme.secondary
             )
-        }
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
-@Composable
-fun NoteHeader(
-    windowSizeClass: WindowSizeClass? = null,
-    title: String = "",
-    numOfProblems: Int = 0,
-    onHeaderClick: Action = {},
-    onHeaderLongClick: Action = {},
-) {
-    val haptic = LocalHapticFeedback.current
-    val useSplitScreen = if (windowSizeClass == null) false else {
-        windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
-    }
-
-    Column(
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .combinedClickable(
-                onClick = onHeaderClick,
-                onLongClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onHeaderLongClick()
-                }
-            )
-            .widthBySplit(useSplitScreen)
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
-            .defaultMinSize(minHeight = 52.dp)
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = title,
-                modifier = Modifier.padding(start = 16.dp, end = 8.dp),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Badge(
-                modifier = Modifier.animateContentSize(),
-                containerColor = MaterialTheme.colorScheme.primaryContainer
-            ) {
-                AnimatedContent(
-                    targetState = numOfProblems,
-                    transitionSpec = {
-                        fadeIn() with fadeOut()
-                    }
-                ) { numOfProblems ->
-                    Text(
-                        text = numOfProblems.toString(),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
         }
     }
 }
@@ -1450,5 +1193,5 @@ private enum class NoteScreenType {
 private fun getNoteScreenType(useSplitScreen: Boolean) =
     if (useSplitScreen) NoteScreenType.QuestionWithDetails else NoteScreenType.Question
 
-private fun Modifier.widthBySplit(useSplitScreen: Boolean) =
+fun Modifier.widthBySplit(useSplitScreen: Boolean) =
     this.then(Modifier.fillMaxWidth(if (useSplitScreen) 0.45f else 1f))
