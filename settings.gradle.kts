@@ -19,7 +19,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "cpa-word-problem"
 include(":app")
-include(":nativetemplates")
 include(":core:domain")
 include(":core:common")
 include(":core:android")

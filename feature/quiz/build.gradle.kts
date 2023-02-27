@@ -6,8 +6,6 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":nativetemplates"))
-
     implementation(libs.gms.play.services.ads)
 
     implementation("com.google.android.play:core:1.10.3")

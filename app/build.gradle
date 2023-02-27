@@ -91,7 +91,6 @@ android {
 }
 
 dependencies {
-    implementation project(":nativetemplates")
     implementation project(":core:domain")
     implementation project(":core:common")
     implementation project(":core:android")
