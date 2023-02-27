@@ -10,7 +10,7 @@ versionCode = "69"
 versionName = "1.7.0"
 
 android-r8 = "3.3.75"
-android-gradle-plugin = "7.3.0"
+android-gradle-plugin = "7.4.1"
 kotlin = "1.7.21"
 kotlinx-serialization-json = "1.4.1"
 androidx-compose-bom = "2022.12.00"
