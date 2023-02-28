@@ -97,6 +97,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
@@ -154,7 +155,7 @@ fun NoteRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun NoteScreen(
     windowSizeClass: WindowSizeClass,
@@ -263,7 +264,10 @@ fun NoteScreen(
 
             when (getNoteScreenType(useSplitScreen)) {
                 NoteScreenType.Question -> {
-                    LazyColumn(state = listState) {
+                    LazyColumn(
+                        modifier = Modifier.resourceTestTag("noteLazyColumn"),
+                        state = listState
+                    ) {
                         if (searchKeyword.isBlank()) {
                             onViewingContent(
                                 totalProblemsUiState = noteUiState.totalProblemsUiState,
@@ -299,7 +303,10 @@ fun NoteScreen(
                 }
                 NoteScreenType.QuestionWithDetails -> {
                     Row {
-                        LazyColumn(state = listState) {
+                        LazyColumn(
+                            modifier = Modifier.resourceTestTag("noteLazyColumn"),
+                            state = listState
+                        ) {
                             if (searchKeyword.isBlank()) {
                                 onViewingContent(
                                     totalProblemsUiState = noteUiState.totalProblemsUiState,

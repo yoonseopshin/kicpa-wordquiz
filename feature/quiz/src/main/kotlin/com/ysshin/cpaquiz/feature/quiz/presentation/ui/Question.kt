@@ -58,6 +58,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
@@ -69,11 +70,13 @@ import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -89,6 +92,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.modifier.modifyIf
+import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
 import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
@@ -111,7 +115,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.SnackbarState
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 
 // TODO: Hoist to QuestionRoute
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val numOfSolvedQuestion = viewModel.numOfSolvedQuestions.collectAsStateWithLifecycle()
@@ -232,7 +236,8 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                         shape = FloatingActionButtonDefaults.shape
                                     )
                                 )
-                        },
+                        }
+                        .resourceTestTag("fab"),
                     onClick = viewModel::selectAnswer,
                     elevation = fabElevation,
                 ) {
@@ -336,6 +341,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun QuestionDetail(
     mode: ProblemDetailMode,
@@ -455,6 +461,8 @@ fun QuestionDetail(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
+                        modifier = Modifier.testTag("rb$index")
+                            .semantics { testTagsAsResourceId = true },
                         text = s,
                         style = Typography.bodyMedium,
                         color = colorResource(id = R.color.daynight_gray600s)

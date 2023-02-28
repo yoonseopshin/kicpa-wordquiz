@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -31,6 +32,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
+import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Consumer
 import timber.log.Timber
@@ -87,6 +89,7 @@ fun CpaQuizApp(appState: CpaQuizAppState) {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun CpaQuizBottomBar(
     destinations: List<TopLevelDestination>,
@@ -113,7 +116,10 @@ private fun CpaQuizBottomBar(
                         Icon(imageVector = icon, contentDescription = null)
                     },
                     label = {
-                        Text(text = stringResource(id = destination.iconTextResourceId))
+                        Text(
+                            modifier = Modifier.resourceTestTag(stringResource(id = destination.iconTextResourceId)),
+                            text = stringResource(id = destination.iconTextResourceId)
+                        )
                     }
                 )
             }
@@ -143,7 +149,10 @@ private fun CpaQuizNavigationRail(
                     Icon(imageVector = icon, contentDescription = null)
                 },
                 label = {
-                    Text(text = stringResource(id = destination.iconTextResourceId))
+                    Text(
+                        modifier = Modifier.resourceTestTag(stringResource(id = destination.iconTextResourceId)),
+                        text = stringResource(id = destination.iconTextResourceId)
+                    )
                 }
             )
         }

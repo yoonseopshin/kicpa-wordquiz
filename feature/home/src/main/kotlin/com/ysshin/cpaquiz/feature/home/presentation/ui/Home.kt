@@ -74,6 +74,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
+import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppNumberPickerDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
@@ -167,6 +168,7 @@ fun HomeScreen(
                 is HomeQuizUiState.Loading -> Unit
                 is HomeQuizUiState.Success -> {
                     QuizCard(
+                        modifier = Modifier.resourceTestTag("quizCard${QuizType.Accounting.ordinal}"),
                         cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
                         count = homeQuizUiState.accountingCount,
@@ -175,6 +177,7 @@ fun HomeScreen(
                     )
 
                     QuizCard(
+                        modifier = Modifier.resourceTestTag("quizCard${QuizType.Business.ordinal}"),
                         cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
                         count = homeQuizUiState.businessCount,
@@ -183,6 +186,7 @@ fun HomeScreen(
                     )
 
                     QuizCard(
+                        modifier = Modifier.resourceTestTag("quizCard${QuizType.CommercialLaw.ordinal}"),
                         cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
                         count = homeQuizUiState.commercialLawCount,
@@ -191,6 +195,7 @@ fun HomeScreen(
                     )
 
                     QuizCard(
+                        modifier = Modifier.resourceTestTag("quizCard${QuizType.TaxLaw.ordinal}"),
                         cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
                         iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
                         count = homeQuizUiState.taxLawCount,
@@ -368,6 +373,7 @@ private fun HomeTopMenu(
 
 @Composable
 private fun QuizCard(
+    modifier: Modifier = Modifier,
     cardBackgroundColor: Color,
     iconBackgroundColor: Color,
     count: Int,
@@ -381,7 +387,7 @@ private fun QuizCard(
     val elevation = 6.dp
 
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .bounceClickable(
                 dampingRatio = 0.9f,
                 enabled = quizCardEnabled,
