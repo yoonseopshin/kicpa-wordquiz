@@ -221,6 +221,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
             if (isFabVisible.value) {
                 FloatingActionButton(
                     modifier = Modifier
+                        .resourceTestTag("fab")
                         .bounceClickable()
                         .padding(16.dp)
                         .onGloballyPositioned { coordinates ->
@@ -236,9 +237,12 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                         shape = FloatingActionButtonDefaults.shape
                                     )
                                 )
+                        },
+                    onClick = {
+                        if (quizState.value == QuizState.Solving) {
+                            viewModel.selectAnswer()
                         }
-                        .resourceTestTag("fab"),
-                    onClick = viewModel::selectAnswer,
+                    },
                     elevation = fabElevation,
                 ) {
                     Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
@@ -461,7 +465,8 @@ fun QuestionDetail(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        modifier = Modifier.testTag("rb$index")
+                        modifier = Modifier
+                            .testTag("rb$index")
                             .semantics { testTagsAsResourceId = true },
                         text = s,
                         style = Typography.bodyMedium,
