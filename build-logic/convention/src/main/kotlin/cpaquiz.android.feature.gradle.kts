@@ -13,7 +13,6 @@ android {
     configureKotlinAndroid(this)
 
     defaultConfig {
-        targetSdk = libs.findVersion("targetSdk").get().toString().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
