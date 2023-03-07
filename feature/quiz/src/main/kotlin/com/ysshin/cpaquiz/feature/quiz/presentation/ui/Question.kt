@@ -47,6 +47,9 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -65,6 +68,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalContext
@@ -115,7 +119,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.SnackbarState
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 
 // TODO: Hoist to QuestionRoute
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val numOfSolvedQuestion = viewModel.numOfSolvedQuestions.collectAsStateWithLifecycle()
@@ -149,11 +153,19 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val activity = context.findActivity()
     val appContext = context.applicationContext
     val snackbarHostState = remember { SnackbarHostState() }
-    val scrollState = rememberScrollState()
+    val questionContentScrollState = rememberScrollState()
+    val topAppBarState = rememberTopAppBarState()
+    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
 
     LaunchedEffect(quizState.value) {
         when (quizState.value) {
-            is QuizState.Solving -> scrollState.animateScrollTo(0)
+            is QuizState.Solving -> {
+                if (mode.value == ProblemDetailMode.Quiz) {
+                    topAppBarState.heightOffset = 0f
+                    topAppBarState.contentOffset = 0f
+                }
+                questionContentScrollState.animateScrollTo(0)
+            }
             QuizState.Grading -> Unit
             QuizState.End -> {
                 val quizEndNavActions = (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
@@ -193,16 +205,20 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     var quizDetailPosition by remember { mutableStateOf(Offset.Zero) }
 
     CpaQuizTheme {
-        Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }, topBar = {
-            QuestionTopAppBar(
-                isToolbarTitleVisible.value,
-                numOfTotalQuestion.value,
-                numOfSolvedQuestion.value,
-                useTimer.value,
-                elapsedTime.value,
-                activity::finish
-            )
-        }, floatingActionButton = {
+        Scaffold(
+            modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+            topBar = {
+                QuestionTopAppBar(
+                    isToolbarTitleVisible.value,
+                    numOfTotalQuestion.value,
+                    numOfSolvedQuestion.value,
+                    useTimer.value,
+                    elapsedTime.value,
+                    activity::finish,
+                    topAppBarScrollBehavior,
+                )
+            }, floatingActionButton = {
             val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
             val areFabAndQuizDetailScreenOverlapped =
                 fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
@@ -248,12 +264,13 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
                 }
             }
-        }) { contentPadding ->
+        }
+        ) { contentPadding ->
             Column(
                 modifier = Modifier
                     .padding(contentPadding)
                     .fillMaxSize()
-                    .verticalScroll(scrollState)
+                    .verticalScroll(questionContentScrollState)
                     .padding(bottom = 8.dp)
             ) {
                 Column(
@@ -503,31 +520,38 @@ fun QuestionTopAppBar(
     useTimer: Boolean,
     elapsedTime: Long,
     onBackClick: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior,
 ) {
-    TopAppBar(title = {
-        if (isVisible) {
-            Column {
-                Text(
-                    text = stringResource(id = R.string.quiz),
-                    modifier = Modifier.fillMaxWidth(),
-                    style = Typography.headlineSmall,
-                )
-                Text(
-                    text = "$solved/$total",
-                    modifier = Modifier.fillMaxWidth(),
-                    style = Typography.bodyLarge,
-                )
+    TopAppBar(
+        title = {
+            if (isVisible) {
+                Column {
+                    Text(
+                        text = stringResource(id = R.string.quiz),
+                        modifier = Modifier.fillMaxWidth(),
+                        style = Typography.headlineSmall,
+                    )
+                    Text(
+                        text = "$solved/$total",
+                        modifier = Modifier.fillMaxWidth(),
+                        style = Typography.bodyLarge,
+                    )
+                }
             }
-        }
-    }, navigationIcon = {
-        IconButton(onClick = onBackClick) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
-        }
-    }, actions = {
-        Clock(useTimer, elapsedTime)
-    })
+        },
+        navigationIcon = {
+            IconButton(onClick = onBackClick) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+            }
+        },
+        actions = {
+            Clock(useTimer, elapsedTime)
+        },
+        scrollBehavior = scrollBehavior
+    )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(showBackground = true)
 private fun QuestionTopAppBarPreview() {
@@ -538,7 +562,8 @@ private fun QuestionTopAppBarPreview() {
             solved = 8,
             useTimer = true,
             elapsedTime = 20000L,
-            onBackClick = {}
+            onBackClick = {},
+            TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
         )
     }
 }
@@ -568,7 +593,7 @@ fun QuestionSummaryHeader(
                 }
             )
             .widthBySplit(useSplitScreen)
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
+            .background(colorScheme.surfaceColorAtElevation(elevation = 3.dp))
             .defaultMinSize(minHeight = 52.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -770,6 +795,6 @@ fun QuestionSummaryDivider(windowSizeClass: WindowSizeClass) {
         modifier = Modifier
             .widthBySplit(useSplitScreen)
             .padding(horizontal = 12.dp),
-        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+        color = colorScheme.surfaceColorAtElevation(1.dp)
     )
 }
