@@ -16,7 +16,8 @@ fun ProblemEntity.toDomain() = Problem(
     questions = questions,
     answer = answer,
     type = type,
-    source = source
+    source = source,
+    subtype = subtype,
 )
 
 @JvmName("problemEntityListToDomain")
@@ -30,7 +31,8 @@ fun Problem.toLocalData() = ProblemEntity(
     questions = questions,
     answer = answer,
     type = type,
-    source = source
+    source = source,
+    subtype = subtype,
 )
 
 @JvmName("problemListToLocalData")
@@ -44,7 +46,8 @@ fun ProblemResponse.toDomain() = Problem(
     questions = questions,
     answer = answer,
     type = type,
-    source = source
+    source = source,
+    subtype = subtype,
 )
 
 @JvmName("problemResponseListToDomain")

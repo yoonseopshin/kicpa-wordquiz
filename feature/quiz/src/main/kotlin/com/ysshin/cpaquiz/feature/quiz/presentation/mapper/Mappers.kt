@@ -23,7 +23,8 @@ fun ProblemModel.toDomain() = Problem(
     questions = questions,
     answer = answer,
     type = type,
-    source = source
+    source = source,
+    subtype = subtype,
 )
 
 @JvmName("problemModelListToDomain")

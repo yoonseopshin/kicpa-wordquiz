@@ -18,4 +18,5 @@ data class ProblemModel(
     val answer: Int = DEFAULT_INT,
     val type: QuizType,
     val source: ProblemSource,
+    val subtype: String = DEFAULT_STRING,
 ) : Parcelable

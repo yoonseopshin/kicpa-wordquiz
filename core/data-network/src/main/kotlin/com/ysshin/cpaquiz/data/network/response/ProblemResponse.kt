@@ -16,4 +16,5 @@ data class ProblemResponse(
     val answer: Int,
     val type: QuizType,
     val source: ProblemSource,
+    val subtype: String,
 )

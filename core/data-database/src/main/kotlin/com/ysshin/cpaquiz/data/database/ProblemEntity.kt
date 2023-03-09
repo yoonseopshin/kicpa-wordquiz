@@ -19,7 +19,8 @@ data class ProblemEntity(
     @ColumnInfo(name = Problem.QUESTIONS) val questions: List<String>,
     @ColumnInfo(name = Problem.ANSWER) val answer: Int,
     @ColumnInfo(name = Problem.TYPE) val type: QuizType,
-    @ColumnInfo(name = Problem.SOURCE) val source: ProblemSource
+    @ColumnInfo(name = Problem.SOURCE) val source: ProblemSource,
+    @ColumnInfo(name = Problem.SUBTYPE) val subtype: String,
 ) {
     override fun equals(other: Any?): Boolean {
         (other as? ProblemEntity)?.let {
