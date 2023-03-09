@@ -13,7 +13,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -29,7 +30,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -45,7 +47,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -61,7 +64,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -77,7 +81,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -93,7 +98,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -109,7 +115,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -125,7 +132,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -141,7 +149,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -157,7 +166,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -173,7 +183,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -189,7 +200,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -205,7 +217,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -221,7 +234,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -237,7 +251,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -253,7 +268,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -269,7 +285,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -285,7 +302,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -301,7 +319,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -317,7 +336,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -333,7 +353,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -349,7 +370,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -365,7 +387,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -381,7 +404,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -397,7 +421,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -413,7 +438,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -429,7 +455,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -445,7 +472,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -461,7 +489,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -477,7 +506,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -493,7 +523,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -509,7 +540,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -525,7 +557,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -541,7 +574,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -557,7 +591,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -573,7 +608,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -589,7 +625,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -605,7 +642,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -621,7 +659,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -637,7 +676,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -653,7 +693,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -669,7 +710,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -685,7 +727,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -701,7 +744,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -717,7 +761,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -733,7 +778,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -749,7 +795,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -765,7 +812,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -781,7 +829,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -797,7 +846,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -813,7 +863,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -829,7 +880,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -845,7 +897,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -861,7 +914,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -877,7 +931,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -893,7 +948,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -909,7 +965,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -925,7 +982,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -941,7 +999,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -957,7 +1016,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -973,7 +1033,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -989,7 +1050,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1005,7 +1067,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1021,7 +1084,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1037,7 +1101,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1053,7 +1118,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1069,7 +1135,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1085,7 +1152,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1101,7 +1169,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1117,7 +1186,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1133,7 +1203,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1149,7 +1220,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1165,7 +1237,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1181,7 +1254,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1197,7 +1271,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1213,7 +1288,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -1229,7 +1305,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1245,7 +1322,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1261,7 +1339,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1277,7 +1356,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1293,7 +1373,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1309,7 +1390,8 @@
     ],
     "answer": 0,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1325,7 +1407,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1341,7 +1424,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1357,7 +1441,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1373,7 +1458,8 @@
     ],
     "answer": 1,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1389,7 +1475,8 @@
     ],
     "answer": 3,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1405,7 +1492,8 @@
     ],
     "answer": 2,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -1421,7 +1509,8 @@
     ],
     "answer": 4,
     "type": "Accounting",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1437,7 +1526,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1453,7 +1543,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1469,7 +1560,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1485,7 +1577,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1501,7 +1594,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1517,7 +1611,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1533,7 +1628,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1549,7 +1645,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1570,7 +1667,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1586,7 +1684,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1602,7 +1701,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1618,7 +1718,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1634,7 +1735,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1650,7 +1752,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1671,7 +1774,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1687,7 +1791,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1703,7 +1808,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1719,7 +1825,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1740,7 +1847,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1761,7 +1869,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1777,7 +1886,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1793,7 +1903,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1809,7 +1920,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1825,7 +1937,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1841,7 +1954,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1861,7 +1975,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1877,7 +1992,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1899,7 +2015,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2016,
@@ -1915,7 +2032,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -1931,7 +2049,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -1947,7 +2066,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -1968,7 +2088,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -1984,7 +2105,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2000,7 +2122,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2016,7 +2139,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2036,7 +2160,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2052,7 +2177,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2072,7 +2198,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2088,7 +2215,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2107,7 +2235,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2123,7 +2252,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2139,7 +2269,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2159,7 +2290,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2175,7 +2307,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2191,7 +2324,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2207,7 +2341,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2223,7 +2358,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2239,7 +2375,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2255,7 +2392,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2271,7 +2409,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2287,7 +2426,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2303,7 +2443,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2319,7 +2460,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2339,7 +2481,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2355,7 +2498,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2017,
@@ -2371,7 +2515,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2387,7 +2532,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2403,7 +2549,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2419,7 +2566,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2435,7 +2583,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2451,7 +2600,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2467,7 +2617,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2483,7 +2634,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2499,7 +2651,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2519,7 +2672,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2539,7 +2693,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2559,7 +2714,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2575,7 +2731,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2591,7 +2748,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2607,7 +2765,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2623,7 +2782,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2644,7 +2804,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2660,7 +2821,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2676,7 +2838,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2692,7 +2855,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2708,7 +2872,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2724,7 +2889,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2740,7 +2906,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2756,7 +2923,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2772,7 +2940,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -2788,7 +2957,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2804,7 +2974,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2820,7 +2991,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2836,7 +3008,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2852,7 +3025,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2868,7 +3042,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2884,7 +3059,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2900,7 +3076,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2916,7 +3093,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2936,7 +3114,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2956,7 +3135,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2975,7 +3155,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -2991,7 +3172,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3007,7 +3189,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3026,7 +3209,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3042,7 +3226,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3062,7 +3247,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3078,7 +3264,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3094,7 +3281,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3110,7 +3298,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3126,7 +3315,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3142,7 +3332,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3163,7 +3354,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3183,7 +3375,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3199,7 +3392,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3215,7 +3409,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3235,7 +3430,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2019,
@@ -3251,7 +3447,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3267,7 +3464,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3283,7 +3481,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3299,7 +3498,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3315,7 +3515,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3331,7 +3532,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3347,7 +3549,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3363,7 +3566,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3379,7 +3583,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3395,7 +3600,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3417,7 +3623,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3437,7 +3644,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3453,7 +3661,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3469,7 +3678,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3485,7 +3695,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3501,7 +3712,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3517,7 +3729,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3533,7 +3746,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3554,7 +3768,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3570,7 +3785,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3586,7 +3802,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3602,7 +3819,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3624,7 +3842,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2020,
@@ -3642,7 +3861,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -3663,14 +3883,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 2,
     "description": "리더십에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "권한(authority)은 직위에 주어진 권력으로서 주어진 책임과 임무를 완수하는 데 필요한 의사결정권을 의미한다.",
       "진성 리더(authentic leader)는 자신의 특성을 있는 그대로 인식하고 내면의 신념이나 가치와 일치되게 행동하며, 자신에게 진솔한 모습으로 솔선수범하며 조직을 이끌어가는 사람을 말한다.",
@@ -3680,14 +3900,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 3,
     "description": "조직구조와 조직문화에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "조직문화에 영향을 미치는 중요한 요소로 조직체 환경, 기본 가치, 중심인물, 의례와 예식, 문화망 등을 들 수 있다.",
       "조직사회화는 조직문화를 정착시키기 위해 조직에서 활용되는 핵심 매커니즘으로 새로운 구성원을 내부 구성원으로 변화시키는 활동을 말한다.",
@@ -3697,14 +3917,14 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 4,
     "description": "집단과 의사결정에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "집단발전의 단계 중 형성기(forming)는 집단의 목적·구조·리더십을 정하는 과정이 불확실하다는 특징을 가지고 있다.",
       "1차 집단은 구성원 간의 관계가 지적·이성적이며 공식적·계약적이라는 특징이 있는 반면, 2차 집단은 구성원의 개인적·감정적 개입이 요구되고 구성원 간에 개인적·자발적 대면관계가 유지되는 특징이 있다.",
@@ -3714,14 +3934,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 5,
     "description": "성과관리와 보상제도에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "중요사건법(critical incident method)은 평가자가 전체 평정기간 동안 피평가자에 의해 수행된 특별히 효과적인 또는 비효과적인 행동 내지 업적 모두를 작성하도록 요구한다.",
       "법정 복리후생은 국가가 사회복지의 일환으로 기업의 종업원들을 보호하기 위해 법률 제정을 통해 기업으로 하여금 강제적으로 도입하도록 한 제도를 말한다.",
@@ -3731,14 +3951,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 6,
     "description": "인적자원의 모집, 개발 및 교육훈련에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "교육훈련(training)은 종업원에게 현재 수행하고 있는 직무뿐만 아니라 미래의 직무에서 사용하게 할 목적으로 지식과 기술을 제공한다.",
       "고용주들은 조직 내부의 인적자원을 개발하느냐 아니면 이미 개발된 개인들을 외부에서 채용하느냐의 선택에 직면한다.",
@@ -3748,14 +3968,14 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 7,
     "description": "직무분석에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "직무분석(job analysis)은 직무의 내용, 맥락, 인적 요건 등에 관한 정보를 수집하고 분석하는 체계적인 방법을 말한다.",
       "직무설계(job design)는 업무가 수행되는 방식과 주어진 직무에서 요구되는 과업들을 정의하는 과정을 말한다.",
@@ -3765,14 +3985,14 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 8,
     "description": "인적자원계획 및 평등고용기회에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "인적자원계획(human resource planning)은 조직이 전략적 목표를 달성할 수 있도록 사람들의 수요와 가용성을 분석하고 확인하는 과정이다.",
       "기업의 인력과잉 대처방안에는 임금의 삭감, 자발적 이직프로그램의 활용, 근로시간 단축 등이 있다.",
@@ -3782,7 +4002,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -3802,14 +4023,14 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 10,
     "description": "소비자행동에 관한 설명 중 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "소비자의 브랜드 평가모형은 보완적(compensatory) 평가모형과 비보완적(non-compensatory) 평가모형으로 구분할 수 있다.",
       "소비자 관여도는 제품과 소비자에 따라 다를 수 있고, 상황에 따라서도 다를 수 있다.",
@@ -3819,7 +4040,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -3839,7 +4061,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -3859,7 +4082,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -3879,7 +4103,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -3900,7 +4125,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -3920,7 +4146,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -3941,14 +4168,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 18,
     "description": "수요예측에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "이동평균(moving average)에서 이동평균기간이 길수록 평활 효과(smoothing effect)는 커지고, 실제치의 변동에 반응하는 시차(time lag)도 커진다.",
       "추세조정지수평활법(trend-adjusted exponential smoothing)은 2개의 평활상수를 사용하며 단순지수평활법에 비해 추세의 변화를 잘 반영하는 장점이 있다.",
@@ -3958,14 +4185,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 19,
     "description": "품질관리와 품질비용에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "공정능력(process capability)은 공정이 안정상태(under control)에서 설계규격(specification)에 적합한 제품을 생산할 수 있는 능력을 의미하며 공정능력이 커질수록 불량률은 줄어든다.",
       "품질특성 산포의 평균이 규격한계(specification limit)의 중앙에 있고 공정능력지수가 1.0인 공정에서 규격한계의 폭이 12라면, 산포의 표준편차는 1.0이다.",
@@ -3975,14 +4202,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 20,
     "description": "라인밸런싱(line balancing)에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "연속된 두 작업장에 할당된 작업부하(workload)의 균형이 맞지 않을 경우 작업장애(blocking) 또는 작업공전(starving) 현상이 발생한다.",
       "라인밸런싱의 결과, 모든 작업장의 이용률(utilization)이 100%라면 전체 생산라인의 효율(efficiency)도 100%이다.",
@@ -3992,7 +4219,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -4015,14 +4243,14 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 22,
     "description": "자재소요계획(MRP)에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "MRP는 종속수요품목에 대한 조달 계획이며, 독립수요품목과 달리 시간에 따른 수요변동이 일괄적(lumpy)이라는 특징을 가진다.",
       "MRP의 입력자료인 자재명세서(BOM)는 품목 간의 계층관계와 소요량을 나무구조형태로 표현한 것이다.",
@@ -4032,14 +4260,14 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 23,
     "description": "경제적주문량(EOQ)모형에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "단위당 재고유지비용(holding cost)이 커지면 최적주문량은 줄어들지만, 재주문점(reorder point)은 변하지 않는다.",
       "주문당 주문비용(ordering cost)이 커지면 최적주문량은 늘어 나지만, 재주문점은 변하지 않는다.",
@@ -4049,14 +4277,14 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 28,
     "description": "채권 듀레이션에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "무이표채의 경우 만기가 길어지면 듀레이션이 증가한다.",
       "목표시기와 듀레이션을 일치시키는 채권 포트폴리오를 보유하면 목표시기까지 이자율의 중간 변동에 대하여 면역이 되므로 채권 포트폴리오를 조정할 필요가 없다.",
@@ -4066,7 +4294,8 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -4088,7 +4317,8 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -4110,7 +4340,8 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -4132,14 +4363,14 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 34,
     "description": "주식배당에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "정보비대칭 하의 불완전자본시장을 가정할 경우 주식배당은 기업내부에 현금이 부족하다는 인식을 외부에 주는 부정적 효과가 있을 수 있다.",
       "주식배당은 유보이익의 영구자본화를 가능하게 한다.",
@@ -4149,14 +4380,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
     "pid": 35,
     "description": "자본자산가격결정모형(CAPM)이 성립할 때, 다음 중 가장 적절한 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "공매도가 허용될 때, 기대수익률이 서로 다른 두 개의 효율적 포트폴리오를 조합하여 시장포트폴리오를 복제할 수 없다.",
       "시장포트폴리오의 위험프리미엄이 음(-)의 값을 가지는 경우가 발생할 수 있다.",
@@ -4166,14 +4397,14 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 1,
     "description": "동기부여 이론과 성격에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "동기는 개인의 욕구(need)에 의해 발생되며, 그 강도는 욕구의 결핍 정도에 의해 직접적인 영향을 받는다.",
       "맥클리랜드(McClelland)에 의하면, 성취욕구(need for achievement)는 개인이 다른 사람들에게 영향력을 행사하여 그들을 통제하고 싶은 욕구를 말한다.",
@@ -4183,14 +4414,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 2,
     "description": "리더십에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "리더십은 리더가 부하들로 하여금 변화를 통해 조직목표를 달성하도록 영향력을 행사하는 과정이다.",
       "리더는 외집단(out-group)보다 내집단(in-group)의 부하들과 질 높은 교환관계를 가지며 그들에게 더 많은 보상을 한다.",
@@ -4200,7 +4431,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -4221,14 +4453,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 4,
     "description": "조직구조와 조직변화에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "조직이 변화하는 외부상황에 적절하고 신속하게 대처하기 위해서는 집권화(centralization)가 필요하다.",
       "조직변화(organizational change)는 궁극적으로 조직성과 개선, 능률 극대화, 구성원의 만족도 향상 등을 위한 계획적 변화를 말한다.",
@@ -4238,14 +4470,14 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 5,
     "description": "인적자원의 모집, 개발 및 평등고용기회에 관한 설명으로 가장 적절 하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "내부모집(internal recruiting)은 외부모집(external recruiting)에 비해 종업원들에게 희망과 동기를 더 많이 부여한다.",
       "평등고용기회(equal employment opportunity)는 조직에서 불법적 차별에 의해 영향을 받지 않는 고용을 의미한다.",
@@ -4255,14 +4487,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 6,
     "description": "직무분석과 교육훈련에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "개인-직무 적합(person-job fit)은 사람의 특성이 직무의 특성에 부합한지를 판단하는 개념이다.",
       "교육훈련의 전이(transfer of training)란 교육훈련에서 배운 지식과 정보를 직무에 실제로 활용하는 것을 말한다.",
@@ -4272,14 +4504,14 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 7,
     "description": "이직 및 유지 관리에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "자발적 이직(voluntary turnover)의 일반적인 원인에는 직무 불만족, 낮은 임금 및 복리후생 수준, 부진한 성과 등이 있다.",
       "퇴직자 인터뷰(exit interview)는 종업원에 대한 유지평가 노력의 일환으로 폭넓게 사용되는 방법이다.",
@@ -4289,14 +4521,14 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 8,
     "description": "성과평가 및 보상에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "기본급(base pay)은 종업원이 조직에서 시급이나 급여의 형태로 받는 보상을 말한다.",
       "기업들이 강제할당(forced distribution)을 적용하는 이유는 평가자 인플레이션에 대처하기 위해서이다.",
@@ -4306,14 +4538,14 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 9,
     "description": "서비스의 특징으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "무형성(intangibility)",
       "생산과 소비의 비분리성(inseparability)",
@@ -4323,14 +4555,14 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 11,
     "description": "척도(scale)에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "척도는 포함하는 정보의 양에 따라 분류된다.",
       "어의차이척도(semantic differential scale)는 척도의 양 극단에 속성의 정도를 나타내는 반의어를 제시한다.",
@@ -4340,14 +4572,14 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 12,
     "description": "소비자 정보처리과정의 순서로 가장 적절한 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "노출→감지→주의→기억→이해",
       "노출→감지→주의→이해→기억",
@@ -4357,14 +4589,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 13,
     "description": "자료분석에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "신뢰성(reliability)은 측정결과가 얼마나 일관되는지를 나타낸다.",
       "첫 번째 측정이 그 다음의 측정에 영향을 미치는 것을 측정 도구의 편향(instrumental bias)이라고 한다.",
@@ -4374,14 +4606,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 14,
     "description": "소비자가 문제를 인식했을 때 이를 해결할 수 있는 수단을 찾기 위해 기억 속에 저장되어 있는 정보에서 회상하는 과정으로 가장 적절한 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "강화된 주의(heightened attention)",
       "내적 탐색(internal search)",
@@ -4391,14 +4623,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 15,
     "description": "브랜드에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "브랜드 자산(brand equity)은 브랜드가 창출하는 유형 및 무형의 부가가치를 의미한다.",
       "수직적 라인 확장(vertical line extension)은 기존의 제품보다 신제품의 가격이 낮거나 높은 경우를 의미한다.",
@@ -4408,14 +4640,14 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 17,
     "description": "재고모형에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "실제수요가 예측수요를 초과할 가능성에 대비하여 안전재고를 보유할 경우 재주문점은 증가한다.",
       "정기주문모형(fixed-order interval model)에서는 정해진 목표재고수준에 따라 주문시점에 재고수준과 목표재고수준의 차이만큼 주문한다.",
@@ -4425,7 +4657,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -4446,14 +4679,14 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 19,
     "description": "생산방식과 설비배치에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "수요의 변동성이 낮고 완제품에 대한 재고비용이 크지 않을 경우 계획생산 방식이 주문생산 방식에 비해 유리하다.",
       "제품별 배치(product layout)는 전용설비가 사용되므로 범용설비가 사용되는 공정별 배치(process layout)에 비해 설비투자 규모가 크다.",
@@ -4463,14 +4696,14 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 21,
     "description": "생산계획에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "재고수준의 변동은 일반적으로 수요추종 전략(chase strategy)보다 평준화 전략(level strategy)을 활용할 경우 크게 나타난다.",
       "주생산계획(MPS)은 통상적으로 향후 수개월을 목표 대상기간 으로 하여 주 단위로 수립된다.",
@@ -4480,14 +4713,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 22,
     "description": "주민센터 A의 업무 프로세스는 리틀의 법칙(Little’s law)을 따른다. 이 주민센터의 시간당 처리 민원인 수가 10명이고, 민원인 한 명이 민원 해결을 위해 평균 30분을 주민센터에 머문다고 할 경우 어느 특정 시간에 주민센터 A 내에 머물고 있는 평균 민원인 수는? (단, 각 민원인은 주민센터에 도착한 순서대로 서비스를 받고 민원이 해결되는 즉시 주민센터를 떠나는 것으로 가정한다.)",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "2명",
       "5명",
@@ -4497,14 +4730,14 @@
     ],
     "answer": 1,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 23,
     "description": "슈메너(Schmenner)의 서비스 프로세스 매트릭스에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "전문서비스(professional service)는 노동집약도와 고객화 정도가 모두 높은 서비스를 의미한다.",
       "대량서비스(mass service)에는 소매업, 학교, 소매금융 등이 속한다.",
@@ -4514,14 +4747,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 24,
     "description": "린 생산(lean production)에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "작업장의 재고를 정교하게 통제하기 위해 풀 방식(pull system)에 의한 자재흐름이 적용된다.",
       "생산 프로세스의 작업부하를 일정하게 하고 과잉생산을 방지하기 위해 가능한 작은 로트(lot) 단위로 생산한다.",
@@ -4531,14 +4764,14 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 26,
     "description": "주가배수모형에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "다른 조건이 일정하다면 요구수익률(또는 자기자본비용)이 낮을수록 PER(주가수익비율)은 높게 나타난다.",
       "성장이 없는 기업의 PER은 요구수익률(또는 자기자본비용)의 역수이다.",
@@ -4548,14 +4781,14 @@
     ],
     "answer": 2,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 30,
     "description": "A기업은 신제품 K의 생산 및 출시를 계획하고 있으며, 자본예산 기법을 사용하기 위해 증분현금흐름에 대한 분석을 진행하고 있다. 자본예산분석에 포함시켜야 할 증분현금흐름으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "신제품 K 생산을 위해 필요한 공장 내 공간을 외부에 임대했을 경우의 기대수익(이 공간은 현재 사용하지 않고 있으며 신제품 K 생산에 사용되지 않는다면 외부에 임대할 수 있음)",
       "신제품 K의 출시로 인해 고객들이 A기업의 기존 제품을 구매하지 않고 신제품 K의 구매로 이동함으로써 발생하는 기존 제품의 매출 감소분",
@@ -4565,14 +4798,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 33,
     "description": "자본구조이론에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "지분의 분산 정도가 크거나 소유경영자의 지분율이 낮을수록 자기자본의 대리인 비용은 증가할 수 있다.",
       "Miller(1977)에 의하면 채권시장이 균형일 때 부채기업과 무부채기업의 가치는 동일하다.",
@@ -4582,7 +4815,8 @@
     ],
     "answer": 4,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -4604,14 +4838,14 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 37,
     "description": "채권의 투자전략에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "목표시기 면역전략에 의하면 채권의 듀레이션이 목표투자기간보다 짧은 경우에는 이자율 변동에 따른 투자자의 가격위험이 재투자위험보다 크다.",
       "순자산가치 면역전략에 의하면 자산과 부채의 듀레이션을 조정하여 자산가치 변동액과 부채가치 변동액의 차이가 영(0)이 되면 순자산가치는 이자율 변동과 관련 없이 일정하게 된다.",
@@ -4621,14 +4855,14 @@
     ],
     "answer": 0,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
     "pid": 39,
     "description": "선물에 관한 설명으로 가장 적절하지 않은 것은?",
-    "sub_description": [
-    ],
+    "sub_description": [],
     "questions": [
       "선물가격과 현물가격의 차이를 베이시스(basis)라고 하는데 만기일이 가까워지면 베이시스는 점점 작아지고 만기일에는 선물가격과 현물가격이 같게 된다.",
       "현물-선물 등가식(spot-future parity)이 성립하는 경우 효율적인 시장에서는 차익거래의 기회가 존재하지 않는다.",
@@ -4638,7 +4872,8 @@
     ],
     "answer": 3,
     "type": "Business",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2018,
@@ -4659,7 +4894,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2018,
@@ -4675,7 +4911,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2018,
@@ -4691,7 +4928,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2018,
@@ -4707,7 +4945,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2018,
@@ -4723,7 +4962,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2018,
@@ -4739,7 +4979,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2018,
@@ -4755,7 +4996,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2018,
@@ -4771,7 +5013,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2018,
@@ -4787,7 +5030,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4809,7 +5053,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4825,7 +5070,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4841,7 +5087,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4857,7 +5104,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4873,7 +5121,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4889,7 +5138,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4905,7 +5155,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4927,7 +5178,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4943,7 +5195,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4959,7 +5212,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4975,7 +5229,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -4991,7 +5246,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5007,7 +5263,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5023,7 +5280,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5039,7 +5297,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5055,7 +5314,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5071,7 +5331,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5087,7 +5348,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5103,7 +5365,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5119,7 +5382,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5135,7 +5399,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5151,7 +5416,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5167,7 +5433,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2018,
@@ -5183,7 +5450,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2018,
@@ -5199,7 +5467,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2018,
@@ -5215,7 +5484,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2018,
@@ -5231,7 +5501,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2018,
@@ -5247,7 +5518,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2018,
@@ -5263,7 +5535,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2018,
@@ -5279,7 +5552,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2018,
@@ -5295,7 +5569,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2019,
@@ -5311,7 +5586,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2019,
@@ -5327,7 +5603,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2019,
@@ -5343,7 +5620,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2019,
@@ -5359,7 +5637,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2019,
@@ -5375,7 +5654,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2019,
@@ -5397,7 +5677,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2019,
@@ -5413,7 +5694,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2019,
@@ -5429,7 +5711,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2019,
@@ -5445,7 +5728,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5461,7 +5745,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5477,7 +5762,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5493,7 +5779,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5509,7 +5796,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5525,7 +5813,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5541,7 +5830,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5557,7 +5847,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5573,7 +5864,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5589,7 +5881,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5605,7 +5898,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5621,7 +5915,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5637,7 +5932,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5653,7 +5949,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5669,7 +5966,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5685,7 +5983,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5701,7 +6000,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5717,7 +6017,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5733,7 +6034,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5756,7 +6058,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5772,7 +6075,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5788,7 +6092,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5804,7 +6109,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5820,7 +6126,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2019,
@@ -5836,7 +6143,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2019,
@@ -5852,7 +6160,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2019,
@@ -5868,7 +6177,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2019,
@@ -5884,7 +6194,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2019,
@@ -5900,7 +6211,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2019,
@@ -5916,7 +6228,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2019,
@@ -5932,7 +6245,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2019,
@@ -5948,7 +6262,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2020,
@@ -5964,7 +6279,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2020,
@@ -5980,7 +6296,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2020,
@@ -6001,7 +6318,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2020,
@@ -6017,7 +6335,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2020,
@@ -6033,7 +6352,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2020,
@@ -6049,7 +6369,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2020,
@@ -6065,7 +6386,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2020,
@@ -6081,7 +6403,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2020,
@@ -6097,7 +6420,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6113,7 +6437,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6129,7 +6454,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6150,7 +6476,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6166,7 +6493,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6182,7 +6510,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6203,7 +6532,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6219,7 +6549,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6235,7 +6566,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6251,7 +6583,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6267,7 +6600,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6283,7 +6617,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6299,7 +6634,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6315,7 +6651,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6331,7 +6668,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6347,7 +6685,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6363,7 +6702,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6379,7 +6719,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6395,7 +6736,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6411,7 +6753,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6427,7 +6770,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6443,7 +6787,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6459,7 +6804,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6475,7 +6821,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2020,
@@ -6491,7 +6838,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2020,
@@ -6507,7 +6855,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2020,
@@ -6523,7 +6872,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2020,
@@ -6539,7 +6889,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2020,
@@ -6557,7 +6908,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2020,
@@ -6573,7 +6925,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2020,
@@ -6589,7 +6942,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2020,
@@ -6605,7 +6959,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2021,
@@ -6621,7 +6976,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2021,
@@ -6637,7 +6993,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2021,
@@ -6653,7 +7010,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2021,
@@ -6669,7 +7027,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2021,
@@ -6685,7 +7044,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2021,
@@ -6701,7 +7061,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2021,
@@ -6717,7 +7078,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2021,
@@ -6733,7 +7095,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2021,
@@ -6749,7 +7112,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6765,7 +7129,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6781,7 +7146,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6797,7 +7163,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6813,7 +7180,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6829,7 +7197,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6845,7 +7214,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6861,7 +7231,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6877,7 +7248,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6893,7 +7265,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6909,7 +7282,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6925,7 +7299,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6941,7 +7316,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6957,7 +7333,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6973,7 +7350,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -6989,7 +7367,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7005,7 +7384,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7021,7 +7401,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7037,7 +7418,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7053,7 +7435,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7069,7 +7452,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7085,7 +7469,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7101,7 +7486,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7117,7 +7503,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7133,7 +7520,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2021,
@@ -7149,7 +7537,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2021,
@@ -7165,7 +7554,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2021,
@@ -7181,7 +7571,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2021,
@@ -7197,7 +7588,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2021,
@@ -7213,7 +7605,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2021,
@@ -7229,7 +7622,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2021,
@@ -7245,7 +7639,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "어음수표법"
   },
   {
     "year": 2022,
@@ -7261,7 +7656,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2022,
@@ -7277,7 +7673,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2022,
@@ -7293,7 +7690,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2022,
@@ -7309,7 +7707,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2022,
@@ -7325,7 +7724,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2022,
@@ -7341,7 +7741,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2022,
@@ -7357,7 +7758,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2022,
@@ -7373,7 +7775,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "상행위"
   },
   {
     "year": 2022,
@@ -7389,7 +7792,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7405,7 +7809,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7421,7 +7826,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7437,7 +7843,8 @@
     ],
     "answer": 0,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7453,7 +7860,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7474,7 +7882,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7490,7 +7899,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7506,7 +7916,8 @@
     ],
     "answer": 2,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7522,7 +7933,8 @@
     ],
     "answer": 1,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7538,7 +7950,8 @@
     ],
     "answer": 3,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7554,7 +7967,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2022,
@@ -7576,7 +7990,8 @@
     ],
     "answer": 4,
     "type": "CommercialLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": "회사법"
   },
   {
     "year": 2021,
@@ -7592,7 +8007,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7608,7 +8024,8 @@
     ],
     "answer": 3,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7624,7 +8041,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7640,7 +8058,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7656,7 +8075,8 @@
     ],
     "answer": 4,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7672,7 +8092,8 @@
     ],
     "answer": 4,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7688,7 +8109,8 @@
     ],
     "answer": 1,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7704,7 +8126,8 @@
     ],
     "answer": 1,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7720,7 +8143,8 @@
     ],
     "answer": 2,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7736,7 +8160,8 @@
     ],
     "answer": 2,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7752,7 +8177,8 @@
     ],
     "answer": 4,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7768,7 +8194,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7784,7 +8211,8 @@
     ],
     "answer": 1,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7800,7 +8228,8 @@
     ],
     "answer": 2,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7816,7 +8245,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7832,7 +8262,8 @@
     ],
     "answer": 4,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7848,7 +8279,8 @@
     ],
     "answer": 1,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2021,
@@ -7864,7 +8296,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -7880,7 +8313,8 @@
     ],
     "answer": 1,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -7896,7 +8330,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -7912,7 +8347,8 @@
     ],
     "answer": 3,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -7928,7 +8364,8 @@
     ],
     "answer": 4,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -7944,7 +8381,8 @@
     ],
     "answer": 4,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -7960,7 +8398,8 @@
     ],
     "answer": 1,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -7976,7 +8415,8 @@
     ],
     "answer": 3,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -7992,7 +8432,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8008,7 +8449,8 @@
     ],
     "answer": 2,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8024,7 +8466,8 @@
     ],
     "answer": 3,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8040,7 +8483,8 @@
     ],
     "answer": 2,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8056,7 +8500,8 @@
     ],
     "answer": 4,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8072,7 +8517,8 @@
     ],
     "answer": 1,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8088,7 +8534,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8104,7 +8551,8 @@
     ],
     "answer": 2,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8120,7 +8568,8 @@
     ],
     "answer": 2,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8136,7 +8585,8 @@
     ],
     "answer": 0,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8152,7 +8602,8 @@
     ],
     "answer": 3,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8168,7 +8619,8 @@
     ],
     "answer": 1,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   },
   {
     "year": 2022,
@@ -8184,6 +8636,7 @@
     ],
     "answer": 3,
     "type": "TaxLaw",
-    "source": "CPA"
+    "source": "CPA",
+    "subtype": ""
   }
 ]
