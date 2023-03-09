@@ -149,24 +149,27 @@ private fun QuizResultScreenPreview() {
                 pid = 14,
                 answer = 1,
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
-                type = QuizType.Accounting,
+                type = QuizType.CommercialLaw,
                 source = ProblemSource.CPA,
+                subtype = "상행위"
             ),
             ProblemModel(
                 year = 2022,
                 pid = 22,
                 answer = 1,
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
-                type = QuizType.Accounting,
-                source = ProblemSource.CPA
+                type = QuizType.CommercialLaw,
+                source = ProblemSource.CPA,
+                subtype = "어음수표법"
             ),
             ProblemModel(
                 year = 2020,
                 pid = 31,
                 answer = 1,
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
-                type = QuizType.Accounting,
-                source = ProblemSource.CPA
+                type = QuizType.CommercialLaw,
+                source = ProblemSource.CPA,
+                subtype = "회사법"
             ),
         )
     )

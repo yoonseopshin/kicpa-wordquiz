@@ -299,14 +299,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                 colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
                                 border = null,
                             )
-                        }
 
-                        Row(
-                            horizontalArrangement = Arrangement.End,
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(end = 8.dp)
-                        ) {
                             val containerColorResourceIdByType =
                                 chipContainerColorResIdByType(currentQuestion.value.type)
 
@@ -321,6 +314,21 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                 ),
                                 border = null,
                             )
+
+                            if (currentQuestion.value.subtype.isNotBlank()) {
+                                NotClickableAssistedChip(
+                                    modifier = Modifier.padding(all = 4.dp),
+                                    label = {
+                                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                            Text(text = currentQuestion.value.subtype)
+                                        }
+                                    },
+                                    colors = AssistChipDefaults.assistChipColors(
+                                        containerColor = colorResource(id = containerColorResourceIdByType)
+                                    ),
+                                    border = null,
+                                )
+                            }
                         }
                     }
 
