@@ -155,7 +155,7 @@ fun NoteRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(
     windowSizeClass: WindowSizeClass,

@@ -104,7 +104,6 @@ import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.RegexUtils
-import com.ysshin.cpaquiz.core.android.util.chipBorderColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.findActivity
 import com.ysshin.cpaquiz.domain.model.Problem
@@ -289,7 +288,6 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                 .padding(start = 8.dp)
                         ) {
                             val assistChipContainerColor = colorResource(id = R.color.daynight_gray070s)
-                            val assistChipBorderColor = colorResource(id = R.color.daynight_gray300s)
 
                             NotClickableAssistedChip(
                                 modifier = Modifier.padding(all = 4.dp),
@@ -299,10 +297,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                     }
                                 },
                                 colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                                border = AssistChipDefaults.assistChipBorder(
-                                    borderColor = assistChipBorderColor,
-                                    borderWidth = 0.5.dp,
-                                )
+                                border = null,
                             )
                         }
 
@@ -314,8 +309,6 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                         ) {
                             val containerColorResourceIdByType =
                                 chipContainerColorResIdByType(currentQuestion.value.type)
-                            val borderColorResourceIdByType =
-                                chipBorderColorResIdByType(currentQuestion.value.type)
 
                             NotClickableAssistedChip(
                                 modifier = Modifier.padding(all = 4.dp), label = {
@@ -326,10 +319,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                 colors = AssistChipDefaults.assistChipColors(
                                     containerColor = colorResource(id = containerColorResourceIdByType)
                                 ),
-                                border = AssistChipDefaults.assistChipBorder(
-                                    borderColor = colorResource(id = borderColorResourceIdByType),
-                                    borderWidth = 0.5.dp,
-                                )
+                                border = null,
                             )
                         }
                     }
@@ -712,28 +702,10 @@ fun LazyItemScope.QuestionSummaryContent(
                         }
                     },
                     colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                    border = AssistChipDefaults.assistChipBorder(
-                        borderColor = assistChipBorderColor,
-                        borderWidth = 0.5.dp
-                    )
-                )
-
-                NotClickableAssistedChip(
-                    modifier = Modifier.padding(all = 4.dp),
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                            Text(text = problem.source.toString())
-                        }
-                    },
-                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                    border = AssistChipDefaults.assistChipBorder(
-                        borderColor = assistChipBorderColor,
-                        borderWidth = 0.5.dp
-                    )
+                    border = null,
                 )
 
                 val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
-                val borderColorResourceIdByType = chipBorderColorResIdByType(problem.type)
 
                 NotClickableAssistedChip(
                     modifier = Modifier.padding(all = 4.dp),
@@ -745,11 +717,23 @@ fun LazyItemScope.QuestionSummaryContent(
                     colors = AssistChipDefaults.assistChipColors(
                         containerColor = colorResource(id = containerColorResourceIdByType)
                     ),
-                    border = AssistChipDefaults.assistChipBorder(
-                        borderColor = colorResource(id = borderColorResourceIdByType),
-                        borderWidth = 0.5.dp,
-                    )
+                    border = null,
                 )
+
+                if (problem.subtype.isNotBlank()) {
+                    NotClickableAssistedChip(
+                        modifier = Modifier.padding(all = 4.dp),
+                        label = {
+                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                Text(text = problem.subtype)
+                            }
+                        },
+                        colors = AssistChipDefaults.assistChipColors(
+                            containerColor = colorResource(id = containerColorResourceIdByType)
+                        ),
+                        border = null,
+                    )
+                }
             }
         }
 
