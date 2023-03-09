@@ -699,8 +699,6 @@ fun LazyItemScope.QuestionSummaryContent(
             ) {
                 val assistChipContainerColor =
                     colorResource(id = R.color.daynight_gray070s)
-                val assistChipBorderColor =
-                    colorResource(id = R.color.daynight_gray300s)
 
                 NotClickableAssistedChip(
                     modifier = Modifier.padding(all = 4.dp),
@@ -781,8 +779,10 @@ fun LazyItemScope.QuestionSummaryContent(
 }
 
 @Composable
-fun QuestionSummaryDivider(windowSizeClass: WindowSizeClass) {
-    val useSplitScreen = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+fun QuestionSummaryDivider(windowSizeClass: WindowSizeClass? = null) {
+    val useSplitScreen = if (windowSizeClass == null) false else {
+        windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+    }
     Divider(
         modifier = Modifier
             .widthBySplit(useSplitScreen)
