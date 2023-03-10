@@ -8008,7 +8008,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2021,
@@ -8025,7 +8025,7 @@
     "answer": 3,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2021,
@@ -8042,7 +8042,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2021,
@@ -8059,7 +8059,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2021,
@@ -8076,7 +8076,7 @@
     "answer": 4,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2021,
@@ -8093,7 +8093,7 @@
     "answer": 4,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "소득세"
   },
   {
     "year": 2021,
@@ -8110,7 +8110,7 @@
     "answer": 1,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "소득세"
   },
   {
     "year": 2021,
@@ -8127,7 +8127,7 @@
     "answer": 1,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "소득세"
   },
   {
     "year": 2021,
@@ -8144,7 +8144,7 @@
     "answer": 2,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2021,
@@ -8161,7 +8161,7 @@
     "answer": 2,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2021,
@@ -8178,7 +8178,7 @@
     "answer": 4,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2021,
@@ -8195,7 +8195,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2021,
@@ -8212,7 +8212,7 @@
     "answer": 1,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2021,
@@ -8229,7 +8229,7 @@
     "answer": 2,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "부가가치세"
   },
   {
     "year": 2021,
@@ -8246,7 +8246,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "부가가치세"
   },
   {
     "year": 2021,
@@ -8263,7 +8263,7 @@
     "answer": 4,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "부가가치세"
   },
   {
     "year": 2021,
@@ -8280,7 +8280,7 @@
     "answer": 1,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2021,
@@ -8297,7 +8297,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2022,
@@ -8314,7 +8314,7 @@
     "answer": 1,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2022,
@@ -8331,7 +8331,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2022,
@@ -8348,7 +8348,7 @@
     "answer": 3,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2022,
@@ -8365,7 +8365,7 @@
     "answer": 4,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2022,
@@ -8382,7 +8382,7 @@
     "answer": 4,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "소득세"
   },
   {
     "year": 2022,
@@ -8399,7 +8399,7 @@
     "answer": 1,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "소득세"
   },
   {
     "year": 2022,
@@ -8416,7 +8416,7 @@
     "answer": 3,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "소득세"
   },
   {
     "year": 2022,
@@ -8433,7 +8433,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "소득세"
   },
   {
     "year": 2022,
@@ -8450,7 +8450,7 @@
     "answer": 2,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2022,
@@ -8467,7 +8467,7 @@
     "answer": 3,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2022,
@@ -8484,7 +8484,7 @@
     "answer": 2,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2022,
@@ -8501,7 +8501,7 @@
     "answer": 4,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2022,
@@ -8518,7 +8518,7 @@
     "answer": 1,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2022,
@@ -8535,7 +8535,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "법인세"
   },
   {
     "year": 2022,
@@ -8552,7 +8552,7 @@
     "answer": 2,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "부가가치세"
   },
   {
     "year": 2022,
@@ -8569,7 +8569,7 @@
     "answer": 2,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "부가가치세"
   },
   {
     "year": 2022,
@@ -8586,7 +8586,7 @@
     "answer": 0,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "부가가치세"
   },
   {
     "year": 2022,
@@ -8603,7 +8603,7 @@
     "answer": 3,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "부가가치세"
   },
   {
     "year": 2022,
@@ -8620,7 +8620,7 @@
     "answer": 1,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   },
   {
     "year": 2022,
@@ -8637,6 +8637,6 @@
     "answer": 3,
     "type": "TaxLaw",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "기타세법"
   }
 ]
