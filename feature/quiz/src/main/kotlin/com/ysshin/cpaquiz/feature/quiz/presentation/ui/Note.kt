@@ -59,6 +59,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -155,7 +156,7 @@ fun NoteRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(
     windowSizeClass: WindowSizeClass,
@@ -713,7 +714,8 @@ private fun NoteFilterMenuContent(
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             message = context.getString(R.string.msg_need_filtered_year),
-                            actionLabel = context.getString(R.string.confirm)
+                            withDismissAction = true,
+                            duration = SnackbarDuration.Short,
                         )
                     }
                     isYearFilterDialogOpened = false
@@ -744,7 +746,8 @@ private fun NoteFilterMenuContent(
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             message = context.getString(R.string.msg_need_filtered_quiz_type),
-                            actionLabel = context.getString(R.string.confirm)
+                            withDismissAction = true,
+                            duration = SnackbarDuration.Short,
                         )
                     }
                     isQuizTypeFilterDialogOpened = false

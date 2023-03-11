@@ -12,6 +12,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -37,6 +40,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResult
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultViewModel
 import timber.log.Timber
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun QuizResultRoute(
     viewModel: QuizResultViewModel = hiltViewModel(),
@@ -45,6 +49,7 @@ fun QuizResultRoute(
 ) {
     val context = LocalContext.current
     val activity = context.findActivity()
+    val windowSizeClass = calculateWindowSizeClass(activity = activity)
     val quizResultUiState = viewModel.quizResultUiState.collectAsStateWithLifecycle()
     val onProblemClick: (Problem) -> Unit = { problem ->
         context.startActivity(
@@ -58,6 +63,7 @@ fun QuizResultRoute(
 
     QuizResultScreen(
         quizResultUiState = quizResultUiState.value,
+        windowSizeClass = windowSizeClass,
         onConfirmClick = activity::finish,
         onProblemClick = onProblemClick,
         requestInAppReview = requestInAppReview,
@@ -69,6 +75,7 @@ fun QuizResultRoute(
 @Composable
 fun QuizResultScreen(
     quizResultUiState: QuizResultUiState,
+    windowSizeClass: WindowSizeClass? = null,
     onConfirmClick: () -> Unit = {},
     onProblemClick: (Problem) -> Unit = {},
     requestInAppReview: () -> Unit = {},
@@ -128,6 +135,10 @@ fun QuizResultScreen(
                             },
                             onProblemClick = onProblemClick,
                         )
+
+                        if (index < solvedQuestions.lastIndex) {
+                            QuestionSummaryDivider(windowSizeClass)
+                        }
                     }
                 }
             }
@@ -149,24 +160,27 @@ private fun QuizResultScreenPreview() {
                 pid = 14,
                 answer = 1,
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
-                type = QuizType.Accounting,
+                type = QuizType.CommercialLaw,
                 source = ProblemSource.CPA,
+                subtype = "상행위"
             ),
             ProblemModel(
                 year = 2022,
                 pid = 22,
                 answer = 1,
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
-                type = QuizType.Accounting,
-                source = ProblemSource.CPA
+                type = QuizType.CommercialLaw,
+                source = ProblemSource.CPA,
+                subtype = "어음수표법"
             ),
             ProblemModel(
                 year = 2020,
                 pid = 31,
                 answer = 1,
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
-                type = QuizType.Accounting,
-                source = ProblemSource.CPA
+                type = QuizType.CommercialLaw,
+                source = ProblemSource.CPA,
+                subtype = "회사법"
             ),
         )
     )

@@ -25,6 +25,7 @@ object UseCaseModule {
         GetProblems(repository),
         SyncRemoteProblems(repository),
         GetProblemCount(repository),
+        GetSubtypesByQuizType(repository),
     )
 
     @Provides

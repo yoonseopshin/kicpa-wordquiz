@@ -10,4 +10,5 @@ data class ProblemUseCases(
     val getProblems: GetProblems,
     val syncRemoteProblems: SyncRemoteProblems,
     val getProblemCount: GetProblemCount,
+    val getSubtypesByQuizType: GetSubtypesByQuizType,
 )

@@ -60,6 +60,8 @@ class QuestionViewModel @Inject constructor(
     }
 
     private val quizNumbers: Int = handle[QuizConstants.quizNumbers] ?: DEFAULT_INT
+    private val selectedSubtypes: List<String> =
+        handle.get<ArrayList<String>>(QuizConstants.selectedSubtypes) ?: emptyList()
 
     val numOfTotalQuestions = MutableStateFlow(quizNumbers).asStateFlow()
 
@@ -171,7 +173,7 @@ class QuestionViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            problemUseCases.getProblems(quizType, quizNumbers, this) {
+            problemUseCases.getProblems(quizType, quizNumbers, selectedSubtypes, this) {
                 _questions.clear()
                 _questions.addAll(it)
                 onQuizNext()

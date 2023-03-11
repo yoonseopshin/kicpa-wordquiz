@@ -14,6 +14,7 @@ object AppContract {
         const val ANSWER = "answer"
         const val TYPE = "type"
         const val SOURCE = "source"
+        const val SUBTYPE = "subtype"
     }
 
     object WrongProblem {

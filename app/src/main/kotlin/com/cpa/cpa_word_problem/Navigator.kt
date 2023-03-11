@@ -16,6 +16,7 @@ class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
         quizType: QuizType,
         quizNumbers: Int,
         useTimer: Boolean,
+        selectedSubtypes: List<String>,
     ) {
         activity.startActivity(
             QuestionActivity.newIntent(
@@ -23,6 +24,7 @@ class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
                 quizType = quizType,
                 quizNumbers = quizNumbers,
                 useTimer = useTimer,
+                selectedSubtypes = selectedSubtypes,
             )
         )
     }

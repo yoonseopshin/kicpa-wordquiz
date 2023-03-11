@@ -1,4 +1,5 @@
 <resources>
     <string name="dday">D-%1$s</string>
     <string name="quiz_count">총 %1$s문제</string>
+    <string name="subtypes_not_selected_alert">%1$s의 세부 분류를 선택하세요.</string>
 </resources>

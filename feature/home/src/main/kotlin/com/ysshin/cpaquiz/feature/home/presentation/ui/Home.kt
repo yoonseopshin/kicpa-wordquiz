@@ -23,6 +23,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,12 +36,18 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -54,6 +63,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,7 +73,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -89,6 +102,8 @@ import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizStartNavigati
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeInfoUiState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeQuizUiState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
+import com.ysshin.cpaquiz.feature.home.presentation.screen.main.SelectableSubtype
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
@@ -102,6 +117,8 @@ fun HomeRoute(
     val context = LocalContext.current
     val activity = context.findActivity()
     val appContext = context.applicationContext
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     HomeScreen(
         windowSizeClass = windowSizeClass,
@@ -110,7 +127,21 @@ fun HomeRoute(
         homeInfoUiState = homeInfoUiState,
         onSetQuizNumber = viewModel::setQuizNumber,
         onToggleTimer = viewModel::toggleTimer,
-        onQuizCardClick = { type ->
+        onQuizCardClick = onQuizCardClick@{ type ->
+            val selectedSubtypes = viewModel.getSelectedSubtypes(type)
+
+            if (selectedSubtypes.isEmpty()) {
+                scope.launch {
+                    viewModel.fetchAndSetCountAndSubtypes()
+                    snackbarHostState.showSnackbar(
+                        message = context.getString(R.string.subtypes_not_selected_alert, type.toKorean()),
+                        withDismissAction = true,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                return@onQuizCardClick
+            }
+
             val quizStartNavActions =
                 (appContext as QuizStartNavigationActionsProvider).quizStartNavActions
             quizStartNavActions.onQuizStart(
@@ -118,8 +149,11 @@ fun HomeRoute(
                 quizType = type,
                 quizNumbers = homeInfoUiState.quizNumber,
                 useTimer = homeInfoUiState.useTimer,
+                selectedSubtypes = viewModel.getSelectedSubtypes(type)
             )
-        }
+        },
+        onToggleSubtype = viewModel::toggleSubtype,
+        snackbarHostState = snackbarHostState
     )
 }
 
@@ -133,6 +167,8 @@ fun HomeScreen(
     onSetQuizNumber: Consumer<Int>,
     onToggleTimer: Action,
     onQuizCardClick: Consumer<QuizType>,
+    onToggleSubtype: (String) -> Unit,
+    snackbarHostState: SnackbarHostState,
 ) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -142,6 +178,7 @@ fun HomeScreen(
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             HomeTopAppBar(
                 windowSizeClass = windowSizeClass,
@@ -173,7 +210,9 @@ fun HomeScreen(
                         iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
                         count = homeQuizUiState.accountingCount,
                         title = stringResource(id = R.string.accounting),
-                        onClick = { onQuizCardClick(QuizType.Accounting) }
+                        onClick = { onQuizCardClick(QuizType.Accounting) },
+                        subtypes = homeQuizUiState.accountingSubtypes,
+                        toggleSubtype = onToggleSubtype,
                     )
 
                     QuizCard(
@@ -182,7 +221,9 @@ fun HomeScreen(
                         iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
                         count = homeQuizUiState.businessCount,
                         title = stringResource(id = R.string.business),
-                        onClick = { onQuizCardClick(QuizType.Business) }
+                        onClick = { onQuizCardClick(QuizType.Business) },
+                        subtypes = homeQuizUiState.businessSubtypes,
+                        toggleSubtype = onToggleSubtype,
                     )
 
                     QuizCard(
@@ -191,7 +232,9 @@ fun HomeScreen(
                         iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
                         count = homeQuizUiState.commercialLawCount,
                         title = stringResource(id = R.string.commercial_law),
-                        onClick = { onQuizCardClick(QuizType.CommercialLaw) }
+                        onClick = { onQuizCardClick(QuizType.CommercialLaw) },
+                        subtypes = homeQuizUiState.commercialLawSubtypes,
+                        toggleSubtype = onToggleSubtype,
                     )
 
                     QuizCard(
@@ -200,7 +243,9 @@ fun HomeScreen(
                         iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
                         count = homeQuizUiState.taxLawCount,
                         title = stringResource(id = R.string.tax_law),
-                        onClick = { onQuizCardClick(QuizType.TaxLaw) }
+                        onClick = { onQuizCardClick(QuizType.TaxLaw) },
+                        subtypes = homeQuizUiState.taxLawSubtypes,
+                        toggleSubtype = onToggleSubtype,
                     )
 
                     NativeMediumAd()
@@ -371,6 +416,7 @@ private fun HomeTopMenu(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun QuizCard(
     modifier: Modifier = Modifier,
@@ -379,87 +425,126 @@ private fun QuizCard(
     count: Int,
     title: String,
     onClick: Action,
+    subtypes: List<SelectableSubtype>,
+    toggleSubtype: (String) -> Unit,
 ) {
     val cornerShape = RoundedCornerShape(24.dp)
     val quizCardEnabled = count > 0
     val disabledBackgroundAlpha = 0.09f
     val disabledContentAlpha = 0.36f
     val elevation = 6.dp
+    var cardWidth by remember { mutableStateOf(0) }
 
-    Surface(
-        modifier = modifier
-            .bounceClickable(
-                dampingRatio = 0.9f,
-                enabled = quizCardEnabled,
-                onClick = onClick,
-            )
-            .padding(elevation)
-            .shadow(elevation = elevation, shape = cornerShape),
-        shape = cornerShape,
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .background(
-                    if (quizCardEnabled) {
-                        cardBackgroundColor
-                    } else {
-                        cardBackgroundColor.copy(alpha = disabledBackgroundAlpha)
-                    }
+    Column {
+        Surface(
+            modifier = modifier
+                .bounceClickable(
+                    dampingRatio = 0.9f,
+                    enabled = quizCardEnabled,
+                    onClick = onClick,
                 )
-                .padding(horizontal = 16.dp, vertical = 32.dp),
+                .padding(elevation)
+                .shadow(elevation = elevation, shape = cornerShape)
+                .onGloballyPositioned { coordinates ->
+                    cardWidth = coordinates.size.width
+                },
+            shape = cornerShape,
         ) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .background(
+                        if (quizCardEnabled) {
+                            cardBackgroundColor
+                        } else {
+                            cardBackgroundColor.copy(alpha = disabledBackgroundAlpha)
+                        }
+                    )
+                    .padding(horizontal = 16.dp, vertical = 32.dp),
             ) {
-                Surface(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(40.dp),
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
+                    Surface(
                         modifier = Modifier
-                            .background(
-                                if (quizCardEnabled) {
-                                    iconBackgroundColor.copy(0.88f)
-                                } else {
-                                    iconBackgroundColor.copy(alpha = disabledContentAlpha)
-                                }
-                            )
-                            .padding(8.dp),
-                        painter = painterResource(id = R.drawable.ic_play),
-                        tint = if (quizCardEnabled) {
-                            colorResource(id = R.color.daynight_gray800s)
-                        } else {
-                            colorResource(id = R.color.daynight_gray800s).copy(alpha = disabledContentAlpha)
-                        },
-                        contentDescription = null
-                    )
+                            .clip(CircleShape)
+                            .size(40.dp),
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .background(
+                                    if (quizCardEnabled) {
+                                        iconBackgroundColor.copy(0.88f)
+                                    } else {
+                                        iconBackgroundColor.copy(alpha = disabledContentAlpha)
+                                    }
+                                )
+                                .padding(8.dp),
+                            painter = painterResource(id = R.drawable.ic_play),
+                            tint = if (quizCardEnabled) {
+                                colorResource(id = R.color.daynight_gray800s)
+                            } else {
+                                colorResource(id = R.color.daynight_gray800s).copy(alpha = disabledContentAlpha)
+                            },
+                            contentDescription = null
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Column(modifier = Modifier.defaultMinSize(minWidth = 64.dp)) {
+                        Text(
+                            text = stringResource(id = R.string.quiz_count, count),
+                            style = Typography.labelSmall,
+                            color = if (quizCardEnabled) {
+                                colorResource(id = R.color.daynight_gray500s)
+                            } else {
+                                colorResource(id = R.color.daynight_gray500s).copy(alpha = disabledContentAlpha)
+                            }
+                        )
+                        Text(
+                            text = title,
+                            style = Typography.titleMedium,
+                            color = if (quizCardEnabled) {
+                                colorResource(id = R.color.daynight_gray800s)
+                            } else {
+                                colorResource(id = R.color.daynight_gray800s).copy(alpha = disabledContentAlpha)
+                            }
+                        )
+                    }
                 }
+            }
+        }
 
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Column(modifier = Modifier.defaultMinSize(minWidth = 64.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.quiz_count, count),
-                        style = Typography.labelSmall,
-                        color = if (quizCardEnabled) {
-                            colorResource(id = R.color.daynight_gray500s)
-                        } else {
-                            colorResource(id = R.color.daynight_gray500s).copy(alpha = disabledContentAlpha)
+        if (subtypes.isNotEmpty()) {
+            Row(
+                modifier = Modifier
+                    .width(
+                        width = with(LocalDensity.current) {
+                            cardWidth.toDp()
                         }
                     )
-                    Text(
-                        text = title,
-                        style = Typography.titleMedium,
-                        color = if (quizCardEnabled) {
-                            colorResource(id = R.color.daynight_gray800s)
-                        } else {
-                            colorResource(id = R.color.daynight_gray800s).copy(alpha = disabledContentAlpha)
-                        }
-                    )
+            ) {
+                LazyRow(state = rememberLazyListState()) {
+                    itemsIndexed(subtypes) { _, subtype ->
+                        FilterChip(
+                            modifier = Modifier.padding(horizontal = 4.dp),
+                            onClick = {
+                                toggleSubtype(subtype.text)
+                            },
+                            selected = subtype.isSelected,
+                            label = {
+                                ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                    Text(text = subtype.text)
+                                }
+                            },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = cardBackgroundColor
+                            ),
+                        )
+                    }
                 }
             }
         }
@@ -555,9 +640,22 @@ private fun HomeScreenPreview() {
                 windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
                 homeQuizUiState = HomeQuizUiState.Success(
                     accountingCount = 10,
+                    accountingSubtypes = emptyList(),
                     businessCount = 20,
+                    businessSubtypes = emptyList(),
                     commercialLawCount = 30,
+                    commercialLawSubtypes = listOf(
+                        SelectableSubtype("상행위", true),
+                        SelectableSubtype("회사법", true),
+                        SelectableSubtype("어음수표법", false),
+                    ),
                     taxLawCount = 40,
+                    taxLawSubtypes = listOf(
+                        SelectableSubtype("기타세법", true),
+                        SelectableSubtype("부가가치세", true),
+                        SelectableSubtype("소득세", false),
+                        SelectableSubtype("법인세", false),
+                    ),
                 ),
                 homeInfoUiState = HomeInfoUiState(
                     dday = "365",
@@ -566,7 +664,9 @@ private fun HomeScreenPreview() {
                 ),
                 onSetQuizNumber = {},
                 onToggleTimer = {},
-                onQuizCardClick = {}
+                onQuizCardClick = {},
+                onToggleSubtype = {},
+                snackbarHostState = SnackbarHostState()
             )
         }
     }
