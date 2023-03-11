@@ -3376,7 +3376,7 @@
     "answer": 1,
     "type": "Business",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "재무관리"
   },
   {
     "year": 2019,
@@ -3862,7 +3862,7 @@
     "answer": 2,
     "type": "Business",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "재무관리"
   },
   {
     "year": 2021,
@@ -3884,7 +3884,7 @@
     "answer": 1,
     "type": "Business",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "일반경영"
   },
   {
     "year": 2021,
@@ -4454,7 +4454,7 @@
     "answer": 1,
     "type": "Business",
     "source": "CPA",
-    "subtype": ""
+    "subtype": "일반경영"
   },
   {
     "year": 2022,
