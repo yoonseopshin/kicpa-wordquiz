@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    problemUseCases: ProblemUseCases,
+    private val problemUseCases: ProblemUseCases,
     private val quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
@@ -131,18 +131,27 @@ class HomeViewModel @Inject constructor(
             .toList()
     }
 
-    init {
+    fun fetchAndSetCountAndSubtypes() = viewModelScope.launch {
+        // Fetch and set question count
         problemUseCases.getProblemCount(scope = viewModelScope) { countMap.value = it }
+
+        // Fetch and set subtypes
         problemUseCases.getSubtypesByQuizType(scope = viewModelScope) {
             subtypesMap.value = it
             val newSelectedSubtypes = selectedSubtypes.value.toMutableMap()
             for (value in it.values) {
                 value.forEach { subtype ->
-                    newSelectedSubtypes[subtype] = true
+                    if (newSelectedSubtypes.containsKey(subtype).not()) {
+                        newSelectedSubtypes[subtype] = true
+                    }
                 }
             }
             selectedSubtypes.value = newSelectedSubtypes
         }
+    }
+
+    init {
+        fetchAndSetCountAndSubtypes()
     }
 }
 
