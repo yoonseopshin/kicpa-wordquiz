@@ -9,4 +9,5 @@ object QuizConstants {
     const val selected = "selected"
     const val timesPerQuestion = "timesPerQuestion"
     const val useTimer = "useTimer"
+    const val selectedSubtypes = "selectedSubtypes"
 }

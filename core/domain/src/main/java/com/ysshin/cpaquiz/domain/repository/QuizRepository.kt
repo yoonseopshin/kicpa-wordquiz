@@ -9,6 +9,8 @@ interface QuizRepository {
 
     fun getTotalProblems(): Flow<List<Problem>>
 
+    suspend fun getTotalProblems(type: QuizType, subtypes: List<String>): List<Problem>
+
     suspend fun getTotalProblems(type: QuizType, size: Int): List<Problem>
 
     fun getWrongProblems(): Flow<List<Problem>>
@@ -25,7 +27,9 @@ interface QuizRepository {
 
     fun getNextExamDate(): Flow<String>
 
-    fun getProblemCountByType(type: QuizType): Flow<Int>
+    suspend fun getProblemCountByType(type: QuizType): Int
+
+    suspend fun getSubtypesByQuizType(type: QuizType): List<String>
 
     fun getQuizNumber(): Flow<Int>
 

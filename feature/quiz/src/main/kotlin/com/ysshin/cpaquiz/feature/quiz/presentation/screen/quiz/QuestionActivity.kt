@@ -41,11 +41,13 @@ class QuestionActivity : BaseActivity() {
             quizType: QuizType,
             quizNumbers: Int,
             useTimer: Boolean = false,
+            selectedSubtypes: List<String> = emptyList(),
         ) = Intent(context, QuestionActivity::class.java).apply {
             putExtra(QuizConstants.mode, mode)
             putExtra(QuizConstants.quizType, quizType)
             putExtra(QuizConstants.quizNumbers, quizNumbers)
             putExtra(QuizConstants.useTimer, useTimer)
+            putStringArrayListExtra(QuizConstants.selectedSubtypes, ArrayList(selectedSubtypes))
         }
     }
 }

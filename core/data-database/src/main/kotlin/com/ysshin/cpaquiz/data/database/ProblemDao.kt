@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.DESCRIPTION
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.PID
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.QUESTIONS
+import com.ysshin.cpaquiz.data.database.AppContract.Problem.SUBTYPE
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.SUB_DESCRIPTION
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.TYPE
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.YEAR
@@ -23,6 +24,17 @@ interface ProblemDao {
         """
     )
     fun getAll(): Flow<List<ProblemEntity>>
+
+    @Query(
+        """
+        SELECT DISTINCT * 
+        FROM ${AppContract.Problem.TABLE_NAME} 
+        WHERE $TYPE = :type
+        AND $SUBTYPE in (:subtypes)
+        ORDER BY RANDOM()
+        """
+    )
+    fun get(type: QuizType, subtypes: List<String>): List<ProblemEntity>
 
     @Query(
         """
@@ -53,7 +65,16 @@ interface ProblemDao {
             WHERE $TYPE = :type
             """
     )
-    fun getProblemCountByType(type: QuizType): Flow<Int>
+    suspend fun getProblemCountByType(type: QuizType): Int
+
+    @Query(
+        """
+        SELECT DISTINCT $SUBTYPE
+        FROM ${AppContract.Problem.TABLE_NAME}
+        WHERE $TYPE = :type 
+    """
+    )
+    fun getSubtypesByQuizType(type: QuizType): List<String>
 
     @Query(
         """

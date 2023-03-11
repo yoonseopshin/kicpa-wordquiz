@@ -2,7 +2,6 @@ package com.ysshin.cpaquiz.feature.home.presentation.screen.main
 
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
-import com.ysshin.cpaquiz.core.base.zip
 import com.ysshin.cpaquiz.domain.model.DEFAULT_QUIZ_NUMBER
 import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
 import com.ysshin.cpaquiz.domain.model.QuizType
@@ -13,6 +12,7 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -21,18 +21,42 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val problemUseCases: ProblemUseCases,
+    problemUseCases: ProblemUseCases,
     private val quizUseCases: QuizUseCases,
 ) : BaseViewModel() {
 
+    private val countMap = MutableStateFlow<MutableMap<QuizType, Int>>(mutableMapOf())
+    private val subtypesMap = MutableStateFlow<MutableMap<QuizType, List<String>>>(mutableMapOf())
+    private val selectedSubtypes = MutableStateFlow<MutableMap<String, Boolean>>(mutableMapOf())
+
     val homeQuizUiState: StateFlow<HomeQuizUiState> =
-        zip(
-            problemUseCases.getProblemCount(QuizType.Accounting),
-            problemUseCases.getProblemCount(QuizType.Business),
-            problemUseCases.getProblemCount(QuizType.CommercialLaw),
-            problemUseCases.getProblemCount(QuizType.TaxLaw),
-        ) { accountingCount, businessCount, commercialLawCount, taxLawCount ->
-            HomeQuizUiState.Success(accountingCount, businessCount, commercialLawCount, taxLawCount)
+        combine(countMap, subtypesMap, selectedSubtypes) { count, subtypes, selectedSubtypes ->
+            HomeQuizUiState.Success(
+                accountingCount = count[QuizType.Accounting] ?: 0,
+                accountingSubtypes = createSelectableSubtypeByQuizType(
+                    subtypes,
+                    selectedSubtypes,
+                    QuizType.Accounting
+                ),
+                businessCount = count[QuizType.Business] ?: 0,
+                businessSubtypes = createSelectableSubtypeByQuizType(
+                    subtypes,
+                    selectedSubtypes,
+                    QuizType.Business
+                ),
+                commercialLawCount = count[QuizType.CommercialLaw] ?: 0,
+                commercialLawSubtypes = createSelectableSubtypeByQuizType(
+                    subtypes,
+                    selectedSubtypes,
+                    QuizType.CommercialLaw
+                ),
+                taxLawCount = count[QuizType.TaxLaw] ?: 0,
+                taxLawSubtypes = createSelectableSubtypeByQuizType(
+                    subtypes,
+                    selectedSubtypes,
+                    QuizType.TaxLaw
+                ),
+            )
         }
             .stateIn(
                 scope = viewModelScope,
@@ -76,15 +100,65 @@ class HomeViewModel @Inject constructor(
             quizUseCases.setQuizNumber(value)
         }
     }
+
+    fun toggleSubtype(subtype: String) {
+        val newSelectedSubtypes = selectedSubtypes.value.toMutableMap()
+        // Set to false on toggle because initial value is true.
+        val newValue = newSelectedSubtypes[subtype]?.not() ?: false
+        newSelectedSubtypes[subtype] = newValue
+        selectedSubtypes.value = newSelectedSubtypes
+    }
+
+    private fun createSelectableSubtypeByQuizType(
+        subtypes: Map<QuizType, List<String>>,
+        selectedSubtypes: MutableMap<String, Boolean>,
+        quizType: QuizType,
+    ): List<SelectableSubtype> {
+        return (subtypes[quizType] ?: emptyList())
+            .filter(String::isNotEmpty)
+            .map {
+                SelectableSubtype(it, selectedSubtypes[it] ?: true)
+            }
+    }
+
+    fun getSelectedSubtypes(quizType: QuizType): List<String> {
+        val subtypesByQuizType = subtypesMap.value[quizType] ?: return emptyList()
+
+        return selectedSubtypes.value
+            .filterKeys(subtypesByQuizType::contains)
+            .filterKeys(String::isNotEmpty)
+            .filterValues { it }.keys
+            .toList()
+    }
+
+    init {
+        problemUseCases.getProblemCount(scope = viewModelScope) { countMap.value = it }
+        problemUseCases.getSubtypesByQuizType(scope = viewModelScope) {
+            subtypesMap.value = it
+            val newSelectedSubtypes = selectedSubtypes.value.toMutableMap()
+            for (value in it.values) {
+                value.forEach { subtype ->
+                    newSelectedSubtypes[subtype] = true
+                }
+            }
+            selectedSubtypes.value = newSelectedSubtypes
+        }
+    }
 }
+
+data class SelectableSubtype(val text: String, val isSelected: Boolean)
 
 sealed interface HomeQuizUiState {
     object Loading : HomeQuizUiState
     data class Success(
         val accountingCount: Int,
+        val accountingSubtypes: List<SelectableSubtype>,
         val businessCount: Int,
+        val businessSubtypes: List<SelectableSubtype>,
         val commercialLawCount: Int,
+        val commercialLawSubtypes: List<SelectableSubtype>,
         val taxLawCount: Int,
+        val taxLawSubtypes: List<SelectableSubtype>,
     ) : HomeQuizUiState
 }
 

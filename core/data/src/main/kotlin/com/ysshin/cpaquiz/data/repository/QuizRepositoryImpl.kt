@@ -33,6 +33,14 @@ class QuizRepositoryImpl @Inject constructor(
         entities.map(ProblemEntity::toDomain)
     }
 
+    override suspend fun getTotalProblems(type: QuizType, subtypes: List<String>): List<Problem> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                problemDao.get(type, subtypes)
+            }.map(List<ProblemEntity>::toDomain)
+                .getOrNull() ?: emptyList()
+        }
+
     override suspend fun getTotalProblems(type: QuizType, size: Int): List<Problem> =
         withContext(Dispatchers.IO) {
             runCatching {
@@ -99,7 +107,13 @@ class QuizRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getProblemCountByType(type: QuizType): Flow<Int> = problemDao.getProblemCountByType(type)
+    override suspend fun getProblemCountByType(type: QuizType) = withContext(Dispatchers.IO) {
+        problemDao.getProblemCountByType(type)
+    }
+
+    override suspend fun getSubtypesByQuizType(type: QuizType) = withContext(Dispatchers.IO) {
+        problemDao.getSubtypesByQuizType(type)
+    }
 
     override fun getQuizNumber() = quizDataStoreManager.quizNumber
 
