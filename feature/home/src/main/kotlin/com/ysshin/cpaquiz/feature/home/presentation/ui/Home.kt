@@ -538,7 +538,9 @@ private fun QuizCard(
                                 }
                             },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = cardBackgroundColor
+                                selectedContainerColor = cardBackgroundColor,
+                                selectedLabelColor = colorResource(id = R.color.daynight_gray800s),
+                                disabledLabelColor = colorResource(id = R.color.daynight_gray800s).copy(alpha = disabledContentAlpha),
                             ),
                         )
                     }
