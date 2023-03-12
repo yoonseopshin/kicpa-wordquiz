@@ -132,7 +132,6 @@ fun HomeRoute(
 
             if (selectedSubtypes.isEmpty()) {
                 scope.launch {
-                    viewModel.fetchAndSetCountAndSubtypes()
                     snackbarHostState.showSnackbar(
                         message = context.getString(R.string.subtypes_not_selected_alert, type.toKorean()),
                         withDismissAction = true,

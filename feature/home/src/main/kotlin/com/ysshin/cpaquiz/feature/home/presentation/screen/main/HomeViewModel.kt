@@ -30,7 +30,15 @@ class HomeViewModel @Inject constructor(
     private val selectedSubtypes = MutableStateFlow<MutableMap<String, Boolean>>(mutableMapOf())
 
     val homeQuizUiState: StateFlow<HomeQuizUiState> =
-        combine(countMap, subtypesMap, selectedSubtypes) { count, subtypes, selectedSubtypes ->
+        combine(
+            countMap,
+            subtypesMap,
+            selectedSubtypes,
+            // To subscribe questions changes in database, but not used actually.
+            problemUseCases.getTotalProblems(),
+        ) { count, subtypes, selectedSubtypes, _ ->
+            fetchAndSetCountAndSubtypes()
+
             HomeQuizUiState.Success(
                 accountingCount = count[QuizType.Accounting] ?: 0,
                 accountingSubtypes = createSelectableSubtypeByQuizType(
@@ -131,7 +139,7 @@ class HomeViewModel @Inject constructor(
             .toList()
     }
 
-    fun fetchAndSetCountAndSubtypes() = viewModelScope.launch {
+    private fun fetchAndSetCountAndSubtypes() = viewModelScope.launch {
         // Fetch and set question count
         problemUseCases.getProblemCount(scope = viewModelScope) { countMap.value = it }
 
@@ -148,10 +156,6 @@ class HomeViewModel @Inject constructor(
             }
             selectedSubtypes.value = newSelectedSubtypes
         }
-    }
-
-    init {
-        fetchAndSetCountAndSubtypes()
     }
 }
 
