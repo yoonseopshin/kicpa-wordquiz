@@ -67,7 +67,7 @@ class QuizResultViewModel @Inject constructor(
         solved
             .toDomain()
             .filterIndexed { index, question ->
-                selected[index] == question.answer
+                selected[index] != question.answer
             }
             .map(WrongProblem::from)
             .also { wrongQuestions ->
