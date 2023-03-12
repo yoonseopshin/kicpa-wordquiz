@@ -54,9 +54,9 @@ dependencies {
     implementation(project(":core:common"))
 
     api(libs.bundles.androidx.shared)
-    api(libs.material)
 
     implementation(libs.hilt.android)
+    implementation(libs.google.android.material)
     kapt(libs.hilt.compiler)
 
     api(platform(libs.androidx.compose.bom))

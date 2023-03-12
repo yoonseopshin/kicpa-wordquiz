@@ -22,11 +22,13 @@ androidx-activity-ktx = "1.6.1"
 androidx-activity-compose = "1.5.0"
 androidx-fragment-ktx = "1.5.5"
 androidx-customview-poolingcontainer = "1.0.0"
+androidx-work-runtime-ktx = "2.8.0"
 material = "1.9.0-alpha01"
 material3 = "1.1.0-alpha04"
 room = "2.5.0"
 datastore = "1.0.0"
 hilt = "2.45"
+hilt-work = "1.0.0"
 coroutines = "1.6.4"
 
 junit = "4.13.2"
@@ -47,6 +49,8 @@ leakcanary = "2.10"
 accompanist = "0.26.5-rc"
 gms-google-services = "4.3.14"
 gms-play-services-ads = "21.5.0"
+google-play-core = "1.10.3"
+google-play-core-ktx = "1.8.1"
 spotify-ruler = "1.1.0"
 
 [libraries]
@@ -62,7 +66,7 @@ androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
 androidx-customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "androidx-customview-poolingcontainer" }
-material = { module = "com.google.android.material:material", version.ref = "material" }
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidx-work-runtime-ktx" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -70,6 +74,8 @@ datastore = { module = "androidx.datastore:datastore-preferences", version.ref =
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work"}
+hilt-work-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-work"}
 firebase-bom = "com.google.firebase:firebase-bom:30.2.0"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
@@ -81,7 +87,6 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-runtime = { module = "androidx.compose.runtime:runtime" }
-compose-material = { module = "androidx.compose.material:material" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 compose-material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -107,6 +112,9 @@ spotify-ruler-plugin = { group = "com.spotify.ruler", name = "ruler-gradle-plugi
 play-services-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "play-services-oss-licenses" }
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
+google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+google-play-core = { group = "com.google.android.play", name = "core", version.ref = "google-play-core" }
+google-play-core-ktx = { group = "com.google.android.play", name = "core-ktx", version.ref = "google-play-core-ktx" }
 
 [bundles]
 androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-support-v4", "androidx-activity-ktx", "androidx-fragment-ktx"]

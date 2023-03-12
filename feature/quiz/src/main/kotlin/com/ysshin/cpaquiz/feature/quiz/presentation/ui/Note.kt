@@ -42,8 +42,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
@@ -54,7 +52,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProvideTextStyle
@@ -1024,9 +1021,9 @@ private fun NoteTopMenu(
                 MaterialTheme.colorScheme.primary
             } else {
                 if (isEnabled) {
-                    LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                    MaterialTheme.colorScheme.onSurface
                 } else {
-                    LocalContentColor.current.copy(alpha = ContentAlpha.disabled)
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
                 }
             }
         }
@@ -1077,9 +1074,9 @@ private fun NoteTopMenu(
                 MaterialTheme.colorScheme.primary
             } else {
                 if (isEnabled) {
-                    LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                    MaterialTheme.colorScheme.onSurface
                 } else {
-                    LocalContentColor.current.copy(alpha = ContentAlpha.disabled)
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
                 }
             }
         }

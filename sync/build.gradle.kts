@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation("androidx.hilt:hilt-work:1.0.0")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.work:work-runtime-ktx:2.7.1")
+    implementation(libs.hilt.work)
+    kapt(libs.hilt.work.compiler)
+    implementation(libs.androidx.work.runtime.ktx)
 }
