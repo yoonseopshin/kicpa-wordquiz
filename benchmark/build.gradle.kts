@@ -35,19 +35,6 @@ android {
         }
     }
 
-//    testOptions {
-//        managedDevices {
-//            devices {
-//                maybeCreate("pixel4Api30", ManagedVirtualDevice::class.java).apply {
-//                    device = "Pixel 4"
-//                    apiLevel = 30
-//                    systemImageSource = "aosp-atd"
-//                }
-//            }
-//        }
-//    }
-
-
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
 }

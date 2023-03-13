@@ -14,7 +14,6 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
 
         buildConfigField("String", "APP_VERSION_NAME", "\"${libs.versions.versionName.get()}\"")
         buildConfigField("String", "APP_VERSION_CODE", "\"${libs.versions.versionCode.get()}\"")
