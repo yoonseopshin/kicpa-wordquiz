@@ -40,10 +40,10 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        val debug by getting {
             buildConfigField("boolean", "ENABLE_CRASHLYTICS", "false")
         }
-        getByName("release") {
+        val release by getting {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -51,10 +51,12 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
         }
-        create("benchmark") {
+        val benchmark by creating {
+            initWith(release)
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks.add("release")
             isDebuggable = false
+            isMinifyEnabled = true
             proguardFiles("benchmark-rules.pro")
         }
     }
