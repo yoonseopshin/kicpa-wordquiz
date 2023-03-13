@@ -69,6 +69,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalContext
@@ -197,8 +198,8 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val popScaleAnimationInfo = viewModel.animationInfo.collectAsStateWithLifecycle()
     val useTimer = viewModel.useTimer.collectAsStateWithLifecycle()
     val elapsedTime = viewModel.elapsedTime.collectAsStateWithLifecycle()
+    val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
 
-    var fabSize by remember { mutableStateOf(IntSize.Zero) }
     var fabPosition by remember { mutableStateOf(Offset.Zero) }
     var quizDetailSize by remember { mutableStateOf(IntSize.Zero) }
     var quizDetailPosition by remember { mutableStateOf(Offset.Zero) }
@@ -217,53 +218,23 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     activity::finish,
                     topAppBarScrollBehavior,
                 )
-            }, floatingActionButton = {
-            val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
-            val areFabAndQuizDetailScreenOverlapped =
-                fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
-            val fabElevation =
-                if (areFabAndQuizDetailScreenOverlapped) {
-                    FloatingActionButtonDefaults.elevation(
-                        0.dp,
-                        0.dp,
-                        0.dp,
-                        0.dp
-                    )
-                } else {
-                    FloatingActionButtonDefaults.elevation()
-                }
-
-            if (isFabVisible.value) {
-                FloatingActionButton(
-                    modifier = Modifier
-                        .resourceTestTag("fab")
-                        .bounceClickable()
-                        .padding(16.dp)
-                        .onGloballyPositioned { coordinates ->
-                            fabSize = coordinates.size
-                            fabPosition = coordinates.positionInWindow()
-                        }
-                        .modifyIf(areFabAndQuizDetailScreenOverlapped) {
-                            alpha(0.25f)
-                                .then(
-                                    border(
-                                        width = 1.dp,
-                                        color = colorScheme.primary,
-                                        shape = FloatingActionButtonDefaults.shape
-                                    )
-                                )
-                        },
-                    onClick = {
+            },
+            floatingActionButton = {
+                QuestionFloatingActionButton(
+                    isFabVisible = isFabVisible.value,
+                    fabPosition = fabPosition,
+                    quizDetailSize = quizDetailSize,
+                    quizDetailPosition = quizDetailPosition,
+                    onFabGloballyPositioned = { coordinates ->
+                        fabPosition = coordinates.positionInWindow()
+                    },
+                    onFabClick = {
                         if (quizState.value == QuizState.Solving) {
                             viewModel.selectAnswer()
                         }
-                    },
-                    elevation = fabElevation,
-                ) {
-                    Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
-                }
+                    }
+                )
             }
-        }
         ) { contentPadding ->
             Column(
                 modifier = Modifier
@@ -304,7 +275,8 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                 chipContainerColorResIdByType(currentQuestion.value.type)
 
                             NotClickableAssistedChip(
-                                modifier = Modifier.padding(all = 4.dp), label = {
+                                modifier = Modifier.padding(all = 4.dp),
+                                label = {
                                     ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
                                         Text(text = currentQuestion.value.type.toKorean())
                                     }
@@ -547,6 +519,56 @@ fun QuestionTopAppBar(
         },
         scrollBehavior = scrollBehavior
     )
+}
+
+@Composable
+private fun QuestionFloatingActionButton(
+    isFabVisible: Boolean,
+    fabPosition: Offset,
+    quizDetailSize: IntSize,
+    quizDetailPosition: Offset,
+    onFabGloballyPositioned: (coordinates: LayoutCoordinates) -> Unit,
+    onFabClick: () -> Unit,
+) {
+    val areFabAndQuizDetailScreenOverlapped =
+        fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
+    val fabElevation =
+        if (areFabAndQuizDetailScreenOverlapped) {
+            FloatingActionButtonDefaults.elevation(
+                0.dp,
+                0.dp,
+                0.dp,
+                0.dp
+            )
+        } else {
+            FloatingActionButtonDefaults.elevation()
+        }
+
+    if (isFabVisible) {
+        FloatingActionButton(
+            modifier = Modifier
+                .resourceTestTag("fab")
+                .bounceClickable()
+                .padding(16.dp)
+                .onGloballyPositioned { coordinates ->
+                    onFabGloballyPositioned(coordinates)
+                }
+                .modifyIf(areFabAndQuizDetailScreenOverlapped) {
+                    alpha(0.25f)
+                        .then(
+                            border(
+                                width = 1.dp,
+                                color = colorScheme.primary,
+                                shape = FloatingActionButtonDefaults.shape
+                            )
+                        )
+                },
+            onClick = onFabClick,
+            elevation = fabElevation,
+        ) {
+            Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

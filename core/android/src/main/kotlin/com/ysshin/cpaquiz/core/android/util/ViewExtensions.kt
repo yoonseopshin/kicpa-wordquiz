@@ -21,13 +21,13 @@ import androidx.transition.TransitionManager
 import com.google.android.material.transition.MaterialFadeThrough
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
+import kotlin.math.abs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.onStart
-import kotlin.math.abs
 
 fun View.expand(duration: Long = 300L) {
     measure(

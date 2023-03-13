@@ -7,7 +7,6 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,7 +38,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
@@ -51,12 +49,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -70,7 +62,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -78,7 +69,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -104,11 +94,7 @@ import com.ysshin.cpaquiz.feature.home.presentation.screen.main.SelectableSubtyp
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeRoute(
-    windowSizeClass: WindowSizeClass,
-    modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
-) {
+fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
     val homeQuizUiState by viewModel.homeQuizUiState.collectAsStateWithLifecycle()
     val homeInfoUiState by viewModel.homeInfoUiState.collectAsStateWithLifecycle()
 
@@ -119,8 +105,6 @@ fun HomeRoute(
     val snackbarHostState = remember { SnackbarHostState() }
 
     HomeScreen(
-        windowSizeClass = windowSizeClass,
-        modifier = modifier,
         homeQuizUiState = homeQuizUiState,
         homeInfoUiState = homeInfoUiState,
         onSetQuizNumber = viewModel::setQuizNumber,
@@ -157,8 +141,6 @@ fun HomeRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    windowSizeClass: WindowSizeClass,
-    modifier: Modifier = Modifier,
     homeQuizUiState: HomeQuizUiState,
     homeInfoUiState: HomeInfoUiState,
     onSetQuizNumber: Consumer<Int>,
@@ -167,19 +149,10 @@ fun HomeScreen(
     onToggleSubtype: (String) -> Unit,
     snackbarHostState: SnackbarHostState,
 ) {
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = rememberTopAppBarState(),
-        flingAnimationSpec = decayAnimationSpec,
-    )
-
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             HomeTopAppBar(
-                windowSizeClass = windowSizeClass,
-                scrollBehavior = scrollBehavior,
                 homeInfoUiState = homeInfoUiState,
                 onSetQuizTimer = onSetQuizNumber,
                 onToggleTimer = onToggleTimer
@@ -191,7 +164,6 @@ fun HomeScreen(
         FlowRow(
             modifier = Modifier
                 .padding(padding)
-                .padding(top = 28.dp)
                 .verticalScroll(verticalScrollState),
             mainAxisAlignment = MainAxisAlignment.Center,
             mainAxisSize = SizeMode.Expand,
@@ -255,57 +227,30 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopAppBar(
-    windowSizeClass: WindowSizeClass,
-    scrollBehavior: TopAppBarScrollBehavior,
     homeInfoUiState: HomeInfoUiState,
     onSetQuizTimer: Consumer<Int>,
     onToggleTimer: Action,
 ) {
-    val shouldShowLargeTopAppBar = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
-    if (shouldShowLargeTopAppBar) {
-        LargeTopAppBar(
-            title = {
-                Text(
-                    text = if (homeInfoUiState.dday.isBlank()) {
-                        ""
-                    } else {
-                        stringResource(id = R.string.dday, homeInfoUiState.dday)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            actions = {
-                HomeTopMenu(
-                    quizNumber = homeInfoUiState.quizNumber,
-                    onSetQuizTimer = onSetQuizTimer,
-                    useTimer = homeInfoUiState.useTimer,
-                    onToggleTimer = onToggleTimer
-                )
-            },
-            scrollBehavior = scrollBehavior
-        )
-    } else {
-        TopAppBar(
-            title = {
-                Text(
-                    text = if (homeInfoUiState.dday.isBlank()) {
-                        ""
-                    } else {
-                        stringResource(id = R.string.dday, homeInfoUiState.dday)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            actions = {
-                HomeTopMenu(
-                    quizNumber = homeInfoUiState.quizNumber,
-                    onSetQuizTimer = onSetQuizTimer,
-                    useTimer = homeInfoUiState.useTimer,
-                    onToggleTimer = onToggleTimer
-                )
-            }
-        )
-    }
+    TopAppBar(
+        title = {
+            Text(
+                text = if (homeInfoUiState.dday.isBlank()) {
+                    ""
+                } else {
+                    stringResource(id = R.string.dday, homeInfoUiState.dday)
+                },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        actions = {
+            HomeTopMenu(
+                quizNumber = homeInfoUiState.quizNumber,
+                onSetQuizTimer = onSetQuizTimer,
+                useTimer = homeInfoUiState.useTimer,
+                onToggleTimer = onToggleTimer
+            )
+        }
+    )
 }
 
 @Composable
@@ -540,7 +485,8 @@ private fun QuizCard(
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = cardBackgroundColor,
                                 selectedLabelColor = colorResource(id = R.color.daynight_gray800s),
-                                disabledLabelColor = colorResource(id = R.color.daynight_gray800s).copy(alpha = disabledContentAlpha),
+                                disabledLabelColor = colorResource(id = R.color.daynight_gray800s)
+                                    .copy(alpha = disabledContentAlpha),
                             ),
                         )
                     }
@@ -629,14 +575,12 @@ private fun HomeSettingsListItem(
     }
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
     CpaQuizTheme {
         BoxWithConstraints {
             HomeScreen(
-                windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
                 homeQuizUiState = HomeQuizUiState.Success(
                     accountingCount = 10,
                     accountingSubtypes = emptyList(),
