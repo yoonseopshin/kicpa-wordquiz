@@ -1,5 +1,6 @@
 package com.cpa.cpa_word_problem.presentation.ui
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -22,9 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,19 +32,15 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
 import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
+import com.ysshin.cpaquiz.core.android.ui.network.NetworkConnectivityStatusBox
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Consumer
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun CpaQuizApp(appState: CpaQuizAppState) {
     CpaQuizTheme {
         val isOffline by appState.isOffline.collectAsStateWithLifecycle()
-        LaunchedEffect(isOffline) {
-            // TODO: Implement network offline UI
-            Timber.d("Network offline")
-        }
 
         Scaffold(
             bottomBar = {
@@ -58,38 +53,41 @@ fun CpaQuizApp(appState: CpaQuizAppState) {
                 }
             }
         ) { padding ->
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(
-                            WindowInsetsSides.Horizontal
+            Column {
+                NetworkConnectivityStatusBox(isOffline = isOffline)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .windowInsetsPadding(
+                            WindowInsets.safeDrawing.only(
+                                WindowInsetsSides.Horizontal
+                            )
                         )
-                    )
-            ) {
-                if (appState.shouldShowNavRail) {
-                    CpaQuizNavigationRail(
-                        destinations = appState.topLevelDestinations,
-                        onNavigateToDestination = appState::navigate,
-                        currentDestination = appState.currentDestination,
-                        modifier = Modifier.safeDrawingPadding(),
+                ) {
+                    if (appState.shouldShowNavRail) {
+                        CpaQuizNavigationRail(
+                            destinations = appState.topLevelDestinations,
+                            onNavigateToDestination = appState::navigate,
+                            currentDestination = appState.currentDestination,
+                            modifier = Modifier.safeDrawingPadding(),
+                        )
+                    }
+
+                    CpaQuizNavHost(
+                        navController = appState.navController,
+                        windowSizeClass = appState.windowSizeClass,
+                        modifier = Modifier
+                            .padding(padding)
+                            .consumeWindowInsets(padding),
+                        startDestination = appState.startDestination,
                     )
                 }
-
-                CpaQuizNavHost(
-                    navController = appState.navController,
-                    windowSizeClass = appState.windowSizeClass,
-                    modifier = Modifier
-                        .padding(padding)
-                        .consumeWindowInsets(padding),
-                    startDestination = appState.startDestination,
-                )
             }
         }
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun CpaQuizBottomBar(
     destinations: List<TopLevelDestination>,

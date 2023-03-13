@@ -49,6 +49,7 @@ dependencies {
     add("androidTestImplementation", libs.findBundle("androidx-test").get())
 
     add("implementation", platform(libs.findLibrary("androidx.compose.bom").get()))
+    add("implementation", libs.findLibrary("compose.material.iconsExtended").get())
     add("implementation", libs.findLibrary("compose.material3").get())
     add("implementation", libs.findLibrary("compose.material3.windowsizeclass").get())
 }
