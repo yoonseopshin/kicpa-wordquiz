@@ -250,6 +250,8 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                         quizDetailPosition = coordinates.positionInWindow()
                     }
                 ) {
+                    val question = currentQuestion.value
+
                     Box(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -265,23 +267,25 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                     modifier = Modifier.padding(all = 4.dp),
                                     label = {
                                         ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                            Text(text = "${currentQuestion.value.source} ${currentQuestion.value.year}년 ${currentQuestion.value.pid}번")
+                                            Text(text = "${question.source} ${question.year}년 ${question.pid}번")
                                         }
                                     },
-                                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
+                                    colors = AssistChipDefaults.assistChipColors(
+                                        containerColor = assistChipContainerColor
+                                    ),
                                     border = null,
                                 )
                             }
 
                             val containerColorResourceIdByType =
-                                chipContainerColorResIdByType(currentQuestion.value.type)
+                                chipContainerColorResIdByType(question.type)
 
                             item {
                                 NotClickableAssistedChip(
                                     modifier = Modifier.padding(all = 4.dp),
                                     label = {
                                         ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                            Text(text = currentQuestion.value.type.toKorean())
+                                            Text(text = question.type.toKorean())
                                         }
                                     },
                                     colors = AssistChipDefaults.assistChipColors(
@@ -292,12 +296,12 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                             }
 
                             item {
-                                if (currentQuestion.value.subtype.isNotBlank()) {
+                                if (question.subtype.isNotBlank()) {
                                     NotClickableAssistedChip(
                                         modifier = Modifier.padding(all = 4.dp),
                                         label = {
                                             ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                                Text(text = currentQuestion.value.subtype)
+                                                Text(text = question.subtype)
                                             }
                                         },
                                         colors = AssistChipDefaults.assistChipColors(
@@ -312,7 +316,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
 
                     QuestionDetail(
                         mode = mode.value,
-                        currentQuestion = currentQuestion.value,
+                        currentQuestion = question,
                         selectedQuestionIndex = selectedQuestionIndex.value,
                         onQuestionClick = viewModel::selectQuestion,
                         onSelectAnswer = viewModel::selectAnswer

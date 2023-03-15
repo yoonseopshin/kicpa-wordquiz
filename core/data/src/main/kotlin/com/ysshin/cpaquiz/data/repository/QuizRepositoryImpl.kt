@@ -52,7 +52,8 @@ class QuizRepositoryImpl @Inject constructor(
     override fun getWrongProblems(): Flow<List<Problem>> =
         wrongProblemDao.getAll().map { entities ->
             entities.map { wrongProblem ->
-                problemDao.get(wrongProblem.year, wrongProblem.pid, wrongProblem.type).toDomain()
+                problemDao.get(wrongProblem.year, wrongProblem.pid, wrongProblem.type, wrongProblem.source)
+                    .toDomain()
             }
         }
 

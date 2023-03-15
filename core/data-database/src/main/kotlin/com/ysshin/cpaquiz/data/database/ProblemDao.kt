@@ -7,10 +7,12 @@ import androidx.room.Query
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.DESCRIPTION
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.PID
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.QUESTIONS
+import com.ysshin.cpaquiz.data.database.AppContract.Problem.SOURCE
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.SUBTYPE
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.SUB_DESCRIPTION
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.TYPE
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.YEAR
+import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import kotlinx.coroutines.flow.Flow
 
@@ -53,10 +55,11 @@ interface ProblemDao {
             WHERE $TYPE = :type
             AND $YEAR= :year
             AND $PID= :pid
+            AND $SOURCE= :source
             LIMIT 1
         """
     )
-    suspend fun get(year: Int, pid: Int, type: QuizType): ProblemEntity
+    suspend fun get(year: Int, pid: Int, type: QuizType, source: ProblemSource): ProblemEntity
 
     @Query(
         """

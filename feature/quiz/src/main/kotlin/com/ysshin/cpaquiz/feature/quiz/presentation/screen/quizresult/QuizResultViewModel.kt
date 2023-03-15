@@ -72,7 +72,7 @@ class QuizResultViewModel @Inject constructor(
             .map(WrongProblem::from)
             .also { wrongQuestions ->
                 problemUseCases.insertWrongProblems(wrongQuestions, viewModelScope)
-                Timber.d("Insert wrong problems to local database")
+                Timber.d("Insert wrong problems to local database $wrongQuestions")
             }
     }
 

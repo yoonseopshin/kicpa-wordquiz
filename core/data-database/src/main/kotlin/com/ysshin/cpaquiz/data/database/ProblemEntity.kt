@@ -9,7 +9,7 @@ import java.util.*
 
 @Entity(
     tableName = Problem.TABLE_NAME,
-    primaryKeys = [Problem.PID, Problem.YEAR, Problem.TYPE]
+    primaryKeys = [Problem.PID, Problem.YEAR, Problem.TYPE, Problem.SOURCE]
 )
 data class ProblemEntity(
     @ColumnInfo(name = Problem.PID) val pid: Int,
@@ -24,9 +24,9 @@ data class ProblemEntity(
 ) {
     override fun equals(other: Any?): Boolean {
         (other as? ProblemEntity)?.let {
-            return year == it.year && pid == it.pid && type == it.type
+            return year == it.year && pid == it.pid && type == it.type && source == it.source
         } ?: return super.equals(other)
     }
 
-    override fun hashCode() = Objects.hash(pid, year, type)
+    override fun hashCode() = Objects.hash(pid, year, type, source)
 }
