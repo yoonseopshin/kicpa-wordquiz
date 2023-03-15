@@ -21,7 +21,7 @@ fun CpaQuizNavHost(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        homeGraph(windowSizeClass)
+        homeGraph()
         noteGraph(windowSizeClass)
         settingsGraph(windowSizeClass)
     }

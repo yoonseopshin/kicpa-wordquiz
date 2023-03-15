@@ -14,7 +14,6 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
 
         buildConfigField("String", "APP_VERSION_NAME", "\"${libs.versions.versionName.get()}\"")
         buildConfigField("String", "APP_VERSION_CODE", "\"${libs.versions.versionCode.get()}\"")
@@ -64,15 +63,15 @@ dependencies {
     androidTestApi(libs.compose.ui.test)
     debugApi(libs.compose.ui.tooling)
 
-    debugApi("androidx.customview:customview:1.2.0-alpha01")
+    debugApi(libs.androidx.customview)
     debugApi(libs.androidx.customview.poolingcontainer)
 
     api(libs.androidx.activity.compose)
-    api("androidx.navigation:navigation-compose:2.5.1")
-    api("androidx.hilt:hilt-navigation-compose:1.0.0")
-    api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    api("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha01")
+    api(libs.androidx.navigation.compose)
+    api(libs.androidx.hilt.navigation.compose)
+    api(libs.androidx.lifecycle.viewmodel.compose)
+    api(libs.androidx.lifecycle.runtime.ktx)
+    api(libs.androidx.lifecycle.runtime.compose)
     api("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     testImplementation(libs.junit)
@@ -86,6 +85,6 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
     implementation(libs.gms.play.services.ads)
-    implementation("com.google.android.play:core:1.10.3")
-    implementation("com.google.android.play:core-ktx:1.8.1")
+    implementation(libs.google.play.core)
+    implementation(libs.google.play.core.ktx)
 }

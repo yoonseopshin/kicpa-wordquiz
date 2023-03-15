@@ -62,6 +62,7 @@ fun WrongProblem.toLocalData() = WrongProblemEntity(
     pid = pid,
     year = year,
     type = type,
+    source = source,
     createdAt = createdAt
 )
 

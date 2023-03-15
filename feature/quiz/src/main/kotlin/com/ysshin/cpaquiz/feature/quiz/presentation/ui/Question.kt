@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -69,6 +70,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalContext
@@ -197,8 +199,8 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     val popScaleAnimationInfo = viewModel.animationInfo.collectAsStateWithLifecycle()
     val useTimer = viewModel.useTimer.collectAsStateWithLifecycle()
     val elapsedTime = viewModel.elapsedTime.collectAsStateWithLifecycle()
+    val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
 
-    var fabSize by remember { mutableStateOf(IntSize.Zero) }
     var fabPosition by remember { mutableStateOf(Offset.Zero) }
     var quizDetailSize by remember { mutableStateOf(IntSize.Zero) }
     var quizDetailPosition by remember { mutableStateOf(Offset.Zero) }
@@ -217,53 +219,23 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     activity::finish,
                     topAppBarScrollBehavior,
                 )
-            }, floatingActionButton = {
-            val isFabVisible = viewModel.isFabVisible.collectAsStateWithLifecycle()
-            val areFabAndQuizDetailScreenOverlapped =
-                fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
-            val fabElevation =
-                if (areFabAndQuizDetailScreenOverlapped) {
-                    FloatingActionButtonDefaults.elevation(
-                        0.dp,
-                        0.dp,
-                        0.dp,
-                        0.dp
-                    )
-                } else {
-                    FloatingActionButtonDefaults.elevation()
-                }
-
-            if (isFabVisible.value) {
-                FloatingActionButton(
-                    modifier = Modifier
-                        .resourceTestTag("fab")
-                        .bounceClickable()
-                        .padding(16.dp)
-                        .onGloballyPositioned { coordinates ->
-                            fabSize = coordinates.size
-                            fabPosition = coordinates.positionInWindow()
-                        }
-                        .modifyIf(areFabAndQuizDetailScreenOverlapped) {
-                            alpha(0.25f)
-                                .then(
-                                    border(
-                                        width = 1.dp,
-                                        color = colorScheme.primary,
-                                        shape = FloatingActionButtonDefaults.shape
-                                    )
-                                )
-                        },
-                    onClick = {
+            },
+            floatingActionButton = {
+                QuestionFloatingActionButton(
+                    isFabVisible = isFabVisible.value,
+                    fabPosition = fabPosition,
+                    quizDetailSize = quizDetailSize,
+                    quizDetailPosition = quizDetailPosition,
+                    onFabGloballyPositioned = { coordinates ->
+                        fabPosition = coordinates.positionInWindow()
+                    },
+                    onFabClick = {
                         if (quizState.value == QuizState.Solving) {
                             viewModel.selectAnswer()
                         }
-                    },
-                    elevation = fabElevation,
-                ) {
-                    Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
-                }
+                    }
+                )
             }
-        }
         ) { contentPadding ->
             Column(
                 modifier = Modifier
@@ -278,49 +250,42 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                         quizDetailPosition = coordinates.positionInWindow()
                     }
                 ) {
+                    val question = currentQuestion.value
+
                     Box(
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Row(
+                        LazyRow(
                             horizontalArrangement = Arrangement.Start,
                             modifier = Modifier
                                 .align(Alignment.TopStart)
                                 .padding(start = 8.dp)
                         ) {
-                            val assistChipContainerColor = colorResource(id = R.color.daynight_gray070s)
-
-                            NotClickableAssistedChip(
-                                modifier = Modifier.padding(all = 4.dp),
-                                label = {
-                                    ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                        Text(text = "${currentQuestion.value.year}년 ${currentQuestion.value.pid}번")
-                                    }
-                                },
-                                colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                                border = null,
-                            )
-
-                            val containerColorResourceIdByType =
-                                chipContainerColorResIdByType(currentQuestion.value.type)
-
-                            NotClickableAssistedChip(
-                                modifier = Modifier.padding(all = 4.dp), label = {
-                                    ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                        Text(text = currentQuestion.value.type.toKorean())
-                                    }
-                                },
-                                colors = AssistChipDefaults.assistChipColors(
-                                    containerColor = colorResource(id = containerColorResourceIdByType)
-                                ),
-                                border = null,
-                            )
-
-                            if (currentQuestion.value.subtype.isNotBlank()) {
+                            item {
+                                val assistChipContainerColor = colorResource(id = R.color.daynight_gray070s)
                                 NotClickableAssistedChip(
                                     modifier = Modifier.padding(all = 4.dp),
                                     label = {
                                         ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                            Text(text = currentQuestion.value.subtype)
+                                            Text(text = "${question.source} ${question.year}년 ${question.pid}번")
+                                        }
+                                    },
+                                    colors = AssistChipDefaults.assistChipColors(
+                                        containerColor = assistChipContainerColor
+                                    ),
+                                    border = null,
+                                )
+                            }
+
+                            val containerColorResourceIdByType =
+                                chipContainerColorResIdByType(question.type)
+
+                            item {
+                                NotClickableAssistedChip(
+                                    modifier = Modifier.padding(all = 4.dp),
+                                    label = {
+                                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                            Text(text = question.type.toKorean())
                                         }
                                     },
                                     colors = AssistChipDefaults.assistChipColors(
@@ -329,12 +294,29 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                     border = null,
                                 )
                             }
+
+                            item {
+                                if (question.subtype.isNotBlank()) {
+                                    NotClickableAssistedChip(
+                                        modifier = Modifier.padding(all = 4.dp),
+                                        label = {
+                                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                                Text(text = question.subtype)
+                                            }
+                                        },
+                                        colors = AssistChipDefaults.assistChipColors(
+                                            containerColor = colorResource(id = containerColorResourceIdByType)
+                                        ),
+                                        border = null,
+                                    )
+                                }
+                            }
                         }
                     }
 
                     QuestionDetail(
                         mode = mode.value,
-                        currentQuestion = currentQuestion.value,
+                        currentQuestion = question,
                         selectedQuestionIndex = selectedQuestionIndex.value,
                         onQuestionClick = viewModel::selectQuestion,
                         onSelectAnswer = viewModel::selectAnswer
@@ -549,6 +531,56 @@ fun QuestionTopAppBar(
     )
 }
 
+@Composable
+private fun QuestionFloatingActionButton(
+    isFabVisible: Boolean,
+    fabPosition: Offset,
+    quizDetailSize: IntSize,
+    quizDetailPosition: Offset,
+    onFabGloballyPositioned: (coordinates: LayoutCoordinates) -> Unit,
+    onFabClick: () -> Unit,
+) {
+    val areFabAndQuizDetailScreenOverlapped =
+        fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
+    val fabElevation =
+        if (areFabAndQuizDetailScreenOverlapped) {
+            FloatingActionButtonDefaults.elevation(
+                0.dp,
+                0.dp,
+                0.dp,
+                0.dp
+            )
+        } else {
+            FloatingActionButtonDefaults.elevation()
+        }
+
+    if (isFabVisible) {
+        FloatingActionButton(
+            modifier = Modifier
+                .resourceTestTag("fab")
+                .bounceClickable()
+                .padding(16.dp)
+                .onGloballyPositioned { coordinates ->
+                    onFabGloballyPositioned(coordinates)
+                }
+                .modifyIf(areFabAndQuizDetailScreenOverlapped) {
+                    alpha(0.25f)
+                        .then(
+                            border(
+                                width = 1.dp,
+                                color = colorScheme.primary,
+                                shape = FloatingActionButtonDefaults.shape
+                            )
+                        )
+                },
+            onClick = onFabClick,
+            elevation = fabElevation,
+        ) {
+            Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(showBackground = true)
@@ -691,47 +723,35 @@ fun LazyItemScope.QuestionSummaryContent(
             .animateItemPlacement()
     ) {
         Box {
-            Row(
+            LazyRow(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(start = 8.dp)
             ) {
-                val assistChipContainerColor =
-                    colorResource(id = R.color.daynight_gray070s)
+                item {
+                    val assistChipContainerColor =
+                        colorResource(id = R.color.daynight_gray070s)
 
-                NotClickableAssistedChip(
-                    modifier = Modifier.padding(all = 4.dp),
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                            Text(text = "${problem.year}년 ${problem.pid}번")
-                        }
-                    },
-                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                    border = null,
-                )
-
-                val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
-
-                NotClickableAssistedChip(
-                    modifier = Modifier.padding(all = 4.dp),
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                            Text(text = problem.type.toKorean())
-                        }
-                    },
-                    colors = AssistChipDefaults.assistChipColors(
-                        containerColor = colorResource(id = containerColorResourceIdByType)
-                    ),
-                    border = null,
-                )
-
-                if (problem.subtype.isNotBlank()) {
                     NotClickableAssistedChip(
                         modifier = Modifier.padding(all = 4.dp),
                         label = {
                             ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                Text(text = problem.subtype)
+                                Text(text = "${problem.source} ${problem.year}년 ${problem.pid}번")
+                            }
+                        },
+                        colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
+                        border = null,
+                    )
+                }
+
+                val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
+                item {
+                    NotClickableAssistedChip(
+                        modifier = Modifier.padding(all = 4.dp),
+                        label = {
+                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                Text(text = problem.type.toKorean())
                             }
                         },
                         colors = AssistChipDefaults.assistChipColors(
@@ -739,6 +759,23 @@ fun LazyItemScope.QuestionSummaryContent(
                         ),
                         border = null,
                     )
+                }
+
+                item {
+                    if (problem.subtype.isNotBlank()) {
+                        NotClickableAssistedChip(
+                            modifier = Modifier.padding(all = 4.dp),
+                            label = {
+                                ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                    Text(text = problem.subtype)
+                                }
+                            },
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = colorResource(id = containerColorResourceIdByType)
+                            ),
+                            border = null,
+                        )
+                    }
                 }
             }
         }
