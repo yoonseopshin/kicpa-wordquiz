@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.alpha
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotClickableAssistedChip(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     label: @Composable () -> Unit,
     colors: ChipColors = AssistChipDefaults.assistChipColors(),
     border: ChipBorder? = AssistChipDefaults.assistChipBorder(),

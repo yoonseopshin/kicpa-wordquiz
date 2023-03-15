@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -252,47 +253,35 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     Box(
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Row(
+                        LazyRow(
                             horizontalArrangement = Arrangement.Start,
                             modifier = Modifier
                                 .align(Alignment.TopStart)
                                 .padding(start = 8.dp)
                         ) {
-                            val assistChipContainerColor = colorResource(id = R.color.daynight_gray070s)
-
-                            NotClickableAssistedChip(
-                                modifier = Modifier.padding(all = 4.dp),
-                                label = {
-                                    ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                        Text(text = "${currentQuestion.value.year}년 ${currentQuestion.value.pid}번")
-                                    }
-                                },
-                                colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                                border = null,
-                            )
-
-                            val containerColorResourceIdByType =
-                                chipContainerColorResIdByType(currentQuestion.value.type)
-
-                            NotClickableAssistedChip(
-                                modifier = Modifier.padding(all = 4.dp),
-                                label = {
-                                    ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                        Text(text = currentQuestion.value.type.toKorean())
-                                    }
-                                },
-                                colors = AssistChipDefaults.assistChipColors(
-                                    containerColor = colorResource(id = containerColorResourceIdByType)
-                                ),
-                                border = null,
-                            )
-
-                            if (currentQuestion.value.subtype.isNotBlank()) {
+                            item {
+                                val assistChipContainerColor = colorResource(id = R.color.daynight_gray070s)
                                 NotClickableAssistedChip(
                                     modifier = Modifier.padding(all = 4.dp),
                                     label = {
                                         ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                            Text(text = currentQuestion.value.subtype)
+                                            Text(text = "${currentQuestion.value.source} ${currentQuestion.value.year}년 ${currentQuestion.value.pid}번")
+                                        }
+                                    },
+                                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
+                                    border = null,
+                                )
+                            }
+
+                            val containerColorResourceIdByType =
+                                chipContainerColorResIdByType(currentQuestion.value.type)
+
+                            item {
+                                NotClickableAssistedChip(
+                                    modifier = Modifier.padding(all = 4.dp),
+                                    label = {
+                                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                            Text(text = currentQuestion.value.type.toKorean())
                                         }
                                     },
                                     colors = AssistChipDefaults.assistChipColors(
@@ -300,6 +289,23 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                     ),
                                     border = null,
                                 )
+                            }
+
+                            item {
+                                if (currentQuestion.value.subtype.isNotBlank()) {
+                                    NotClickableAssistedChip(
+                                        modifier = Modifier.padding(all = 4.dp),
+                                        label = {
+                                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                                Text(text = currentQuestion.value.subtype)
+                                            }
+                                        },
+                                        colors = AssistChipDefaults.assistChipColors(
+                                            containerColor = colorResource(id = containerColorResourceIdByType)
+                                        ),
+                                        border = null,
+                                    )
+                                }
                             }
                         }
                     }
@@ -713,47 +719,35 @@ fun LazyItemScope.QuestionSummaryContent(
             .animateItemPlacement()
     ) {
         Box {
-            Row(
+            LazyRow(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(start = 8.dp)
             ) {
-                val assistChipContainerColor =
-                    colorResource(id = R.color.daynight_gray070s)
+                item {
+                    val assistChipContainerColor =
+                        colorResource(id = R.color.daynight_gray070s)
 
-                NotClickableAssistedChip(
-                    modifier = Modifier.padding(all = 4.dp),
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                            Text(text = "${problem.year}년 ${problem.pid}번")
-                        }
-                    },
-                    colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
-                    border = null,
-                )
-
-                val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
-
-                NotClickableAssistedChip(
-                    modifier = Modifier.padding(all = 4.dp),
-                    label = {
-                        ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                            Text(text = problem.type.toKorean())
-                        }
-                    },
-                    colors = AssistChipDefaults.assistChipColors(
-                        containerColor = colorResource(id = containerColorResourceIdByType)
-                    ),
-                    border = null,
-                )
-
-                if (problem.subtype.isNotBlank()) {
                     NotClickableAssistedChip(
                         modifier = Modifier.padding(all = 4.dp),
                         label = {
                             ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                                Text(text = problem.subtype)
+                                Text(text = "${problem.source} ${problem.year}년 ${problem.pid}번")
+                            }
+                        },
+                        colors = AssistChipDefaults.assistChipColors(containerColor = assistChipContainerColor),
+                        border = null,
+                    )
+                }
+
+                val containerColorResourceIdByType = chipContainerColorResIdByType(problem.type)
+                item {
+                    NotClickableAssistedChip(
+                        modifier = Modifier.padding(all = 4.dp),
+                        label = {
+                            ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                Text(text = problem.type.toKorean())
                             }
                         },
                         colors = AssistChipDefaults.assistChipColors(
@@ -761,6 +755,23 @@ fun LazyItemScope.QuestionSummaryContent(
                         ),
                         border = null,
                     )
+                }
+
+                item {
+                    if (problem.subtype.isNotBlank()) {
+                        NotClickableAssistedChip(
+                            modifier = Modifier.padding(all = 4.dp),
+                            label = {
+                                ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
+                                    Text(text = problem.subtype)
+                                }
+                            },
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = colorResource(id = containerColorResourceIdByType)
+                            ),
+                            border = null,
+                        )
+                    }
                 }
             }
         }
