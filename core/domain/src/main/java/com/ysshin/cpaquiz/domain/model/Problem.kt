@@ -5,18 +5,18 @@ import com.ysshin.cpaquiz.core.base.DEFAULT_STRING
 import com.ysshin.cpaquiz.core.base.DEFAULT_STRING_LIST
 
 data class Problem(
-    val year: Int = DEFAULT_INT,
-    val pid: Int = DEFAULT_INT,
+    val year: Int,
+    val pid: Int,
     val description: String = DEFAULT_STRING,
     val subDescriptions: List<String> = DEFAULT_STRING_LIST,
     val questions: List<String> = DEFAULT_STRING_LIST,
     val answer: Int = DEFAULT_INT,
-    val type: QuizType = QuizType.Accounting, // FIXME: Temporary default value
-    val source: ProblemSource = ProblemSource.CPA, // FIXME: Temporary default value
+    val type: QuizType,
+    val source: ProblemSource,
     val subtype: String = DEFAULT_STRING,
 ) {
     companion object {
-        fun allYears() = (2016..2022).toList()
+        fun default() = Problem(year = 0, pid = 0, type = QuizType.Accounting, source = ProblemSource.CPA)
     }
 }
 

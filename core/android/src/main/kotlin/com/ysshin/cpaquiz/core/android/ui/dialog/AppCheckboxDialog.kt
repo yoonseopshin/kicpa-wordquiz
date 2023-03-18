@@ -43,7 +43,6 @@ import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
-import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import kotlinx.parcelize.Parcelize
 
@@ -172,7 +171,7 @@ private fun YearFilterDialogPreview() {
         icon = painterResource(id = R.drawable.ic_filter),
         title = stringResource(id = R.string.year),
         description = stringResource(id = R.string.choose_filtered_years),
-        selectableItems = Problem.allYears().map {
+        selectableItems = (2016..2023).map {
             SelectableTextItem("$it", false)
         }
     )
