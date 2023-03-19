@@ -137,7 +137,7 @@ fun QuizResultScreen(
                         )
 
                         if (index < solvedQuestions.lastIndex) {
-                            QuestionSummaryDivider(windowSizeClass)
+                            QuestionSummaryDivider()
                         }
                     }
                 }

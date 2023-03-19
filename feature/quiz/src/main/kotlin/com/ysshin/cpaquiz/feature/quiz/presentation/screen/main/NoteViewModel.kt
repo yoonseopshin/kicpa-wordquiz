@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import timber.log.Timber
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
@@ -43,6 +44,15 @@ class NoteViewModel @Inject constructor(
             _noteFilter,
         ) { totalResult, wrongResult, searchKeyword, noteFilter ->
             val totalProblemsUiState = if (totalResult is Result.Success) {
+                if (noteFilter.years.isEmpty() && noteFilter.types.isEmpty()) {
+                    // NoteFilter first init
+                    Timber.d("NoteFilter init")
+                    val data = totalResult.data
+                    val years = data.map { it.year }.distinct().sorted()
+                    val types = data.map { it.type }.distinct()
+                    _noteFilter.value = NoteFilter(years = years, types = types, yearsOfQuestions = years)
+                }
+
                 TotalProblemsUiState.Success(totalResult.data.filter(noteFilter::contains))
             } else {
                 TotalProblemsUiState.Error
@@ -70,7 +80,7 @@ class NoteViewModel @Inject constructor(
             )
 
     val selectableFilteredYears
-        get() = Problem.allYears().map {
+        get() = _noteFilter.value.yearsOfQuestions.map {
             SelectableTextItem(
                 text = it.toString(),
                 isSelected = _noteFilter.value.years.contains(it)
@@ -89,12 +99,19 @@ class NoteViewModel @Inject constructor(
         years: List<Int>,
         types: List<QuizType>,
     ) {
-        _noteFilter.update {
-            NoteFilter(
-                years = years.ifEmpty { _noteFilter.value.years },
-                types = types.ifEmpty { _noteFilter.value.types }
-            )
-        }
+        _noteFilter.value = _noteFilter.value.copy(
+            years = years.ifEmpty { _noteFilter.value.years },
+            types = types.ifEmpty { _noteFilter.value.types },
+        )
+    }
+
+    fun clearFilter() {
+        val origin = _noteFilter.value
+        _noteFilter.value = NoteFilter(
+            years = origin.yearsOfQuestions,
+            types = QuizType.all(),
+            yearsOfQuestions = origin.yearsOfQuestions
+        )
     }
 
     fun updateSearchKeyword(keyword: String) {
@@ -144,16 +161,16 @@ data class NoteUiState(
     val searchedProblemsUiState: SearchedProblemsUiState,
 )
 
-data class NoteFilter(val years: List<Int>, val types: List<QuizType>) {
+data class NoteFilter(val years: List<Int>, val types: List<QuizType>, val yearsOfQuestions: List<Int>) {
     companion object {
-        fun default() = NoteFilter(years = Problem.allYears(), types = QuizType.all())
+        fun default() = NoteFilter(years = emptyList(), types = emptyList(), yearsOfQuestions = emptyList())
     }
 }
 
 internal fun NoteFilter.contains(problem: Problem) =
     years.contains(problem.year) && types.contains(problem.type)
 
-internal fun NoteFilter.isYearFiltering() = years.size != Problem.allYears().size
+internal fun NoteFilter.isYearFiltering() = years.size != yearsOfQuestions.size
 internal fun NoteFilter.isQuizTypeFiltering() = types.size != QuizType.all().size
 internal fun NoteFilter.isFiltering() = isYearFiltering() || isQuizTypeFiltering()
 

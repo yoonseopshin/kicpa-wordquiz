@@ -73,7 +73,7 @@ class QuestionViewModel @Inject constructor(
     private val _questions = mutableListOf<Problem>()
     val questions: List<Problem> = _questions
 
-    private val _currentQuestion = MutableStateFlow(Problem())
+    private val _currentQuestion = MutableStateFlow(Problem.default())
     val currentQuestion = _currentQuestion.asStateFlow()
 
     private val _selected = mutableListOf<Int>()
