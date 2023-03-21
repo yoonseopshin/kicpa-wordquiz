@@ -38,6 +38,7 @@ dependencies {
     add("kapt", libs.findLibrary("hilt.compiler").get())
 
     add("implementation", libs.findLibrary("coroutines-android").get())
+    add("implementation", libs.findLibrary("coroutines-test").get())
 
     add("implementation", libs.findLibrary("retrofit-kotlinx-serialization").get())
     add("implementation", libs.findLibrary("kotlinx-serialization-json").get())

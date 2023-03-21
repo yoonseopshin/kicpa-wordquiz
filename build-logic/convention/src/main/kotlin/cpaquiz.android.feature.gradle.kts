@@ -44,6 +44,7 @@ dependencies {
     add("kapt", libs.findLibrary("hilt.compiler").get())
 
     add("implementation", libs.findLibrary("coroutines-android").get())
+    add("implementation", libs.findLibrary("coroutines-test").get())
 
     add("testImplementation", libs.findLibrary("junit").get())
     add("androidTestImplementation", libs.findBundle("androidx-test").get())
