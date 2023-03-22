@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.ysshin.cpaquiz
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

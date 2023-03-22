@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.presentation.ui
+package com.ysshin.cpaquiz.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -29,8 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import com.cpa.cpa_word_problem.presentation.navigation.CpaQuizNavHost
-import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
+import com.ysshin.cpaquiz.presentation.navigation.CpaQuizNavHost
+import com.ysshin.cpaquiz.presentation.navigation.TopLevelDestination
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.network.NetworkConnectivityStatusBox
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme

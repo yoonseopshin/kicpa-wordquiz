@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.ysshin.cpaquiz
 
 import com.ysshin.cpaquiz.core.android.base.BaseActivity
 import com.ysshin.cpaquiz.domain.model.Problem
