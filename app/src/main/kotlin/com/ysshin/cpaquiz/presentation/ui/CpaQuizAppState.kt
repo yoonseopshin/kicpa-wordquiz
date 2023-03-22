@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.presentation.ui
+package com.ysshin.cpaquiz.presentation.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -19,8 +19,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.cpa.cpa_word_problem.R
-import com.cpa.cpa_word_problem.presentation.navigation.TopLevelDestination
+import com.ysshin.cpaquiz.R
+import com.ysshin.cpaquiz.presentation.navigation.TopLevelDestination
 import com.ysshin.core.navigation.CpaQuizNavigationDestination
 import com.ysshin.cpaquiz.data.util.NetworkMonitor
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination

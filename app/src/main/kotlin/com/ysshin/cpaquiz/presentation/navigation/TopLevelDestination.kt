@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.presentation.navigation
+package com.ysshin.cpaquiz.presentation.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ysshin.core.navigation.CpaQuizNavigationDestination

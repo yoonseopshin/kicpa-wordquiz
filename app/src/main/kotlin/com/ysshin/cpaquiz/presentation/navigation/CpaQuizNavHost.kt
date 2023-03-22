@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem.presentation.navigation
+package com.ysshin.cpaquiz.presentation.navigation
 
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable

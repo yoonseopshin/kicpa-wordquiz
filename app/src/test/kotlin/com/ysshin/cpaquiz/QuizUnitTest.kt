@@ -1,4 +1,4 @@
-package com.cpa.cpa_word_problem
+package com.ysshin.cpaquiz
 
 import org.junit.Test
 
