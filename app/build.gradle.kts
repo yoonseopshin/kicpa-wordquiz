@@ -88,6 +88,10 @@ android {
         // https://dagger.dev/hilt/gradle-setup#aggregating-task
         enableAggregatingTask = true
     }
+
+    lint {
+        disable.add("Instantiatable")
+    }
 }
 
 dependencies {

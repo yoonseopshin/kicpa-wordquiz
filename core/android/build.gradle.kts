@@ -83,8 +83,8 @@ dependencies {
     implementation(libs.coroutines.android)
     api(libs.timber)
 
-    implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
-    implementation(libs.gms.play.services.ads)
+    releaseImplementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    releaseImplementation(libs.gms.play.services.ads)
     implementation(libs.google.play.core)
     implementation(libs.google.play.core.ktx)
 }
