@@ -1,9 +1,8 @@
 package com.ysshin.cpaquiz.data.database
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.PID
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.TYPE
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.YEAR
@@ -29,6 +28,6 @@ interface WrongProblemDao {
     @Query("DELETE FROM ${AppContract.WrongProblem.TABLE_NAME}")
     suspend fun deleteAll()
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insert(problems: List<WrongProblemEntity>)
 }

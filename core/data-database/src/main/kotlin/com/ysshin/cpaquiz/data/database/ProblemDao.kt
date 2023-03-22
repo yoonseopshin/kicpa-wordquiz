@@ -1,9 +1,8 @@
 package com.ysshin.cpaquiz.data.database
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.DESCRIPTION
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.PID
 import com.ysshin.cpaquiz.data.database.AppContract.Problem.QUESTIONS
@@ -91,6 +90,6 @@ interface ProblemDao {
     )
     suspend fun search(text: String): List<ProblemEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insert(problems: List<ProblemEntity>)
 }
