@@ -11,7 +11,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.ysshin.cpaquiz.core.android.base.BaseActivity
 import com.ysshin.cpaquiz.core.android.util.AdConstants
 
-class InterstitialAdDelegator(private val activity: BaseActivity): InterstitialAdDelegate {
+class InterstitialAdDelegator(private val activity: BaseActivity) : InterstitialAdDelegate {
 
     private var interstitialAd: InterstitialAd? = null
 
