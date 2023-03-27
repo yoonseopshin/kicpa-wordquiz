@@ -1,5 +1,6 @@
 package com.ysshin.cpaquiz.feature.settings.presentation.ui
 
+import android.content.Context
 import android.content.Intent
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.Image
@@ -167,11 +168,7 @@ private fun SettingsLazyVerticalGrid(
             SettingsListItem(
                 settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
                 settingsText = stringResource(id = R.string.open_source_license),
-                onClick = {
-                    context.startActivity(
-                        Intent(context, OssLicensesMenuActivity::class.java)
-                    )
-                }
+                onClick = context::startOssLicenseActivity
             )
         }
 
@@ -179,24 +176,7 @@ private fun SettingsLazyVerticalGrid(
             SettingsListItem(
                 settingsIcon = painterResource(id = R.drawable.ic_mail),
                 settingsText = stringResource(id = R.string.mail_to_developer),
-                onClick = {
-                    val emailIntent = Intent(Intent.ACTION_SEND).apply {
-                        putExtra(
-                            Intent.EXTRA_SUBJECT,
-                            context.getString(R.string.mail_to_developer_title)
-                        )
-                        putExtra(
-                            Intent.EXTRA_EMAIL,
-                            arrayOf(context.getString(R.string.developer_email))
-                        )
-                        putExtra(
-                            Intent.EXTRA_TEXT,
-                            context.getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
-                        )
-                        type = "message/rfc822"
-                    }
-                    context.startActivity(Intent.createChooser(emailIntent, "이메일:"))
-                }
+                onClick = context::startCpaQuizContactActivity
             )
         }
     }
@@ -317,5 +297,48 @@ private fun SettingsScreenPreview() {
                 deleteAllWrongProblems = {},
             )
         }
+    }
+}
+
+private fun Context.startOssLicenseActivity() {
+    startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+}
+
+/**
+ * Contact via KakaoTalk if KakaoTalk have been installed, if not contact via email.
+ */
+private fun Context.startCpaQuizContactActivity() {
+    val kakaoTalkPackageName = "com.kakao.talk"
+    val kakaoTalkChannelScheme = "kakaoplus"
+    val cpaQuizEncodedProfileId = "_niPxcxj"
+    val uri = buildString {
+        append("intent://plusfriend/talk/chat/$cpaQuizEncodedProfileId#Intent;")
+        append("scheme=$kakaoTalkChannelScheme;")
+        append("package=$kakaoTalkPackageName;end")
+    }
+    val kakaoTalkChatIntent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME)
+    val isKakaoTalkInstalled = kakaoTalkChatIntent.`package`?.let { pkg ->
+        packageManager.getLaunchIntentForPackage(pkg) != null
+    } ?: false
+
+    if (isKakaoTalkInstalled) {
+        startActivity(kakaoTalkChatIntent)
+    } else {
+        val emailIntent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(
+                Intent.EXTRA_SUBJECT,
+                getString(R.string.mail_to_developer_title)
+            )
+            putExtra(
+                Intent.EXTRA_EMAIL,
+                arrayOf(getString(R.string.developer_email))
+            )
+            putExtra(
+                Intent.EXTRA_TEXT,
+                getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
+            )
+            type = "message/rfc822"
+        }
+        startActivity(Intent.createChooser(emailIntent, "Email:"))
     }
 }

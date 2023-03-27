@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ysshin.cpaquiz.feature.settings">
 
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
+
     <application>
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
