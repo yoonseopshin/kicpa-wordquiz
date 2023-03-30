@@ -13,12 +13,15 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.QuizResultRoute
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuizResultActivity : BaseActivity() {
 
     private val reviewManager: ReviewManager by lazy { ReviewManagerFactory.create(this) }
-    private val interstitialAdDelegator by lazy { InterstitialAdDelegator(this) }
+
+    @Inject
+    lateinit var interstitialAdDelegator: InterstitialAdDelegator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +29,7 @@ class QuizResultActivity : BaseActivity() {
             CpaQuizTheme {
                 QuizResultRoute(
                     requestInAppReview = this::showInAppReview,
-                    showInterstitialAd = interstitialAdDelegator::show,
+                    showInterstitialAd = { interstitialAdDelegator.show(this) },
                 )
             }
         }

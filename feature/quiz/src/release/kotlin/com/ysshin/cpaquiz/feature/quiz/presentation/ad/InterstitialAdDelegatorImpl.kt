@@ -10,12 +10,22 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.ysshin.cpaquiz.core.android.base.BaseActivity
 import com.ysshin.cpaquiz.core.android.util.AdConstants
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class InterstitialAdDelegator(private val activity: BaseActivity) : InterstitialAdDelegate {
+@Singleton
+class InterstitialAdDelegatorImpl @Inject constructor() : InterstitialAdDelegator {
 
     private var interstitialAd: InterstitialAd? = null
 
-    override fun show() {
+    override fun show(activity: BaseActivity) {
+        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                super.onDestroy(owner)
+                interstitialAd = null
+            }
+        })
+
         val adRequest = AdRequest.Builder().build()
 
         InterstitialAd.load(
@@ -45,14 +55,5 @@ class InterstitialAdDelegator(private val activity: BaseActivity) : Interstitial
                 interstitialAd = null
             }
         }
-    }
-
-    init {
-        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onDestroy(owner: LifecycleOwner) {
-                super.onDestroy(owner)
-                interstitialAd = null
-            }
-        })
     }
 }
