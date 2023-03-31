@@ -3,6 +3,7 @@ package com.ysshin.cpaquiz.core.android.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -78,6 +79,8 @@ private val DarkColorScheme = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
+fun ColorScheme.systemBarColor() = surfaceColorAtElevation(3.dp)
+
 @Composable
 fun CpaQuizTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -97,9 +100,8 @@ fun CpaQuizTheme(
     if (view.isInEditMode.not()) {
         SideEffect {
             val window = (view.context as Activity).window
-            val tonalElevation = 3.dp
-            window.statusBarColor = colorScheme.surfaceColorAtElevation(tonalElevation).toArgb()
-            window.navigationBarColor = colorScheme.surfaceColorAtElevation(tonalElevation).toArgb()
+            window.statusBarColor = colorScheme.systemBarColor().toArgb()
+            window.navigationBarColor = colorScheme.systemBarColor().toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme.not()
             WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = darkTheme.not()
         }
