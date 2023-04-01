@@ -5,8 +5,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
@@ -47,6 +50,8 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -60,8 +65,10 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
@@ -78,6 +85,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -492,6 +500,7 @@ private fun LazyListScope.onViewingContent(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 private fun LazyListScope.wrongProblemsContent(
     uiState: WrongProblemsUiState,
     isDeleteAllWrongProblemsDialogOpened: Boolean,
@@ -531,26 +540,88 @@ private fun LazyListScope.wrongProblemsContent(
         }
 
         val items = uiState.data.map { it.toWrongProblemModel() }
-        itemsIndexed(items = items) { index, wrongProblemModel ->
-            val problem = wrongProblemModel.problem
-            QuestionSummaryContent(
-                problem = problem,
-                windowSizeClass = windowSizeClass,
-                onProblemClick = onProblemClick,
-                onProblemLongClick = {
-                    Timber.d("Target problem: $problem")
-                    updateDeletingWrongProblemDialogOpened(
-                        isDeleteWrongProblemDialogOpened.copy(
-                            isOpened = true,
-                            problem = problem.toModel(),
-                        )
-                    )
+
+        itemsIndexed(items = items, key = { index, problem ->
+            "${index}_$problem"
+        }) { index, wrongProblemModel ->
+            val dismissState = rememberDismissState(
+                confirmValueChange = { dismissValue ->
+                    if (dismissValue == DismissValue.DismissedToStart) {
+                        deleteTargetWrongProblem(wrongProblemModel.problem)
+                        true
+                    } else {
+                        false
+                    }
                 },
-                isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
-                updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened,
-                deleteTargetWrongProblem = deleteTargetWrongProblem,
-                selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
-            ).takeIf { problem.isValid() }
+            )
+
+            SwipeToDismiss(
+                state = dismissState,
+                background = {
+                    val multiplier = 3
+                    val alpha = (dismissState.progress * multiplier).coerceAtMost(1f)
+                    val scale by animateFloatAsState(
+                        targetValue = if (dismissState.targetValue == DismissValue.Default) 0.66f else 1f
+                    )
+                    val paddingEnd by animateDpAsState(
+                        targetValue = if (dismissState.targetValue == DismissValue.Default) 12.dp else 24.dp
+                    )
+                    val backgroundColor by animateColorAsState(
+                        targetValue = if (dismissState.targetValue == DismissValue.Default) {
+                            MaterialTheme.colorScheme.background
+                        } else {
+                            MaterialTheme.colorScheme.errorContainer.copy(alpha = alpha)
+                        }
+                    )
+                    val onBackgroundColor by animateColorAsState(
+                        targetValue = if (dismissState.targetValue == DismissValue.Default) {
+                            MaterialTheme.colorScheme.onBackground
+                        } else {
+                            MaterialTheme.colorScheme.onErrorContainer.copy(alpha = alpha)
+                        }
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(backgroundColor)
+                            .padding(end = paddingEnd),
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .scale(scale),
+                            painter = painterResource(id = R.drawable.ic_delete),
+                            contentDescription = stringResource(id = R.string.delete_wrong_note),
+                            tint = onBackgroundColor,
+                        )
+                    }
+                },
+                dismissContent = {
+                    val problem = wrongProblemModel.problem
+                    QuestionSummaryContent(
+                        modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
+                        problem = problem,
+                        windowSizeClass = windowSizeClass,
+                        onProblemClick = onProblemClick,
+                        onProblemLongClick = {
+                            Timber.d("Target problem: $problem")
+                            updateDeletingWrongProblemDialogOpened(
+                                isDeleteWrongProblemDialogOpened.copy(
+                                    isOpened = true,
+                                    problem = problem.toModel(),
+                                )
+                            )
+                        },
+                        isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                        updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened,
+                        deleteTargetWrongProblem = deleteTargetWrongProblem,
+                        selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
+                    ).takeIf { problem.isValid() }
+                },
+                directions = setOf(DismissDirection.EndToStart)
+            )
 
             if (index < items.lastIndex) {
                 QuestionSummaryDivider(windowSizeClass)
