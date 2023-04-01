@@ -90,6 +90,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -544,10 +545,20 @@ private fun LazyListScope.wrongProblemsContent(
         itemsIndexed(items = items, key = { index, problem ->
             "${index}_$problem"
         }) { index, wrongProblemModel ->
+            val scope = rememberCoroutineScope()
+            var isSlideUp by remember {
+                mutableStateOf(false)
+            }
+            val animationDurationMillis = 150L
+
             val dismissState = rememberDismissState(
                 confirmValueChange = { dismissValue ->
                     if (dismissValue == DismissValue.DismissedToStart) {
-                        deleteTargetWrongProblem(wrongProblemModel.problem)
+                        scope.launch {
+                            isSlideUp = true
+                            delay(animationDurationMillis)
+                            deleteTargetWrongProblem(wrongProblemModel.problem)
+                        }
                         true
                     } else {
                         false
@@ -581,21 +592,30 @@ private fun LazyListScope.wrongProblemsContent(
                         }
                     )
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(backgroundColor)
-                            .padding(end = paddingEnd),
-                        contentAlignment = Alignment.CenterEnd
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .scale(scale),
-                            painter = painterResource(id = R.drawable.ic_delete),
-                            contentDescription = stringResource(id = R.string.delete_wrong_note),
-                            tint = onBackgroundColor,
+                    AnimatedVisibility(
+                        visible = isSlideUp.not(),
+                        exit = shrinkVertically(
+                            shrinkTowards = Alignment.Top,
+                            animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy),
                         )
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(backgroundColor)
+                                .padding(end = paddingEnd)
+                            ,
+                            contentAlignment = Alignment.CenterEnd
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .scale(scale),
+                                painter = painterResource(id = R.drawable.ic_delete),
+                                contentDescription = stringResource(id = R.string.delete_wrong_note),
+                                tint = onBackgroundColor,
+                            )
+                        }
                     }
                 },
                 dismissContent = {
