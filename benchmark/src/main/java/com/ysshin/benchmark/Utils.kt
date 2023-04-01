@@ -33,6 +33,8 @@ fun UiDevice.navigateNoteJourney() {
     // Move to note tab
     findObject(By.res("노트")).click()
 
+    wait(1000L)
+
     // Scroll LazyColumn
     findObject(By.res("noteLazyColumn")).scroll(Direction.DOWN, 1f)
 }
