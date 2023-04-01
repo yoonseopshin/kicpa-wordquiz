@@ -619,25 +619,35 @@ private fun LazyListScope.wrongProblemsContent(
                 },
                 dismissContent = {
                     val problem = wrongProblemModel.problem
-                    QuestionSummaryContent(
-                        modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
-                        problem = problem,
-                        windowSizeClass = windowSizeClass,
-                        onProblemClick = onProblemClick,
-                        onProblemLongClick = {
-                            Timber.d("Target problem: $problem")
-                            updateDeletingWrongProblemDialogOpened(
-                                isDeleteWrongProblemDialogOpened.copy(
-                                    isOpened = true,
-                                    problem = problem.toModel(),
+
+                    AnimatedVisibility(
+                        visible = isSlideUp.not(),
+                        exit = shrinkVertically(
+                            shrinkTowards = Alignment.Top,
+                            animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy),
+                        )
+                    ) {
+                        QuestionSummaryContent(
+                            modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
+                            problem = problem,
+                            windowSizeClass = windowSizeClass,
+                            onProblemClick = onProblemClick,
+                            onProblemLongClick = {
+                                Timber.d("Target problem: $problem")
+                                updateDeletingWrongProblemDialogOpened(
+                                    isDeleteWrongProblemDialogOpened.copy(
+                                        isOpened = true,
+                                        problem = problem.toModel(),
+                                    )
                                 )
-                            )
-                        },
-                        isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
-                        updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened,
-                        deleteTargetWrongProblem = deleteTargetWrongProblem,
-                        selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
-                    ).takeIf { problem.isValid() }
+                            },
+                            isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
+                            updateDeletingWrongProblemDialogOpened = updateDeletingWrongProblemDialogOpened,
+                            deleteTargetWrongProblem = deleteTargetWrongProblem,
+                            selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
+                        ).takeIf { problem.isValid() }
+                    }
+
                 },
                 directions = setOf(DismissDirection.EndToStart)
             )
