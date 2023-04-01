@@ -603,8 +603,7 @@ private fun LazyListScope.wrongProblemsContent(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(backgroundColor)
-                                .padding(end = paddingEnd)
-                            ,
+                                .padding(end = paddingEnd),
                             contentAlignment = Alignment.CenterEnd
                         ) {
                             Icon(
