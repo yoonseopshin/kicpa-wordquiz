@@ -36,10 +36,25 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/iv_app_icon"
-            app:layout_constraintEnd_toStartOf="@id/layout_action"
+            app:layout_constraintEnd_toStartOf="@id/tv_advertiser"
             app:layout_constraintStart_toEndOf="@id/iv_app_icon"
             app:layout_constraintTop_toTopOf="@id/iv_app_icon"
             tools:text="Test Ad : Google Ads" />
+
+        <TextView
+            android:id="@+id/tv_advertiser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ad_rounded_corners_shape"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="1dp"
+            android:text="@string/ad"
+            android:textColor="@color/ad_green"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/tv_body"
+            app:layout_constraintTop_toTopOf="@id/iv_app_icon"
+            tools:ignore="SmallSp" />
 
         <LinearLayout
             android:id="@+id/layout_action"
