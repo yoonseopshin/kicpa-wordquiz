@@ -6,8 +6,8 @@ buildToolsVersion = "33.0.1"
 
 # Need to change ugly app naming, but changing app package name that has already been deployed is too cumbersome
 applicationId = "com.cpa.cpa_word_problem"
-versionCode = "78"
-versionName = "1.9.3"
+versionCode = "79"
+versionName = "1.9.4"
 
 android-r8 = "3.3.75"
 android-gradle-plugin = "7.4.1"
