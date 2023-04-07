@@ -90,7 +90,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -647,7 +646,6 @@ private fun LazyListScope.wrongProblemsContent(
                             selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
                         ).takeIf { problem.isValid() }
                     }
-
                 },
                 directions = setOf(DismissDirection.EndToStart)
             )
