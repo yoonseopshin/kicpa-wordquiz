@@ -53,7 +53,7 @@ oss-licenses-plugin = "0.10.5"
 play-services-oss-licenses = "17.0.0"
 leakcanary = "2.10"
 accompanist = "0.26.5-rc"
-gms-google-services = "4.3.14"
+gms-google-services = "4.3.15"
 gms-play-services-ads = "21.5.0"
 google-play-core = "1.10.3"
 google-play-core-ktx = "1.8.1"
@@ -88,8 +88,9 @@ hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-p
 hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work"}
 hilt-work-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-work"}
 firebase-bom = "com.google.firebase:firebase-bom:30.2.0"
-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-messaging   = { module = "com.google.firebase:firebase-messaging-ktx" }
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
