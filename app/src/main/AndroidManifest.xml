@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ysshin.cpaquiz">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name="com.ysshin.cpaquiz.CpaQuizApplication"
         android:allowBackup="false"

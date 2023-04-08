@@ -3,7 +3,9 @@ package com.ysshin.cpaquiz.data.datastore.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.ysshin.cpaquiz.data.datastore.AppPreferenceDataSource
 import com.ysshin.cpaquiz.data.datastore.QuizDatastoreManager
+import com.ysshin.cpaquiz.data.datastore.appDataStore
 import com.ysshin.cpaquiz.data.datastore.quizDataStore
 import dagger.Module
 import dagger.Provides
@@ -26,4 +28,14 @@ object DatastoreModule {
     @Provides
     fun provideQuizDataStoreManager(@Named("QuizDataStore") dataStore: DataStore<Preferences>) =
         QuizDatastoreManager(dataStore)
+
+    @Singleton
+    @Provides
+    @Named("AppDataStore")
+    fun provideAppDataStore(@ApplicationContext context: Context) = context.appDataStore
+
+    @Singleton
+    @Provides
+    fun provideAppPreferenceDataSource(@Named("AppDataStore") dataStore: DataStore<Preferences>) =
+        AppPreferenceDataSource(dataStore)
 }

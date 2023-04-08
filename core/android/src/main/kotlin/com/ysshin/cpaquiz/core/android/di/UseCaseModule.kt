@@ -1,8 +1,13 @@
 package com.ysshin.cpaquiz.core.android.di
 
 import com.ysshin.cpaquiz.domain.repository.QuizRepository
+import com.ysshin.cpaquiz.domain.repository.UserRepository
 import com.ysshin.cpaquiz.domain.usecase.problem.*
 import com.ysshin.cpaquiz.domain.usecase.quiz.*
+import com.ysshin.cpaquiz.domain.usecase.user.DenyPostNotification
+import com.ysshin.cpaquiz.domain.usecase.user.GetPostNotification
+import com.ysshin.cpaquiz.domain.usecase.user.GrantPostNotification
+import com.ysshin.cpaquiz.domain.usecase.user.UserUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,4 +46,12 @@ object UseCaseModule {
             GetSolvedQuiz(repository),
             GetShouldRequestInAppReview(repository),
         )
+
+    @Provides
+    @Singleton
+    fun provideUserUseCases(repository: UserRepository) = UserUseCases(
+        GetPostNotification(repository),
+        GrantPostNotification(repository),
+        DenyPostNotification(repository),
+    )
 }

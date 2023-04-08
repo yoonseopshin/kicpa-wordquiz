@@ -109,6 +109,9 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.windowsizeclass)
 
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 

@@ -34,6 +34,7 @@
     <string name="business">경영학</string>
     <string name="commercial_law">상법</string>
     <string name="tax_law">세법</string>
+    <string name="allow">허용</string>
     <string name="close">닫기</string>
     <string name="clear">삭제</string>
     <string name="next">다음</string>
@@ -70,4 +71,8 @@
     <string name="ad">Ad</string>
     <string name="network_offline_message">네트워크 연결을 확인해주세요.</string>
     <string name="network_online_message">네트워크에 연결되었습니다.</string>
+    <string name="post_notifications_dialog_title">알림 권한 요청</string>
+    <string name="post_notifications_dialog_description">새로운 메시지, 업데이트 및 기타 중요한 정보를 실시간으로 받으려면 알림을 활성화하세요.\n알림을 허용하시겠습니까?</string>
+    <string name="post_notifications_granted">알림이 허용되었습니다.</string>
+    <string name="post_notifications_denied">알림이 거부되었습니다.</string>
 </resources>
