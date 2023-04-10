@@ -203,11 +203,9 @@ private fun RequestPostNotificationsPermission(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
-                showPostNotificationsDialog = false
             },
             onDismiss = {
                 viewModel.denyPostNotification()
-                showPostNotificationsDialog = false
             },
         )
     }
