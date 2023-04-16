@@ -495,6 +495,37 @@ fun QuestionDetailPreview() {
     )
 }
 
+@Preview(showBackground = true)
+@Composable
+fun QuestionDetailHangeulPreview() {
+    QuestionDetail(
+        mode = ProblemDetailMode.Detail,
+        currentQuestion = Problem(
+            year = 2022,
+            pid = 16,
+            type = QuizType.CommercialLaw,
+            description = "상법상 반대주주의 주식매수청구권이 인정되는 경우를 모두 고른 것은?",
+            subDescriptions = listOf(
+                "ᄀ. 간이영업양도ᆞ양수에 반대하는 주주",
+                "ᄂ. 소규모합병을 반대하는 소멸회사의 주주",
+                "ᄃ. 주주총회의 결의에 의하여 해산한 회사에서 회사 계속의 결의에 반대하는 주주",
+                "ᄅ. 영업 일부의 임대에 반대하는 주주",
+                "ᄆ. 타인과 영업의 손익 전부를 같이 하는 계약의 체결ᆞ변경 또는 해약에 반대하는 주주"
+            ),
+            questions = listOf(
+                "ㄱ, ㄴ, ㄷ",
+                "ㄱ, ㄴ, ㅁ",
+                "ㄱ, ㄹ, ㅁ",
+                "ㄴ, ㄷ, ㄹ",
+                "ㄷ, ㄹ, ㅁ"
+            ),
+            source = ProblemSource.CPA,
+            subtype = "회사법"
+        ),
+        selectedQuestionIndex = 1, onQuestionClick = {}, onSelectAnswer = {}
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionTopAppBar(

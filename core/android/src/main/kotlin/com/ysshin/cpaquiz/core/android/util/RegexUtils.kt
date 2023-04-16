@@ -12,11 +12,28 @@ object RegexUtils {
         return Pair("", str)
     }
 
-    private val alphabetIndentRegex = RegexWithCheckDigit("[A-Za-z]\\. ".toRegex(), 3)
-    private val koreanIndentRegex = RegexWithCheckDigit("[ㄱ-ㅎ]\\. ".toRegex(), 3)
-    private val specialKoreanIndentRegex = RegexWithCheckDigit("[㉠-㉭] ".toRegex(), 2)
+    // [A. , B., ... , Z. , a. , b. , ... , z. ]
+    private val alphabetRegex = RegexWithCheckDigit("[A-Za-z]\\. ".toRegex(), 3)
+
+    // [ㄱ. , ㄴ. , ... ㅎ. ]
+    private val hangeulJamoRegex = RegexWithCheckDigit("[\u1100-\u11ff]\\. ".toRegex(), 3)
+
+    // [ㄱ. , ㄴ. , ... ㅎ. ]
+    private val hangeulCompatJamoRegex = RegexWithCheckDigit("[\u3131-\u314e]\\. ".toRegex(), 3)
+
+    // [가. , 나. , ... , 힣. ]
+    private val hangeulSyllablesRegex = RegexWithCheckDigit("[\uAC00-\ud79d]\\. ".toRegex(), 3)
+
+    // [㉠. , ... , ㉭. ]
+    private val hangeulEnclosedCJKNumsRegex = RegexWithCheckDigit("[㉠-㉭] ".toRegex(), 2)
     private val indentRegexes =
-        listOf(alphabetIndentRegex, koreanIndentRegex, specialKoreanIndentRegex)
+        listOf(
+            alphabetRegex,
+            hangeulJamoRegex,
+            hangeulCompatJamoRegex,
+            hangeulSyllablesRegex,
+            hangeulEnclosedCJKNumsRegex
+        )
 }
 
 private data class RegexWithCheckDigit(val regex: Regex, val minCheckDigit: Int) {
