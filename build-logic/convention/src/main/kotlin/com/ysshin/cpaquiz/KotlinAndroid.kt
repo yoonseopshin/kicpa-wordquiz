@@ -31,6 +31,14 @@ fun Project.configureKotlinAndroid(
             allWarningsAsErrors = properties["warningsAsErrors"] as? Boolean ?: false
 
             freeCompilerArgs = freeCompilerArgs + listOf(
+                // Enable compose metrics
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${rootProject.file(".").absolutePath}/compose/metric",
+
+                // Enable compose reports
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${rootProject.file(".").absolutePath}/compose/report",
+                
                 "-opt-in=kotlin.RequiresOptIn",
                 // Enable experimental coroutines APIs, including Flow
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
@@ -41,7 +49,7 @@ fun Project.configureKotlinAndroid(
                 // Enable experimental material3 APIs
                 "-opt-in=kotlinx.serialization.ExperimentalMaterial3Api",
                 // Enable experimental lifecycle compose APIs
-                "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
+                "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
             )
         }
     }

@@ -1,0 +1,17 @@
+stable class Sync {
+  <runtime stability> = Stable
+}
+stable class SyncInitializer {
+  <runtime stability> = Stable
+}
+unstable class DelegatingWorker {
+  stable val workerClassName: String
+  unstable val delegateWorker: CoroutineWorker
+  <runtime stability> = Unstable
+}
+unstable class SyncWorker {
+  unstable val context: Context
+  unstable val problemUseCases: ProblemUseCases
+  unstable val quizUseCases: QuizUseCases
+  <runtime stability> = Unstable
+}

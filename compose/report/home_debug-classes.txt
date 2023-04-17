@@ -1,0 +1,40 @@
+stable class HomeDestination {
+  stable val route: String
+  stable val destination: String
+  <runtime stability> = Stable
+}
+unstable class HomeViewModel {
+  unstable val problemUseCases: ProblemUseCases
+  unstable val quizUseCases: QuizUseCases
+  unstable val countMap: MutableStateFlow<MutableMap<QuizType, Int>>
+  unstable val subtypesMap: MutableStateFlow<MutableMap<QuizType, List<String>>>
+  unstable val selectedSubtypes: MutableStateFlow<MutableMap<String, Boolean>>
+  unstable val homeQuizUiState: StateFlow<HomeQuizUiState>
+  unstable val homeInfoUiState: StateFlow<HomeInfoUiState>
+  <runtime stability> = Unstable
+}
+stable class SelectableSubtype {
+  stable val text: String
+  stable val isSelected: Boolean
+  <runtime stability> = Stable
+}
+stable class Loading {
+  <runtime stability> = Stable
+}
+unstable class Success {
+  stable val accountingCount: Int
+  unstable val accountingSubtypes: List<SelectableSubtype>
+  stable val businessCount: Int
+  unstable val businessSubtypes: List<SelectableSubtype>
+  stable val commercialLawCount: Int
+  unstable val commercialLawSubtypes: List<SelectableSubtype>
+  stable val taxLawCount: Int
+  unstable val taxLawSubtypes: List<SelectableSubtype>
+  <runtime stability> = Unstable
+}
+stable class HomeInfoUiState {
+  stable val dday: String
+  stable val quizNumber: Int
+  stable val useTimer: Boolean
+  <runtime stability> = Stable
+}

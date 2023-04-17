@@ -1,0 +1,217 @@
+stable class AdModule {
+  <runtime stability> = Stable
+}
+stable class NoOpInterstitialAdDelegator {
+  <runtime stability> = Stable
+}
+unstable class ProblemModel {
+  stable val year: Int
+  stable val pid: Int
+  stable val description: String
+  unstable val subDescriptions: List<String>
+  unstable val questions: List<String>
+  stable val answer: Int
+  stable val type: QuizType
+  stable val source: ProblemSource
+  stable val subtype: String
+  runtime var CREATOR: Creator<ProblemModel>
+  <runtime stability> = Unstable
+}
+unstable class UserSolvedProblemModel {
+  stable val elapsedTime: Long
+  stable val userSelectedIndex: Int
+  stable val createdAt: Long
+  unstable val problem: Problem
+  <runtime stability> = Unstable
+}
+unstable class WrongProblemModel {
+  unstable val problem: Problem
+  stable val isWrong: Boolean
+  <runtime stability> = Unstable
+}
+stable class NoteDestination {
+  stable val route: String
+  stable val destination: String
+  <runtime stability> = Stable
+}
+unstable class NoteViewModel {
+  unstable val problemUseCases: ProblemUseCases
+  unstable val _searchKeyword: MutableStateFlow<String>
+  unstable val searchKeyword: StateFlow<String>
+  unstable val _noteFilter: MutableStateFlow<NoteFilter>
+  unstable val noteFilter: StateFlow<NoteFilter>
+  unstable val selectedQuestion: MutableStateFlow<Problem?>
+  unstable val noteUiState: StateFlow<NoteUiState>
+  <runtime stability> = Unstable
+}
+unstable class Success {
+  unstable val data: List<Problem>
+  <runtime stability> = Unstable
+}
+stable class Error {
+  <runtime stability> = Stable
+}
+stable class Loading {
+  <runtime stability> = Stable
+}
+unstable class Success {
+  unstable val data: List<Problem>
+  <runtime stability> = Unstable
+}
+stable class Error {
+  <runtime stability> = Stable
+}
+stable class Loading {
+  <runtime stability> = Stable
+}
+unstable class Success {
+  unstable val data: List<Problem>
+  <runtime stability> = Unstable
+}
+stable class Error {
+  <runtime stability> = Stable
+}
+stable class Loading {
+  <runtime stability> = Stable
+}
+stable class NoteUiState {
+  runtime val totalProblemsUiState: TotalProblemsUiState
+  runtime val wrongProblemsUiState: WrongProblemsUiState
+  runtime val searchedProblemsUiState: SearchedProblemsUiState
+  <runtime stability> = 
+}
+unstable class NoteFilter {
+  unstable val years: List<Int>
+  unstable val types: List<QuizType>
+  unstable val yearsOfQuestions: List<Int>
+  <runtime stability> = Unstable
+}
+runtime class Filter {
+  runtime var CREATOR: Creator<Filter>
+  <runtime stability> = Uncertain(Creator)
+}
+runtime class Search {
+  runtime var CREATOR: Creator<Search>
+  <runtime stability> = Uncertain(Creator)
+}
+unstable class DeleteWrongProblemDialog {
+  stable val isOpened: Boolean
+  unstable val problem: ProblemModel
+  runtime var CREATOR: Creator<DeleteWrongProblemDialog>
+  <runtime stability> = Unstable
+}
+stable class QuestionActivity {
+  <runtime stability> = Stable
+}
+unstable class QuestionViewModel {
+  unstable val problemUseCases: ProblemUseCases
+  unstable val quizUseCases: QuizUseCases
+  unstable val handle: SavedStateHandle
+  unstable val useTimer: StateFlow<Boolean>
+  unstable val timer: QuizTimer
+  unstable val elapsedTime: StateFlow<Long>
+  unstable val _isToolbarTitleVisible: MutableStateFlow<Boolean>
+  unstable val isToolbarTitleVisible: StateFlow<Boolean>
+  unstable val _isFabVisible: MutableStateFlow<Boolean>
+  unstable val isFabVisible: StateFlow<Boolean>
+  unstable val quizState: MutableStateFlow<QuizState>
+  unstable val snackbarState: MutableStateFlow<SnackbarState>
+  stable val quizNumbers: Int
+  unstable val selectedSubtypes: List<String>
+  unstable val numOfTotalQuestions: StateFlow<Int>
+  unstable val _numOfSolvedQuestions: MutableStateFlow<Int>
+  unstable val numOfSolvedQuestions: StateFlow<Int>
+  stable val quizType: QuizType
+  unstable val _questions: MutableList<Problem>
+  unstable val questions: List<Problem>
+  unstable val _currentQuestion: MutableStateFlow<Problem>
+  unstable val currentQuestion: StateFlow<Problem>
+  unstable val _selected: MutableList<Int>
+  unstable val selected: List<Int>
+  unstable val mode: StateFlow<ProblemDetailMode>
+  unstable val _isAnimationShowing: MutableStateFlow<Boolean>
+  unstable val isAnimationShowing: StateFlow<Boolean>
+  unstable val _animationInfo: MutableStateFlow<PopScaleAnimationInfo>
+  unstable val animationInfo: StateFlow<PopScaleAnimationInfo>
+  unstable val _selectedQuestionIndex: MutableStateFlow<Int>
+  unstable val selectedQuestionIndex: StateFlow<Int>
+  <runtime stability> = Unstable
+}
+stable class Correct {
+  <runtime stability> = Stable
+}
+stable class Incorrect {
+  <runtime stability> = Stable
+}
+stable class PopScaleAnimationInfo {
+  stable val backgroundColorResId: Int
+  stable val iconTintColorResId: Int
+  stable val icon: ImageVector
+  <runtime stability> = Stable
+}
+stable class Hide {
+  <runtime stability> = Stable
+}
+runtime class Show {
+  runtime val message: UiText
+  runtime val actionLabel: UiText
+  <runtime stability> = Runtime(UiText),Runtime(UiText)
+}
+stable class Solving {
+  <runtime stability> = Stable
+}
+stable class Grading {
+  <runtime stability> = Stable
+}
+stable class End {
+  <runtime stability> = Stable
+}
+unstable class QuizTimer {
+  unstable val scope: CoroutineScope
+  unstable var timerJob: Job?
+  stable var timeMillis: Long
+  stable var isActive: Boolean
+  unstable val laps: MutableList<Long>
+  unstable val elapsedTime: MutableStateFlow<Long>
+  <runtime stability> = Unstable
+}
+unstable class QuizResultActivity {
+  unstable val reviewManager$delegate: Lazy<ReviewManager>
+  runtime var interstitialAdDelegator: InterstitialAdDelegator
+  <runtime stability> = Unstable
+}
+unstable class QuizResultViewModel {
+  unstable val problemUseCases: ProblemUseCases
+  unstable val _totalElapsedTime: MutableStateFlow<Long>
+  unstable val _selectedIndices: StateFlow<ArrayList<Int>{ kotlin.collections.TypeAliasesKt.ArrayList<Int> }>
+  unstable val _solvedQuestions: StateFlow<ArrayList<ProblemModel>{ kotlin.collections.TypeAliasesKt.ArrayList<ProblemModel> }>
+  unstable val quizResultUiState: StateFlow<QuizResultUiState>
+  <runtime stability> = Unstable
+}
+stable class Loading {
+  <runtime stability> = Stable
+}
+unstable class QuizResult {
+  stable val totalElapsedTime: Long
+  stable val shouldRequestInAppReview: Boolean
+  stable val shouldShowInterstitialAd: Boolean
+  unstable val selectedIndices: List<Int>
+  unstable val solvedQuestions: List<ProblemModel>
+  <runtime stability> = Unstable
+}
+stable class QuizConstants {
+  stable val mode: String
+  stable val problemModel: String
+  stable val quizType: String
+  stable val quizNumbers: String
+  stable val problems: String
+  stable val selected: String
+  stable val timesPerQuestion: String
+  stable val useTimer: String
+  stable val selectedSubtypes: String
+  <runtime stability> = Stable
+}
+unstable class QuizUtil {
+  unstable val highlightKeywords: List<String>
+  <runtime stability> = Unstable
+}

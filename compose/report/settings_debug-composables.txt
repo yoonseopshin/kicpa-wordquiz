@@ -1,0 +1,33 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun SettingsRoute(
+  stable windowSizeClass: WindowSizeClass
+  unstable viewModel: SettingsViewModel? = @dynamic hiltViewModel(null, $composer, 0, 0b0001)
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun SettingsScreen(
+  stable windowSizeClass: WindowSizeClass
+  stable deleteAllWrongProblems: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun SettingsTopAppBar()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun SettingsLazyVerticalGrid(
+  stable modifier: Modifier? = @static Companion
+  stable windowSizeClass: WindowSizeClass
+  stable snackbarHostState: SnackbarHostState
+  stable deleteAllWrongProblems: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun InitSettingsDialog(
+  stable isDeleteWrongProblemDialogOpened: Boolean
+  stable setDeleteWrongProblemDialogOpened: Function1<Boolean, Unit>
+  stable deleteAllWrongProblems: Function0<Unit>
+  stable snackbarHostState: SnackbarHostState
+  stable isAppVersionDialogOpened: Boolean
+  stable setAppVersionDialogOpened: Function1<Boolean, Unit>
+)
+restartable scheme("[androidx.compose.ui.UiComposable]") fun SettingsListItem(
+  unstable settingsIcon: Painter
+  stable settingsText: String
+  stable onClick: Function0<Unit>? = @static {
+
+}
+
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun SettingsItemPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun SettingsScreenPreview()
