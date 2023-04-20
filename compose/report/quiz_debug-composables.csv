@@ -10,7 +10,7 @@ com.ysshin.cpaquiz.feature.quiz.presentation.ui.TotalNoteHeaderContent,TotalNote
 com.ysshin.cpaquiz.feature.quiz.presentation.ui.SearchedNoteHeaderContent,SearchedNoteHeaderContent,1,1,1,0,0,0,0,0,1,2,
 com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteFilterMenuContent,NoteFilterMenuContent,1,0,1,0,0,0,0,0,3,17,
 com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteFilterMenuContentDetail,NoteFilterMenuContentDetail,1,1,1,0,0,0,0,0,1,2,
-com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteSearchMenuContent,NoteSearchMenuContent,1,1,1,0,0,0,0,0,1,8,
+com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteSearchMenuContent,NoteSearchMenuContent,1,1,1,0,0,0,0,0,1,11,
 com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteTopMenu,NoteTopMenu,1,1,1,0,0,0,0,0,1,6,
 com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteScreenViewPreview,NoteScreenViewPreview,1,1,1,0,0,0,0,0,1,1,
 com.ysshin.cpaquiz.feature.quiz.presentation.ui.NoteScreenSearchPreview,NoteScreenSearchPreview,1,1,1,0,0,0,0,0,1,1,

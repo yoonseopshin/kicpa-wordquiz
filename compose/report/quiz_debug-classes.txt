@@ -14,7 +14,6 @@ unstable class ProblemModel {
   stable val type: QuizType
   stable val source: ProblemSource
   stable val subtype: String
-  runtime var CREATOR: Creator<ProblemModel>
   <runtime stability> = Unstable
 }
 unstable class UserSolvedProblemModel {
@@ -86,18 +85,15 @@ unstable class NoteFilter {
   unstable val yearsOfQuestions: List<Int>
   <runtime stability> = Unstable
 }
-runtime class Filter {
-  runtime var CREATOR: Creator<Filter>
-  <runtime stability> = Uncertain(Creator)
+stable class Filter {
+  <runtime stability> = Stable
 }
-runtime class Search {
-  runtime var CREATOR: Creator<Search>
-  <runtime stability> = Uncertain(Creator)
+stable class Search {
+  <runtime stability> = Stable
 }
 unstable class DeleteWrongProblemDialog {
   stable val isOpened: Boolean
   unstable val problem: ProblemModel
-  runtime var CREATOR: Creator<DeleteWrongProblemDialog>
   <runtime stability> = Unstable
 }
 stable class QuestionActivity {
