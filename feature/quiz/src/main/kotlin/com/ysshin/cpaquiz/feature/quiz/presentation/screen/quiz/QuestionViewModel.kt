@@ -36,9 +36,13 @@ class QuestionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val useTimer: StateFlow<Boolean> = handle.getStateFlow(QuizConstants.useTimer, false)
+    val mode = handle.getStateFlow(QuizConstants.mode, ProblemDetailMode.Detail)
+
+    private val needToStartTimer: Boolean
+        get() = useTimer.value && mode.value == ProblemDetailMode.Quiz
 
     private val timer = QuizTimer(viewModelScope).also { timer ->
-        if (useTimer.value) timer.start()
+        if (needToStartTimer) timer.start()
     }
     val elapsedTime = timer.elapsedTime.asStateFlow()
 
@@ -56,7 +60,7 @@ class QuestionViewModel @Inject constructor(
     }
 
     fun onResume() {
-        timer.start()
+        if (needToStartTimer) timer.start()
     }
 
     private val quizNumbers: Int = handle[QuizConstants.quizNumbers] ?: DEFAULT_INT
@@ -80,8 +84,6 @@ class QuestionViewModel @Inject constructor(
     val selected: List<Int> = _selected
 
     val timesPerQuestion get() = timer.timesPerQuestion
-
-    val mode = handle.getStateFlow(QuizConstants.mode, ProblemDetailMode.Detail)
 
     private val _isAnimationShowing = MutableStateFlow(false)
     val isAnimationShowing = _isAnimationShowing.asStateFlow()
