@@ -226,7 +226,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     total = numOfTotalQuestion.value,
                     solved = numOfSolvedQuestion.value,
                     useTimer = useTimer.value,
-                    elapsedTime = elapsedTime.value,
+                    elapsedTime = { elapsedTime.value },
                     onBackClick = activity::finish,
                     scrollBehavior = topAppBarScrollBehavior,
                 )
@@ -547,7 +547,7 @@ fun QuestionTopAppBar(
     total: Int,
     solved: Int,
     useTimer: Boolean,
-    elapsedTime: Long,
+    elapsedTime: () -> Long,
     onBackClick: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
 ) {
@@ -574,7 +574,7 @@ fun QuestionTopAppBar(
             }
         },
         actions = {
-            Clock(useTimer, elapsedTime)
+            Clock(useTimer, elapsedTime())
         },
         scrollBehavior = scrollBehavior
     )
@@ -634,7 +634,7 @@ private fun QuestionTopAppBarPreview() {
             total = 10,
             solved = 8,
             useTimer = true,
-            elapsedTime = 20000L,
+            elapsedTime = { 20000L },
             onBackClick = {},
             TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState()),
         )
