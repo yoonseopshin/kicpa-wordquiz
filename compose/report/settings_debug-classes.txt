@@ -1,9 +1,0 @@
-stable class SettingsDestination {
-  stable val route: String
-  stable val destination: String
-  <runtime stability> = Stable
-}
-unstable class SettingsViewModel {
-  unstable val problemUseCases: ProblemUseCases
-  <runtime stability> = Unstable
-}
