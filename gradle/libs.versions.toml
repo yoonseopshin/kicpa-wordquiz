@@ -85,15 +85,17 @@ datastore = { module = "androidx.datastore:datastore-preferences", version.ref =
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work"}
-hilt-work-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-work"}
-firebase-bom = "com.google.firebase:firebase-bom:30.2.0"
+hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work" }
+hilt-work-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-work" }
+firebase-bom = "com.google.firebase:firebase-bom:31.5.0"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
-firebase-messaging   = { module = "com.google.firebase:firebase-messaging-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
-compose-ui = { module = "androidx.compose.ui:ui" }
+
+# 1.4.0-beta02 for Jetpack Compose recomposition count
+compose-ui = { module = "androidx.compose.ui:ui", version = "1.4.0-beta02" }
 compose-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
