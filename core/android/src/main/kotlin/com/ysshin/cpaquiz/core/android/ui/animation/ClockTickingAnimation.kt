@@ -30,9 +30,11 @@ fun ClockTickingAnimation(
     clockHandStroke: Dp,
     content: @Composable () -> Unit,
 ) {
-    val second = timeMillis.toFloat() / 1000 / 60
-    val transition = updateTransition(targetState = second, label = "ClockTickingTransition")
-    val progressRotation by transition.animateFloat(label = "ClockTickingRotation") { it }
+    val rotationPerSecond = 360f
+    val secondProgress by updateTransition(
+        targetState = timeMillis.toFloat() / 1_000 / 60,
+        label = "ClockTickingTransition"
+    ).animateFloat(label = "ClockTickingRotation") { it }
 
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Canvas(
@@ -45,7 +47,7 @@ fun ClockTickingAnimation(
 
             withTransform(
                 transformBlock = {
-                    rotate(360f * progressRotation, middle)
+                    rotate(rotationPerSecond * secondProgress, middle)
                 },
                 drawBlock = {
                     drawLine(

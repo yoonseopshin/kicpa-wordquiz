@@ -561,7 +561,7 @@ fun QuestionTopAppBar(
                         style = Typography.headlineSmall,
                     )
                     Text(
-                        text = "${solved}/${total}",
+                        text = "$solved/$total",
                         modifier = Modifier.fillMaxWidth(),
                         style = Typography.bodyLarge,
                     )
