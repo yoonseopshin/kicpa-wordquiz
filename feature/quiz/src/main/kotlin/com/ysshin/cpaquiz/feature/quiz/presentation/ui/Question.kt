@@ -57,6 +57,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -120,6 +121,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewMode
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.SnackbarState
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
+import timber.log.Timber
 
 // TODO: Hoist to QuestionRoute
 @OptIn(ExperimentalMaterial3Api::class)
@@ -169,6 +171,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                 }
                 questionContentScrollState.animateScrollTo(0)
             }
+
             QuizState.Grading -> Unit
             QuizState.End -> {
                 val quizEndNavActions = (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
@@ -192,6 +195,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     duration = SnackbarDuration.Short
                 )
             }
+
             SnackbarState.Hide -> Unit
         }
     }
@@ -206,6 +210,11 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
     var fabPosition by remember { mutableStateOf(Offset.Zero) }
     var quizDetailSize by remember { mutableStateOf(IntSize.Zero) }
     var quizDetailPosition by remember { mutableStateOf(Offset.Zero) }
+    val areFabAndQuizDetailScreenOverlapped by remember {
+        derivedStateOf {
+            fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
+        }
+    }
 
     CpaQuizTheme {
         Scaffold(
@@ -213,29 +222,27 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             topBar = {
                 QuestionTopAppBar(
-                    isToolbarTitleVisible.value,
-                    numOfTotalQuestion.value,
-                    numOfSolvedQuestion.value,
-                    useTimer.value,
-                    elapsedTime.value,
-                    activity::finish,
-                    topAppBarScrollBehavior,
+                    isVisible = isToolbarTitleVisible.value,
+                    total = numOfTotalQuestion.value,
+                    solved = numOfSolvedQuestion.value,
+                    useTimer = useTimer.value,
+                    elapsedTime = elapsedTime.value,
+                    onBackClick = activity::finish,
+                    scrollBehavior = topAppBarScrollBehavior,
                 )
             },
             floatingActionButton = {
                 QuestionFloatingActionButton(
                     isFabVisible = isFabVisible.value,
-                    fabPosition = fabPosition,
-                    quizDetailSize = quizDetailSize,
-                    quizDetailPosition = quizDetailPosition,
+                    areFabAndQuizDetailScreenOverlapped = areFabAndQuizDetailScreenOverlapped,
                     onFabGloballyPositioned = { coordinates ->
-                        fabPosition = coordinates.positionInWindow()
-                    },
-                    onFabClick = {
-                        if (quizState.value == QuizState.Solving) {
-                            viewModel.selectAnswer()
+                        val newPositionInWindow = coordinates.positionInWindow()
+                        if (fabPosition != newPositionInWindow) {
+                            Timber.d("fabPosition updated")
+                            fabPosition = newPositionInWindow
                         }
-                    }
+                    },
+                    onFabClick = viewModel::selectAnswer
                 )
             }
         ) { contentPadding ->
@@ -248,8 +255,14 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
             ) {
                 Column(
                     modifier = Modifier.onGloballyPositioned { coordinates ->
-                        quizDetailSize = coordinates.size
-                        quizDetailPosition = coordinates.positionInWindow()
+                        if (quizDetailSize != coordinates.size) {
+                            Timber.d("quizDetailSize updated")
+                            quizDetailSize = coordinates.size
+                        }
+                        if (quizDetailPosition != coordinates.positionInWindow()) {
+                            Timber.d("quizDetailPosition updated")
+                            quizDetailPosition = coordinates.positionInWindow()
+                        }
                     }
                 ) {
                     val question = currentQuestion.value
@@ -401,6 +414,7 @@ fun QuestionDetail(
                 ) {
                     currentQuestion.subDescriptions.forEach { subDescription ->
                         val (mark, description) = RegexUtils.getMarkedString(subDescription)
+
                         Row {
                             Text(
                                 text = mark,
@@ -547,7 +561,7 @@ fun QuestionTopAppBar(
                         style = Typography.headlineSmall,
                     )
                     Text(
-                        text = "$solved/$total",
+                        text = "${solved}/${total}",
                         modifier = Modifier.fillMaxWidth(),
                         style = Typography.bodyLarge,
                     )
@@ -569,14 +583,10 @@ fun QuestionTopAppBar(
 @Composable
 private fun QuestionFloatingActionButton(
     isFabVisible: Boolean,
-    fabPosition: Offset,
-    quizDetailSize: IntSize,
-    quizDetailPosition: Offset,
+    areFabAndQuizDetailScreenOverlapped: Boolean,
     onFabGloballyPositioned: (coordinates: LayoutCoordinates) -> Unit,
     onFabClick: () -> Unit,
 ) {
-    val areFabAndQuizDetailScreenOverlapped =
-        fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
     val fabElevation =
         if (areFabAndQuizDetailScreenOverlapped) {
             FloatingActionButtonDefaults.elevation(
@@ -595,9 +605,7 @@ private fun QuestionFloatingActionButton(
                 .resourceTestTag("fab")
                 .bounceClickable()
                 .padding(16.dp)
-                .onGloballyPositioned { coordinates ->
-                    onFabGloballyPositioned(coordinates)
-                }
+                .onGloballyPositioned(onFabGloballyPositioned)
                 .modifyIf(areFabAndQuizDetailScreenOverlapped) {
                     alpha(0.25f)
                         .then(
@@ -608,7 +616,7 @@ private fun QuestionFloatingActionButton(
                             )
                         )
                 },
-            onClick = onFabClick,
+            onClick = { onFabClick() },
             elevation = fabElevation,
         ) {
             Icon(imageVector = Icons.Default.Check, contentDescription = "Next")

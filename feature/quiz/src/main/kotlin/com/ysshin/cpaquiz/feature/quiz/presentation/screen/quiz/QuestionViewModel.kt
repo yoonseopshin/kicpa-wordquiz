@@ -127,6 +127,8 @@ class QuestionViewModel @Inject constructor(
     }
 
     fun selectAnswer() = viewModelScope.launch {
+        if (quizState.value != QuizState.Solving) return@launch
+
         val currentSelectedIndex = selectedQuestionIndex.value
 
         if (currentSelectedIndex !in 0..4) {
