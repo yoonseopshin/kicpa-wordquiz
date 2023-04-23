@@ -47,7 +47,10 @@
     <string name="msg_need_answer">정답을 선택해주세요.</string>
     <string name="total_elapsed_time">총 소요 시간</string>
     <string name="solved_problems">내가 푼 문제</string>
-    <string name="note_header_description">오답은 노트에서 확인할 수 있어요.</string>
+    <string name="report_elapsed_time_per_question_1">한 문제당 평균</string>
+    <string name="report_elapsed_time_per_question_2">초</string>
+    <string name="report_total_solved_question_1">문제 중</string>
+    <string name="report_total_solved_question_2">문제 맞음</string>
     <string name="move">이동</string>
     <string name="scroll_to_top">상단으로 이동</string>
     <string name="subject_total_count">총 %1$d문제</string>

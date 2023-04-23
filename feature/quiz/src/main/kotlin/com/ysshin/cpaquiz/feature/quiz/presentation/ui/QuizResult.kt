@@ -2,6 +2,8 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -21,23 +24,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.core.android.util.TimeFormatter
 import com.ysshin.cpaquiz.core.android.util.findActivity
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
-import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultViewModel
+import kotlin.math.roundToInt
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -103,9 +113,7 @@ fun QuizResultScreen(
         }
     ) { padding ->
         when (quizResultUiState) {
-            QuizResultUiState.Loading -> {
-                // TODO: Loading screen
-            }
+            QuizResultUiState.Loading -> {}
             is QuizResultUiState.QuizResult -> {
                 LazyColumn(
                     modifier = Modifier
@@ -117,6 +125,62 @@ fun QuizResultScreen(
                     }
 
                     val solvedQuestions = quizResultUiState.solvedQuestions
+
+                    item {
+                        val total = solvedQuestions.size
+                        val solved = solvedQuestions.filterIndexed { index, question ->
+                            question.answer == quizResultUiState.selectedIndices[index]
+                        }.size
+                        val elapsedTime = quizResultUiState.totalElapsedTime
+
+                        Column(
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .padding(vertical = 20.dp)
+                        ) {
+                            Text(
+                                text = buildAnnotatedString {
+                                    append(stringResource(id = R.string.report_elapsed_time_per_question_1))
+                                    append(" ")
+                                    withStyle(
+                                        style = SpanStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary,
+                                        )
+                                    ) {
+                                        append(TimeFormatter.format((1f * elapsedTime / total).roundToInt()))
+                                    }
+                                    append(stringResource(id = R.string.report_elapsed_time_per_question_2))
+                                },
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                            Spacer(modifier = Modifier.padding(2.dp))
+                            Text(
+                                text = buildAnnotatedString {
+                                    withStyle(
+                                        style = SpanStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary,
+                                        )
+                                    ) {
+                                        append("$total")
+                                    }
+                                    append(stringResource(id = R.string.report_total_solved_question_1))
+                                    append(" ")
+                                    withStyle(
+                                        style = SpanStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary,
+                                        )
+                                    ) {
+                                        append("$solved")
+                                    }
+                                    append(stringResource(id = R.string.report_total_solved_question_2))
+                                },
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                    }
 
                     itemHeader(shouldShowListHeaderAsSticky = true) {
                         QuestionSummaryHeader(
