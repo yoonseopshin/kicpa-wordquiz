@@ -190,7 +190,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
             is SnackbarState.Show -> {
                 snackbarHostState.showSnackbar(
                     message = state.message.asString(context),
-                    actionLabel = state.actionLabel.asString(context),
+                    actionLabel = state.actionLabel.asString(context).takeUnless(String::isBlank),
                     withDismissAction = true,
                     duration = SnackbarDuration.Short
                 )
