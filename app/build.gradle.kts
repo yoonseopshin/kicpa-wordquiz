@@ -101,6 +101,7 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:data"))
     implementation(project(":core:data-network"))
+    implementation(project(":core:designsystem"))
     implementation(project(":feature:home"))
     implementation(project(":feature:quiz"))
     implementation(project(":feature:settings"))

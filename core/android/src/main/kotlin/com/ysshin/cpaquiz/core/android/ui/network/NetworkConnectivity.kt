@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Warning
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -37,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.ui.theme.systemBarColor
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import kotlinx.coroutines.delay
 
 @Composable
@@ -97,8 +97,8 @@ fun NetworkConnectivityStatusBox(isOffline: Boolean) {
             contentAlignment = Alignment.Center
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = iconVector,
+                CpaIcon(
+                    icon = CpaIcon.ImageVectorIcon(iconVector),
                     contentDescription = "Network connectivity",
                     tint = backgroundTint
                 )

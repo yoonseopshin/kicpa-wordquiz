@@ -3,7 +3,6 @@ package com.ysshin.cpaquiz.feature.settings.presentation.ui
 import android.content.Context
 import android.content.Intent
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -36,8 +35,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -58,6 +55,8 @@ import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 import kotlinx.coroutines.launch
@@ -146,7 +145,7 @@ private fun SettingsLazyVerticalGrid(
     ) {
         item {
             SettingsListItem(
-                settingsIcon = painterResource(id = R.drawable.ic_delete),
+                settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.Delete),
                 settingsText = stringResource(id = R.string.delete_wrong_note),
                 onClick = {
                     setDeleteWrongProblemDialogOpened(true)
@@ -156,7 +155,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = painterResource(id = R.drawable.ic_info),
+                settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.Delete),
                 settingsText = stringResource(id = R.string.app_version),
                 onClick = {
                     setAppVersionDialogOpened(true)
@@ -166,7 +165,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
+                settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.Info),
                 settingsText = stringResource(id = R.string.open_source_license),
                 onClick = context::startOssLicenseActivity
             )
@@ -174,7 +173,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = painterResource(id = R.drawable.ic_mail),
+                settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.Mail),
                 settingsText = stringResource(id = R.string.mail_to_developer),
                 onClick = context::startCpaQuizContactActivity
             )
@@ -238,7 +237,7 @@ private fun InitSettingsDialog(
 
 @Composable
 private fun SettingsListItem(
-    settingsIcon: Painter,
+    settingsIcon: CpaIcon,
     settingsText: String,
     onClick: Action = {},
 ) {
@@ -259,11 +258,11 @@ private fun SettingsListItem(
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                painter = settingsIcon,
+            CpaIcon(
+                icon = settingsIcon,
                 contentDescription = settingsText,
                 modifier = Modifier.size(size = 36.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
+                tint = MaterialTheme.colorScheme.primary,
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
@@ -281,7 +280,7 @@ private fun SettingsListItem(
 @Composable
 private fun SettingsItemPreview() {
     SettingsListItem(
-        settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
+        settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.NoteOutlined),
         settingsText = stringResource(id = R.string.open_source_license),
     )
 }

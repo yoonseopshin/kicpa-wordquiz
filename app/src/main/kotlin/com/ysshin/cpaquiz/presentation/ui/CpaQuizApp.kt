@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -56,6 +55,7 @@ import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.network.NetworkConnectivityStatusBox
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.presentation.MainViewModel
 import com.ysshin.cpaquiz.presentation.PostNotificationUiState
 import com.ysshin.cpaquiz.presentation.navigation.CpaQuizNavHost
@@ -229,12 +229,13 @@ private fun CpaQuizBottomBar(
                     selected = selected,
                     onClick = { onNavigateToDestination(destination) },
                     icon = {
-                        val icon = if (selected) {
-                            destination.selectedIcon
-                        } else {
-                            destination.unselectedIcon
-                        }
-                        Icon(imageVector = icon, contentDescription = null)
+                        CpaIcon(
+                            icon = if (selected) {
+                                destination.selectedIcon
+                            } else {
+                                destination.unselectedIcon
+                            }
+                        )
                     },
                     label = {
                         Text(
@@ -262,12 +263,13 @@ private fun CpaQuizNavigationRail(
                 selected = selected,
                 onClick = { onNavigateToDestination(destination) },
                 icon = {
-                    val icon = if (selected) {
-                        destination.selectedIcon
-                    } else {
-                        destination.unselectedIcon
-                    }
-                    Icon(imageVector = icon, contentDescription = null)
+                    CpaIcon(
+                        icon = if (selected) {
+                            destination.selectedIcon
+                        } else {
+                            destination.unselectedIcon
+                        }
+                    )
                 },
                 label = {
                     Text(

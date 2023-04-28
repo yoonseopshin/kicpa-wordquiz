@@ -29,14 +29,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -61,7 +57,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -84,6 +79,8 @@ import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.findActivity
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizStartNavigationActionsProvider
@@ -282,7 +279,7 @@ private fun HomeTopMenu(
 
                         item {
                             HomeSettingsListItem(
-                                icon = painterResource(id = R.drawable.ic_timer),
+                                icon = CpaIcon.DrawableResourceIcon(CpaIcons.Timer),
                                 text = stringResource(id = R.string.timer),
                                 onBottomSheetItemClick = onToggleTimer
                             ) {
@@ -347,13 +344,15 @@ private fun HomeTopMenu(
             if (isExpanded) 32.dp else 24.dp
         }
 
-        Icon(
-            imageVector = if (openDialog.value) Icons.Filled.Settings else Icons.Outlined.Settings,
-            contentDescription = stringResource(id = R.string.settings),
-            tint = tint,
+        CpaIcon(
+            icon = CpaIcon.ImageVectorIcon(
+                if (openDialog.value) CpaIcons.SettingsFilled else CpaIcons.Settings
+            ),
             modifier = Modifier
                 .rotate(rotationDegree)
-                .size(size)
+                .size(size),
+            contentDescription = stringResource(id = R.string.settings),
+            tint = tint,
         )
     }
 }
@@ -414,7 +413,8 @@ private fun QuizCard(
                             .clip(CircleShape)
                             .size(40.dp),
                     ) {
-                        Icon(
+                        CpaIcon(
+                            icon = CpaIcon.DrawableResourceIcon(CpaIcons.Play),
                             modifier = Modifier
                                 .background(
                                     if (quizCardEnabled) {
@@ -424,7 +424,6 @@ private fun QuizCard(
                                     }
                                 )
                                 .padding(8.dp),
-                            painter = painterResource(id = R.drawable.ic_play),
                             tint = if (quizCardEnabled) {
                                 colorResource(id = R.color.daynight_gray800s)
                             } else {
@@ -517,7 +516,7 @@ private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfi
     }
 
     HomeSettingsListItem(
-        icon = painterResource(id = R.drawable.ic_note_outlined),
+        icon = CpaIcon.DrawableResourceIcon(CpaIcons.NoteOutlined),
         text = stringResource(id = R.string.quiz_amount),
         onBottomSheetItemClick = {
             openDialog.value = true
@@ -535,7 +534,7 @@ private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfi
 
 @Composable
 private fun HomeSettingsListItem(
-    icon: Painter,
+    icon: CpaIcon,
     text: String,
     onBottomSheetItemClick: Action = {},
     content: @Composable RowScope.() -> Unit,
@@ -548,9 +547,9 @@ private fun HomeSettingsListItem(
             .padding(start = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
+        CpaIcon(
+            icon = icon,
             modifier = Modifier.size(36.dp),
-            painter = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary
         )

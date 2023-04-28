@@ -25,7 +25,6 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.AssistChipDefaults
@@ -35,7 +34,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -109,6 +107,8 @@ import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.RegexUtils
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.findActivity
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
@@ -344,13 +344,12 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                 circleColor = colorResource(id = popScaleAnimationInfo.value.backgroundColorResId),
                 radius = 360f,
             ) {
-                Icon(
+                CpaIcon(
+                    icon = CpaIcon.ImageVectorIcon(popScaleAnimationInfo.value.icon),
                     modifier = Modifier
                         .width(64.dp)
                         .height(64.dp),
-                    imageVector = popScaleAnimationInfo.value.icon,
                     tint = colorResource(id = popScaleAnimationInfo.value.iconTintColorResId),
-                    contentDescription = null,
                 )
             }
         }
@@ -570,7 +569,7 @@ fun QuestionTopAppBar(
         },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+                CpaIcon(icon = CpaIcon.ImageVectorIcon(CpaIcons.ArrowBack))
             }
         },
         actions = {
@@ -616,10 +615,10 @@ private fun QuestionFloatingActionButton(
                             )
                         )
                 },
-            onClick = { onFabClick() },
+            onClick = onFabClick,
             elevation = fabElevation,
         ) {
-            Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
+            CpaIcon(icon = CpaIcon.ImageVectorIcon(CpaIcons.Check))
         }
     }
 }
