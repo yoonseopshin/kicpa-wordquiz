@@ -35,8 +35,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.ysshin.cpaquiz.core.android.R
-import com.ysshin.cpaquiz.core.android.ui.theme.systemBarColor
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.theme.systemBarColor
 import kotlinx.coroutines.delay
 
 @Composable

@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.core.android.ui.theme
+package com.ysshin.cpaquiz.designsystem.theme
 
 import android.app.Activity
 import android.os.Build

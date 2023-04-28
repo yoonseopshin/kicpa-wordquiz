@@ -1,4 +1,4 @@
-package com.ysshin.cpaquiz.core.android.ui.theme
+package com.ysshin.cpaquiz.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

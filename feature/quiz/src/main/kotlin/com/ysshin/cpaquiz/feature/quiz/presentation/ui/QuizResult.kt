@@ -12,9 +12,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -25,8 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
-import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.android.util.findActivity
+import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
@@ -40,7 +37,6 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResult
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultViewModel
 import timber.log.Timber
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun QuizResultRoute(
     viewModel: QuizResultViewModel = hiltViewModel(),
@@ -49,7 +45,6 @@ fun QuizResultRoute(
 ) {
     val context = LocalContext.current
     val activity = context.findActivity()
-    val windowSizeClass = calculateWindowSizeClass(activity = activity)
     val quizResultUiState = viewModel.quizResultUiState.collectAsStateWithLifecycle()
     val onProblemClick: (Problem) -> Unit = { problem ->
         context.startActivity(
@@ -63,7 +58,6 @@ fun QuizResultRoute(
 
     QuizResultScreen(
         quizResultUiState = quizResultUiState.value,
-        windowSizeClass = windowSizeClass,
         onConfirmClick = activity::finish,
         onProblemClick = onProblemClick,
         requestInAppReview = requestInAppReview,
@@ -75,7 +69,6 @@ fun QuizResultRoute(
 @Composable
 fun QuizResultScreen(
     quizResultUiState: QuizResultUiState,
-    windowSizeClass: WindowSizeClass? = null,
     onConfirmClick: () -> Unit = {},
     onProblemClick: (Problem) -> Unit = {},
     requestInAppReview: () -> Unit = {},
@@ -106,6 +99,7 @@ fun QuizResultScreen(
             QuizResultUiState.Loading -> {
                 // TODO: Loading screen
             }
+
             is QuizResultUiState.QuizResult -> {
                 LazyColumn(
                     modifier = Modifier
