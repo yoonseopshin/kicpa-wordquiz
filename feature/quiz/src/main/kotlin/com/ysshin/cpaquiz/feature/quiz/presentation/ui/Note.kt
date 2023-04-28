@@ -382,7 +382,7 @@ fun NoSelectedQuestionScreen() {
         val minSize = 100.dp
         val maxSize = 140.dp
         CpaIcon(
-            icon = CpaIcon.DrawableResourceIcon(CpaIcons.Quiz),
+            icon = CpaIcons.Quiz,
             modifier = Modifier
                 .align(Alignment.Center)
                 .sizeIn(
@@ -522,7 +522,7 @@ private fun LazyListScope.wrongProblemsContent(
         itemHeader(shouldShowListHeaderAsSticky) {
             if (isDeleteAllWrongProblemsDialogOpened) {
                 AppInfoDialog(
-                    icon = painterResource(id = R.drawable.ic_delete),
+                    icon = CpaIcons.Delete,
                     title = stringResource(id = R.string.delete_wrong_note),
                     description = stringResource(id = R.string.question_delete_all_wrong_note),
                     onConfirm = {
@@ -609,7 +609,7 @@ private fun LazyListScope.wrongProblemsContent(
                             contentAlignment = Alignment.CenterEnd
                         ) {
                             CpaIcon(
-                                icon = CpaIcon.DrawableResourceIcon(CpaIcons.Delete),
+                                icon = CpaIcons.Delete,
                                 modifier = Modifier
                                     .size(40.dp)
                                     .scale(scale),
@@ -929,7 +929,7 @@ private fun NoteFilterMenuContentDetail(
             onClick = { hideMenu() }, modifier = Modifier.padding(end = 4.dp)
         ) {
             CpaIcon(
-                icon = CpaIcon.ImageVectorIcon(CpaIcons.KeyboardArrowUp),
+                icon = CpaIcons.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.hide_menu),
                 tint = MaterialTheme.colorScheme.secondary
             )
@@ -1018,7 +1018,7 @@ private fun NoteSearchMenuContent(
             onClick = hideMenu, modifier = Modifier.padding(end = 4.dp)
         ) {
             CpaIcon(
-                icon = CpaIcon.ImageVectorIcon(CpaIcons.KeyboardArrowUp),
+                icon = CpaIcons.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.hide_menu),
                 tint = MaterialTheme.colorScheme.secondary
             )
@@ -1047,7 +1047,7 @@ private fun NoteTopMenu(
             modifier = Modifier.padding(all = 4.dp),
             leadingIcon = {
                 CpaIcon(
-                    icon = CpaIcon.DrawableResourceIcon(CpaIcons.SearchOff),
+                    icon = CpaIcons.SearchOff,
                     modifier = Modifier.padding(start = 4.dp),
                     contentDescription = stringResource(id = R.string.clear_search),
                     tint = MaterialTheme.colorScheme.secondary,
@@ -1068,7 +1068,7 @@ private fun NoteTopMenu(
             Text(text = stringResource(id = R.string.clear_filter))
         }, leadingIcon = {
             CpaIcon(
-                icon = CpaIcon.DrawableResourceIcon(CpaIcons.Filter),
+                icon = CpaIcons.Filter,
                 modifier = Modifier.padding(start = 4.dp),
                 contentDescription = stringResource(id = R.string.clear_filter),
                 tint = MaterialTheme.colorScheme.secondary
@@ -1170,7 +1170,7 @@ private fun NoteTopMenu(
         }
 
         CpaIcon(
-            icon = CpaIcon.DrawableResourceIcon(CpaIcons.Filter),
+            icon = CpaIcons.Filter,
             modifier = Modifier.size(size),
             contentDescription = stringResource(id = R.string.filter),
             tint = tint,

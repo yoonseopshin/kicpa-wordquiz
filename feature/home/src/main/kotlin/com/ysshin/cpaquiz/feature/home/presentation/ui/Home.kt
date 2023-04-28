@@ -279,7 +279,7 @@ private fun HomeTopMenu(
 
                         item {
                             HomeSettingsListItem(
-                                icon = CpaIcon.DrawableResourceIcon(CpaIcons.Timer),
+                                icon = CpaIcons.Timer,
                                 text = stringResource(id = R.string.timer),
                                 onBottomSheetItemClick = onToggleTimer
                             ) {
@@ -345,9 +345,7 @@ private fun HomeTopMenu(
         }
 
         CpaIcon(
-            icon = CpaIcon.ImageVectorIcon(
-                if (openDialog.value) CpaIcons.SettingsFilled else CpaIcons.Settings
-            ),
+            icon = if (openDialog.value) CpaIcons.SettingsFilled else CpaIcons.Settings,
             modifier = Modifier
                 .rotate(rotationDegree)
                 .size(size),
@@ -414,7 +412,7 @@ private fun QuizCard(
                             .size(40.dp),
                     ) {
                         CpaIcon(
-                            icon = CpaIcon.DrawableResourceIcon(CpaIcons.Play),
+                            icon = CpaIcons.Play,
                             modifier = Modifier
                                 .background(
                                     if (quizCardEnabled) {
@@ -516,7 +514,7 @@ private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfi
     }
 
     HomeSettingsListItem(
-        icon = CpaIcon.DrawableResourceIcon(CpaIcons.NoteOutlined),
+        icon = CpaIcons.NoteOutlined,
         text = stringResource(id = R.string.quiz_amount),
         onBottomSheetItemClick = {
             openDialog.value = true

@@ -77,7 +77,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
@@ -569,7 +568,7 @@ fun QuestionTopAppBar(
         },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
-                CpaIcon(icon = CpaIcon.ImageVectorIcon(CpaIcons.ArrowBack))
+                CpaIcon(icon = CpaIcons.ArrowBack)
             }
         },
         actions = {
@@ -618,7 +617,7 @@ private fun QuestionFloatingActionButton(
             onClick = onFabClick,
             elevation = fabElevation,
         ) {
-            CpaIcon(icon = CpaIcon.ImageVectorIcon(CpaIcons.Check))
+            CpaIcon(icon = CpaIcons.Check)
         }
     }
 }
@@ -719,7 +718,7 @@ fun LazyItemScope.QuestionSummaryContent(
     isDeleteWrongProblemDialogOpened?.let { dialog ->
         if (dialog.isOpened) {
             AppInfoDialog(
-                icon = painterResource(id = R.drawable.ic_delete),
+                icon = CpaIcons.Delete,
                 title = stringResource(id = R.string.delete_wrong_problem),
                 description = stringResource(id = R.string.question_delete_wrong_note),
                 onConfirm = {

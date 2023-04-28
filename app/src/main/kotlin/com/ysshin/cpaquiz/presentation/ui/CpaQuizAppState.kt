@@ -15,7 +15,6 @@ import androidx.navigation.navOptions
 import com.ysshin.core.navigation.CpaQuizNavigationDestination
 import com.ysshin.cpaquiz.R
 import com.ysshin.cpaquiz.data.util.NetworkMonitor
-import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.NoteDestination
@@ -60,22 +59,22 @@ class CpaQuizAppState(
         TopLevelDestination(
             route = HomeDestination.route,
             destination = HomeDestination.destination,
-            selectedIcon = CpaIcon.ImageVectorIcon(CpaIcons.HomeFilled),
-            unselectedIcon = CpaIcon.ImageVectorIcon(CpaIcons.Home),
+            selectedIcon = CpaIcons.HomeFilled,
+            unselectedIcon = CpaIcons.Home,
             iconTextResourceId = R.string.home
         ),
         TopLevelDestination(
             route = NoteDestination.route,
             destination = NoteDestination.destination,
-            selectedIcon = CpaIcon.ImageVectorIcon(CpaIcons.EditFilled),
-            unselectedIcon = CpaIcon.ImageVectorIcon(CpaIcons.Edit),
+            selectedIcon = CpaIcons.EditFilled,
+            unselectedIcon = CpaIcons.Edit,
             iconTextResourceId = R.string.note
         ),
         TopLevelDestination(
             route = SettingsDestination.route,
             destination = SettingsDestination.destination,
-            selectedIcon = CpaIcon.ImageVectorIcon(CpaIcons.SettingsFilled),
-            unselectedIcon = CpaIcon.ImageVectorIcon(CpaIcons.Settings),
+            selectedIcon = CpaIcons.SettingsFilled,
+            unselectedIcon = CpaIcons.Settings,
             iconTextResourceId = R.string.settings
         )
     )

@@ -37,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -145,7 +144,7 @@ private fun SettingsLazyVerticalGrid(
     ) {
         item {
             SettingsListItem(
-                settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.Delete),
+                settingsIcon = CpaIcons.Delete,
                 settingsText = stringResource(id = R.string.delete_wrong_note),
                 onClick = {
                     setDeleteWrongProblemDialogOpened(true)
@@ -155,7 +154,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.Delete),
+                settingsIcon = CpaIcons.Info,
                 settingsText = stringResource(id = R.string.app_version),
                 onClick = {
                     setAppVersionDialogOpened(true)
@@ -165,7 +164,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.Info),
+                settingsIcon = CpaIcons.NoteOutlined,
                 settingsText = stringResource(id = R.string.open_source_license),
                 onClick = context::startOssLicenseActivity
             )
@@ -173,7 +172,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.Mail),
+                settingsIcon = CpaIcons.Mail,
                 settingsText = stringResource(id = R.string.mail_to_developer),
                 onClick = context::startCpaQuizContactActivity
             )
@@ -209,7 +208,7 @@ private fun InitSettingsDialog(
             onDismiss = {
                 setDeleteWrongProblemDialogOpened(false)
             },
-            icon = painterResource(id = R.drawable.ic_delete),
+            icon = CpaIcons.Delete,
             title = stringResource(id = R.string.delete_wrong_note),
             description = stringResource(id = R.string.question_delete_all_wrong_note),
         )
@@ -223,7 +222,7 @@ private fun InitSettingsDialog(
             onDismiss = {
                 setAppVersionDialogOpened(false)
             },
-            icon = painterResource(id = R.drawable.ic_info),
+            icon = CpaIcons.Info,
             title = stringResource(id = R.string.app_version),
             description = stringResource(
                 id = R.string.app_version_name_and_code,
@@ -280,7 +279,7 @@ private fun SettingsListItem(
 @Composable
 private fun SettingsItemPreview() {
     SettingsListItem(
-        settingsIcon = CpaIcon.DrawableResourceIcon(CpaIcons.NoteOutlined),
+        settingsIcon = CpaIcons.NoteOutlined,
         settingsText = stringResource(id = R.string.open_source_license),
     )
 }

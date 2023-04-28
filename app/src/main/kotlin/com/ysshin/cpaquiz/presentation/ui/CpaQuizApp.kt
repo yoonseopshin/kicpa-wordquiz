@@ -41,7 +41,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -56,6 +55,7 @@ import com.ysshin.cpaquiz.core.android.ui.network.NetworkConnectivityStatusBox
 import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.presentation.MainViewModel
 import com.ysshin.cpaquiz.presentation.PostNotificationUiState
 import com.ysshin.cpaquiz.presentation.navigation.CpaQuizNavHost
@@ -194,7 +194,7 @@ private fun RequestPostNotificationsPermission(
 
     if (showPostNotificationsDialog) {
         AppInfoDialog(
-            icon = painterResource(id = R.drawable.ic_notifications),
+            icon = CpaIcons.Notifications,
             title = stringResource(id = R.string.post_notifications_dialog_title),
             description = stringResource(id = R.string.post_notifications_dialog_description),
             confirmText = stringResource(id = R.string.allow),

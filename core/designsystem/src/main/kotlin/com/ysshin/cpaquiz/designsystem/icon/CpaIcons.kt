@@ -21,25 +21,25 @@ import androidx.compose.ui.res.painterResource
 import com.ysshin.cpaquiz.designsystem.R
 
 object CpaIcons {
-    // TODO: Add project icons
-    val Settings = Icons.Outlined.Settings
-    val SettingsFilled = Icons.Filled.Settings
-    val Edit = Icons.Outlined.Edit
-    val EditFilled = Icons.Filled.Edit
-    val Home = Icons.Outlined.Home
-    val HomeFilled = Icons.Filled.Home
-    val Play = R.drawable.ic_play
-    val Timer = R.drawable.ic_timer
-    val NoteOutlined = R.drawable.ic_note_outlined
-    val Delete = R.drawable.ic_delete
-    val Info = R.drawable.ic_info
-    val Mail = R.drawable.ic_mail
-    val Quiz = R.drawable.ic_quiz
-    val KeyboardArrowUp = Icons.Filled.KeyboardArrowUp
-    val SearchOff = R.drawable.ic_search_off
-    val Filter = R.drawable.ic_filter
-    val ArrowBack = Icons.Default.ArrowBack
-    val Check = Icons.Default.Check
+    val Settings = CpaIcon.ImageVectorIcon(Icons.Outlined.Settings)
+    val SettingsFilled = CpaIcon.ImageVectorIcon(Icons.Filled.Settings)
+    val Edit = CpaIcon.ImageVectorIcon(Icons.Outlined.Edit)
+    val EditFilled = CpaIcon.ImageVectorIcon(Icons.Filled.Edit)
+    val Home = CpaIcon.ImageVectorIcon(Icons.Outlined.Home)
+    val HomeFilled = CpaIcon.ImageVectorIcon(Icons.Filled.Home)
+    val Play = CpaIcon.DrawableResourceIcon(R.drawable.ic_play)
+    val Timer = CpaIcon.DrawableResourceIcon(R.drawable.ic_timer)
+    val NoteOutlined = CpaIcon.DrawableResourceIcon(R.drawable.ic_note_outlined)
+    val Delete = CpaIcon.DrawableResourceIcon(R.drawable.ic_delete)
+    val Info = CpaIcon.DrawableResourceIcon(R.drawable.ic_info)
+    val Mail = CpaIcon.DrawableResourceIcon(R.drawable.ic_mail)
+    val Quiz = CpaIcon.DrawableResourceIcon(R.drawable.ic_quiz)
+    val KeyboardArrowUp = CpaIcon.ImageVectorIcon(Icons.Filled.KeyboardArrowUp)
+    val SearchOff = CpaIcon.DrawableResourceIcon(R.drawable.ic_search_off)
+    val Filter = CpaIcon.DrawableResourceIcon(R.drawable.ic_filter)
+    val ArrowBack = CpaIcon.ImageVectorIcon(Icons.Default.ArrowBack)
+    val Check = CpaIcon.ImageVectorIcon(Icons.Default.Check)
+    val Notifications = CpaIcon.DrawableResourceIcon(R.drawable.ic_notifications)
 }
 
 sealed class CpaIcon {
