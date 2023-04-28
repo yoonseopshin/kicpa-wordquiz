@@ -96,12 +96,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
-import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.util.RegexUtils
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.findActivity
+import com.ysshin.cpaquiz.designsystem.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
