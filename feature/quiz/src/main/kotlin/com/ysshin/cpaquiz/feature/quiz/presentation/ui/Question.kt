@@ -68,7 +68,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.LayoutCoordinates
@@ -697,10 +696,7 @@ fun QuestionSummaryHeader(
     }
 }
 
-@OptIn(
-    ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class
-)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyItemScope.QuestionSummaryContent(
     problem: Problem,
@@ -751,16 +747,17 @@ fun LazyItemScope.QuestionSummaryContent(
                     onProblemLongClick?.invoke()
                 }
             )
-            .modifyIf(useSplitScreen && problem == selectedQuestionInSplitScreen) {
-                background(color = colorScheme.surfaceColorAtElevation(0.5.dp))
-                    .then(
-                        border(
-                            width = 1.dp,
-                            color = colorScheme.primary,
-                            shape = RectangleShape
-                        )
-                    )
-            }
+            // FIXME: https://issuetracker.google.com/issues/271765021
+//            .modifyIf(useSplitScreen && problem == selectedQuestionInSplitScreen) {
+//                background(color = colorScheme.surfaceColorAtElevation(0.5.dp))
+//                    .then(
+//                        border(
+//                            width = 1.dp,
+//                            color = colorScheme.primary,
+//                            shape = RectangleShape
+//                        )
+//                    )
+//            }
             .widthBySplit(useSplitScreen)
             .padding(bottom = 20.dp)
             .animateItemPlacement()
