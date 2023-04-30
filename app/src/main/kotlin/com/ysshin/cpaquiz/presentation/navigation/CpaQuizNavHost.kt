@@ -13,8 +13,8 @@ import com.ysshin.cpaquiz.feature.settings.presentation.navigation.settingsGraph
 fun CpaQuizNavHost(
     navController: NavHostController,
     windowSizeClass: WindowSizeClass,
-    modifier: Modifier = Modifier,
     startDestination: String,
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,

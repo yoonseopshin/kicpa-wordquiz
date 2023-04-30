@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,15 +37,13 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,9 +76,13 @@ import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.util.findActivity
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.designsystem.component.CpaBackground
+import com.ysshin.cpaquiz.designsystem.component.CpaGradientBackground
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.designsystem.theme.LocalGradientColors
+import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
 import com.ysshin.cpaquiz.designsystem.theme.Typography
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.home.R
@@ -99,7 +102,7 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
     val activity = context.findActivity()
     val appContext = context.applicationContext
     val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = LocalSnackbarHostState.current
 
     HomeScreen(
         homeQuizUiState = homeQuizUiState,
@@ -131,11 +134,9 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
             )
         },
         onToggleSubtype = viewModel::toggleSubtype,
-        snackbarHostState = snackbarHostState
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     homeQuizUiState: HomeQuizUiState,
@@ -144,77 +145,78 @@ fun HomeScreen(
     onToggleTimer: Action,
     onQuizCardClick: Consumer<QuizType>,
     onToggleSubtype: (String) -> Unit,
-    snackbarHostState: SnackbarHostState,
 ) {
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        topBar = {
-            HomeTopAppBar(
-                homeInfoUiState = homeInfoUiState,
-                onSetQuizTimer = onSetQuizNumber,
-                onToggleTimer = onToggleTimer
-            )
-        }
-    ) { padding ->
-        val verticalScrollState = rememberScrollState()
-
-        FlowRow(
-            modifier = Modifier
-                .padding(padding)
-                .verticalScroll(verticalScrollState),
-            mainAxisAlignment = MainAxisAlignment.Center,
-            mainAxisSize = SizeMode.Expand,
-            crossAxisSpacing = 20.dp,
-            mainAxisSpacing = 20.dp
+    CpaBackground {
+        CpaGradientBackground(
+            gradientColors = LocalGradientColors.current,
         ) {
-            when (homeQuizUiState) {
-                is HomeQuizUiState.Loading -> Unit
-                is HomeQuizUiState.Success -> {
-                    QuizCard(
-                        modifier = Modifier.resourceTestTag("quizCard${QuizType.Accounting.ordinal}"),
-                        cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
-                        iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
-                        count = homeQuizUiState.accountingCount,
-                        title = stringResource(id = R.string.accounting),
-                        onClick = { onQuizCardClick(QuizType.Accounting) },
-                        subtypes = homeQuizUiState.accountingSubtypes,
-                        toggleSubtype = onToggleSubtype,
-                    )
+            Column(modifier = Modifier.fillMaxSize()) {
+                HomeTopAppBar(
+                    homeInfoUiState = homeInfoUiState,
+                    onSetQuizTimer = onSetQuizNumber,
+                    onToggleTimer = onToggleTimer
+                )
 
-                    QuizCard(
-                        modifier = Modifier.resourceTestTag("quizCard${QuizType.Business.ordinal}"),
-                        cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
-                        iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
-                        count = homeQuizUiState.businessCount,
-                        title = stringResource(id = R.string.business),
-                        onClick = { onQuizCardClick(QuizType.Business) },
-                        subtypes = homeQuizUiState.businessSubtypes,
-                        toggleSubtype = onToggleSubtype,
-                    )
+                val verticalScrollState = rememberScrollState()
 
-                    QuizCard(
-                        modifier = Modifier.resourceTestTag("quizCard${QuizType.CommercialLaw.ordinal}"),
-                        cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
-                        iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
-                        count = homeQuizUiState.commercialLawCount,
-                        title = stringResource(id = R.string.commercial_law),
-                        onClick = { onQuizCardClick(QuizType.CommercialLaw) },
-                        subtypes = homeQuizUiState.commercialLawSubtypes,
-                        toggleSubtype = onToggleSubtype,
-                    )
+                FlowRow(
+                    modifier = Modifier
+                        .verticalScroll(verticalScrollState),
+                    mainAxisAlignment = MainAxisAlignment.Center,
+                    mainAxisSize = SizeMode.Expand,
+                    crossAxisSpacing = 20.dp,
+                    mainAxisSpacing = 20.dp
+                ) {
+                    when (homeQuizUiState) {
+                        is HomeQuizUiState.Loading -> Unit
+                        is HomeQuizUiState.Success -> {
+                            QuizCard(
+                                modifier = Modifier.resourceTestTag("quizCard${QuizType.Accounting.ordinal}"),
+                                cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
+                                iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
+                                count = homeQuizUiState.accountingCount,
+                                title = stringResource(id = R.string.accounting),
+                                onClick = { onQuizCardClick(QuizType.Accounting) },
+                                subtypes = homeQuizUiState.accountingSubtypes,
+                                toggleSubtype = onToggleSubtype,
+                            )
 
-                    QuizCard(
-                        modifier = Modifier.resourceTestTag("quizCard${QuizType.TaxLaw.ordinal}"),
-                        cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
-                        iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
-                        count = homeQuizUiState.taxLawCount,
-                        title = stringResource(id = R.string.tax_law),
-                        onClick = { onQuizCardClick(QuizType.TaxLaw) },
-                        subtypes = homeQuizUiState.taxLawSubtypes,
-                        toggleSubtype = onToggleSubtype,
-                    )
+                            QuizCard(
+                                modifier = Modifier.resourceTestTag("quizCard${QuizType.Business.ordinal}"),
+                                cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
+                                iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
+                                count = homeQuizUiState.businessCount,
+                                title = stringResource(id = R.string.business),
+                                onClick = { onQuizCardClick(QuizType.Business) },
+                                subtypes = homeQuizUiState.businessSubtypes,
+                                toggleSubtype = onToggleSubtype,
+                            )
 
-                    NativeMediumAd()
+                            QuizCard(
+                                modifier = Modifier.resourceTestTag("quizCard${QuizType.CommercialLaw.ordinal}"),
+                                cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
+                                iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
+                                count = homeQuizUiState.commercialLawCount,
+                                title = stringResource(id = R.string.commercial_law),
+                                onClick = { onQuizCardClick(QuizType.CommercialLaw) },
+                                subtypes = homeQuizUiState.commercialLawSubtypes,
+                                toggleSubtype = onToggleSubtype,
+                            )
+
+                            QuizCard(
+                                modifier = Modifier.resourceTestTag("quizCard${QuizType.TaxLaw.ordinal}"),
+                                cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
+                                iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
+                                count = homeQuizUiState.taxLawCount,
+                                title = stringResource(id = R.string.tax_law),
+                                onClick = { onQuizCardClick(QuizType.TaxLaw) },
+                                subtypes = homeQuizUiState.taxLawSubtypes,
+                                toggleSubtype = onToggleSubtype,
+                            )
+
+                            NativeMediumAd()
+                        }
+                    }
                 }
             }
         }
@@ -229,6 +231,7 @@ fun HomeTopAppBar(
     onToggleTimer: Action,
 ) {
     TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
             Text(
                 text = if (homeInfoUiState.dday.isBlank()) {
@@ -246,7 +249,7 @@ fun HomeTopAppBar(
                 useTimer = homeInfoUiState.useTimer,
                 onToggleTimer = onToggleTimer
             )
-        }
+        },
     )
 }
 
@@ -257,15 +260,15 @@ private fun HomeTopMenu(
     useTimer: Boolean,
     onToggleTimer: Action,
 ) {
-    val openDialog = remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     IconButton(onClick = {
-        openDialog.value = true
+        showDialog = true
     }) {
-        if (openDialog.value) {
+        if (showDialog) {
             AlertDialog(
                 onDismissRequest = {
-                    openDialog.value = false
+                    showDialog = false
                 },
                 title = { Text(text = stringResource(id = R.string.quiz_settings_title)) },
                 text = {
@@ -294,7 +297,7 @@ private fun HomeTopMenu(
                     }
                 },
                 confirmButton = {
-                    TextButton(onClick = { openDialog.value = false }) {
+                    TextButton(onClick = { showDialog = false }) {
                         Text(text = stringResource(id = R.string.confirm))
                     }
                 }
@@ -302,7 +305,7 @@ private fun HomeTopMenu(
         }
 
         val transition =
-            updateTransition(targetState = openDialog.value, label = "SettingsMenuIconTransition")
+            updateTransition(targetState = showDialog, label = "SettingsMenuIconTransition")
 
         val tint by transition.animateColor(
             transitionSpec = {
@@ -345,7 +348,7 @@ private fun HomeTopMenu(
         }
 
         CpaIcon(
-            icon = if (openDialog.value) CpaIcons.SettingsFilled else CpaIcons.Settings,
+            icon = if (showDialog) CpaIcons.SettingsFilled else CpaIcons.Settings,
             modifier = Modifier
                 .rotate(rotationDegree)
                 .size(size),
@@ -606,7 +609,6 @@ private fun HomeScreenPreview() {
                 onToggleTimer = {},
                 onQuizCardClick = {},
                 onToggleSubtype = {},
-                snackbarHostState = SnackbarHostState()
             )
         }
     }

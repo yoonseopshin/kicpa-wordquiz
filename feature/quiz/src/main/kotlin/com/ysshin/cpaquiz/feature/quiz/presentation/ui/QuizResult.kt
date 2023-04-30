@@ -96,9 +96,7 @@ fun QuizResultScreen(
         }
     ) { padding ->
         when (quizResultUiState) {
-            QuizResultUiState.Loading -> {
-                // TODO: Loading screen
-            }
+            QuizResultUiState.Loading -> {}
 
             is QuizResultUiState.QuizResult -> {
                 LazyColumn(

@@ -2,9 +2,11 @@ package com.ysshin.cpaquiz.designsystem.theme
 
 import android.app.Activity
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -13,6 +15,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -88,10 +91,11 @@ fun CpaQuizTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        dynamicColor && supportsDynamicTheming() -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
@@ -112,8 +116,18 @@ fun CpaQuizTheme(
         tonalElevation = 3.dp
     )
 
+    val gradientColors = GradientColors(
+        top = colorScheme.inverseOnSurface,
+        bottom = colorScheme.primaryContainer,
+        container = colorScheme.surface,
+    )
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
     CompositionLocalProvider(
-        LocalBackgroundTheme provides defaultBackgroundTheme
+        LocalBackgroundTheme provides defaultBackgroundTheme,
+        LocalGradientColors provides gradientColors,
+        LocalSnackbarHostState provides snackbarHostState,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
@@ -122,3 +136,6 @@ fun CpaQuizTheme(
         )
     }
 }
+
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
+fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

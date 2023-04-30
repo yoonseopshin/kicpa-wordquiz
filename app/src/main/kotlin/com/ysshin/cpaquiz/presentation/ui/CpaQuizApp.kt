@@ -35,11 +35,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
@@ -55,7 +55,7 @@ import com.ysshin.cpaquiz.core.android.ui.network.NetworkConnectivityStatusBox
 import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
-import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
 import com.ysshin.cpaquiz.presentation.MainViewModel
 import com.ysshin.cpaquiz.presentation.PostNotificationUiState
 import com.ysshin.cpaquiz.presentation.navigation.CpaQuizNavHost
@@ -66,51 +66,53 @@ import timber.log.Timber
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun CpaQuizApp(appState: CpaQuizAppState) {
-    CpaQuizTheme {
-        val snackbarHostState = remember { SnackbarHostState() }
-        val isOffline by appState.isOffline.collectAsStateWithLifecycle()
+    val snackbarHostState = LocalSnackbarHostState.current
+    val isOffline by appState.isOffline.collectAsStateWithLifecycle()
 
-        RequestPostNotificationsPermission(snackbarHostState)
+    RequestPostNotificationsPermission(snackbarHostState)
 
-        Scaffold(
-            bottomBar = {
-                if (appState.shouldShowBottomBar) {
-                    CpaQuizBottomBar(
+    Scaffold(
+        modifier = Modifier.resourceTestTag("appScaffold"),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        bottomBar = {
+            if (appState.shouldShowBottomBar) {
+                CpaQuizBottomBar(
+                    destinations = appState.topLevelDestinations,
+                    onNavigateToDestination = appState::navigate,
+                    currentDestination = appState.currentDestination
+                )
+            }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { padding ->
+        Column {
+            NetworkConnectivityStatusBox(isOffline = isOffline)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .consumeWindowInsets(padding)
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(
+                            WindowInsetsSides.Horizontal
+                        )
+                    )
+            ) {
+                if (appState.shouldShowNavRail) {
+                    CpaQuizNavigationRail(
                         destinations = appState.topLevelDestinations,
                         onNavigateToDestination = appState::navigate,
-                        currentDestination = appState.currentDestination
+                        currentDestination = appState.currentDestination,
+                        modifier = Modifier.safeDrawingPadding(),
                     )
                 }
-            },
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-        ) { padding ->
-            Column {
-                NetworkConnectivityStatusBox(isOffline = isOffline)
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .windowInsetsPadding(
-                            WindowInsets.safeDrawing.only(
-                                WindowInsetsSides.Horizontal
-                            )
-                        )
-                ) {
-                    if (appState.shouldShowNavRail) {
-                        CpaQuizNavigationRail(
-                            destinations = appState.topLevelDestinations,
-                            onNavigateToDestination = appState::navigate,
-                            currentDestination = appState.currentDestination,
-                            modifier = Modifier.safeDrawingPadding(),
-                        )
-                    }
-
+                Column(Modifier.fillMaxSize()) {
                     CpaQuizNavHost(
                         navController = appState.navController,
                         windowSizeClass = appState.windowSizeClass,
-                        modifier = Modifier
-                            .padding(padding)
-                            .consumeWindowInsets(padding),
                         startDestination = appState.startDestination,
                     )
                 }

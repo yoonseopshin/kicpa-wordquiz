@@ -6,6 +6,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import com.ysshin.cpaquiz.core.android.base.BaseActivity
 import com.ysshin.cpaquiz.data.util.NetworkMonitor
+import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import com.ysshin.cpaquiz.presentation.ui.CpaQuizApp
 import com.ysshin.cpaquiz.presentation.ui.rememberCpaQuizAppState
@@ -28,7 +29,10 @@ class MainActivity : BaseActivity() {
                 networkMonitor = networkMonitor,
                 startDestination = HomeDestination.route,
             )
-            CpaQuizApp(appState = appState)
+
+            CpaQuizTheme {
+                CpaQuizApp(appState = appState)
+            }
         }
     }
 }

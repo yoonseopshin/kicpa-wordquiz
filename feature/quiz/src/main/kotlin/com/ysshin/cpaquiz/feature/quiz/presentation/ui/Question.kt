@@ -393,7 +393,7 @@ fun QuestionDetail(
                     append(currentQuestion.description)
                 },
                 style = Typography.bodyMedium,
-                color = colorResource(id = R.color.daynight_gray800s)
+                color = colorResource(id = R.color.daynight_gray800s),
             )
 
             if (currentQuestion.subDescriptions.isNotEmpty()) {
@@ -415,12 +415,12 @@ fun QuestionDetail(
                             Text(
                                 text = mark,
                                 style = Typography.bodyMedium,
-                                color = colorResource(id = R.color.daynight_gray600s)
+                                color = colorResource(id = R.color.daynight_gray600s),
                             )
                             Text(
                                 text = description,
                                 style = Typography.bodyMedium,
-                                color = colorResource(id = R.color.daynight_gray600s)
+                                color = colorResource(id = R.color.daynight_gray600s),
                             )
                         }
                     }
@@ -479,7 +479,7 @@ fun QuestionDetail(
                             .semantics { testTagsAsResourceId = true },
                         text = s,
                         style = Typography.bodyMedium,
-                        color = colorResource(id = R.color.daynight_gray600s)
+                        color = colorResource(id = R.color.daynight_gray600s),
                     )
                 }
             }
@@ -554,12 +554,12 @@ fun QuestionTopAppBar(
                     Text(
                         text = stringResource(id = R.string.quiz),
                         modifier = Modifier.fillMaxWidth(),
-                        style = Typography.headlineSmall,
+                        style = Typography.titleLarge,
                     )
                     Text(
                         text = "$solved/$total",
                         modifier = Modifier.fillMaxWidth(),
-                        style = Typography.bodyLarge,
+                        style = Typography.titleSmall,
                     )
                 }
             }
@@ -693,10 +693,7 @@ fun QuestionSummaryHeader(
     }
 }
 
-@OptIn(
-    ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class
-)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyItemScope.QuestionSummaryContent(
     problem: Problem,
