@@ -3,11 +3,12 @@ package com.ysshin.cpaquiz.feature.settings.presentation.ui
 import android.content.Context
 import android.content.Intent
 import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,9 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -31,16 +30,12 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -55,9 +50,13 @@ import com.ysshin.cpaquiz.core.android.BuildConfig
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
-import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.designsystem.component.CpaBackground
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
+import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
 import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 import kotlinx.coroutines.launch
@@ -76,7 +75,7 @@ fun SettingsScreen(
     windowSizeClass: WindowSizeClass,
     deleteAllWrongProblems: Action,
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = LocalSnackbarHostState.current
 
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -84,17 +83,16 @@ fun SettingsScreen(
         flingAnimationSpec = decayAnimationSpec,
     )
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { SettingsTopAppBar() }
-    ) { padding ->
-        SettingsLazyVerticalGrid(
-            modifier = Modifier.padding(padding),
-            windowSizeClass = windowSizeClass,
-            snackbarHostState = snackbarHostState,
-            deleteAllWrongProblems = deleteAllWrongProblems
-        )
+    CpaBackground {
+        Column(Modifier.fillMaxSize()) {
+            SettingsTopAppBar()
+
+            SettingsLazyVerticalGrid(
+                windowSizeClass = windowSizeClass,
+                snackbarHostState = snackbarHostState,
+                deleteAllWrongProblems = deleteAllWrongProblems
+            )
+        }
     }
 }
 
@@ -102,6 +100,7 @@ fun SettingsScreen(
 @Composable
 private fun SettingsTopAppBar() {
     TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
             Text(
                 text = stringResource(id = R.string.settings),
@@ -146,7 +145,7 @@ private fun SettingsLazyVerticalGrid(
     ) {
         item {
             SettingsListItem(
-                settingsIcon = painterResource(id = R.drawable.ic_delete),
+                settingsIcon = CpaIcons.Delete,
                 settingsText = stringResource(id = R.string.delete_wrong_note),
                 onClick = {
                     setDeleteWrongProblemDialogOpened(true)
@@ -156,7 +155,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = painterResource(id = R.drawable.ic_info),
+                settingsIcon = CpaIcons.Info,
                 settingsText = stringResource(id = R.string.app_version),
                 onClick = {
                     setAppVersionDialogOpened(true)
@@ -166,7 +165,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
+                settingsIcon = CpaIcons.NoteOutlined,
                 settingsText = stringResource(id = R.string.open_source_license),
                 onClick = context::startOssLicenseActivity
             )
@@ -174,7 +173,7 @@ private fun SettingsLazyVerticalGrid(
 
         item {
             SettingsListItem(
-                settingsIcon = painterResource(id = R.drawable.ic_mail),
+                settingsIcon = CpaIcons.Mail,
                 settingsText = stringResource(id = R.string.mail_to_developer),
                 onClick = context::startCpaQuizContactActivity
             )
@@ -210,7 +209,7 @@ private fun InitSettingsDialog(
             onDismiss = {
                 setDeleteWrongProblemDialogOpened(false)
             },
-            icon = painterResource(id = R.drawable.ic_delete),
+            icon = CpaIcons.Delete,
             title = stringResource(id = R.string.delete_wrong_note),
             description = stringResource(id = R.string.question_delete_all_wrong_note),
         )
@@ -224,7 +223,7 @@ private fun InitSettingsDialog(
             onDismiss = {
                 setAppVersionDialogOpened(false)
             },
-            icon = painterResource(id = R.drawable.ic_info),
+            icon = CpaIcons.Info,
             title = stringResource(id = R.string.app_version),
             description = stringResource(
                 id = R.string.app_version_name_and_code,
@@ -238,7 +237,7 @@ private fun InitSettingsDialog(
 
 @Composable
 private fun SettingsListItem(
-    settingsIcon: Painter,
+    settingsIcon: CpaIcon,
     settingsText: String,
     onClick: Action = {},
 ) {
@@ -259,11 +258,11 @@ private fun SettingsListItem(
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                painter = settingsIcon,
+            CpaIcon(
+                icon = settingsIcon,
                 contentDescription = settingsText,
                 modifier = Modifier.size(size = 36.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
+                tint = MaterialTheme.colorScheme.primary,
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
@@ -281,7 +280,7 @@ private fun SettingsListItem(
 @Composable
 private fun SettingsItemPreview() {
     SettingsListItem(
-        settingsIcon = painterResource(id = R.drawable.ic_note_outlined),
+        settingsIcon = CpaIcons.NoteOutlined,
         settingsText = stringResource(id = R.string.open_source_license),
     )
 }

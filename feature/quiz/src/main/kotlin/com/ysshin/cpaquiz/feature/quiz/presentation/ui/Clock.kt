@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ysshin.cpaquiz.core.android.ui.animation.ClockTickingAnimation
-import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.TimeFormatter
+import com.ysshin.cpaquiz.designsystem.theme.Typography
 
 @Preview
 @Composable

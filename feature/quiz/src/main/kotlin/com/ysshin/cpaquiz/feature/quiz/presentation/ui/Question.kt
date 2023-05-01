@@ -25,9 +25,6 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Divider
@@ -35,7 +32,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -78,7 +74,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
@@ -100,14 +95,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
-import com.ysshin.cpaquiz.core.android.ui.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
-import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.core.android.ui.theme.Typography
 import com.ysshin.cpaquiz.core.android.util.RegexUtils
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.core.android.util.findActivity
+import com.ysshin.cpaquiz.designsystem.component.NotClickableAssistedChip
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
+import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.designsystem.theme.Typography
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
@@ -343,13 +340,12 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                 circleColor = colorResource(id = popScaleAnimationInfo.value.backgroundColorResId),
                 radius = 360f,
             ) {
-                Icon(
+                CpaIcon(
+                    icon = CpaIcon.ImageVectorIcon(popScaleAnimationInfo.value.icon),
                     modifier = Modifier
                         .width(64.dp)
                         .height(64.dp),
-                    imageVector = popScaleAnimationInfo.value.icon,
                     tint = colorResource(id = popScaleAnimationInfo.value.iconTintColorResId),
-                    contentDescription = null,
                 )
             }
         }
@@ -396,7 +392,7 @@ fun QuestionDetail(
                     append(currentQuestion.description)
                 },
                 style = Typography.bodyMedium,
-                color = colorResource(id = R.color.daynight_gray800s)
+                color = colorResource(id = R.color.daynight_gray800s),
             )
 
             if (currentQuestion.subDescriptions.isNotEmpty()) {
@@ -418,12 +414,12 @@ fun QuestionDetail(
                             Text(
                                 text = mark,
                                 style = Typography.bodyMedium,
-                                color = colorResource(id = R.color.daynight_gray600s)
+                                color = colorResource(id = R.color.daynight_gray600s),
                             )
                             Text(
                                 text = description,
                                 style = Typography.bodyMedium,
-                                color = colorResource(id = R.color.daynight_gray600s)
+                                color = colorResource(id = R.color.daynight_gray600s),
                             )
                         }
                     }
@@ -482,7 +478,7 @@ fun QuestionDetail(
                             .semantics { testTagsAsResourceId = true },
                         text = s,
                         style = Typography.bodyMedium,
-                        color = colorResource(id = R.color.daynight_gray600s)
+                        color = colorResource(id = R.color.daynight_gray600s),
                     )
                 }
             }
@@ -557,19 +553,19 @@ fun QuestionTopAppBar(
                     Text(
                         text = stringResource(id = R.string.quiz),
                         modifier = Modifier.fillMaxWidth(),
-                        style = Typography.headlineSmall,
+                        style = Typography.titleLarge,
                     )
                     Text(
                         text = "$solved/$total",
                         modifier = Modifier.fillMaxWidth(),
-                        style = Typography.bodyLarge,
+                        style = Typography.titleSmall,
                     )
                 }
             }
         },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+                CpaIcon(icon = CpaIcons.ArrowBack)
             }
         },
         actions = {
@@ -615,10 +611,10 @@ private fun QuestionFloatingActionButton(
                             )
                         )
                 },
-            onClick = { onFabClick() },
+            onClick = onFabClick,
             elevation = fabElevation,
         ) {
-            Icon(imageVector = Icons.Default.Check, contentDescription = "Next")
+            CpaIcon(icon = CpaIcons.Check)
         }
     }
 }
@@ -716,7 +712,7 @@ fun LazyItemScope.QuestionSummaryContent(
     isDeleteWrongProblemDialogOpened?.let { dialog ->
         if (dialog.isOpened) {
             AppInfoDialog(
-                icon = painterResource(id = R.drawable.ic_delete),
+                icon = CpaIcons.Delete,
                 title = stringResource(id = R.string.delete_wrong_problem),
                 description = stringResource(id = R.string.question_delete_wrong_note),
                 onConfirm = {

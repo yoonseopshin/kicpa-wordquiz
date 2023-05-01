@@ -1,12 +1,5 @@
 package com.ysshin.cpaquiz.presentation.ui
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -22,6 +15,7 @@ import androidx.navigation.navOptions
 import com.ysshin.core.navigation.CpaQuizNavigationDestination
 import com.ysshin.cpaquiz.R
 import com.ysshin.cpaquiz.data.util.NetworkMonitor
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.NoteDestination
 import com.ysshin.cpaquiz.feature.settings.presentation.navigation.SettingsDestination
@@ -65,22 +59,22 @@ class CpaQuizAppState(
         TopLevelDestination(
             route = HomeDestination.route,
             destination = HomeDestination.destination,
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
+            selectedIcon = CpaIcons.HomeFilled,
+            unselectedIcon = CpaIcons.Home,
             iconTextResourceId = R.string.home
         ),
         TopLevelDestination(
             route = NoteDestination.route,
             destination = NoteDestination.destination,
-            selectedIcon = Icons.Filled.Edit,
-            unselectedIcon = Icons.Outlined.Edit,
+            selectedIcon = CpaIcons.EditFilled,
+            unselectedIcon = CpaIcons.Edit,
             iconTextResourceId = R.string.note
         ),
         TopLevelDestination(
             route = SettingsDestination.route,
             destination = SettingsDestination.destination,
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
+            selectedIcon = CpaIcons.SettingsFilled,
+            unselectedIcon = CpaIcons.Settings,
             iconTextResourceId = R.string.settings
         )
     )

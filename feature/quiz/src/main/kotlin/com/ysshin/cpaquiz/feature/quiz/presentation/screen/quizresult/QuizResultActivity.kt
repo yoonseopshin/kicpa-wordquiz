@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ysshin.cpaquiz.core.android.base.BaseActivity
-import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
+import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.feature.quiz.presentation.ad.InterstitialAdDelegator
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.QuizResultRoute
