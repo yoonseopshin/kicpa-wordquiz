@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -36,13 +35,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,8 +52,10 @@ import com.ysshin.cpaquiz.core.android.framework.permission.PostNotification
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.network.NetworkConnectivityStatusBox
-import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
+import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
 import com.ysshin.cpaquiz.presentation.MainViewModel
 import com.ysshin.cpaquiz.presentation.PostNotificationUiState
 import com.ysshin.cpaquiz.presentation.navigation.CpaQuizNavHost
@@ -66,51 +66,53 @@ import timber.log.Timber
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun CpaQuizApp(appState: CpaQuizAppState) {
-    CpaQuizTheme {
-        val snackbarHostState = remember { SnackbarHostState() }
-        val isOffline by appState.isOffline.collectAsStateWithLifecycle()
+    val snackbarHostState = LocalSnackbarHostState.current
+    val isOffline by appState.isOffline.collectAsStateWithLifecycle()
 
-        RequestPostNotificationsPermission(snackbarHostState)
+    RequestPostNotificationsPermission(snackbarHostState)
 
-        Scaffold(
-            bottomBar = {
-                if (appState.shouldShowBottomBar) {
-                    CpaQuizBottomBar(
+    Scaffold(
+        modifier = Modifier.resourceTestTag("appScaffold"),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        bottomBar = {
+            if (appState.shouldShowBottomBar) {
+                CpaQuizBottomBar(
+                    destinations = appState.topLevelDestinations,
+                    onNavigateToDestination = appState::navigate,
+                    currentDestination = appState.currentDestination
+                )
+            }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { padding ->
+        Column {
+            NetworkConnectivityStatusBox(isOffline = isOffline)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .consumeWindowInsets(padding)
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(
+                            WindowInsetsSides.Horizontal
+                        )
+                    )
+            ) {
+                if (appState.shouldShowNavRail) {
+                    CpaQuizNavigationRail(
                         destinations = appState.topLevelDestinations,
                         onNavigateToDestination = appState::navigate,
-                        currentDestination = appState.currentDestination
+                        currentDestination = appState.currentDestination,
+                        modifier = Modifier.safeDrawingPadding(),
                     )
                 }
-            },
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-        ) { padding ->
-            Column {
-                NetworkConnectivityStatusBox(isOffline = isOffline)
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .windowInsetsPadding(
-                            WindowInsets.safeDrawing.only(
-                                WindowInsetsSides.Horizontal
-                            )
-                        )
-                ) {
-                    if (appState.shouldShowNavRail) {
-                        CpaQuizNavigationRail(
-                            destinations = appState.topLevelDestinations,
-                            onNavigateToDestination = appState::navigate,
-                            currentDestination = appState.currentDestination,
-                            modifier = Modifier.safeDrawingPadding(),
-                        )
-                    }
-
+                Column(Modifier.fillMaxSize()) {
                     CpaQuizNavHost(
                         navController = appState.navController,
                         windowSizeClass = appState.windowSizeClass,
-                        modifier = Modifier
-                            .padding(padding)
-                            .consumeWindowInsets(padding),
                         startDestination = appState.startDestination,
                     )
                 }
@@ -194,7 +196,7 @@ private fun RequestPostNotificationsPermission(
 
     if (showPostNotificationsDialog) {
         AppInfoDialog(
-            icon = painterResource(id = R.drawable.ic_notifications),
+            icon = CpaIcons.Notifications,
             title = stringResource(id = R.string.post_notifications_dialog_title),
             description = stringResource(id = R.string.post_notifications_dialog_description),
             confirmText = stringResource(id = R.string.allow),
@@ -229,12 +231,13 @@ private fun CpaQuizBottomBar(
                     selected = selected,
                     onClick = { onNavigateToDestination(destination) },
                     icon = {
-                        val icon = if (selected) {
-                            destination.selectedIcon
-                        } else {
-                            destination.unselectedIcon
-                        }
-                        Icon(imageVector = icon, contentDescription = null)
+                        CpaIcon(
+                            icon = if (selected) {
+                                destination.selectedIcon
+                            } else {
+                                destination.unselectedIcon
+                            }
+                        )
                     },
                     label = {
                         Text(
@@ -262,12 +265,13 @@ private fun CpaQuizNavigationRail(
                 selected = selected,
                 onClick = { onNavigateToDestination(destination) },
                 icon = {
-                    val icon = if (selected) {
-                        destination.selectedIcon
-                    } else {
-                        destination.unselectedIcon
-                    }
-                    Icon(imageVector = icon, contentDescription = null)
+                    CpaIcon(
+                        icon = if (selected) {
+                            destination.selectedIcon
+                        } else {
+                            destination.unselectedIcon
+                        }
+                    )
                 },
                 label = {
                     Text(

@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":core:android"))
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
+    implementation(project(":core:designsystem"))
 
     add("implementation", libs.findLibrary("hilt.android").get())
     add("kapt", libs.findLibrary("hilt.compiler").get())

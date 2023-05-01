@@ -7,7 +7,6 @@ import timber.log.Timber
 class CpaQuizFcmService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        // TODO: Need to save local datastore?
         Timber.d("token: $token")
     }
 

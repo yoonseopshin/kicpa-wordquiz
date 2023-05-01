@@ -46,7 +46,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AssistChip
@@ -55,7 +54,6 @@ import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -108,9 +106,11 @@ import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
-import com.ysshin.cpaquiz.core.android.ui.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
+import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
@@ -227,6 +227,7 @@ fun NoteScreen(
                             setFilter = setFilter,
                             snackbarHostState = snackbarHostState
                         )
+
                         is NoteMenuContent.Search -> NoteSearchMenuContent(
                             isMenuOpened = isMenuOpened,
                             hideMenu = { isMenuOpened = false },
@@ -303,6 +304,7 @@ fun NoteScreen(
                         }
                     }
                 }
+
                 NoteScreenType.QuestionWithDetails -> {
                     Row {
                         LazyColumn(
@@ -379,7 +381,8 @@ fun NoSelectedQuestionScreen() {
     ) {
         val minSize = 100.dp
         val maxSize = 140.dp
-        Icon(
+        CpaIcon(
+            icon = CpaIcons.Quiz,
             modifier = Modifier
                 .align(Alignment.Center)
                 .sizeIn(
@@ -388,7 +391,6 @@ fun NoSelectedQuestionScreen() {
                     maxWidth = maxSize,
                     maxHeight = maxSize,
                 ),
-            painter = painterResource(id = R.drawable.quiz),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
         )
@@ -414,6 +416,7 @@ private fun NoteTopAppBar(
             isSearching = false
             isFiltering = noteFilter.isFiltering()
         }
+
         is NoteMenuContent.Search -> {
             isSearching = searchKeyword.isNotBlank()
             isFiltering = false
@@ -519,7 +522,7 @@ private fun LazyListScope.wrongProblemsContent(
         itemHeader(shouldShowListHeaderAsSticky) {
             if (isDeleteAllWrongProblemsDialogOpened) {
                 AppInfoDialog(
-                    icon = painterResource(id = R.drawable.ic_delete),
+                    icon = CpaIcons.Delete,
                     title = stringResource(id = R.string.delete_wrong_note),
                     description = stringResource(id = R.string.question_delete_all_wrong_note),
                     onConfirm = {
@@ -605,11 +608,11 @@ private fun LazyListScope.wrongProblemsContent(
                                 .padding(end = paddingEnd),
                             contentAlignment = Alignment.CenterEnd
                         ) {
-                            Icon(
+                            CpaIcon(
+                                icon = CpaIcons.Delete,
                                 modifier = Modifier
                                     .size(40.dp)
                                     .scale(scale),
-                                painter = painterResource(id = R.drawable.ic_delete),
                                 contentDescription = stringResource(id = R.string.delete_wrong_note),
                                 tint = onBackgroundColor,
                             )
@@ -724,6 +727,7 @@ private fun WrongNoteHeaderContent(
                 )
             }
         }
+
         is WrongProblemsUiState.Error -> Unit
         is WrongProblemsUiState.Loading -> Unit
     }
@@ -744,6 +748,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState, windowSizeClass:
                 numOfProblems = problems.size
             )
         }
+
         is TotalProblemsUiState.Error -> Unit
         is TotalProblemsUiState.Loading -> Unit
     }
@@ -764,6 +769,7 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState, windowSize
                 numOfProblems = problems.size
             )
         }
+
         is SearchedProblemsUiState.Error -> Unit
         is SearchedProblemsUiState.Loading -> Unit
     }
@@ -854,6 +860,7 @@ private fun NoteFilterMenuContent(
             isYearFiltering = noteFilter.isYearFiltering()
             isQuizTypeFiltering = noteFilter.isQuizTypeFiltering()
         }
+
         is NoteMenuContent.Search -> {
             isYearFiltering = false
             isQuizTypeFiltering = false
@@ -921,8 +928,8 @@ private fun NoteFilterMenuContentDetail(
         IconButton(
             onClick = { hideMenu() }, modifier = Modifier.padding(end = 4.dp)
         ) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowUp,
+            CpaIcon(
+                icon = CpaIcons.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.hide_menu),
                 tint = MaterialTheme.colorScheme.secondary
             )
@@ -1010,8 +1017,8 @@ private fun NoteSearchMenuContent(
         IconButton(
             onClick = hideMenu, modifier = Modifier.padding(end = 4.dp)
         ) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowUp,
+            CpaIcon(
+                icon = CpaIcons.KeyboardArrowUp,
                 contentDescription = stringResource(id = R.string.hide_menu),
                 tint = MaterialTheme.colorScheme.secondary
             )
@@ -1039,11 +1046,11 @@ private fun NoteTopMenu(
             onClick = { updateSearchKeyword("") },
             modifier = Modifier.padding(all = 4.dp),
             leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_search_off),
+                CpaIcon(
+                    icon = CpaIcons.SearchOff,
+                    modifier = Modifier.padding(start = 4.dp),
                     contentDescription = stringResource(id = R.string.clear_search),
                     tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.padding(start = 4.dp)
                 )
             },
             label = {
@@ -1060,11 +1067,11 @@ private fun NoteTopMenu(
         AssistChip(onClick = { clearFilter() }, modifier = Modifier.padding(all = 4.dp), label = {
             Text(text = stringResource(id = R.string.clear_filter))
         }, leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_filter),
+            CpaIcon(
+                icon = CpaIcons.Filter,
+                modifier = Modifier.padding(start = 4.dp),
                 contentDescription = stringResource(id = R.string.clear_filter),
-                tint = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.padding(start = 4.dp)
+                tint = MaterialTheme.colorScheme.secondary
             )
         })
     }
@@ -1112,11 +1119,11 @@ private fun NoteTopMenu(
             if (isExpanded) 32.dp else 24.dp
         }
 
-        Icon(
-            imageVector = if (isMenuOpened) Icons.Filled.Search else Icons.Outlined.Search,
+        CpaIcon(
+            icon = CpaIcon.ImageVectorIcon(if (isMenuOpened) Icons.Filled.Search else Icons.Outlined.Search),
+            modifier = Modifier.size(size),
             contentDescription = stringResource(id = R.string.search),
-            tint = tint,
-            modifier = Modifier.size(size)
+            tint = tint
         )
     }
 
@@ -1162,11 +1169,11 @@ private fun NoteTopMenu(
             if (isExpanded) 32.dp else 24.dp
         }
 
-        Icon(
-            painter = painterResource(id = R.drawable.ic_filter),
+        CpaIcon(
+            icon = CpaIcons.Filter,
+            modifier = Modifier.size(size),
             contentDescription = stringResource(id = R.string.filter),
             tint = tint,
-            modifier = Modifier.size(size),
         )
     }
 }
