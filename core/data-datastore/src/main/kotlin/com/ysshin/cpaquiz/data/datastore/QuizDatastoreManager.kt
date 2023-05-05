@@ -51,12 +51,9 @@ class QuizDatastoreManager @Inject constructor(private val dataStore: DataStore<
             return@map false
         }
 
-        val solvedQuiz = pref[solvedQuizKey] ?: DEFAULT_SOLVED_QUIZ
+        val solvedQuiz = pref[solvedQuizKey] ?: return@map false
 
-        if (solvedQuiz == DEFAULT_SOLVED_QUIZ) {
-            return@map false
-        }
-
-        return@map solvedQuiz % DEFAULT_IN_APP_REVIEW_THRESHOLD == 0 && solvedQuiz % DEFAULT_SOLVED_QUIZ_THRESHOLD != 0
+        // Every 12th, except for every 60th
+        return@map solvedQuiz % IN_APP_REVIEW_THRESHOLD == 0 && solvedQuiz % SOLVED_QUIZ_THRESHOLD != 0
     }
 }
