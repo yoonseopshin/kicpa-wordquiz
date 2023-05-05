@@ -24,7 +24,6 @@ import com.ysshin.cpaquiz.designsystem.component.ThemePreviews
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.designsystem.theme.shimmerColorShades
 
-
 @Composable
 fun ShimmerAnimation(
     modifier: Modifier,
@@ -58,7 +57,6 @@ fun ShimmerAnimation(
         content()
     }
 }
-
 
 @ThemePreviews
 @Composable
