@@ -13,9 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalView
@@ -31,7 +28,6 @@ fun Modifier.bounceClickable(
     onClick: () -> Unit = {},
     onDoubleClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
-    shape: Shape = RectangleShape,
     useHapticFeedback: Boolean = true,
 ) = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
@@ -44,10 +40,12 @@ fun Modifier.bounceClickable(
     val view = LocalView.current
 
     this
-        .clip(shape)
         .combinedClickable(
             enabled = enabled,
-            onClick = onClick,
+            onClick = {
+                if (useHapticFeedback) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                onClick()
+            },
             onDoubleClick = onDoubleClick,
             onLongClick = onLongClick,
             interactionSource = remember { MutableInteractionSource() },
@@ -63,9 +61,9 @@ fun Modifier.bounceClickable(
                 buttonState = when (buttonState) {
                     ButtonState.Pressed -> {
                         waitForUpOrCancellation()
-                        if (useHapticFeedback) view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                         ButtonState.Idle
                     }
+
                     ButtonState.Idle -> {
                         awaitFirstDown(false)
                         ButtonState.Pressed

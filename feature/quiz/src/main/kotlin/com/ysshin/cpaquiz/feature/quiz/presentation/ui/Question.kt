@@ -598,7 +598,7 @@ private fun QuestionFloatingActionButton(
         FloatingActionButton(
             modifier = Modifier
                 .resourceTestTag("fab")
-                .bounceClickable()
+                .bounceClickable(useHapticFeedback = false)
                 .padding(16.dp)
                 .onGloballyPositioned(onFabGloballyPositioned)
                 .modifyIf(areFabAndQuizDetailScreenOverlapped) {

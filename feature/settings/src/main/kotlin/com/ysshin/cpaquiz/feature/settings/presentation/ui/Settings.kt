@@ -249,7 +249,6 @@ private fun SettingsListItem(
             .bounceClickable(
                 dampingRatio = 0.95f,
                 onClick = onClick,
-                shape = cornerShape,
             )
             .fillMaxWidth(),
         shape = cornerShape,
