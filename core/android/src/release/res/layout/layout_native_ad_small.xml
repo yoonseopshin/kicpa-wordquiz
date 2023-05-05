@@ -65,8 +65,9 @@
                 android:textColor="@color/ad_green"
                 android:textSize="10sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/iv_app_icon"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SmallSp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -115,7 +116,6 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:minHeight="32dp"
-            android:paddingHorizontal="4dp"
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
