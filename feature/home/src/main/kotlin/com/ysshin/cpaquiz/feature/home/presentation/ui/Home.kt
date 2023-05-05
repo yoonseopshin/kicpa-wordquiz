@@ -172,7 +172,8 @@ fun HomeScreen(
                         is HomeQuizUiState.Success -> {
                             QuizCard(
                                 modifier = Modifier.resourceTestTag("quizCard${QuizType.Accounting.ordinal}"),
-                                cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color_0_20),
+                                cardBackgroundColor = colorResource(id = R.color.accounting_highlight_color)
+                                    .copy(alpha = 0.2f),
                                 iconBackgroundColor = colorResource(id = R.color.accounting_highlight_color),
                                 count = homeQuizUiState.accountingCount,
                                 title = stringResource(id = R.string.accounting),
@@ -183,7 +184,8 @@ fun HomeScreen(
 
                             QuizCard(
                                 modifier = Modifier.resourceTestTag("quizCard${QuizType.Business.ordinal}"),
-                                cardBackgroundColor = colorResource(id = R.color.business_highlight_color_0_20),
+                                cardBackgroundColor = colorResource(id = R.color.business_highlight_color)
+                                    .copy(alpha = 0.2f),
                                 iconBackgroundColor = colorResource(id = R.color.business_highlight_color),
                                 count = homeQuizUiState.businessCount,
                                 title = stringResource(id = R.string.business),
@@ -194,7 +196,8 @@ fun HomeScreen(
 
                             QuizCard(
                                 modifier = Modifier.resourceTestTag("quizCard${QuizType.CommercialLaw.ordinal}"),
-                                cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color_0_20),
+                                cardBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color)
+                                    .copy(alpha = 0.2f),
                                 iconBackgroundColor = colorResource(id = R.color.commercial_law_highlight_color),
                                 count = homeQuizUiState.commercialLawCount,
                                 title = stringResource(id = R.string.commercial_law),
@@ -205,7 +208,8 @@ fun HomeScreen(
 
                             QuizCard(
                                 modifier = Modifier.resourceTestTag("quizCard${QuizType.TaxLaw.ordinal}"),
-                                cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color_0_20),
+                                cardBackgroundColor = colorResource(id = R.color.tax_law_highlight_color)
+                                    .copy(alpha = 0.2f),
                                 iconBackgroundColor = colorResource(id = R.color.tax_law_highlight_color),
                                 count = homeQuizUiState.taxLawCount,
                                 title = stringResource(id = R.string.tax_law),
@@ -386,7 +390,10 @@ private fun QuizCard(
                     onClick = onClick,
                 )
                 .padding(elevation)
-                .shadow(elevation = elevation, shape = cornerShape)
+                .shadow(
+                    elevation = elevation,
+                    shape = cornerShape,
+                )
                 .onGloballyPositioned { coordinates ->
                     cardWidth = coordinates.size.width
                 },

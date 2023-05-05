@@ -59,15 +59,9 @@
     <color name="daynight_pastel_brown_0.20">@color/dayonly_pastel_brown_0.20</color>
 
     <color name="accounting_highlight_color">@color/daynight_pastel_orange</color>
-    <color name="accounting_highlight_color_0.20">@color/daynight_pastel_orange_0.20</color>
     <color name="business_highlight_color">@color/daynight_pastel_green</color>
-    <color name="business_highlight_color_0.20">@color/daynight_pastel_green_0.20</color>
     <color name="commercial_law_highlight_color">@color/daynight_pastel_brown</color>
-    <color name="commercial_law_highlight_color_0.20">@color/daynight_pastel_brown_0.20</color>
     <color name="tax_law_highlight_color">@color/daynight_pastel_blue</color>
-    <color name="tax_law_highlight_color_0.20">@color/daynight_pastel_blue_0.20</color>
-    <color name="timer_result_highlight_color">@color/daynight_pastel_deep_purple</color>
-    <color name="timer_result_highlight_color_0.20">@color/daynight_pastel_deep_purple_0.20</color>
 
     <color name="color_on_correct">#66B7DF89</color>
     <color name="color_on_correct_bg">#14B7DF89</color>

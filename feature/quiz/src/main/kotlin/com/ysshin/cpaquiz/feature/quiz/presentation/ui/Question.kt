@@ -301,6 +301,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                     },
                                     colors = AssistChipDefaults.assistChipColors(
                                         containerColor = colorResource(id = containerColorResourceIdByType)
+                                            .copy(alpha = 0.2f)
                                     ),
                                     border = null,
                                 )
@@ -317,6 +318,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                         },
                                         colors = AssistChipDefaults.assistChipColors(
                                             containerColor = colorResource(id = containerColorResourceIdByType)
+                                                .copy(alpha = 0.2f)
                                         ),
                                         border = null,
                                     )
@@ -792,6 +794,7 @@ fun LazyItemScope.QuestionSummaryContent(
                         },
                         colors = AssistChipDefaults.assistChipColors(
                             containerColor = colorResource(id = containerColorResourceIdByType)
+                                .copy(alpha = 0.2f)
                         ),
                         border = null,
                     )
@@ -808,6 +811,7 @@ fun LazyItemScope.QuestionSummaryContent(
                             },
                             colors = AssistChipDefaults.assistChipColors(
                                 containerColor = colorResource(id = containerColorResourceIdByType)
+                                    .copy(alpha = 0.2f)
                             ),
                             border = null,
                         )
