@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ object CpaIcons {
     val ArrowBack = CpaIcon.ImageVectorIcon(Icons.Default.ArrowBack)
     val Check = CpaIcon.ImageVectorIcon(Icons.Default.Check)
     val Notifications = CpaIcon.DrawableResourceIcon(R.drawable.ic_notifications)
+    val Warning = CpaIcon.ImageVectorIcon(Icons.Rounded.Warning)
 }
 
 sealed class CpaIcon {

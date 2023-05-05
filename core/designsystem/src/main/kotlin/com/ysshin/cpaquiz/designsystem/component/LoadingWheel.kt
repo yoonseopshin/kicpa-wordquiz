@@ -152,4 +152,3 @@ fun CpaOverlayLoadingWheelPreview() {
 
 private const val ROTATION_TIME = 12000
 private const val NUM_OF_LINES = 12
-

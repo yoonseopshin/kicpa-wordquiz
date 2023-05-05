@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="64dp"
     android:visibility="gone"
     tools:visibility="visible">
 
@@ -13,48 +14,62 @@
         android:layout_gravity="center"
         android:paddingBottom="6dp">
 
-        <ImageView
-            android:id="@+id/iv_app_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="6dp"
-            android:adjustViewBounds="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/tv_headline"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lay_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:minWidth="100dp"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_app_icon"
-            app:layout_constraintEnd_toStartOf="@id/tv_advertiser"
-            app:layout_constraintStart_toEndOf="@id/iv_app_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_app_icon"
-            tools:text="Test Ad : Google Ads" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintEnd_toStartOf="@+id/layout_action"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_advertiser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ad_rounded_corners_shape"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="1dp"
-            android:text="@string/ad"
-            android:textColor="@color/ad_green"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/tv_body"
-            app:layout_constraintTop_toTopOf="@id/iv_app_icon"
-            tools:ignore="SmallSp" />
+            <ImageView
+                android:id="@+id/iv_app_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:adjustViewBounds="true"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_headline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:minWidth="100dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_advertiser"
+                app:layout_constraintStart_toEndOf="@id/iv_app_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginStart="0dp"
+                tools:text="Test Ad : Google Ads"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_advertiser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ad_rounded_corners_shape"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="1dp"
+                android:text="@string/ad"
+                android:textColor="@color/ad_green"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_app_icon"
+                tools:ignore="SmallSp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/layout_action"
@@ -84,7 +99,9 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textSize="12sp"
-                tools:text="Google Play" />
+                android:visibility="gone"
+                tools:text="Google Play"
+                tools:visibility="visible" />
 
         </LinearLayout>
 
@@ -100,11 +117,13 @@
             android:minHeight="32dp"
             android:paddingHorizontal="4dp"
             android:textSize="12sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/layout_action"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_app_icon"
-            tools:text="Stay up to date with your Ads Check how your ads are performing" />
+            app:layout_constraintTop_toBottomOf="@id/lay_header"
+            tools:text="Stay up to date with your Ads Check how your ads are performing"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

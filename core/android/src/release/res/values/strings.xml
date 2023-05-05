@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_load_failed">광고 호출에 실패했습니다.</string>
+</resources>
