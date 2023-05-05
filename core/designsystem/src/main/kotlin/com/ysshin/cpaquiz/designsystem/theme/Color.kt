@@ -1,5 +1,8 @@
 package com.ysshin.cpaquiz.designsystem.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF71585F)
@@ -60,4 +63,18 @@ val md_theme_dark_inverseOnSurface = Color(0xFF323030)
 val md_theme_dark_inversePrimary = Color(0xFF71585F)
 val md_theme_dark_surfaceTint = Color(0xFFDEBEC7)
 
-val seed = Color(0xFFF7D6DF)
+val ColorScheme.shimmerColorShades: List<Color>
+    @Composable
+    get() = if (isSystemInDarkTheme()) {
+        listOf(
+            Color.DarkGray.copy(alpha = 0.7f),
+            Color.DarkGray.copy(alpha = 0.1f),
+            Color.DarkGray.copy(alpha = 0.7f),
+        )
+    } else {
+        listOf(
+            Color.LightGray.copy(alpha = 0.5f),
+            Color.LightGray.copy(alpha = 0.1f),
+            Color.LightGray.copy(alpha = 0.5f),
+        )
+    }
