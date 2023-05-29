@@ -2,7 +2,6 @@ package com.ysshin.cpaquiz.feature.settings.presentation.ui
 
 import android.content.Context
 import android.content.Intent
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,7 +23,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -47,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.core.android.BuildConfig
+import com.ysshin.cpaquiz.core.android.R as CR
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
@@ -57,7 +56,6 @@ import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
-import com.ysshin.cpaquiz.feature.settings.R
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 import kotlinx.coroutines.launch
 
@@ -69,19 +67,12 @@ fun SettingsRoute(windowSizeClass: WindowSizeClass, viewModel: SettingsViewModel
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     windowSizeClass: WindowSizeClass,
     deleteAllWrongProblems: Action,
 ) {
     val snackbarHostState = LocalSnackbarHostState.current
-
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = rememberTopAppBarState(),
-        flingAnimationSpec = decayAnimationSpec,
-    )
 
     CpaBackground {
         Column(Modifier.fillMaxSize()) {
@@ -103,7 +94,7 @@ private fun SettingsTopAppBar() {
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
             Text(
-                text = stringResource(id = R.string.settings),
+                text = stringResource(id = CR.string.settings),
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -146,7 +137,7 @@ private fun SettingsLazyVerticalGrid(
         item {
             SettingsListItem(
                 settingsIcon = CpaIcons.Delete,
-                settingsText = stringResource(id = R.string.delete_wrong_note),
+                settingsText = stringResource(id = CR.string.delete_wrong_note),
                 onClick = {
                     setDeleteWrongProblemDialogOpened(true)
                 },
@@ -156,7 +147,7 @@ private fun SettingsLazyVerticalGrid(
         item {
             SettingsListItem(
                 settingsIcon = CpaIcons.Info,
-                settingsText = stringResource(id = R.string.app_version),
+                settingsText = stringResource(id = CR.string.app_version),
                 onClick = {
                     setAppVersionDialogOpened(true)
                 }
@@ -166,7 +157,7 @@ private fun SettingsLazyVerticalGrid(
         item {
             SettingsListItem(
                 settingsIcon = CpaIcons.NoteOutlined,
-                settingsText = stringResource(id = R.string.open_source_license),
+                settingsText = stringResource(id = CR.string.open_source_license),
                 onClick = context::startOssLicenseActivity
             )
         }
@@ -174,7 +165,7 @@ private fun SettingsLazyVerticalGrid(
         item {
             SettingsListItem(
                 settingsIcon = CpaIcons.Mail,
-                settingsText = stringResource(id = R.string.mail_to_developer),
+                settingsText = stringResource(id = CR.string.mail_to_developer),
                 onClick = context::startCpaQuizContactActivity
             )
         }
@@ -199,7 +190,7 @@ private fun InitSettingsDialog(
                 deleteAllWrongProblems()
                 scope.launch {
                     snackbarHostState.showSnackbar(
-                        message = context.getString(R.string.success_delete_all_wrong_note),
+                        message = context.getString(CR.string.success_delete_all_wrong_note),
                         withDismissAction = true,
                         duration = SnackbarDuration.Short,
                     )
@@ -210,8 +201,8 @@ private fun InitSettingsDialog(
                 setDeleteWrongProblemDialogOpened(false)
             },
             icon = CpaIcons.Delete,
-            title = stringResource(id = R.string.delete_wrong_note),
-            description = stringResource(id = R.string.question_delete_all_wrong_note),
+            title = stringResource(id = CR.string.delete_wrong_note),
+            description = stringResource(id = CR.string.question_delete_all_wrong_note),
         )
     }
 
@@ -224,9 +215,9 @@ private fun InitSettingsDialog(
                 setAppVersionDialogOpened(false)
             },
             icon = CpaIcons.Info,
-            title = stringResource(id = R.string.app_version),
+            title = stringResource(id = CR.string.app_version),
             description = stringResource(
-                id = R.string.app_version_name_and_code,
+                id = CR.string.app_version_name_and_code,
                 BuildConfig.APP_VERSION_NAME,
                 BuildConfig.APP_VERSION_CODE
             ),
@@ -280,7 +271,7 @@ private fun SettingsListItem(
 private fun SettingsItemPreview() {
     SettingsListItem(
         settingsIcon = CpaIcons.NoteOutlined,
-        settingsText = stringResource(id = R.string.open_source_license),
+        settingsText = stringResource(id = CR.string.open_source_license),
     )
 }
 
@@ -325,15 +316,15 @@ private fun Context.startCpaQuizContactActivity() {
         val emailIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(
                 Intent.EXTRA_SUBJECT,
-                getString(R.string.mail_to_developer_title)
+                getString(CR.string.mail_to_developer_title)
             )
             putExtra(
                 Intent.EXTRA_EMAIL,
-                arrayOf(getString(R.string.developer_email))
+                arrayOf(getString(CR.string.developer_email))
             )
             putExtra(
                 Intent.EXTRA_TEXT,
-                getString(R.string.mail_info, BuildConfig.APP_VERSION_NAME)
+                getString(CR.string.mail_info, BuildConfig.APP_VERSION_NAME)
             )
             type = "message/rfc822"
         }

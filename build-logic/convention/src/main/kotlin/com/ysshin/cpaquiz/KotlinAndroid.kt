@@ -52,6 +52,10 @@ fun Project.configureKotlinAndroid(
                 "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
             )
         }
+
+        buildFeatures {
+            buildConfig = true
+        }
     }
 }
 

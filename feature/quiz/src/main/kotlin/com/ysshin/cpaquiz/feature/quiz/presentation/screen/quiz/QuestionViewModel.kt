@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.ysshin.cpaquiz.core.android.R as CR
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.util.UiText
 import com.ysshin.cpaquiz.core.base.DEFAULT_INT
@@ -14,7 +15,6 @@ import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
-import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
@@ -133,7 +133,7 @@ class QuestionViewModel @Inject constructor(
 
         if (currentSelectedIndex !in 0..4) {
             snackbarState.value =
-                SnackbarState.Show(message = UiText.StringResource(R.string.msg_need_answer))
+                SnackbarState.Show(message = UiText.StringResource(CR.string.msg_need_answer))
             quizState.value = QuizState.Solving
             return@launch
         }
@@ -197,10 +197,10 @@ sealed class PopScaleAnimationInfo(
     val icon: ImageVector,
 ) {
     object Correct :
-        PopScaleAnimationInfo(R.color.color_on_correct, R.color.daynight_pastel_green, Icons.Default.Check)
+        PopScaleAnimationInfo(CR.color.color_on_correct, CR.color.daynight_pastel_green, Icons.Default.Check)
 
     object Incorrect :
-        PopScaleAnimationInfo(R.color.color_on_incorrect, R.color.daynight_pastel_red, Icons.Default.Close)
+        PopScaleAnimationInfo(CR.color.color_on_incorrect, CR.color.daynight_pastel_red, Icons.Default.Close)
 }
 
 sealed interface SnackbarState {

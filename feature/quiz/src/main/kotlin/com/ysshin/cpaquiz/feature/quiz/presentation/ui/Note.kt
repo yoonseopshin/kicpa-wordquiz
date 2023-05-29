@@ -90,7 +90,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -101,6 +100,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ysshin.cpaquiz.core.android.R as CR
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
@@ -116,7 +116,6 @@ import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.isValid
-import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toWrongProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.UserSolvedProblemModel
@@ -426,7 +425,7 @@ private fun NoteTopAppBar(
     TopAppBar(
         title = {
             Text(
-                text = stringResource(id = R.string.note),
+                text = stringResource(id = CR.string.note),
                 modifier = Modifier.fillMaxWidth(),
             )
         },
@@ -523,8 +522,8 @@ private fun LazyListScope.wrongProblemsContent(
             if (isDeleteAllWrongProblemsDialogOpened) {
                 AppInfoDialog(
                     icon = CpaIcons.Delete,
-                    title = stringResource(id = R.string.delete_wrong_note),
-                    description = stringResource(id = R.string.question_delete_all_wrong_note),
+                    title = stringResource(id = CR.string.delete_wrong_note),
+                    description = stringResource(id = CR.string.question_delete_all_wrong_note),
                     onConfirm = {
                         deleteAllWrongProblems()
                         updateDeletingAllWrongProblemsDialog(false)
@@ -613,7 +612,7 @@ private fun LazyListScope.wrongProblemsContent(
                                 modifier = Modifier
                                     .size(40.dp)
                                     .scale(scale),
-                                contentDescription = stringResource(id = R.string.delete_wrong_note),
+                                contentDescription = stringResource(id = CR.string.delete_wrong_note),
                                 tint = onBackgroundColor,
                             )
                         }
@@ -721,7 +720,7 @@ private fun WrongNoteHeaderContent(
             if (problems.isNotEmpty()) {
                 QuestionSummaryHeader(
                     windowSizeClass = windowSizeClass,
-                    title = stringResource(id = R.string.wrong_note),
+                    title = stringResource(id = CR.string.wrong_note),
                     numOfProblems = problems.size,
                     onHeaderLongClick = onHeaderLongClick
                 )
@@ -744,7 +743,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState, windowSizeClass:
 
             QuestionSummaryHeader(
                 windowSizeClass = windowSizeClass,
-                title = stringResource(id = R.string.total_note),
+                title = stringResource(id = CR.string.total_note),
                 numOfProblems = problems.size
             )
         }
@@ -765,7 +764,7 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState, windowSize
 
             QuestionSummaryHeader(
                 windowSizeClass = windowSizeClass,
-                title = stringResource(id = R.string.searched_problem),
+                title = stringResource(id = CR.string.searched_problem),
                 numOfProblems = problems.size
             )
         }
@@ -792,9 +791,9 @@ private fun NoteFilterMenuContent(
 
     if (isYearFilterDialogOpened) {
         AppCheckboxDialog(
-            icon = painterResource(id = R.drawable.ic_filter),
-            title = stringResource(id = R.string.year),
-            description = stringResource(id = R.string.choose_filtered_years),
+            icon = CpaIcons.Filter,
+            title = stringResource(id = CR.string.year),
+            description = stringResource(id = CR.string.choose_filtered_years),
             selectableItems = selectableFilteredYears,
             onConfirm = { items ->
                 Timber.d("Selected: $items")
@@ -802,7 +801,7 @@ private fun NoteFilterMenuContent(
                 if (!items.any { it.isSelected }) {
                     scope.launch {
                         snackbarHostState.showSnackbar(
-                            message = context.getString(R.string.msg_need_filtered_year),
+                            message = context.getString(CR.string.msg_need_filtered_year),
                             withDismissAction = true,
                             duration = SnackbarDuration.Short,
                         )
@@ -824,9 +823,9 @@ private fun NoteFilterMenuContent(
 
     if (isQuizTypeFilterDialogOpened) {
         AppCheckboxDialog(
-            icon = painterResource(id = R.drawable.ic_filter),
-            title = stringResource(id = R.string.quiz_type),
-            description = stringResource(id = R.string.choose_filtered_types),
+            icon = CpaIcons.Filter,
+            title = stringResource(id = CR.string.quiz_type),
+            description = stringResource(id = CR.string.choose_filtered_types),
             selectableItems = selectableFilteredTypes,
             onConfirm = { items ->
                 Timber.d("Selected: $items")
@@ -834,7 +833,7 @@ private fun NoteFilterMenuContent(
                 if (!items.any { it.isSelected }) {
                     scope.launch {
                         snackbarHostState.showSnackbar(
-                            message = context.getString(R.string.msg_need_filtered_quiz_type),
+                            message = context.getString(CR.string.msg_need_filtered_quiz_type),
                             withDismissAction = true,
                             duration = SnackbarDuration.Short,
                         )
@@ -905,7 +904,7 @@ private fun NoteFilterMenuContentDetail(
             modifier = Modifier.padding(horizontal = 4.dp),
             label = {
                 ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                    Text(text = stringResource(id = R.string.year))
+                    Text(text = stringResource(id = CR.string.year))
                 }
             },
             colors = FilterChipDefaults.filterChipColors()
@@ -917,7 +916,7 @@ private fun NoteFilterMenuContentDetail(
             modifier = Modifier.padding(horizontal = 4.dp),
             label = {
                 ProvideTextStyle(value = MaterialTheme.typography.labelMedium) {
-                    Text(text = stringResource(id = R.string.quiz_type))
+                    Text(text = stringResource(id = CR.string.quiz_type))
                 }
             },
             colors = FilterChipDefaults.filterChipColors()
@@ -930,7 +929,7 @@ private fun NoteFilterMenuContentDetail(
         ) {
             CpaIcon(
                 icon = CpaIcons.KeyboardArrowUp,
-                contentDescription = stringResource(id = R.string.hide_menu),
+                contentDescription = stringResource(id = CR.string.hide_menu),
                 tint = MaterialTheme.colorScheme.secondary
             )
         }
@@ -1004,7 +1003,7 @@ private fun NoteSearchMenuContent(
                     }
                 },
             maxLines = 1,
-            placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
+            placeholder = { Text(text = stringResource(id = CR.string.search_hint)) },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done, keyboardType = KeyboardType.Text
             ),
@@ -1019,14 +1018,14 @@ private fun NoteSearchMenuContent(
         ) {
             CpaIcon(
                 icon = CpaIcons.KeyboardArrowUp,
-                contentDescription = stringResource(id = R.string.hide_menu),
+                contentDescription = stringResource(id = CR.string.hide_menu),
                 tint = MaterialTheme.colorScheme.secondary
             )
         }
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun NoteTopMenu(
     isMenuOpened: Boolean,
@@ -1049,12 +1048,12 @@ private fun NoteTopMenu(
                 CpaIcon(
                     icon = CpaIcons.SearchOff,
                     modifier = Modifier.padding(start = 4.dp),
-                    contentDescription = stringResource(id = R.string.clear_search),
+                    contentDescription = stringResource(id = CR.string.clear_search),
                     tint = MaterialTheme.colorScheme.secondary,
                 )
             },
             label = {
-                Text(text = stringResource(id = R.string.clear_search))
+                Text(text = stringResource(id = CR.string.clear_search))
             }
         )
     }
@@ -1065,12 +1064,12 @@ private fun NoteTopMenu(
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
         AssistChip(onClick = { clearFilter() }, modifier = Modifier.padding(all = 4.dp), label = {
-            Text(text = stringResource(id = R.string.clear_filter))
+            Text(text = stringResource(id = CR.string.clear_filter))
         }, leadingIcon = {
             CpaIcon(
                 icon = CpaIcons.Filter,
                 modifier = Modifier.padding(start = 4.dp),
-                contentDescription = stringResource(id = R.string.clear_filter),
+                contentDescription = stringResource(id = CR.string.clear_filter),
                 tint = MaterialTheme.colorScheme.secondary
             )
         })
@@ -1122,7 +1121,7 @@ private fun NoteTopMenu(
         CpaIcon(
             icon = CpaIcon.ImageVectorIcon(if (isMenuOpened) Icons.Filled.Search else Icons.Outlined.Search),
             modifier = Modifier.size(size),
-            contentDescription = stringResource(id = R.string.search),
+            contentDescription = stringResource(id = CR.string.search),
             tint = tint
         )
     }
@@ -1172,7 +1171,7 @@ private fun NoteTopMenu(
         CpaIcon(
             icon = CpaIcons.Filter,
             modifier = Modifier.size(size),
-            contentDescription = stringResource(id = R.string.filter),
+            contentDescription = stringResource(id = CR.string.filter),
             tint = tint,
         )
     }

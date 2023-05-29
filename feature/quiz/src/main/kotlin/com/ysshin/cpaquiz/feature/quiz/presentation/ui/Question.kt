@@ -93,6 +93,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ysshin.cpaquiz.core.android.R as CR
 import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
@@ -110,7 +111,6 @@ import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
-import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.QuizEndNavigationActionsProvider
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.DeleteWrongProblemDialog
@@ -274,7 +274,7 @@ fun QuestionScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                                 .padding(start = 8.dp)
                         ) {
                             item {
-                                val assistChipContainerColor = colorResource(id = R.color.daynight_gray070s)
+                                val assistChipContainerColor = colorResource(id = CR.color.daynight_gray070s)
                                 NotClickableAssistedChip(
                                     modifier = Modifier.padding(all = 4.dp),
                                     label = {
@@ -381,7 +381,7 @@ fun QuestionDetail(
                             withStyle(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
-                                    color = colorResource(id = R.color.daynight_gray900s),
+                                    color = colorResource(id = CR.color.daynight_gray900s),
                                     textDecoration = TextDecoration.Underline,
                                 )
                             ) {
@@ -395,7 +395,7 @@ fun QuestionDetail(
                     append(currentQuestion.description)
                 },
                 style = Typography.bodyMedium,
-                color = colorResource(id = R.color.daynight_gray800s),
+                color = colorResource(id = CR.color.daynight_gray800s),
             )
 
             if (currentQuestion.subDescriptions.isNotEmpty()) {
@@ -417,12 +417,12 @@ fun QuestionDetail(
                             Text(
                                 text = mark,
                                 style = Typography.bodyMedium,
-                                color = colorResource(id = R.color.daynight_gray600s),
+                                color = colorResource(id = CR.color.daynight_gray600s),
                             )
                             Text(
                                 text = description,
                                 style = Typography.bodyMedium,
-                                color = colorResource(id = R.color.daynight_gray600s),
+                                color = colorResource(id = CR.color.daynight_gray600s),
                             )
                         }
                     }
@@ -481,7 +481,7 @@ fun QuestionDetail(
                             .semantics { testTagsAsResourceId = true },
                         text = s,
                         style = Typography.bodyMedium,
-                        color = colorResource(id = R.color.daynight_gray600s),
+                        color = colorResource(id = CR.color.daynight_gray600s),
                     )
                 }
             }
@@ -554,7 +554,7 @@ fun QuestionTopAppBar(
             if (isVisible) {
                 Column {
                     Text(
-                        text = stringResource(id = R.string.quiz),
+                        text = stringResource(id = CR.string.quiz),
                         modifier = Modifier.fillMaxWidth(),
                         style = Typography.titleLarge,
                     )
@@ -716,8 +716,8 @@ fun LazyItemScope.QuestionSummaryContent(
         if (dialog.isOpened) {
             AppInfoDialog(
                 icon = CpaIcons.Delete,
-                title = stringResource(id = R.string.delete_wrong_problem),
-                description = stringResource(id = R.string.question_delete_wrong_note),
+                title = stringResource(id = CR.string.delete_wrong_problem),
+                description = stringResource(id = CR.string.question_delete_wrong_note),
                 onConfirm = {
                     deleteTargetWrongProblem?.invoke(dialog.problem.toDomain())
                     updateDeletingWrongProblemDialogOpened?.invoke(
@@ -769,7 +769,7 @@ fun LazyItemScope.QuestionSummaryContent(
             ) {
                 item {
                     val assistChipContainerColor =
-                        colorResource(id = R.color.daynight_gray070s)
+                        colorResource(id = CR.color.daynight_gray070s)
 
                     NotClickableAssistedChip(
                         modifier = Modifier.padding(all = 4.dp),
@@ -831,7 +831,7 @@ fun LazyItemScope.QuestionSummaryContent(
                         withStyle(
                             style = SpanStyle(
                                 fontWeight = FontWeight.Bold,
-                                color = colorResource(id = R.color.daynight_gray900s),
+                                color = colorResource(id = CR.color.daynight_gray900s),
                                 textDecoration = TextDecoration.Underline,
                             )
                         ) {

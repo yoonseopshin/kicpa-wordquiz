@@ -1,6 +1,6 @@
 package com.ysshin.cpaquiz.data.repository
 
-import com.ysshin.cpaquiz.data.datastore.AppPreferenceDataSource
+import com.ysshin.cpaquiz.core.datastore.AppPreferenceDataSource
 import com.ysshin.cpaquiz.domain.repository.UserRepository
 import javax.inject.Inject
 

@@ -1,7 +1,6 @@
 package com.ysshin.cpaquiz.core.android.ui.dialog
 
 import android.os.Parcelable
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,10 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -42,6 +37,8 @@ import com.google.accompanist.flowlayout.SizeMode
 import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
+import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.Typography
 import com.ysshin.cpaquiz.domain.model.QuizType
 import kotlinx.parcelize.Parcelize
@@ -55,7 +52,7 @@ fun AppCheckboxDialog(
     modifier: Modifier = Modifier,
     onConfirm: Consumer<List<SelectableTextItem>> = {},
     onDismiss: Action = {},
-    icon: Painter,
+    icon: CpaIcon,
     title: String,
     description: String,
     selectableItems: List<SelectableTextItem>,
@@ -75,15 +72,13 @@ fun AppCheckboxDialog(
             Column(
                 modifier.background(MaterialTheme.colorScheme.surface)
             ) {
-                Image(
-                    painter = icon,
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary),
+                CpaIcon(
+                    icon = icon,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .padding(top = 36.dp)
                         .height(48.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
                 )
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
@@ -168,7 +163,7 @@ fun AppCheckboxDialog(
 @Composable
 private fun YearFilterDialogPreview() {
     AppCheckboxDialog(
-        icon = painterResource(id = R.drawable.ic_filter),
+        icon = CpaIcons.Filter,
         title = stringResource(id = R.string.year),
         description = stringResource(id = R.string.choose_filtered_years),
         selectableItems = (2016..2023).map {
@@ -181,7 +176,7 @@ private fun YearFilterDialogPreview() {
 @Composable
 private fun QuizTypeFilterDialogPreview() {
     AppCheckboxDialog(
-        icon = painterResource(id = R.drawable.ic_filter),
+        icon = CpaIcons.Filter,
         title = stringResource(id = R.string.quiz),
         description = stringResource(id = R.string.choose_filtered_types),
         selectableItems = QuizType.all().map { SelectableTextItem(it.toKorean(), false) }

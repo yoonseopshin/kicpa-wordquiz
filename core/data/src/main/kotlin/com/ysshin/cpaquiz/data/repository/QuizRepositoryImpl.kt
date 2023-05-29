@@ -1,12 +1,12 @@
 package com.ysshin.cpaquiz.data.repository
 
-import com.ysshin.cpaquiz.data.database.ProblemDao
-import com.ysshin.cpaquiz.data.database.ProblemEntity
-import com.ysshin.cpaquiz.data.database.WrongProblemDao
-import com.ysshin.cpaquiz.data.datastore.QuizDatastoreManager
+import com.ysshin.cpaquiz.core.database.ProblemDao
+import com.ysshin.cpaquiz.core.database.ProblemEntity
+import com.ysshin.cpaquiz.core.database.WrongProblemDao
+import com.ysshin.cpaquiz.core.datastore.QuizDatastoreManager
+import com.ysshin.cpaquiz.core.network.api.QuizService
 import com.ysshin.cpaquiz.data.mapper.toDomain
 import com.ysshin.cpaquiz.data.mapper.toLocalData
-import com.ysshin.cpaquiz.data.network.api.QuizService
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.WrongProblem

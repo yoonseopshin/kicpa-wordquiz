@@ -16,6 +16,8 @@ plugins {
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
 
+    namespace = "com.ysshin.cpaquiz.app"
+
     defaultConfig {
         applicationId = libs.versions.applicationId.get()
         minSdk = libs.versions.minSdk.get().toInt()
@@ -62,6 +64,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
         compose = true
     }
@@ -100,7 +103,7 @@ dependencies {
     implementation(project(":core:android"))
     implementation(project(":core:navigation"))
     implementation(project(":core:data"))
-    implementation(project(":core:data-network"))
+    implementation(project(":core:network"))
     implementation(project(":core:designsystem"))
     implementation(project(":feature:home"))
     implementation(project(":feature:quiz"))

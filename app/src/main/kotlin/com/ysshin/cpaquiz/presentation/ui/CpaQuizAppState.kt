@@ -13,7 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.ysshin.core.navigation.CpaQuizNavigationDestination
-import com.ysshin.cpaquiz.R
+import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.data.util.NetworkMonitor
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination

@@ -6,7 +6,9 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = libs.versions.compileSdk.get().toInt()
+
+    namespace = "com.ysshin.cpaquiz.benchmark"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -14,13 +16,11 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     defaultConfig {
-        minSdk = 26
-        targetSdk = 33
-
+        minSdk = libs.versions.minSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
