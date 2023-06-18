@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import com.google.android.play.core.review.ReviewManager
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.ysshin.cpaquiz.core.android.base.BaseActivity
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.feature.quiz.presentation.ad.InterstitialAdDelegator
@@ -18,8 +16,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class QuizResultActivity : BaseActivity() {
 
-    private val reviewManager: ReviewManager by lazy { ReviewManagerFactory.create(this) }
-
     @Inject
     lateinit var interstitialAdDelegator: InterstitialAdDelegator
 
@@ -28,19 +24,8 @@ class QuizResultActivity : BaseActivity() {
         setContent {
             CpaQuizTheme {
                 QuizResultRoute(
-                    requestInAppReview = this::showInAppReview,
                     showInterstitialAd = { interstitialAdDelegator.show(this) },
                 )
-            }
-        }
-    }
-
-    private fun showInAppReview() {
-        val request = reviewManager.requestReviewFlow()
-        request.addOnCompleteListener {
-            if (it.isSuccessful) {
-                val reviewInfo = it.result
-                reviewManager.launchReviewFlow(this, reviewInfo)
             }
         }
     }

@@ -7,6 +7,5 @@ plugins {
 
 dependencies {
     releaseImplementation(libs.gms.play.services.ads)
-    implementation(libs.google.play.core)
     implementation(libs.google.play.core.ktx)
 }

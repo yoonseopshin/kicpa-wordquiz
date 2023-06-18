@@ -1,5 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
+import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -29,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.util.TimeFormatter
@@ -50,7 +53,6 @@ import timber.log.Timber
 @Composable
 fun QuizResultRoute(
     viewModel: QuizResultViewModel = hiltViewModel(),
-    requestInAppReview: () -> Unit,
     showInterstitialAd: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -70,20 +72,22 @@ fun QuizResultRoute(
         quizResultUiState = quizResultUiState.value,
         onConfirmClick = activity::finish,
         onProblemClick = onProblemClick,
-        requestInAppReview = requestInAppReview,
         showInterstitialAd = showInterstitialAd,
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizResultScreen(
     quizResultUiState: QuizResultUiState,
     onConfirmClick: () -> Unit = {},
     onProblemClick: (Problem) -> Unit = {},
-    requestInAppReview: () -> Unit = {},
     showInterstitialAd: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val reviewManager = remember {
+        ReviewManagerFactory.create(context)
+    }
+
     LaunchedEffect(quizResultUiState) {
         if (quizResultUiState is QuizResultUiState.QuizResult) {
             if (quizResultUiState.shouldShowInterstitialAd) {
@@ -91,8 +95,13 @@ fun QuizResultScreen(
                 Timber.d("Show interstitial ad")
             }
             if (quizResultUiState.shouldRequestInAppReview) {
-                requestInAppReview()
-                Timber.d("Request in-app review")
+                reviewManager.requestReviewFlow()
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            reviewManager.launchReviewFlow(context as Activity, it.result)
+                            Timber.d("Request in-app review")
+                        }
+                    }
             }
         }
     }
