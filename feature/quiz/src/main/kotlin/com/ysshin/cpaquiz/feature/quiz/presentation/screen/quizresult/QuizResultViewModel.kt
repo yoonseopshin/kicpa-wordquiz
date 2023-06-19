@@ -10,13 +10,13 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class QuizResultViewModel @Inject constructor(
@@ -44,10 +44,8 @@ class QuizResultViewModel @Inject constructor(
                 return@combine QuizResultUiState.Loading
             }
 
-            val shouldShowInterstitialAd = totalSolvedQuiz > 0 && totalSolvedQuiz % SOLVED_QUIZ_THRESHOLD == 0
-
-            // FIXME: Maybe this function call multiple, but it only call at once.
             insertWrongQuestionsToLocalDb(selected, currentSolved)
+            val shouldShowInterstitialAd = totalSolvedQuiz > 0 && totalSolvedQuiz % SOLVED_QUIZ_THRESHOLD == 0
 
             QuizResultUiState.QuizResult(
                 totalElapsedTime = totalElapsedTime,

@@ -55,8 +55,7 @@ leakcanary = "2.10"
 accompanist = "0.26.5-rc"
 gms-google-services = "4.3.15"
 gms-play-services-ads = "21.5.0"
-google-play-core-ktx = "1.8.1"
-google-play-in-app-review-ktx = "2.0.1"
+google-play-inappreview-ktx = "2.0.1"
 
 [libraries]
 android-r8 = { module = "com.android.tools:r8", version.ref = "android-r8" }
@@ -128,8 +127,7 @@ play-services-oss-licenses = { group = "com.google.android.gms", name = "play-se
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-google-play-core-ktx = { group = "com.google.android.play", name = "core-ktx", version.ref = "google-play-core-ktx" }
-google-play-in-app-review = { group = "com.google.android.play", name = "review-ktx", version.ref = "google-play-in-app-review-ktx" }
+google-play-inappreview-ktx = { group = "com.google.android.play", name = "review-ktx", version.ref = "google-play-inappreview-ktx" }
 
 [bundles]
 androidx-shared = ["androidx-core-ktx", "androidx-appcompat", "androidx-legacy-support-v4", "androidx-activity-ktx", "androidx-fragment-ktx"]

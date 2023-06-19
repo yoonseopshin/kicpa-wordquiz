@@ -8,5 +8,4 @@ plugins {
 dependencies {
     releaseImplementation(libs.gms.play.services.ads)
     implementation(libs.accompanist.flowlayout)
-    implementation(libs.google.play.core.ktx)
 }

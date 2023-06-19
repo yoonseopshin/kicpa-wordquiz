@@ -48,7 +48,6 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultViewModel
 import kotlin.math.roundToInt
-import timber.log.Timber
 
 @Composable
 fun QuizResultRoute(
@@ -92,14 +91,12 @@ fun QuizResultScreen(
         if (quizResultUiState is QuizResultUiState.QuizResult) {
             if (quizResultUiState.shouldShowInterstitialAd) {
                 showInterstitialAd()
-                Timber.d("Show interstitial ad")
             }
             if (quizResultUiState.shouldRequestInAppReview) {
                 reviewManager.requestReviewFlow()
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             reviewManager.launchReviewFlow(context as Activity, it.result)
-                            Timber.d("Request in-app review")
                         }
                     }
             }
