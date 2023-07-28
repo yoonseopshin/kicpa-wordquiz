@@ -1,5 +1,7 @@
 package com.ysshin.cpaquiz.core.android.ui.ad
 
+import android.view.View
+import android.view.ViewParent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.core.view.postDelayed
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -145,6 +148,7 @@ fun NativeMediumAd() {
                                 }
                             }
                             adView.setNativeAd(nativeAd)
+                            adView.requestLayoutWithDelay()
                         }
                         .withAdListener(object : AdListener() {
                             override fun onAdFailedToLoad(error: LoadAdError) {
@@ -247,6 +251,7 @@ fun NativeSmallAd() {
                             binding.tvStore.visible()
                         }
                         adView.setNativeAd(nativeAd)
+                        adView.requestLayoutWithDelay()
                     }
                     .withAdListener(object : AdListener() {
                         override fun onAdFailedToLoad(error: LoadAdError) {
@@ -275,4 +280,26 @@ fun NativeSmallAd() {
 @Composable
 private fun NativeSmallAdPreview() {
     NativeSmallAd()
+}
+
+// https://stackoverflow.com/questions/75556610/display-admob-native-ad-via-jetpack-compose-but-the-onadimpression-function-is
+private fun View.requestLayoutWithDelay(delayMillis: Long = 300L) {
+    post {
+        parent.findParentAndroidComposeView()?.requestLayout() ?: run {
+            postDelayed(delayMillis) {
+                parent.findParentAndroidComposeView()?.requestLayout()
+            }
+        }
+    }
+}
+
+private fun ViewParent?.findParentAndroidComposeView(): ViewParent? {
+    var currentParent = this
+    while (currentParent != null) {
+        if (currentParent::class.java.simpleName == "AndroidComposeView") {
+            return currentParent
+        }
+        currentParent = currentParent.parent
+    }
+    return null
 }
