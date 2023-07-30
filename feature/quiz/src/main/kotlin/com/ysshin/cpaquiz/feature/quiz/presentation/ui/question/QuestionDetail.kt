@@ -53,19 +53,20 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 @Composable
 fun QuestionDetail(
     currentQuestion: Problem,
+    modifier: Modifier = Modifier,
     onQuestionClick: (Int) -> Unit = {},
     onSelectAnswer: () -> Unit = {},
     questionClickable: Boolean = true,
     isSelectedQuestion: (Int) -> Boolean = { false },
 ) {
-    ElevatedCard(modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp, top = 8.dp)) {
-        Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
+    ElevatedCard(modifier = modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp, top = 8.dp)) {
+        Column(modifier = modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier = modifier.fillMaxWidth()
             ) {
                 LazyRow(
                     horizontalArrangement = Arrangement.Start,
-                    modifier = Modifier.align(Alignment.TopStart)
+                    modifier = modifier.align(Alignment.TopStart)
                 ) {
                     item {
                         val assistChipContainerColor = colorResource(id = R.color.daynight_gray100a)

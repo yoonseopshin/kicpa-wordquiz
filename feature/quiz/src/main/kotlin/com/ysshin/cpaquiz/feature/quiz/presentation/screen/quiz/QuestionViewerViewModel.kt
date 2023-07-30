@@ -3,6 +3,7 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz
 import androidx.lifecycle.SavedStateHandle
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class QuestionViewerViewModel @Inject constructor(
+    private val problemUseCases: ProblemUseCases,
     handle: SavedStateHandle,
 ) : BaseViewModel() {
 

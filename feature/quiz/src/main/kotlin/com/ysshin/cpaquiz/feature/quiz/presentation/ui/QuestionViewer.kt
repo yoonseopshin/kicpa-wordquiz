@@ -1,5 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,7 +27,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewerVi
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionDetail
 
 // TODO: Hoist to QuestionRoute
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
     val currentQuestion = viewModel.currentQuestion.collectAsStateWithLifecycle()
