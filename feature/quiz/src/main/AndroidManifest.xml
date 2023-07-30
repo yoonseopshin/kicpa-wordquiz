@@ -12,7 +12,7 @@
             android:exported="false"
             android:theme="@style/Theme.CpaQuiz.SlideAnimationActivity" />
         <activity
-            android:name=".presentation.screen.quiz.QuestionActivity"
+            android:name=".presentation.screen.quiz.QuestionViewerActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.screen.quiz.QuizActivity"

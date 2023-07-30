@@ -130,7 +130,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.WrongProblemsUiS
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isFiltering
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isQuizTypeFiltering
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.isYearFiltering
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewerActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -258,7 +258,7 @@ fun NoteScreen(
                 } else {
                     setSelectedQuestion(problem)
                     context.startActivity(
-                        QuestionActivity.newIntent(
+                        QuestionViewerActivity.newIntent(
                             context = context,
                             mode = ProblemDetailMode.Detail,
                             problemModel = problem.toModel()

@@ -38,5 +38,4 @@ class QuizActivity : BaseActivity() {
             putStringArrayListExtra(QuizConstants.selectedSubtypes, ArrayList(selectedSubtypes))
         }
     }
-
 }

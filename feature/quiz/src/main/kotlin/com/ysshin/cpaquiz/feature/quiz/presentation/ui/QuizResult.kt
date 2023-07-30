@@ -44,7 +44,7 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewerActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultViewModel
 import kotlin.math.roundToInt
@@ -59,7 +59,7 @@ fun QuizResultRoute(
     val quizResultUiState = viewModel.quizResultUiState.collectAsStateWithLifecycle()
     val onProblemClick: (Problem) -> Unit = { problem ->
         context.startActivity(
-            QuestionActivity.newIntent(
+            QuestionViewerActivity.newIntent(
                 context = context,
                 mode = ProblemDetailMode.Detail,
                 problemModel = problem.toModel()

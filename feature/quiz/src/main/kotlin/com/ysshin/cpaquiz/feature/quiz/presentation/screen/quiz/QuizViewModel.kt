@@ -1,5 +1,9 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.R
@@ -12,6 +16,7 @@ import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +24,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class QuizViewModel @Inject constructor(
@@ -154,5 +158,31 @@ class QuizViewModel @Inject constructor(
             }
         }
     }
+}
 
+sealed class PopScaleAnimationInfo(
+    val backgroundColorResId: Int,
+    val iconTintColorResId: Int,
+    val icon: ImageVector,
+) {
+    object Correct :
+        PopScaleAnimationInfo(R.color.color_on_correct, R.color.daynight_pastel_green, Icons.Default.Check)
+
+    object Incorrect :
+        PopScaleAnimationInfo(R.color.color_on_incorrect, R.color.daynight_pastel_red, Icons.Default.Close)
+}
+
+sealed interface SnackbarState {
+    object Hide : SnackbarState
+    data class Show(
+        val message: UiText,
+        val actionLabel: UiText = UiText.DynamicString(""),
+    ) : SnackbarState
+}
+
+sealed interface QuizState {
+    object Solving : QuizState
+
+    object Grading : QuizState
+    object End : QuizState
 }
