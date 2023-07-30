@@ -47,6 +47,9 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewerActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultUiState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultViewModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryContent
+import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryDivider
+import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryHeader
 import kotlin.math.roundToInt
 
 @Composable
