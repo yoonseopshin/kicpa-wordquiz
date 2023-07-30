@@ -7,6 +7,7 @@ import com.ysshin.cpaquiz.feature.home.presentation.navigation.QuizStartNavigati
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.QuizEndNavigationActions
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionActivity
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizActivity
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResultActivity
 
 class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
@@ -18,8 +19,18 @@ class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
         useTimer: Boolean,
         selectedSubtypes: List<String>,
     ) {
+//        activity.startActivity(
+//            QuestionActivity.newIntent(
+//                context = activity,
+//                quizType = quizType,
+//                quizNumbers = quizNumbers,
+//                useTimer = useTimer,
+//                selectedSubtypes = selectedSubtypes,
+//            )
+//        )
+
         activity.startActivity(
-            QuestionActivity.newIntent(
+            QuizActivity.newIntent(
                 context = activity,
                 quizType = quizType,
                 quizNumbers = quizNumbers,

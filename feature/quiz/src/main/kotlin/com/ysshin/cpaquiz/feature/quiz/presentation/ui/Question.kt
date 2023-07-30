@@ -120,6 +120,11 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.SnackbarState
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 import timber.log.Timber
 
+// Quiz와 QuestionViewer는 구분하는 것이 좋을 것 같다.
+// 공통 로직은 있긴 하지만, mode를 가지고 분기처리하면 관리하기 어려운 코드가 된다.
+
+
+
 // TODO: Hoist to QuestionRoute
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

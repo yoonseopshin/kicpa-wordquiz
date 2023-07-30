@@ -14,6 +14,10 @@
         <activity
             android:name=".presentation.screen.quiz.QuestionActivity"
             android:exported="false" />
+        <activity
+            android:name=".presentation.screen.quiz.QuizActivity"
+            android:exported="false" />
+
 
     </application>
 
