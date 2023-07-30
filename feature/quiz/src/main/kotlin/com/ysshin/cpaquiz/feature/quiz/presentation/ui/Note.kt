@@ -112,7 +112,6 @@ import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.domain.model.Problem
-import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.isValid
@@ -264,7 +263,6 @@ fun NoteScreen(
                     context.startActivity(
                         QuestionViewerActivity.newIntent(
                             context = context,
-                            mode = ProblemDetailMode.Detail,
                             problemModel = problem.toModel()
                         )
                     )
@@ -361,11 +359,10 @@ fun NoteScreen(
                                         .padding(bottom = 8.dp)
                                 ) {
                                     QuestionDetail(
-                                        mode = ProblemDetailMode.Detail,
                                         currentQuestion = selectedQuestion,
-                                        selectedQuestionIndex = -1,
                                         onQuestionClick = {},
                                         onSelectAnswer = {},
+                                        isSelectedQuestion = { it == 1 }
                                     )
                                 }
                             }

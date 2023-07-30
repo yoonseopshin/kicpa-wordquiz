@@ -59,7 +59,6 @@ import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.designsystem.theme.Typography
-import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.QuizEndNavigationActionsProvider
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizViewModel
@@ -193,11 +192,10 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
                     }
                 ) {
                     QuestionDetail(
-                        mode = ProblemDetailMode.Quiz,
                         currentQuestion = currentQuestion.value,
-                        selectedQuestionIndex = selectedQuestionIndex.value,
                         onQuestionClick = viewModel::selectQuestion,
-                        onSelectAnswer = viewModel::selectAnswer
+                        onSelectAnswer = viewModel::selectAnswer,
+                        isSelectedQuestion = { position -> position == selectedQuestionIndex.value },
                     )
                 }
             }

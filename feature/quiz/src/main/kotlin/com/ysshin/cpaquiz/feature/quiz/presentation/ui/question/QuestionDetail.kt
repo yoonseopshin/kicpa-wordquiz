@@ -45,7 +45,6 @@ import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.designsystem.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.designsystem.theme.Typography
 import com.ysshin.cpaquiz.domain.model.Problem
-import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
@@ -53,11 +52,11 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun QuestionDetail(
-    mode: ProblemDetailMode,
     currentQuestion: Problem,
-    selectedQuestionIndex: Int,
     onQuestionClick: (Int) -> Unit = {},
     onSelectAnswer: () -> Unit = {},
+    questionClickable: Boolean = true,
+    isSelectedQuestion: (Int) -> Boolean = { false },
 ) {
     ElevatedCard(modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp, top = 8.dp)) {
         Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
@@ -208,14 +207,11 @@ fun QuestionDetail(
                     modifier = Modifier
                         .fillMaxWidth()
                         .bounceClickable(
-                            enabled = mode == ProblemDetailMode.Quiz,
+                            enabled = questionClickable,
                             dampingRatio = 0.95f,
                             useHapticFeedback = false,
                             onClick = {
-                                when (mode) {
-                                    ProblemDetailMode.Detail -> Unit
-                                    ProblemDetailMode.Quiz -> onQuestionClick(index)
-                                }
+                                onQuestionClick(index)
                             },
                             onLongClick = {
                                 onQuestionClick(index)
@@ -223,19 +219,13 @@ fun QuestionDetail(
                             },
                         )
                         .semantics {
-                            this.selected = when (mode) {
-                                ProblemDetailMode.Detail -> index == currentQuestion.answer
-                                ProblemDetailMode.Quiz -> index == selectedQuestionIndex
-                            }
+                            this.selected = isSelectedQuestion(index)
                         }
                         .padding(all = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = when (mode) {
-                            ProblemDetailMode.Detail -> index == currentQuestion.answer
-                            ProblemDetailMode.Quiz -> index == selectedQuestionIndex
-                        },
+                        selected = isSelectedQuestion(index),
                         onClick = null,
                     )
                     Spacer(modifier = Modifier.width(8.dp))
@@ -257,7 +247,6 @@ fun QuestionDetail(
 @Composable
 fun QuestionDetailPreview() {
     QuestionDetail(
-        mode = ProblemDetailMode.Detail,
         currentQuestion = Problem(
             year = 2022,
             pid = 15,
@@ -267,7 +256,9 @@ fun QuestionDetailPreview() {
             questions = listOf("Q1", "Q2", "Q3", "Q4", "Q5"),
             source = ProblemSource.CPA,
         ),
-        selectedQuestionIndex = 1, onQuestionClick = {}, onSelectAnswer = {}
+        onQuestionClick = {},
+        onSelectAnswer = {},
+        isSelectedQuestion = { it == 1 }
     )
 }
 
@@ -275,7 +266,6 @@ fun QuestionDetailPreview() {
 @Composable
 fun QuestionDetailHangeulPreview() {
     QuestionDetail(
-        mode = ProblemDetailMode.Detail,
         currentQuestion = Problem(
             year = 2022,
             pid = 16,
@@ -298,6 +288,8 @@ fun QuestionDetailHangeulPreview() {
             source = ProblemSource.CPA,
             subtype = "회사법"
         ),
-        selectedQuestionIndex = 1, onQuestionClick = {}, onSelectAnswer = {}
+        onQuestionClick = {},
+        onSelectAnswer = {},
+        isSelectedQuestion = { it == 1 }
     )
 }

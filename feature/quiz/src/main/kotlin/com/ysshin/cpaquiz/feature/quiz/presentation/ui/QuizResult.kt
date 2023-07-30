@@ -38,7 +38,6 @@ import com.ysshin.cpaquiz.core.android.util.TimeFormatter
 import com.ysshin.cpaquiz.core.android.util.findActivity
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.domain.model.Problem
-import com.ysshin.cpaquiz.domain.model.ProblemDetailMode
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
@@ -64,7 +63,6 @@ fun QuizResultRoute(
         context.startActivity(
             QuestionViewerActivity.newIntent(
                 context = context,
-                mode = ProblemDetailMode.Detail,
                 problemModel = problem.toModel()
             )
         )

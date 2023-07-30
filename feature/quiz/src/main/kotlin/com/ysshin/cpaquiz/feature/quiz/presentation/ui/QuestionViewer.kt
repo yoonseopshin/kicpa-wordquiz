@@ -22,15 +22,14 @@ import com.ysshin.cpaquiz.core.android.util.findActivity
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
-import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewModel
+import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuestionViewerViewModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionDetail
 
 // TODO: Hoist to QuestionRoute
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuestionViewerScreen(viewModel: QuestionViewModel = hiltViewModel()) {
+fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
     val currentQuestion = viewModel.currentQuestion.collectAsStateWithLifecycle()
-    val mode = viewModel.mode.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val activity = context.findActivity()
     val questionContentScrollState = rememberScrollState()
@@ -60,9 +59,9 @@ fun QuestionViewerScreen(viewModel: QuestionViewModel = hiltViewModel()) {
                     .padding(bottom = 8.dp)
             ) {
                 QuestionDetail(
-                    mode = mode.value,
                     currentQuestion = currentQuestion.value,
-                    selectedQuestionIndex = currentQuestion.value.answer,
+                    questionClickable = false,
+                    isSelectedQuestion = { position -> position == currentQuestion.value.answer }
                 )
             }
         }
