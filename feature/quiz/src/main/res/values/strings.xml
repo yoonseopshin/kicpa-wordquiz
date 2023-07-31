@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="text_source_year_pid">%1$s %2$d년 %2$d번</string>
+    <string name="text_source_year_pid">%1$s %2$d년 %3$d번</string>
 </resources>

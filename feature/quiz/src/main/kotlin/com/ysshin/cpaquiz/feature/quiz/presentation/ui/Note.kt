@@ -108,6 +108,7 @@ import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
+import com.ysshin.cpaquiz.core.extension.extractItemsAroundTarget
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
@@ -255,15 +256,19 @@ fun NoteScreen(
 
             val context = LocalContext.current
 
-            val onProblemClick: (Problem) -> Unit = { problem ->
+            val onProblemClick: (Problem, List<Problem>) -> Unit = { problem, totalProblems ->
                 if (useSplitScreen) {
                     setSelectedQuestion(problem)
                 } else {
                     setSelectedQuestion(problem)
+
+                    val extractedQuestions = totalProblems.extractItemsAroundTarget(problem, 40)
+
                     context.startActivity(
                         QuestionViewerActivity.newIntent(
                             context = context,
-                            problemModel = problem.toModel()
+                            problemModel = problem.toModel(),
+                            totalProblemModels = extractedQuestions.toModel()
                         )
                     )
                 }
@@ -447,7 +452,7 @@ private fun NoteTopAppBar(
 private fun LazyListScope.onSearchingContent(
     uiState: SearchedProblemsUiState,
     windowSizeClass: WindowSizeClass,
-    onProblemClick: ((Problem) -> Unit)? = null,
+    onProblemClick: ((Problem, List<Problem>) -> Unit)? = null,
     selectedQuestionInSplitScreen: Problem? = null,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
@@ -461,6 +466,7 @@ private fun LazyListScope.onSearchingContent(
         itemsIndexed(items = items) { index, problem ->
             QuestionSummaryContent(
                 problem = problem,
+                totalProblems = items,
                 windowSizeClass = windowSizeClass,
                 onProblemClick = onProblemClick,
                 selectedQuestionInSplitScreen = selectedQuestionInSplitScreen
@@ -482,7 +488,7 @@ private fun LazyListScope.onViewingContent(
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
     deleteTargetWrongProblem: Consumer<Problem>,
-    onProblemClick: (Problem) -> Unit,
+    onProblemClick: (Problem, List<Problem>) -> Unit,
     windowSizeClass: WindowSizeClass,
     selectedQuestionInSplitScreen: Problem?,
 ) {
@@ -512,7 +518,7 @@ private fun LazyListScope.wrongProblemsContent(
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog,
     updateDeletingWrongProblemDialogOpened: Consumer<DeleteWrongProblemDialog>,
     deleteTargetWrongProblem: Consumer<Problem>,
-    onProblemClick: (Problem) -> Unit,
+    onProblemClick: (Problem, List<Problem>) -> Unit,
     windowSizeClass: WindowSizeClass,
     selectedQuestionInSplitScreen: Problem?,
 ) {
@@ -632,6 +638,7 @@ private fun LazyListScope.wrongProblemsContent(
                         QuestionSummaryContent(
                             modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
                             problem = problem,
+                            totalProblems = uiState.data,
                             windowSizeClass = windowSizeClass,
                             onProblemClick = onProblemClick,
                             onProblemLongClick = {
@@ -663,7 +670,7 @@ private fun LazyListScope.wrongProblemsContent(
 private fun LazyListScope.totalProblemsContent(
     uiState: TotalProblemsUiState,
     windowSizeClass: WindowSizeClass,
-    onProblemClick: (Problem) -> Unit,
+    onProblemClick: (Problem, List<Problem>) -> Unit,
     selectedQuestionInSplitScreen: Problem? = null,
 ) {
     val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
@@ -677,6 +684,7 @@ private fun LazyListScope.totalProblemsContent(
         itemsIndexed(items = items) { index, problem ->
             QuestionSummaryContent(
                 problem = problem,
+                totalProblems = items,
                 windowSizeClass = windowSizeClass,
                 onProblemClick = onProblemClick,
                 selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,

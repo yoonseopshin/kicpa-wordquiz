@@ -59,11 +59,12 @@ fun QuizResultRoute(
     val context = LocalContext.current
     val activity = context.findActivity()
     val quizResultUiState = viewModel.quizResultUiState.collectAsStateWithLifecycle()
-    val onProblemClick: (Problem) -> Unit = { problem ->
+    val onProblemClick: (Problem, List<Problem>) -> Unit = { problem, totalProblems ->
         context.startActivity(
             QuestionViewerActivity.newIntent(
                 context = context,
-                problemModel = problem.toModel()
+                problemModel = problem.toModel(),
+                totalProblemModels = totalProblems.map(Problem::toModel)
             )
         )
     }
@@ -80,7 +81,7 @@ fun QuizResultRoute(
 fun QuizResultScreen(
     quizResultUiState: QuizResultUiState,
     onConfirmClick: () -> Unit = {},
-    onProblemClick: (Problem) -> Unit = {},
+    onProblemClick: (Problem, List<Problem>) -> Unit = { _, _ -> },
     showInterstitialAd: () -> Unit = {},
 ) {
     val context = LocalContext.current
@@ -193,6 +194,7 @@ fun QuizResultScreen(
                     itemsIndexed(items = solvedQuestions) { index, problemModel ->
                         QuestionSummaryContent(
                             problem = problemModel.toDomain(),
+                            totalProblems = solvedQuestions.toDomain(),
                             modifier = if (quizResultUiState.selectedIndices[index] == problemModel.answer) {
                                 Modifier.background(color = colorResource(id = R.color.color_on_correct_bg))
                             } else {

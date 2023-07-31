@@ -2,6 +2,7 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.util
 
 object QuizConstants {
     const val problemModel = "problemModel"
+    const val totalProblemModels = "totalProblemModels"
     const val quizType = "quizType"
     const val quizNumbers = "quizNumbers"
     const val problems = "problems"

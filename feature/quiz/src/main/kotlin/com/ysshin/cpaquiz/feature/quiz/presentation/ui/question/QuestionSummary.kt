@@ -118,9 +118,10 @@ fun QuestionSummaryHeader(
 @Composable
 fun LazyItemScope.QuestionSummaryContent(
     problem: Problem,
+    totalProblems: List<Problem>,
     modifier: Modifier = Modifier,
     windowSizeClass: WindowSizeClass? = null,
-    onProblemClick: ((Problem) -> Unit)? = null,
+    onProblemClick: ((Problem, List<Problem>) -> Unit)? = null,
     onProblemLongClick: (() -> Unit)? = null,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
     updateDeletingWrongProblemDialogOpened: ((DeleteWrongProblemDialog) -> Unit)? = null,
@@ -158,7 +159,7 @@ fun LazyItemScope.QuestionSummaryContent(
         modifier = modifier
             .combinedClickable(
                 onClick = {
-                    onProblemClick?.invoke(problem)
+                    onProblemClick?.invoke(problem, totalProblems)
                 },
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
