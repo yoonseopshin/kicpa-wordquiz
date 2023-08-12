@@ -56,7 +56,10 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
     when (questionPagerUiState) {
         QuestionPagerUiState.Loading -> Unit
         is QuestionPagerUiState.Success -> {
-            val pagerState = rememberPagerState(initialPage = questionPagerUiState.currentPage)
+            val pagerState = rememberPagerState(
+                initialPage = questionPagerUiState.currentPage,
+                initialPageOffsetFraction = 0f,
+            )
             var currentPage by remember { mutableStateOf(questionPagerUiState.currentPage) }
 
             LaunchedEffect(pagerState) {
@@ -115,8 +118,8 @@ fun QuestionTopAppBar(
 @Composable
 fun HorizontalQuestionPager(questionPagerUiState: QuestionPagerUiState.Success, pagerState: PagerState) {
     HorizontalPager(
-        pageCount = questionPagerUiState.totalQuestions.size,
         state = pagerState,
+        pageCount = questionPagerUiState.pageCount,
         verticalAlignment = Alignment.Top,
     ) { page ->
         val question = questionPagerUiState.getQuestion(page)

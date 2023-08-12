@@ -49,5 +49,6 @@ sealed interface QuestionPagerUiState {
     object Loading : QuestionPagerUiState
     data class Success(val totalQuestions: List<Problem>, val currentPage: Int) : QuestionPagerUiState {
         fun getQuestion(page: Int) = totalQuestions[page]
+        val pageCount: Int get() = totalQuestions.size
     }
 }
