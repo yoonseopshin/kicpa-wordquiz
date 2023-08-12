@@ -14,8 +14,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -26,7 +26,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -241,7 +240,7 @@ fun QuizTopAppBar(
                     style = Typography.titleLarge,
                 )
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    CompositionLocalProvider(LocalTextStyle provides Typography.titleSmall) {
+                    ProvideTextStyle(Typography.titleSmall) {
                         AnimatedCountText(count = numOfSolvedQuestion)
                         Text(text = "/$numOfTotalQuestion")
                     }
