@@ -2,6 +2,7 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -24,6 +26,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -55,6 +58,7 @@ import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.util.findActivity
+import com.ysshin.cpaquiz.designsystem.animation.AnimatedCountText
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
@@ -151,7 +155,8 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             topBar = {
                 QuizTopAppBar(
-                    title = "${numOfSolvedQuestion.value}/${numOfTotalQuestion.value}",
+                    numOfSolvedQuestion = numOfSolvedQuestion.value,
+                    numOfTotalQuestion = numOfTotalQuestion.value,
                     useTimer = useTimer.value,
                     elapsedTime = { elapsedTime.value },
                     onBackClick = activity::finish,
@@ -220,7 +225,8 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizTopAppBar(
-    title: String,
+    numOfSolvedQuestion: Int,
+    numOfTotalQuestion: Int,
     useTimer: Boolean,
     elapsedTime: () -> Long,
     onBackClick: () -> Unit,
@@ -234,11 +240,12 @@ fun QuizTopAppBar(
                     modifier = Modifier.fillMaxWidth(),
                     style = Typography.titleLarge,
                 )
-                Text(
-                    text = title,
-                    modifier = Modifier.fillMaxWidth(),
-                    style = Typography.titleSmall,
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    CompositionLocalProvider(LocalTextStyle provides Typography.titleSmall) {
+                        AnimatedCountText(count = numOfSolvedQuestion)
+                        Text(text = "/$numOfTotalQuestion")
+                    }
+                }
             }
         },
         navigationIcon = {

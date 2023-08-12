@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.domain.model.Problem
-import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.zip
 
 @HiltViewModel
 class QuestionViewerViewModel @Inject constructor(
-    private val problemUseCases: ProblemUseCases,
     handle: SavedStateHandle,
 ) : BaseViewModel() {
 
@@ -34,10 +32,6 @@ class QuestionViewerViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000L),
                 initialValue = QuestionPagerUiState.Loading,
             )
-
-    fun updateCurrentQuestion(newPage: Int) {
-        _currentQuestion.value = _totalQuestions.value[newPage]
-    }
 
     init {
         handle.get<ProblemModel>(QuizConstants.problemModel)?.toDomain()?.let { question ->
