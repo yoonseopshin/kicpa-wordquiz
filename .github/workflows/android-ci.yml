@@ -43,9 +43,6 @@ jobs:
       - name: Check lint
         run: ./gradlew lintDebug --stacktrace
 
-      - name: Check library dependency
-        run: ./gradlew dependencyUpdates
-
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
 
