@@ -90,10 +90,11 @@ fun QuizResultScreen(
     }
 
     LaunchedEffect(quizResultUiState) {
-        if (quizResultUiState is QuizResultUiState.QuizResult) {
+        if (quizResultUiState is QuizResultUiState.Success) {
             if (quizResultUiState.shouldShowInterstitialAd) {
                 showInterstitialAd()
             }
+
             if (quizResultUiState.shouldRequestInAppReview) {
                 reviewManager.requestReviewFlow()
                     .addOnCompleteListener {
@@ -116,7 +117,7 @@ fun QuizResultScreen(
         when (quizResultUiState) {
             QuizResultUiState.Loading -> {}
 
-            is QuizResultUiState.QuizResult -> {
+            is QuizResultUiState.Success -> {
                 LazyColumn(
                     modifier = Modifier
                         .padding(padding)
@@ -216,7 +217,7 @@ fun QuizResultScreen(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun QuizResultScreenPreview() {
-    val quizResultUiState = QuizResultUiState.QuizResult(
+    val quizResultUiState = QuizResultUiState.Success(
         totalElapsedTime = 44000,
         shouldRequestInAppReview = false,
         shouldShowInterstitialAd = false,
@@ -267,7 +268,7 @@ private fun QuizResultTopAppBar(quizResultUiState: QuizResultUiState, onConfirmC
             )
         },
         actions = {
-            if (quizResultUiState is QuizResultUiState.QuizResult) {
+            if (quizResultUiState is QuizResultUiState.Success) {
                 Clock(useTimer = true, elapsedTime = quizResultUiState.totalElapsedTime)
             }
             IconButton(onClick = onConfirmClick) {

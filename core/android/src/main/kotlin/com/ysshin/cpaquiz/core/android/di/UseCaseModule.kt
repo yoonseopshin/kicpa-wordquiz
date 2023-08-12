@@ -4,6 +4,7 @@ import com.ysshin.cpaquiz.domain.repository.QuizRepository
 import com.ysshin.cpaquiz.domain.repository.UserRepository
 import com.ysshin.cpaquiz.domain.usecase.problem.*
 import com.ysshin.cpaquiz.domain.usecase.quiz.*
+import com.ysshin.cpaquiz.domain.usecase.shared.SharedUseCases
 import com.ysshin.cpaquiz.domain.usecase.user.DenyPostNotification
 import com.ysshin.cpaquiz.domain.usecase.user.GetPostNotification
 import com.ysshin.cpaquiz.domain.usecase.user.GrantPostNotification
@@ -44,7 +45,14 @@ object UseCaseModule {
             SetUseTimer(repository),
             IncreaseSolvedQuiz(repository),
             GetSolvedQuiz(repository),
+        )
+
+    @Provides
+    @Singleton
+    fun provideSharedUseCases(repository: QuizRepository) =
+        SharedUseCases(
             GetShouldRequestInAppReview(repository),
+            GetShouldShowInterstitialAd(repository)
         )
 
     @Provides

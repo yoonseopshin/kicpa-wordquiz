@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.domain.model.WrongProblem
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
-import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
+import com.ysshin.cpaquiz.domain.usecase.shared.SharedUseCases
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
@@ -21,7 +21,7 @@ import timber.log.Timber
 @HiltViewModel
 class QuizResultViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
-    quizUseCases: QuizUseCases,
+    sharedUseCases: SharedUseCases,
     handle: SavedStateHandle,
 ) : BaseViewModel() {
 
@@ -35,19 +35,18 @@ class QuizResultViewModel @Inject constructor(
     val quizResultUiState: StateFlow<QuizResultUiState> =
         combine(
             _totalElapsedTime,
-            quizUseCases.getShouldRequestInAppReview(),
-            quizUseCases.getSolvedQuiz(),
+            sharedUseCases.getShouldRequestInAppReview(),
+            sharedUseCases.getShouldShowInterstitialAd(),
             _selectedIndices,
             _solvedQuestions,
-        ) { totalElapsedTime, shouldRequestInAppReview, totalSolvedQuiz, selected, currentSolved ->
+        ) { totalElapsedTime, shouldRequestInAppReview, shouldShowInterstitialAd, selected, currentSolved ->
             if (selected.size == 0 || currentSolved.size == 0) {
                 return@combine QuizResultUiState.Loading
             }
 
             insertWrongQuestionsToLocalDb(selected, currentSolved)
-            val shouldShowInterstitialAd = totalSolvedQuiz > 0 && totalSolvedQuiz % SOLVED_QUIZ_THRESHOLD == 0
 
-            QuizResultUiState.QuizResult(
+            QuizResultUiState.Success(
                 totalElapsedTime = totalElapsedTime,
                 shouldRequestInAppReview = shouldRequestInAppReview,
                 shouldShowInterstitialAd = shouldShowInterstitialAd,
@@ -73,16 +72,12 @@ class QuizResultViewModel @Inject constructor(
                 Timber.d("Insert wrong problems to local database $wrongQuestions")
             }
     }
-
-    companion object {
-        const val SOLVED_QUIZ_THRESHOLD = 5
-    }
 }
 
 sealed interface QuizResultUiState {
     object Loading : QuizResultUiState
 
-    data class QuizResult(
+    data class Success(
         val totalElapsedTime: Long,
         val shouldRequestInAppReview: Boolean,
         val shouldShowInterstitialAd: Boolean,

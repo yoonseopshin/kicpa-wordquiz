@@ -43,5 +43,7 @@ interface QuizRepository {
 
     fun getShouldRequestInAppReview(): Flow<Boolean>
 
+    fun getShouldShowInterstitialAd(): Flow<Boolean>
+
     fun getSolvedQuiz(): Flow<Int>
 }

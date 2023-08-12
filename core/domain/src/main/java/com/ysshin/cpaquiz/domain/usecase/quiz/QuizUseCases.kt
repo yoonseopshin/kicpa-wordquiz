@@ -8,5 +8,4 @@ data class QuizUseCases(
     val setUseTimer: SetUseTimer,
     val increaseSolvedQuiz: IncreaseSolvedQuiz,
     val getSolvedQuiz: GetSolvedQuiz,
-    val getShouldRequestInAppReview: GetShouldRequestInAppReview,
 )

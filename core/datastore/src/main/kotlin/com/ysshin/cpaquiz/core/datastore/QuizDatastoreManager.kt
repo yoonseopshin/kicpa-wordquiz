@@ -7,10 +7,13 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.ysshin.cpaquiz.domain.model.*
+import com.ysshin.cpaquiz.domain.model.DEFAULT_QUIZ_NUMBER
+import com.ysshin.cpaquiz.domain.model.DEFAULT_SOLVED_QUIZ
+import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
+import com.ysshin.cpaquiz.domain.model.IN_APP_REVIEW_THRESHOLD
+import com.ysshin.cpaquiz.domain.model.SOLVED_QUIZ_THRESHOLD
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 
 val Context.quizDataStore: DataStore<Preferences> by preferencesDataStore(name = "quiz_prefs")
 
@@ -46,14 +49,12 @@ class QuizDatastoreManager @Inject constructor(private val dataStore: DataStore<
     }
 
     val shouldRequestInAppReview = dataStore.data.map { pref ->
-        if (BuildConfig.DEBUG) {
-            Timber.d("In-app review request is not available in debug build")
-            return@map false
-        }
-
         val solvedQuiz = pref[solvedQuizKey] ?: return@map false
+        solvedQuiz % IN_APP_REVIEW_THRESHOLD == 0
+    }
 
-        // Every 12th, except for every 60th
-        return@map solvedQuiz % IN_APP_REVIEW_THRESHOLD == 0 && solvedQuiz % SOLVED_QUIZ_THRESHOLD != 0
+    val shouldShowInterstitialAd = dataStore.data.map { pref ->
+        val solvedQuiz = pref[solvedQuizKey] ?: return@map false
+        solvedQuiz % SOLVED_QUIZ_THRESHOLD == 0
     }
 }

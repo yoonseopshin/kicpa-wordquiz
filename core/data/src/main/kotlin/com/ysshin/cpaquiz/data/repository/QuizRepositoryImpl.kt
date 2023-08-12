@@ -134,5 +134,7 @@ class QuizRepositoryImpl @Inject constructor(
 
     override fun getShouldRequestInAppReview() = quizDataStoreManager.shouldRequestInAppReview
 
+    override fun getShouldShowInterstitialAd() = quizDataStoreManager.shouldShowInterstitialAd
+
     override fun getSolvedQuiz() = quizDataStoreManager.solvedQuiz
 }
