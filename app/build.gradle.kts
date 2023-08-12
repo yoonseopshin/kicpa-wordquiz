@@ -10,7 +10,6 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("com.google.android.gms.oss-licenses-plugin")
     id("cpaquiz.spotless")
-    id("cpaquiz.versioning")
 }
 
 android {

@@ -2,7 +2,6 @@ plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
     id("cpaquiz.spotless")
-    id("cpaquiz.versioning")
 }
 
 java {

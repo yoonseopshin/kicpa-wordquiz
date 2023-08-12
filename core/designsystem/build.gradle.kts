@@ -4,7 +4,6 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("cpaquiz.spotless")
-    id("cpaquiz.versioning")
 }
 
 android {

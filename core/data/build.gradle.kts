@@ -1,7 +1,6 @@
 plugins {
     id("cpaquiz.android.data")
     id("cpaquiz.spotless")
-    id("cpaquiz.versioning")
 }
 
 android {

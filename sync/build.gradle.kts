@@ -1,7 +1,6 @@
 plugins {
     id("cpaquiz.android.feature")
     id("cpaquiz.spotless")
-    id("cpaquiz.versioning")
 }
 
 dependencies {

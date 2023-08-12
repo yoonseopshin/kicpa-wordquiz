@@ -6,7 +6,6 @@ plugins {
     id("kotlinx-serialization")
     id("kotlin-parcelize")
     id("cpaquiz.spotless")
-    id("cpaquiz.versioning")
 }
 
 android {
