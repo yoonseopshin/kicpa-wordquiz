@@ -354,7 +354,10 @@ fun NoteScreen(
                             scrollState.animateScrollTo(0)
                         }
 
-                        Crossfade(targetState = selectedQuestionInSplitScreen) { selectedQuestion ->
+                        Crossfade(
+                            targetState = selectedQuestionInSplitScreen,
+                            label = "Crossfade animation"
+                        ) { selectedQuestion ->
                             if (selectedQuestion == null) {
                                 NoSelectedQuestionScreen()
                             } else {
@@ -580,24 +583,28 @@ private fun LazyListScope.wrongProblemsContent(
                     val multiplier = 3
                     val alpha = (dismissState.progress * multiplier).coerceAtMost(1f)
                     val scale by animateFloatAsState(
-                        targetValue = if (dismissState.targetValue == DismissValue.Default) 0.66f else 1f
+                        targetValue = if (dismissState.targetValue == DismissValue.Default) 0.66f else 1f,
+                        label = "Scale animation"
                     )
                     val paddingEnd by animateDpAsState(
-                        targetValue = if (dismissState.targetValue == DismissValue.Default) 12.dp else 24.dp
+                        targetValue = if (dismissState.targetValue == DismissValue.Default) 12.dp else 24.dp,
+                        label = "Padding animation"
                     )
                     val backgroundColor by animateColorAsState(
                         targetValue = if (dismissState.targetValue == DismissValue.Default) {
                             MaterialTheme.colorScheme.background
                         } else {
                             MaterialTheme.colorScheme.errorContainer.copy(alpha = alpha)
-                        }
+                        },
+                        label = "Background color animation"
                     )
                     val onBackgroundColor by animateColorAsState(
                         targetValue = if (dismissState.targetValue == DismissValue.Default) {
                             MaterialTheme.colorScheme.onBackground
                         } else {
                             MaterialTheme.colorScheme.onErrorContainer.copy(alpha = alpha)
-                        }
+                        },
+                        label = "Color on background animation"
                     )
 
                     AnimatedVisibility(
