@@ -3,7 +3,6 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -31,7 +30,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ysshin.cpaquiz.core.android.ui.pager.transformations.pagerHingeTransition
 import com.ysshin.cpaquiz.core.android.util.findActivity
 import com.ysshin.cpaquiz.designsystem.animation.AnimatedCountText
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
@@ -88,7 +86,6 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
                     Column(
                         modifier = Modifier
                             .padding(contentPadding)
-                            .fillMaxSize()
                             .verticalScroll(questionContentScrollState)
                             .padding(bottom = 8.dp)
                     ) {
@@ -116,7 +113,10 @@ fun QuestionTopAppBar(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizontalQuestionPager(questionPagerUiState: QuestionPagerUiState.Success, pagerState: PagerState) {
+fun HorizontalQuestionPager(
+    questionPagerUiState: QuestionPagerUiState.Success,
+    pagerState: PagerState,
+) {
     HorizontalPager(
         state = pagerState,
         pageCount = questionPagerUiState.pageCount,
@@ -124,10 +124,9 @@ fun HorizontalQuestionPager(questionPagerUiState: QuestionPagerUiState.Success, 
     ) { page ->
         val question = questionPagerUiState.getQuestion(page)
         QuestionDetail(
-            modifier = Modifier.pagerHingeTransition(page, pagerState),
             currentQuestion = question,
             questionClickable = false,
-            isSelectedQuestion = { position -> position == question.answer }
+            isSelectedQuestion = { position -> position == question.answer },
         )
     }
 }
