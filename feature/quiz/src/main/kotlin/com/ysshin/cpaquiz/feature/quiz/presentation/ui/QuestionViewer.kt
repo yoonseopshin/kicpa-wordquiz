@@ -57,6 +57,7 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
             val pagerState = rememberPagerState(
                 initialPage = questionPagerUiState.currentPage,
                 initialPageOffsetFraction = 0f,
+                pageCount = { questionPagerUiState.pageCount },
             )
             var currentPage by remember { mutableStateOf(questionPagerUiState.currentPage) }
 
@@ -119,7 +120,6 @@ fun HorizontalQuestionPager(
 ) {
     HorizontalPager(
         state = pagerState,
-        pageCount = questionPagerUiState.pageCount,
         verticalAlignment = Alignment.Top,
     ) { page ->
         val question = questionPagerUiState.getQuestion(page)
