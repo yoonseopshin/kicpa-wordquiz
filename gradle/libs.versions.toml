@@ -1,6 +1,6 @@
 [versions]
-targetSdk = "33"
-compileSdk = "33"
+targetSdk = "34"
+compileSdk = "34"
 minSdk = "26"
 
 # Need to change ugly app naming, but changing app package name that has already been deployed is too cumbersome
@@ -9,7 +9,7 @@ versionCode = "89"
 versionName = "1.14.0"
 
 android-r8 = "8.1.56"
-android-gradle-plugin = "7.4.1"
+android-gradle-plugin = "7.4.2"
 
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 kotlin = "1.8.21"
@@ -31,11 +31,11 @@ androidx-customview-poolingcontainer = "1.0.0"
 androidx-work-runtime-ktx = "2.8.1"
 material = "1.9.0-alpha01"
 material3 = "1.1.0-rc01"
-room = "2.5.2"
+room = "2.6.0"
 
 datastore = "1.0.0"
 hilt = "2.47"
-hilt-work = "1.0.0"
+hilt-work = "1.1.0"
 coroutines = "1.7.3"
 
 junit = "4.13.2"
@@ -46,16 +46,16 @@ timber = "5.0.1"
 retrofit = "2.9.0"
 okhttp = "5.0.0-alpha.11"
 retrofit-kotlinx-serialization = "1.0.0"
-spotless = "6.3.0"
+spotless = "6.8.0"
 versions = "0.42.0"
 ktlint = "0.43.0"
-firebase-crashlytics-gradle = "2.9.8"
+firebase-crashlytics-gradle = "2.9.9"
 oss-licenses-plugin = "0.10.6"
 play-services-oss-licenses = "17.0.1"
 leakcanary = "2.12"
 accompanist = "0.26.5-rc"
-gms-google-services = "4.3.15"
-gms-play-services-ads = "22.2.0"
+gms-google-services = "4.4.0"
+gms-play-services-ads = "22.5.0"
 google-play-inappreview-ktx = "2.0.1"
 
 [libraries]
