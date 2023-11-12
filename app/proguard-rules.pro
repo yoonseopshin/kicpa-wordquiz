@@ -75,10 +75,6 @@
 -dontusemixedcaseclassnames
 -verbose
 
-# ADDED
--dontshrink
--dontobfuscate
-
 -keepattributes *Annotation*
 -keep public class com.google.vending.licensing.ILicensingService
 -keep public class com.android.vending.licensing.ILicensingService

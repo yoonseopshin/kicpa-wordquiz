@@ -5,8 +5,8 @@ minSdk = "26"
 
 # Need to change ugly app naming, but changing app package name that has already been deployed is too cumbersome
 applicationId = "com.cpa.cpa_word_problem"
-versionCode = "89"
-versionName = "1.14.0"
+versionCode = "94"
+versionName = "1.14.1"
 
 android-r8 = "8.1.56"
 android-gradle-plugin = "7.4.2"
@@ -86,7 +86,7 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work" }
 hilt-work-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-work" }
-firebase-bom = "com.google.firebase:firebase-bom:32.5.0"
+firebase-bom = "com.google.firebase:firebase-bom:31.5.0"
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
