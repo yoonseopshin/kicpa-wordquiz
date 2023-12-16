@@ -52,10 +52,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryH
 import kotlin.math.roundToInt
 
 @Composable
-fun QuizResultRoute(
-    viewModel: QuizResultViewModel = hiltViewModel(),
-    showInterstitialAd: () -> Unit,
-) {
+fun QuizResultRoute(viewModel: QuizResultViewModel = hiltViewModel(), showInterstitialAd: () -> Unit) {
     val context = LocalContext.current
     val activity = context.findActivity()
     val quizResultUiState = viewModel.quizResultUiState.collectAsStateWithLifecycle()

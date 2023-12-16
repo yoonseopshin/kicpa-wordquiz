@@ -75,7 +75,7 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
                             title = {
                                 QuestionTopAppBar(
                                     currentPage,
-                                    questionPagerUiState.totalQuestions.size
+                                    questionPagerUiState.totalQuestions.size,
                                 )
                             },
                             navigationIcon = {
@@ -83,7 +83,7 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
                                     CpaIcon(icon = CpaIcons.ArrowBack)
                                 }
                             },
-                            scrollBehavior = topAppBarScrollBehavior
+                            scrollBehavior = topAppBarScrollBehavior,
                         )
                     },
                 ) { contentPadding ->
@@ -91,11 +91,11 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
                         modifier = Modifier
                             .padding(contentPadding)
                             .verticalScroll(questionContentScrollState)
-                            .padding(bottom = 8.dp)
+                            .padding(bottom = 8.dp),
                     ) {
                         HorizontalQuestionPager(
                             questionPagerUiState = questionPagerUiState,
-                            pagerState = pagerState
+                            pagerState = pagerState,
                         )
                     }
                 }
@@ -105,10 +105,7 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun QuestionTopAppBar(
-    currentPage: Int,
-    totalPage: Int,
-) {
+fun QuestionTopAppBar(currentPage: Int, totalPage: Int) {
     Row {
         AnimatedCountText(count = currentPage + 1)
         Text(text = "/$totalPage")
@@ -117,10 +114,7 @@ fun QuestionTopAppBar(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizontalQuestionPager(
-    questionPagerUiState: QuestionPagerUiState.Success,
-    pagerState: PagerState,
-) {
+fun HorizontalQuestionPager(questionPagerUiState: QuestionPagerUiState.Success, pagerState: PagerState) {
     HorizontalPager(
         state = pagerState,
         verticalAlignment = Alignment.Top,

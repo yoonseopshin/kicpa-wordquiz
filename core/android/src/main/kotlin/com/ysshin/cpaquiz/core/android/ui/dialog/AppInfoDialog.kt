@@ -51,7 +51,7 @@ fun AppInfoDialog(
                 .verticalScroll(scrollState),
         ) {
             Column(
-                modifier.background(MaterialTheme.colorScheme.surface)
+                modifier.background(MaterialTheme.colorScheme.surface),
             ) {
                 CpaIcon(
                     icon = icon,
@@ -70,7 +70,7 @@ fun AppInfoDialog(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
                         text = description,
@@ -78,7 +78,7 @@ fun AppInfoDialog(
                             .padding(top = 12.dp, start = 24.dp, end = 24.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
                 Row(
@@ -86,14 +86,14 @@ fun AppInfoDialog(
                         .fillMaxWidth()
                         .padding(top = 12.dp)
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceAround,
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {
                         TextButton(onClick = onDismiss) {
                             Text(
                                 text = dismissText,
                                 style = Typography.labelLarge,
-                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                             )
                         }
                     }
@@ -101,7 +101,7 @@ fun AppInfoDialog(
                         Text(
                             text = confirmText,
                             style = Typography.labelLarge,
-                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                         )
                     }
                 }
@@ -119,8 +119,8 @@ private fun AppInfoDialogPreview() {
         description = stringResource(
             id = R.string.app_version_name_and_code,
             BuildConfig.APP_VERSION_NAME,
-            BuildConfig.APP_VERSION_CODE
+            BuildConfig.APP_VERSION_CODE,
         ),
-        dialogType = AppDialogType.OnlyConfirm
+        dialogType = AppDialogType.OnlyConfirm,
     )
 }

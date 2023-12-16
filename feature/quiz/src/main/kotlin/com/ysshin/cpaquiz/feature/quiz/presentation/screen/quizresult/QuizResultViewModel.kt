@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:property-naming")
+
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult
 
 import androidx.lifecycle.SavedStateHandle
@@ -26,11 +28,12 @@ class QuizResultViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _totalElapsedTime =
-        MutableStateFlow(handle.get<LongArray>(QuizConstants.timesPerQuestion)?.sum() ?: 0L)
+        MutableStateFlow(handle.get<LongArray>(QuizConstants.TIMES_PER_QUESTION)?.sum() ?: 0L)
 
-    private val _selectedIndices = handle.getStateFlow<ArrayList<Int>>(QuizConstants.selected, ArrayList())
+    private val _selectedIndices =
+        handle.getStateFlow<ArrayList<Int>>(QuizConstants.SELECTED, ArrayList())
     private val _solvedQuestions =
-        handle.getStateFlow<ArrayList<ProblemModel>>(QuizConstants.problems, ArrayList())
+        handle.getStateFlow<ArrayList<ProblemModel>>(QuizConstants.PROBLEMS, ArrayList())
 
     val quizResultUiState: StateFlow<QuizResultUiState> =
         combine(
@@ -51,13 +54,13 @@ class QuizResultViewModel @Inject constructor(
                 shouldRequestInAppReview = shouldRequestInAppReview,
                 shouldShowInterstitialAd = shouldShowInterstitialAd,
                 selectedIndices = selected,
-                solvedQuestions = currentSolved
+                solvedQuestions = currentSolved,
             )
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = QuizResultUiState.Loading
+                initialValue = QuizResultUiState.Loading,
             )
 
     private fun insertWrongQuestionsToLocalDb(selected: List<Int>, solved: List<ProblemModel>) {

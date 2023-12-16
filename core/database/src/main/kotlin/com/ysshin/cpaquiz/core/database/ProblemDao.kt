@@ -22,7 +22,7 @@ interface ProblemDao {
         """
         SELECT * 
         FROM ${AppContract.Problem.TABLE_NAME}
-        """
+        """,
     )
     fun getAll(): Flow<List<ProblemEntity>>
 
@@ -33,7 +33,7 @@ interface ProblemDao {
         WHERE $TYPE = :type
         AND $SUBTYPE in (:subtypes)
         ORDER BY RANDOM()
-        """
+        """,
     )
     suspend fun get(type: QuizType, subtypes: List<String>): List<ProblemEntity>
 
@@ -43,7 +43,7 @@ interface ProblemDao {
         FROM ${AppContract.Problem.TABLE_NAME} 
         WHERE $TYPE = :type 
         ORDER BY RANDOM() 
-        LIMIT :size"""
+        LIMIT :size""",
     )
     suspend fun get(type: QuizType, size: Int): List<ProblemEntity>
 
@@ -56,7 +56,7 @@ interface ProblemDao {
             AND $PID= :pid
             AND $SOURCE= :source
             LIMIT 1
-        """
+        """,
     )
     suspend fun get(year: Int, pid: Int, type: QuizType, source: ProblemSource): ProblemEntity
 
@@ -65,7 +65,7 @@ interface ProblemDao {
             SELECT COUNT(*)
             FROM ${AppContract.Problem.TABLE_NAME}
             WHERE $TYPE = :type
-            """
+            """,
     )
     suspend fun getProblemCountByType(type: QuizType): Int
 
@@ -74,7 +74,7 @@ interface ProblemDao {
         SELECT DISTINCT $SUBTYPE
         FROM ${AppContract.Problem.TABLE_NAME}
         WHERE $TYPE = :type 
-    """
+    """,
     )
     suspend fun getSubtypesByQuizType(type: QuizType): List<String>
 
@@ -86,7 +86,7 @@ interface ProblemDao {
         OR $SUB_DESCRIPTION LIKE '%' || :text || '%'
         OR $QUESTIONS LIKE '%' || :text || '%'
         OR $PID LIKE '%' || :text || '%'
-        """
+        """,
     )
     suspend fun search(text: String): List<ProblemEntity>
 

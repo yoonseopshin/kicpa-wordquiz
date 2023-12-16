@@ -6,8 +6,7 @@ import com.ysshin.cpaquiz.domain.repository.QuizRepository
 
 class DeleteWrongProblem(private val repository: QuizRepository) {
 
-    suspend operator fun invoke(year: Int, pid: Int, type: QuizType) =
-        repository.deleteWrongProblem(year, pid, type)
+    suspend operator fun invoke(year: Int, pid: Int, type: QuizType) = repository.deleteWrongProblem(year, pid, type)
 
     suspend operator fun invoke(problem: Problem) =
         repository.deleteWrongProblem(problem.year, problem.pid, problem.type)

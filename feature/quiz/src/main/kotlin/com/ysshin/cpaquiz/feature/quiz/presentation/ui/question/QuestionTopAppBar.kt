@@ -56,7 +56,7 @@ fun QuestionTopAppBar(
         actions = {
             Clock(useTimer, elapsedTime())
         },
-        scrollBehavior = scrollBehavior
+        scrollBehavior = scrollBehavior,
     )
 }
 

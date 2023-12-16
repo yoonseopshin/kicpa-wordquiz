@@ -10,15 +10,13 @@ object AdConstants {
     // Checking with hardcoded variables for now
     private val isMarketRelease = true
 
-    fun getNativeMediumAdUnitId() =
-        when (isMarketRelease) {
-            true -> QUIZ_NATIVE_AD_MEDIUM
-            false -> DEBUG_QUIZ_NATIVE_AD
-        }
+    fun getNativeMediumAdUnitId() = when (isMarketRelease) {
+        true -> QUIZ_NATIVE_AD_MEDIUM
+        false -> DEBUG_QUIZ_NATIVE_AD
+    }
 
-    fun getNativeSmallAdUnitId() =
-        when (isMarketRelease) {
-            true -> QUIZ_NATIVE_AD_SMALL
-            false -> DEBUG_QUIZ_NATIVE_AD
-        }
+    fun getNativeSmallAdUnitId() = when (isMarketRelease) {
+        true -> QUIZ_NATIVE_AD_SMALL
+        false -> DEBUG_QUIZ_NATIVE_AD
+    }
 }

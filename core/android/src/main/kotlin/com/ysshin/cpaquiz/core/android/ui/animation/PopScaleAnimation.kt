@@ -17,23 +17,18 @@ import androidx.compose.ui.graphics.Color
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun PopScaleAnimation(
-    isVisible: Boolean,
-    circleColor: Color,
-    radius: Float,
-    content: @Composable () -> Unit,
-) {
+fun PopScaleAnimation(isVisible: Boolean, circleColor: Color, radius: Float, content: @Composable () -> Unit) {
     AnimatedVisibility(
         visible = isVisible,
         enter = fadeIn(animationSpec = spring()) + scaleIn(),
-        exit = fadeOut(animationSpec = tween())
+        exit = fadeOut(animationSpec = tween()),
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Canvas(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 drawCircle(
                     color = circleColor,

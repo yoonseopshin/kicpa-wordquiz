@@ -72,7 +72,6 @@ import timber.log.Timber
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
-
     // State
     val numOfSolvedQuestion = viewModel.numOfSolvedQuestions.collectAsStateWithLifecycle()
     val numOfTotalQuestion = viewModel.numOfTotalQuestions.collectAsStateWithLifecycle()

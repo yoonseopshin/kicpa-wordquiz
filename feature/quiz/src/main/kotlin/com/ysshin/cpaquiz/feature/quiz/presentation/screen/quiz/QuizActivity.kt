@@ -29,10 +29,10 @@ class QuizActivity : BaseActivity() {
             useTimer: Boolean = false,
             selectedSubtypes: List<String> = emptyList(),
         ) = Intent(context, QuizActivity::class.java).apply {
-            putExtra(QuizConstants.quizType, quizType)
-            putExtra(QuizConstants.quizNumbers, quizNumbers)
-            putExtra(QuizConstants.useTimer, useTimer)
-            putStringArrayListExtra(QuizConstants.selectedSubtypes, ArrayList(selectedSubtypes))
+            putExtra(QuizConstants.QUIZ_TYPE, quizType)
+            putExtra(QuizConstants.QUIZ_NUMBERS, quizNumbers)
+            putExtra(QuizConstants.USE_TIMER, useTimer)
+            putStringArrayListExtra(QuizConstants.SELECTED_SUBTYPES, ArrayList(selectedSubtypes))
         }
     }
 }

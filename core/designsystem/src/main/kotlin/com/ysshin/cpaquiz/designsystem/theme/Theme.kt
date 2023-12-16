@@ -113,7 +113,7 @@ fun CpaQuizTheme(
 
     val defaultBackgroundTheme = BackgroundTheme(
         color = colorScheme.surface,
-        tonalElevation = 3.dp
+        tonalElevation = 3.dp,
     )
 
     val gradientColors = GradientColors(
@@ -132,7 +132,7 @@ fun CpaQuizTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
-            content = content
+            content = content,
         )
     }
 }

@@ -68,7 +68,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
-import com.ysshin.cpaquiz.core.android.R as CR
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppNumberPickerDialog
@@ -92,6 +91,7 @@ import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeQuizUiState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.SelectableSubtype
 import kotlinx.coroutines.launch
+import com.ysshin.cpaquiz.core.android.R as CR
 
 @Composable
 fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
@@ -117,7 +117,7 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
                     snackbarHostState.showSnackbar(
                         message = context.getString(R.string.subtypes_not_selected_alert, type.toKorean()),
                         withDismissAction = true,
-                        duration = SnackbarDuration.Short
+                        duration = SnackbarDuration.Short,
                     )
                 }
                 return@onQuizCardClick
@@ -129,7 +129,7 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
                 quizType = type,
                 quizNumbers = homeInfoUiState.quizNumber,
                 useTimer = homeInfoUiState.useTimer,
-                selectedSubtypes = viewModel.getSelectedSubtypes(type)
+                selectedSubtypes = viewModel.getSelectedSubtypes(type),
             )
         },
         onToggleSubtype = viewModel::toggleSubtype,
@@ -153,7 +153,7 @@ fun HomeScreen(
                 HomeTopAppBar(
                     homeInfoUiState = homeInfoUiState,
                     onSetQuizTimer = onSetQuizNumber,
-                    onToggleTimer = onToggleTimer
+                    onToggleTimer = onToggleTimer,
                 )
 
                 val verticalScrollState = rememberScrollState()
@@ -163,7 +163,7 @@ fun HomeScreen(
                     mainAxisAlignment = MainAxisAlignment.Center,
                     mainAxisSize = SizeMode.Expand,
                     crossAxisSpacing = 20.dp,
-                    mainAxisSpacing = 20.dp
+                    mainAxisSpacing = 20.dp,
                 ) {
                     when (homeQuizUiState) {
                         is HomeQuizUiState.Loading -> Unit
@@ -171,7 +171,7 @@ fun HomeScreen(
                             QuizCard(
                                 modifier = Modifier.resourceTestTag("quizCard${QuizType.Accounting.ordinal}"),
                                 cardBackgroundColor = colorResource(id = CR.color.accounting_highlight_color).copy(
-                                    alpha = 0.2f
+                                    alpha = 0.2f,
                                 ),
                                 iconBackgroundColor = colorResource(id = CR.color.accounting_highlight_color),
                                 count = homeQuizUiState.accountingCount,
@@ -184,7 +184,7 @@ fun HomeScreen(
                             QuizCard(
                                 modifier = Modifier.resourceTestTag("quizCard${QuizType.Business.ordinal}"),
                                 cardBackgroundColor = colorResource(id = CR.color.business_highlight_color).copy(
-                                    alpha = 0.2f
+                                    alpha = 0.2f,
                                 ),
                                 iconBackgroundColor = colorResource(id = CR.color.business_highlight_color),
                                 count = homeQuizUiState.businessCount,
@@ -197,7 +197,7 @@ fun HomeScreen(
                             QuizCard(
                                 modifier = Modifier.resourceTestTag("quizCard${QuizType.CommercialLaw.ordinal}"),
                                 cardBackgroundColor = colorResource(id = CR.color.commercial_law_highlight_color).copy(
-                                    alpha = 0.2f
+                                    alpha = 0.2f,
                                 ),
                                 iconBackgroundColor = colorResource(id = CR.color.commercial_law_highlight_color),
                                 count = homeQuizUiState.commercialLawCount,
@@ -210,7 +210,7 @@ fun HomeScreen(
                             QuizCard(
                                 modifier = Modifier.resourceTestTag("quizCard${QuizType.TaxLaw.ordinal}"),
                                 cardBackgroundColor = colorResource(id = CR.color.tax_law_highlight_color).copy(
-                                    alpha = 0.2f
+                                    alpha = 0.2f,
                                 ),
                                 iconBackgroundColor = colorResource(id = CR.color.tax_law_highlight_color),
                                 count = homeQuizUiState.taxLawCount,
@@ -231,11 +231,7 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopAppBar(
-    homeInfoUiState: HomeInfoUiState,
-    onSetQuizTimer: Consumer<Int>,
-    onToggleTimer: Action,
-) {
+fun HomeTopAppBar(homeInfoUiState: HomeInfoUiState, onSetQuizTimer: Consumer<Int>, onToggleTimer: Action) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
@@ -253,19 +249,14 @@ fun HomeTopAppBar(
                 quizNumber = homeInfoUiState.quizNumber,
                 onSetQuizTimer = onSetQuizTimer,
                 useTimer = homeInfoUiState.useTimer,
-                onToggleTimer = onToggleTimer
+                onToggleTimer = onToggleTimer,
             )
         },
     )
 }
 
 @Composable
-private fun HomeTopMenu(
-    quizNumber: Int,
-    onSetQuizTimer: Consumer<Int>,
-    useTimer: Boolean,
-    onToggleTimer: Action,
-) {
+private fun HomeTopMenu(quizNumber: Int, onSetQuizTimer: Consumer<Int>, useTimer: Boolean, onToggleTimer: Action) {
     var showDialog by remember { mutableStateOf(false) }
 
     IconButton(onClick = {
@@ -278,7 +269,8 @@ private fun HomeTopMenu(
                 LazyColumn {
                     item {
                         HomeQuizNumberBottomSheetListItem(
-                            quizNumber = quizNumber, onQuizNumberConfirm = onSetQuizTimer
+                            quizNumber = quizNumber,
+                            onQuizNumberConfirm = onSetQuizTimer,
                         )
                     }
 
@@ -286,7 +278,7 @@ private fun HomeTopMenu(
                         HomeSettingsListItem(
                             icon = CpaIcons.Timer,
                             text = stringResource(id = CR.string.timer),
-                            onBottomSheetItemClick = onToggleTimer
+                            onBottomSheetItemClick = onToggleTimer,
                         ) {
                             Switch(checked = useTimer, onCheckedChange = {
                                 onToggleTimer()
@@ -310,7 +302,8 @@ private fun HomeTopMenu(
                 } else {
                     spring(stiffness = Spring.StiffnessLow)
                 }
-            }, label = "SettingsMenuIconColor"
+            },
+            label = "SettingsMenuIconColor",
         ) { isExpanded ->
             if (isExpanded) {
                 MaterialTheme.colorScheme.primary
@@ -326,7 +319,8 @@ private fun HomeTopMenu(
                 } else {
                     spring(stiffness = Spring.StiffnessLow)
                 }
-            }, label = "SettingsMenuIconRotationDegree"
+            },
+            label = "SettingsMenuIconRotationDegree",
         ) { isExpanded ->
             if (isExpanded) 240f else 0f
         }
@@ -398,12 +392,13 @@ private fun QuizCard(
                             cardBackgroundColor
                         } else {
                             cardBackgroundColor.copy(alpha = disabledBackgroundAlpha)
-                        }
+                        },
                     )
                     .padding(horizontal = 16.dp, vertical = 32.dp),
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Surface(
                         modifier = Modifier
@@ -418,7 +413,7 @@ private fun QuizCard(
                                         iconBackgroundColor.copy(0.88f)
                                     } else {
                                         iconBackgroundColor.copy(alpha = disabledContentAlpha)
-                                    }
+                                    },
                                 )
                                 .padding(8.dp),
                             tint = if (quizCardEnabled) {
@@ -426,7 +421,7 @@ private fun QuizCard(
                             } else {
                                 colorResource(id = CR.color.daynight_gray800s).copy(alpha = disabledContentAlpha)
                             },
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
 
@@ -440,15 +435,16 @@ private fun QuizCard(
                                 colorResource(id = CR.color.daynight_gray500s)
                             } else {
                                 colorResource(id = CR.color.daynight_gray500s).copy(alpha = disabledContentAlpha)
-                            }
+                            },
                         )
                         Text(
-                            text = title, style = Typography.titleMedium,
+                            text = title,
+                            style = Typography.titleMedium,
                             color = if (quizCardEnabled) {
                                 colorResource(id = CR.color.daynight_gray800s)
                             } else {
                                 colorResource(id = CR.color.daynight_gray800s).copy(alpha = disabledContentAlpha)
-                            }
+                            },
                         )
                     }
                 }
@@ -460,8 +456,8 @@ private fun QuizCard(
                 modifier = Modifier.width(
                     width = with(LocalDensity.current) {
                         cardWidth.toDp()
-                    }
-                )
+                    },
+                ),
             ) {
                 LazyRow(state = rememberLazyListState()) {
                     itemsIndexed(subtypes) { _, subtype ->
@@ -506,7 +502,7 @@ private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfi
             defaultNumber = quizNumber,
             icon = CpaIcons.NoteOutlined,
             title = stringResource(id = CR.string.quiz_number_picker_title),
-            description = stringResource(id = CR.string.quiz_number_picker_description)
+            description = stringResource(id = CR.string.quiz_number_picker_description),
         )
     }
 
@@ -515,13 +511,13 @@ private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfi
         text = stringResource(id = CR.string.quiz_amount),
         onBottomSheetItemClick = {
             openDialog.value = true
-        }
+        },
     ) {
         Crossfade(targetState = quizNumber) {
             Text(
                 text = it.toString(),
                 style = Typography.headlineSmall,
-                color = colorResource(id = CR.color.daynight_gray900s)
+                color = colorResource(id = CR.color.daynight_gray900s),
             )
         }
     }
@@ -540,13 +536,13 @@ private fun HomeSettingsListItem(
             .height(64.dp)
             .clickable(onClick = onBottomSheetItemClick)
             .padding(start = 20.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         CpaIcon(
             icon = icon,
             modifier = Modifier.size(36.dp),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary
+            tint = MaterialTheme.colorScheme.primary,
         )
 
         Spacer(modifier = Modifier.width(16.dp))
@@ -557,10 +553,11 @@ private fun HomeSettingsListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(end = 20.dp),
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.End,
         ) {
             Row(
-                modifier = Modifier.width(48.dp), horizontalArrangement = Arrangement.Center
+                modifier = Modifier.width(48.dp),
+                horizontalArrangement = Arrangement.Center,
             ) {
                 content()
             }
@@ -594,7 +591,9 @@ private fun HomeScreenPreview() {
                     ),
                 ),
                 homeInfoUiState = HomeInfoUiState(
-                    dday = "365", quizNumber = 20, useTimer = true
+                    dday = "365",
+                    quizNumber = 20,
+                    useTimer = true,
                 ),
                 onSetQuizNumber = {},
                 onToggleTimer = {},

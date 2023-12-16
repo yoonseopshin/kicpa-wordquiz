@@ -1,7 +1,11 @@
 package com.ysshin.cpaquiz.domain.model
 
 enum class QuizType {
-    Accounting, Business, CommercialLaw, TaxLaw;
+    Accounting,
+    Business,
+    CommercialLaw,
+    TaxLaw,
+    ;
 
     fun toKorean() = when (this) {
         Accounting -> "회계학"

@@ -33,7 +33,7 @@ fun ClockTickingAnimation(
     val rotationPerSecond = 360f
     val secondProgress by updateTransition(
         targetState = timeMillis.toFloat() / 1_000 / 60,
-        label = "ClockTickingTransition"
+        label = "ClockTickingTransition",
     ).animateFloat(label = "ClockTickingRotation") { it }
 
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
@@ -41,7 +41,7 @@ fun ClockTickingAnimation(
             modifier = Modifier
                 .size(clockSize)
                 .shadow(elevation = 6.dp, shape = CircleShape)
-                .background(color = clockBackgroundColor, shape = CircleShape)
+                .background(color = clockBackgroundColor, shape = CircleShape),
         ) {
             val middle = Offset(size.minDimension / 2, size.minDimension / 2)
 
@@ -57,10 +57,10 @@ fun ClockTickingAnimation(
                         start = middle,
                         end = Offset(
                             x = size.minDimension / 2,
-                            y = clockEndOffset.toPx()
-                        )
+                            y = clockEndOffset.toPx(),
+                        ),
                     )
-                }
+                },
             )
         }
 

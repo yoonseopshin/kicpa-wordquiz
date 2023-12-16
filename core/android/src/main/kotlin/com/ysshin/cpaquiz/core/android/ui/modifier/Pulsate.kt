@@ -18,7 +18,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalView
 
 private enum class ButtonState {
-    Pressed, Idle;
+    Pressed,
+    Idle,
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -35,7 +36,7 @@ fun Modifier.bounceClickable(
         targetValue = when (buttonState) {
             ButtonState.Pressed -> dampingRatio
             ButtonState.Idle -> 1f
-        }
+        },
     )
     val view = LocalView.current
 

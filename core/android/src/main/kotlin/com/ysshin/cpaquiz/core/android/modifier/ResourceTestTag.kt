@@ -7,6 +7,5 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 
 @OptIn(ExperimentalComposeUiApi::class)
-fun Modifier.resourceTestTag(tag: String) =
-    then(Modifier.semantics { testTagsAsResourceId = true })
-        .then(testTag(tag))
+fun Modifier.resourceTestTag(tag: String) = then(Modifier.semantics { testTagsAsResourceId = true })
+    .then(testTag(tag))

@@ -7,14 +7,14 @@ data class WrongProblem(
     val pid: Int = DEFAULT_INT,
     val type: QuizType,
     val source: ProblemSource,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
 ) {
     companion object {
         fun from(problem: Problem) = WrongProblem(
             year = problem.year,
             pid = problem.pid,
             type = problem.type,
-            source = problem.source
+            source = problem.source,
         )
     }
 }

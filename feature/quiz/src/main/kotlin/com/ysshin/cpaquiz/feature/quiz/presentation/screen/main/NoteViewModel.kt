@@ -11,7 +11,6 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +21,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
@@ -75,15 +75,15 @@ class NoteViewModel @Inject constructor(
                 initialValue = NoteUiState(
                     TotalProblemsUiState.Loading,
                     WrongProblemsUiState.Loading,
-                    SearchedProblemsUiState.Loading
-                )
+                    SearchedProblemsUiState.Loading,
+                ),
             )
 
     val selectableFilteredYears
         get() = _noteFilter.value.yearsOfQuestions.map {
             SelectableTextItem(
                 text = it.toString(),
-                isSelected = _noteFilter.value.years.contains(it)
+                isSelected = _noteFilter.value.years.contains(it),
             )
         }
 
@@ -91,14 +91,11 @@ class NoteViewModel @Inject constructor(
         get() = QuizType.all().map {
             SelectableTextItem(
                 text = it.toKorean(),
-                isSelected = _noteFilter.value.types.contains(it)
+                isSelected = _noteFilter.value.types.contains(it),
             )
         }
 
-    fun setFilter(
-        years: List<Int>,
-        types: List<QuizType>,
-    ) {
+    fun setFilter(years: List<Int>, types: List<QuizType>) {
         _noteFilter.value = _noteFilter.value.copy(
             years = years.ifEmpty { _noteFilter.value.years },
             types = types.ifEmpty { _noteFilter.value.types },
@@ -110,7 +107,7 @@ class NoteViewModel @Inject constructor(
         _noteFilter.value = NoteFilter(
             years = origin.yearsOfQuestions,
             types = QuizType.all(),
-            yearsOfQuestions = origin.yearsOfQuestions
+            yearsOfQuestions = origin.yearsOfQuestions,
         )
     }
 
@@ -167,8 +164,7 @@ data class NoteFilter(val years: List<Int>, val types: List<QuizType>, val years
     }
 }
 
-internal fun NoteFilter.contains(problem: Problem) =
-    years.contains(problem.year) && types.contains(problem.type)
+internal fun NoteFilter.contains(problem: Problem) = years.contains(problem.year) && types.contains(problem.type)
 
 internal fun NoteFilter.isYearFiltering() = years.size != yearsOfQuestions.size
 internal fun NoteFilter.isQuizTypeFiltering() = types.size != QuizType.all().size

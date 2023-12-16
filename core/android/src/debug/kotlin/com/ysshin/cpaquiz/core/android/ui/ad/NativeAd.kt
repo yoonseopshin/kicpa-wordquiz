@@ -17,7 +17,7 @@ fun NativeMediumAd() {
     ShimmerAnimation(
         modifier = Modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 300.dp)
+            .defaultMinSize(minHeight = 300.dp),
     ) {
         Text(
             modifier = Modifier
@@ -40,7 +40,7 @@ fun NativeSmallAd() {
     ShimmerAnimation(
         modifier = Modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 64.dp)
+            .defaultMinSize(minHeight = 64.dp),
     ) {
         Text(
             modifier = Modifier

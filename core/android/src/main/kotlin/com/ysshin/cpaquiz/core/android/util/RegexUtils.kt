@@ -32,7 +32,7 @@ object RegexUtils {
             hangeulJamoRegex,
             hangeulCompatJamoRegex,
             hangeulSyllablesRegex,
-            hangeulEnclosedCJKNumsRegex
+            hangeulEnclosedCJKNumsRegex,
         )
 }
 

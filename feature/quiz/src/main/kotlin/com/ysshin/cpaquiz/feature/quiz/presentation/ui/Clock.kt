@@ -36,7 +36,7 @@ fun Clock(useTimer: Boolean, elapsedTime: Long) {
                 Text(
                     text = TimeFormatter.format(elapsedTime),
                     style = Typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
                 )
             }
         }

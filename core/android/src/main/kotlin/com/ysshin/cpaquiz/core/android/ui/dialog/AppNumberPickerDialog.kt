@@ -61,7 +61,7 @@ fun AppNumberPickerDialog(
                 .verticalScroll(scrollState),
         ) {
             Column(
-                modifier.background(MaterialTheme.colorScheme.surface)
+                modifier.background(MaterialTheme.colorScheme.surface),
             ) {
                 CpaIcon(
                     icon = icon,
@@ -69,7 +69,7 @@ fun AppNumberPickerDialog(
                     modifier = Modifier
                         .padding(top = 36.dp)
                         .height(48.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 )
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
@@ -80,7 +80,7 @@ fun AppNumberPickerDialog(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineSmall
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                     Text(
                         text = description,
@@ -88,7 +88,7 @@ fun AppNumberPickerDialog(
                             .padding(top = 12.dp, start = 24.dp, end = 24.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
 
@@ -106,8 +106,8 @@ fun AppNumberPickerDialog(
                             vibrator.defaultVibrator.vibrate(
                                 VibrationEffect.createOneShot(
                                     50L,
-                                    VibrationEffect.EFFECT_HEAVY_CLICK
-                                )
+                                    VibrationEffect.EFFECT_HEAVY_CLICK,
+                                ),
                             )
                         }
                     }
@@ -115,7 +115,7 @@ fun AppNumberPickerDialog(
 
                 AndroidView(
                     modifier = Modifier.fillMaxWidth(),
-                    factory = { numberPicker }
+                    factory = { numberPicker },
                 )
 
                 Row(
@@ -123,14 +123,14 @@ fun AppNumberPickerDialog(
                         .fillMaxWidth()
                         .padding(top = 12.dp)
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceAround,
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {
                         TextButton(onClick = onDismiss) {
                             Text(
                                 text = dismissText,
                                 style = Typography.labelLarge,
-                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                             )
                         }
                     }
@@ -138,7 +138,7 @@ fun AppNumberPickerDialog(
                         Text(
                             text = confirmText,
                             style = Typography.labelLarge,
-                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                         )
                     }
                 }

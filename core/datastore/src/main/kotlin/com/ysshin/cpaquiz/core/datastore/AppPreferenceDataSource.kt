@@ -7,8 +7,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.ysshin.cpaquiz.core.android.framework.permission.PostNotification
-import javax.inject.Inject
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 val Context.appDataStore: DataStore<Preferences> by preferencesDataStore(name = "app_prefs")
 

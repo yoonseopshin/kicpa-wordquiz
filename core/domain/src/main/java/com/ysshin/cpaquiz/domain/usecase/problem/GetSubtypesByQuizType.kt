@@ -7,15 +7,14 @@ import kotlinx.coroutines.launch
 
 class GetSubtypesByQuizType(private val repository: QuizRepository) {
 
-    operator fun invoke(scope: CoroutineScope, onResult: (MutableMap<QuizType, List<String>>) -> Unit) =
-        scope.launch {
-            val subtypesMap = mutableMapOf<QuizType, List<String>>()
-            for (type in QuizType.all()) {
-                val subtype = repository.getSubtypesByQuizType(type)
-                if (subtype.isNotEmpty()) {
-                    subtypesMap[type] = subtype
-                }
+    operator fun invoke(scope: CoroutineScope, onResult: (MutableMap<QuizType, List<String>>) -> Unit) = scope.launch {
+        val subtypesMap = mutableMapOf<QuizType, List<String>>()
+        for (type in QuizType.all()) {
+            val subtype = repository.getSubtypesByQuizType(type)
+            if (subtype.isNotEmpty()) {
+                subtypesMap[type] = subtype
             }
-            onResult(subtypesMap)
         }
+        onResult(subtypesMap)
+    }
 }

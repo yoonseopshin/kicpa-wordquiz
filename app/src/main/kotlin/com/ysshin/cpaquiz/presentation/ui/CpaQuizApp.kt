@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -63,7 +62,7 @@ import com.ysshin.cpaquiz.presentation.navigation.TopLevelDestination
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CpaQuizApp(appState: CpaQuizAppState) {
     val snackbarHostState = LocalSnackbarHostState.current
@@ -80,11 +79,11 @@ fun CpaQuizApp(appState: CpaQuizAppState) {
                 CpaQuizBottomBar(
                     destinations = appState.topLevelDestinations,
                     onNavigateToDestination = appState::navigate,
-                    currentDestination = appState.currentDestination
+                    currentDestination = appState.currentDestination,
                 )
             }
         },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { padding ->
         Column {
             NetworkConnectivityStatusBox(isOffline = isOffline)
@@ -96,9 +95,9 @@ fun CpaQuizApp(appState: CpaQuizAppState) {
                     .consumeWindowInsets(padding)
                     .windowInsetsPadding(
                         WindowInsets.safeDrawing.only(
-                            WindowInsetsSides.Horizontal
-                        )
-                    )
+                            WindowInsetsSides.Horizontal,
+                        ),
+                    ),
             ) {
                 if (appState.shouldShowNavRail) {
                     CpaQuizNavigationRail(
@@ -139,7 +138,7 @@ private fun RequestPostNotificationsPermission(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val isPermissionGranted = ContextCompat.checkSelfPermission(
                     context,
-                    Manifest.permission.POST_NOTIFICATIONS
+                    Manifest.permission.POST_NOTIFICATIONS,
                 ) == PackageManager.PERMISSION_GRANTED
 
                 if (isPermissionGranted && notification.data == PostNotification.DENIED) {
@@ -147,7 +146,7 @@ private fun RequestPostNotificationsPermission(
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             context.getString(R.string.post_notifications_granted),
-                            withDismissAction = true
+                            withDismissAction = true,
                         )
                     }
                     viewModel.grantPostNotification()
@@ -156,14 +155,14 @@ private fun RequestPostNotificationsPermission(
                     scope.launch {
                         val snackbarResult = snackbarHostState.showSnackbar(
                             message = context.getString(R.string.post_notifications_denied),
-                            actionLabel = context.getString(R.string.settings)
+                            actionLabel = context.getString(R.string.settings),
                         )
                         if (snackbarResult == SnackbarResult.ActionPerformed) {
                             context.startActivity(
                                 Intent().apply {
                                     action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
                                     putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-                                }
+                                },
                             )
                         }
                     }
@@ -191,7 +190,7 @@ private fun RequestPostNotificationsPermission(
             } else {
                 viewModel.denyPostNotification()
             }
-        }
+        },
     )
 
     if (showPostNotificationsDialog) {
@@ -222,11 +221,12 @@ private fun CpaQuizBottomBar(
     Surface(color = MaterialTheme.colorScheme.surface) {
         NavigationBar(
             modifier = Modifier.windowInsetsPadding(
-                WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-            )
+                WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom),
+            ),
         ) {
             destinations.forEach { destination ->
-                val selected = currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                val selected =
+                    currentDestination?.hierarchy?.any { it.route == destination.route } == true
                 NavigationBarItem(
                     selected = selected,
                     onClick = { onNavigateToDestination(destination) },
@@ -236,15 +236,15 @@ private fun CpaQuizBottomBar(
                                 destination.selectedIcon
                             } else {
                                 destination.unselectedIcon
-                            }
+                            },
                         )
                     },
                     label = {
                         Text(
                             modifier = Modifier.resourceTestTag(stringResource(id = destination.iconTextResourceId)),
-                            text = stringResource(id = destination.iconTextResourceId)
+                            text = stringResource(id = destination.iconTextResourceId),
                         )
-                    }
+                    },
                 )
             }
         }
@@ -260,7 +260,8 @@ private fun CpaQuizNavigationRail(
 ) {
     NavigationRail(modifier = modifier) {
         destinations.forEach { destination ->
-            val selected = currentDestination?.hierarchy?.any { it.route == destination.route } == true
+            val selected =
+                currentDestination?.hierarchy?.any { it.route == destination.route } == true
             NavigationRailItem(
                 selected = selected,
                 onClick = { onNavigateToDestination(destination) },
@@ -270,15 +271,15 @@ private fun CpaQuizNavigationRail(
                             destination.selectedIcon
                         } else {
                             destination.unselectedIcon
-                        }
+                        },
                     )
                 },
                 label = {
                     Text(
                         modifier = Modifier.resourceTestTag(stringResource(id = destination.iconTextResourceId)),
-                        text = stringResource(id = destination.iconTextResourceId)
+                        text = stringResource(id = destination.iconTextResourceId),
                     )
-                }
+                },
             )
         }
     }

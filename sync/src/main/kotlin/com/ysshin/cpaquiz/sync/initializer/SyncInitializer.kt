@@ -15,19 +15,18 @@ object Sync {
     }
 }
 
-private const val SyncWorkName = "SyncWorkName"
+private const val SYNC_WORK_NAME = "SyncWorkName"
 
 class SyncInitializer : Initializer<Unit> {
     override fun create(context: Context) {
         WorkManager.getInstance(context).apply {
             enqueueUniqueWork(
-                SyncWorkName,
+                SYNC_WORK_NAME,
                 ExistingWorkPolicy.REPLACE,
-                SyncWorker.startUpSyncWork()
+                SyncWorker.startUpSyncWork(),
             )
         }
     }
 
-    override fun dependencies(): List<Class<out Initializer<*>>> =
-        listOf(WorkManagerInitializer::class.java)
+    override fun dependencies(): List<Class<out Initializer<*>>> = listOf(WorkManagerInitializer::class.java)
 }

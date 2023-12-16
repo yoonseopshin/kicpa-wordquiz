@@ -8,16 +8,16 @@ import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.Duration
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -44,39 +44,39 @@ class HomeViewModel @Inject constructor(
                 accountingSubtypes = createSelectableSubtypeByQuizType(
                     subtypes,
                     selectedSubtypes,
-                    QuizType.Accounting
+                    QuizType.Accounting,
                 ),
                 businessCount = count[QuizType.Business] ?: 0,
                 businessSubtypes = createSelectableSubtypeByQuizType(
                     subtypes,
                     selectedSubtypes,
-                    QuizType.Business
+                    QuizType.Business,
                 ),
                 commercialLawCount = count[QuizType.CommercialLaw] ?: 0,
                 commercialLawSubtypes = createSelectableSubtypeByQuizType(
                     subtypes,
                     selectedSubtypes,
-                    QuizType.CommercialLaw
+                    QuizType.CommercialLaw,
                 ),
                 taxLawCount = count[QuizType.TaxLaw] ?: 0,
                 taxLawSubtypes = createSelectableSubtypeByQuizType(
                     subtypes,
                     selectedSubtypes,
-                    QuizType.TaxLaw
+                    QuizType.TaxLaw,
                 ),
             )
         }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
-                initialValue = HomeQuizUiState.Loading
+                initialValue = HomeQuizUiState.Loading,
             )
 
     val homeInfoUiState: StateFlow<HomeInfoUiState> =
         combine(
             quizUseCases.getNextExamDate(),
             quizUseCases.getQuizNumber(),
-            quizUseCases.getUseTimer()
+            quizUseCases.getUseTimer(),
         ) { nextExamDate, quizNumber, useTimer ->
             val now = LocalDate.now()
             val target = LocalDate.parse(nextExamDate, DateTimeFormatter.ISO_DATE)
@@ -89,8 +89,8 @@ class HomeViewModel @Inject constructor(
                 initialValue = HomeInfoUiState(
                     dday = "",
                     quizNumber = DEFAULT_QUIZ_NUMBER,
-                    useTimer = DEFAULT_USE_TIMER
-                )
+                    useTimer = DEFAULT_USE_TIMER,
+                ),
             )
 
     private fun setTimer(value: Boolean) {

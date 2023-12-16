@@ -41,7 +41,9 @@ import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 
 private enum class AdState {
-    Loading, Success, Error;
+    Loading,
+    Success,
+    Error,
 }
 
 @Composable

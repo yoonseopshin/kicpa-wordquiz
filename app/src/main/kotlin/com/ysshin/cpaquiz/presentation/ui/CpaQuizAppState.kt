@@ -39,7 +39,7 @@ fun rememberCpaQuizAppState(
             coroutineScope = coroutineScope,
             windowSizeClass = windowSizeClass,
             networkMonitor = networkMonitor,
-            startDestination = startDestination
+            startDestination = startDestination,
         )
     }
 }
@@ -61,22 +61,22 @@ class CpaQuizAppState(
             destination = HomeDestination.destination,
             selectedIcon = CpaIcons.HomeFilled,
             unselectedIcon = CpaIcons.Home,
-            iconTextResourceId = R.string.home
+            iconTextResourceId = R.string.home,
         ),
         TopLevelDestination(
             route = NoteDestination.route,
             destination = NoteDestination.destination,
             selectedIcon = CpaIcons.EditFilled,
             unselectedIcon = CpaIcons.Edit,
-            iconTextResourceId = R.string.note
+            iconTextResourceId = R.string.note,
         ),
         TopLevelDestination(
             route = SettingsDestination.route,
             destination = SettingsDestination.destination,
             selectedIcon = CpaIcons.SettingsFilled,
             unselectedIcon = CpaIcons.Settings,
-            iconTextResourceId = R.string.settings
-        )
+            iconTextResourceId = R.string.settings,
+        ),
     )
 
     val shouldShowBottomBar: Boolean

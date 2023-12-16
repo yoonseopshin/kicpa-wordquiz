@@ -8,5 +8,5 @@ data class TopLevelDestination(
     override val destination: String,
     val selectedIcon: CpaIcon,
     val unselectedIcon: CpaIcon,
-    val iconTextResourceId: Int
+    val iconTextResourceId: Int,
 ) : CpaQuizNavigationDestination

@@ -7,15 +7,15 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import java.util.concurrent.TimeUnit
-import javax.inject.Named
-import javax.inject.Singleton
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -38,17 +38,14 @@ object NetworkModule {
                 } else {
                     HttpLoggingInterceptor.Level.NONE
                 }
-            }
+            },
         )
         .build()
 
     @Singleton
     @ExperimentalSerializationApi
     @Provides
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient,
-        @Named("BaseUrl") url: String,
-    ): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient, @Named("BaseUrl") url: String): Retrofit {
         val json = Json { ignoreUnknownKeys = true }
         val mediaType = "application/json".toMediaType()
 
@@ -61,6 +58,5 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideQuizService(retrofit: Retrofit): QuizService =
-        retrofit.create(QuizService::class.java)
+    fun provideQuizService(retrofit: Retrofit): QuizService = retrofit.create(QuizService::class.java)
 }

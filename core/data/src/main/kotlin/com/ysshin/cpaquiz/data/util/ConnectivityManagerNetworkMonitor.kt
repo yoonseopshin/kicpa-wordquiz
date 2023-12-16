@@ -8,10 +8,10 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import javax.inject.Inject
 
 class ConnectivityManagerNetworkMonitor @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -38,7 +38,7 @@ class ConnectivityManagerNetworkMonitor @Inject constructor(
             NetworkRequest.Builder()
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                 .build(),
-            callback
+            callback,
         )
 
         trySend(connectivityManager.isCurrentConnected())

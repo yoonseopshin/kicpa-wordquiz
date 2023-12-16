@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.core.android.BuildConfig
-import com.ysshin.cpaquiz.core.android.R as CR
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
@@ -58,20 +57,18 @@ import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 import kotlinx.coroutines.launch
+import com.ysshin.cpaquiz.core.android.R as CR
 
 @Composable
 fun SettingsRoute(windowSizeClass: WindowSizeClass, viewModel: SettingsViewModel = hiltViewModel()) {
     SettingsScreen(
         windowSizeClass = windowSizeClass,
-        deleteAllWrongProblems = viewModel::deleteAllWrongProblems
+        deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
     )
 }
 
 @Composable
-fun SettingsScreen(
-    windowSizeClass: WindowSizeClass,
-    deleteAllWrongProblems: Action,
-) {
+fun SettingsScreen(windowSizeClass: WindowSizeClass, deleteAllWrongProblems: Action) {
     val snackbarHostState = LocalSnackbarHostState.current
 
     CpaBackground {
@@ -81,7 +78,7 @@ fun SettingsScreen(
             SettingsLazyVerticalGrid(
                 windowSizeClass = windowSizeClass,
                 snackbarHostState = snackbarHostState,
-                deleteAllWrongProblems = deleteAllWrongProblems
+                deleteAllWrongProblems = deleteAllWrongProblems,
             )
         }
     }
@@ -97,7 +94,7 @@ private fun SettingsTopAppBar() {
                 text = stringResource(id = CR.string.settings),
                 modifier = Modifier.fillMaxWidth(),
             )
-        }
+        },
     )
 }
 
@@ -132,7 +129,7 @@ private fun SettingsLazyVerticalGrid(
     LazyVerticalGrid(
         modifier = modifier,
         contentPadding = PaddingValues(vertical = 20.dp),
-        columns = GridCells.Fixed(numberOfColumns)
+        columns = GridCells.Fixed(numberOfColumns),
     ) {
         item {
             SettingsListItem(
@@ -150,7 +147,7 @@ private fun SettingsLazyVerticalGrid(
                 settingsText = stringResource(id = CR.string.app_version),
                 onClick = {
                     setAppVersionDialogOpened(true)
-                }
+                },
             )
         }
 
@@ -158,7 +155,7 @@ private fun SettingsLazyVerticalGrid(
             SettingsListItem(
                 settingsIcon = CpaIcons.NoteOutlined,
                 settingsText = stringResource(id = CR.string.open_source_license),
-                onClick = context::startOssLicenseActivity
+                onClick = context::startOssLicenseActivity,
             )
         }
 
@@ -166,7 +163,7 @@ private fun SettingsLazyVerticalGrid(
             SettingsListItem(
                 settingsIcon = CpaIcons.Mail,
                 settingsText = stringResource(id = CR.string.mail_to_developer),
-                onClick = context::startCpaQuizContactActivity
+                onClick = context::startCpaQuizContactActivity,
             )
         }
     }
@@ -219,19 +216,15 @@ private fun InitSettingsDialog(
             description = stringResource(
                 id = CR.string.app_version_name_and_code,
                 BuildConfig.APP_VERSION_NAME,
-                BuildConfig.APP_VERSION_CODE
+                BuildConfig.APP_VERSION_CODE,
             ),
-            dialogType = AppDialogType.OnlyConfirm
+            dialogType = AppDialogType.OnlyConfirm,
         )
     }
 }
 
 @Composable
-private fun SettingsListItem(
-    settingsIcon: CpaIcon,
-    settingsText: String,
-    onClick: Action = {},
-) {
+private fun SettingsListItem(settingsIcon: CpaIcon, settingsText: String, onClick: Action = {}) {
     val cornerShape = RoundedCornerShape(24.dp)
 
     Card(
@@ -260,7 +253,7 @@ private fun SettingsListItem(
                     withStyle(SpanStyle(fontSize = 18.sp)) {
                         append(settingsText)
                     }
-                }
+                },
             )
         }
     }
@@ -316,15 +309,15 @@ private fun Context.startCpaQuizContactActivity() {
         val emailIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(
                 Intent.EXTRA_SUBJECT,
-                getString(CR.string.mail_to_developer_title)
+                getString(CR.string.mail_to_developer_title),
             )
             putExtra(
                 Intent.EXTRA_EMAIL,
-                arrayOf(getString(CR.string.developer_email))
+                arrayOf(getString(CR.string.developer_email)),
             )
             putExtra(
                 Intent.EXTRA_TEXT,
-                getString(CR.string.mail_info, BuildConfig.APP_VERSION_NAME)
+                getString(CR.string.mail_info, BuildConfig.APP_VERSION_NAME),
             )
             type = "message/rfc822"
         }

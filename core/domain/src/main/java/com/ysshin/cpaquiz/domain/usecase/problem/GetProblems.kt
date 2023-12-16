@@ -5,9 +5,9 @@ import com.ysshin.cpaquiz.core.base.times
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.repository.QuizRepository
-import kotlin.math.ceil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 class GetProblems(private val repository: QuizRepository) {
 
@@ -16,7 +16,7 @@ class GetProblems(private val repository: QuizRepository) {
         size: Int,
         selectedSubtypes: List<String>,
         scope: CoroutineScope,
-        onResult: Consumer<List<Problem>>
+        onResult: Consumer<List<Problem>>,
     ) {
         scope.launch {
             if (selectedSubtypes.isEmpty()) {

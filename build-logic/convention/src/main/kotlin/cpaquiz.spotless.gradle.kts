@@ -8,13 +8,13 @@ spotless {
     kotlin {
         target("**/*.kt")
         targetExclude("**/build/**/*.kt")
-        ktlint(libs.findVersion("ktlint").get().toString()).editorConfigOverride(
-            mapOf(
-                "android" to "true",
-                "disabled_rules" to "no-wildcard-imports",
-                "max_line_length" to "120",
+        ktlint(libs.findVersion("ktlint").get().toString())
+            .editorConfigOverride(
+                mapOf("android" to "true"),
             )
-        )
+            .customRuleSets(
+                listOf("io.nlopez.compose.rules:ktlint:0.3.7")
+            )
     }
     format("kts") {
         target("**/*.kts")

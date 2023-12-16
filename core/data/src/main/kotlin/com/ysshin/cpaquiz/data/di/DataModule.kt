@@ -22,7 +22,5 @@ interface DataModule {
     fun bindsUserRepository(userRepository: UserRepositoryImpl): UserRepository
 
     @Binds
-    fun bindsNetworkMonitor(
-        networkMonitor: ConnectivityManagerNetworkMonitor,
-    ): NetworkMonitor
+    fun bindsNetworkMonitor(networkMonitor: ConnectivityManagerNetworkMonitor): NetworkMonitor
 }

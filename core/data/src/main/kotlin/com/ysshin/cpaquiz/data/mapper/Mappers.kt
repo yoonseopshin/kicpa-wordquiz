@@ -63,7 +63,7 @@ fun WrongProblem.toLocalData() = WrongProblemEntity(
     year = year,
     type = type,
     source = source,
-    createdAt = createdAt
+    createdAt = createdAt,
 )
 
 @JvmName("wrongProblemListToLocalData")

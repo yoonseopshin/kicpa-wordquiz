@@ -25,10 +25,7 @@ import com.ysshin.cpaquiz.designsystem.theme.LocalGradientColors
 import kotlin.math.tan
 
 @Composable
-fun CpaBackground(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
+fun CpaBackground(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     val color = LocalBackgroundTheme.current.color
     val tonalElevation = LocalBackgroundTheme.current.tonalElevation
     Surface(

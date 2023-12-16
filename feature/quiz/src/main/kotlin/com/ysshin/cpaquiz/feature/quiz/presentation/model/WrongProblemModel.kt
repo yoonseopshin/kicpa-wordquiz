@@ -13,6 +13,8 @@ data class WrongProblemModel(val problem: Problem) {
     override fun equals(other: Any?): Boolean {
         return if (other is WrongProblemModel) {
             problem == other.problem && isWrong == other.isWrong
-        } else false
+        } else {
+            false
+        }
     }
 }

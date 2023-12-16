@@ -74,7 +74,9 @@ fun QuestionSummaryHeader(
     onHeaderLongClick: () -> Unit = {},
 ) {
     val haptic = LocalHapticFeedback.current
-    val useSplitScreen = if (windowSizeClass == null) false else {
+    val useSplitScreen = if (windowSizeClass == null) {
+        false
+    } else {
         windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     }
 
@@ -135,7 +137,9 @@ fun LazyItemScope.QuestionSummaryContent(
     deleteTargetWrongProblem: ((Problem) -> Unit)? = null,
     selectedQuestionInSplitScreen: Problem? = null,
 ) {
-    val useSplitScreen = if (windowSizeClass == null) false else {
+    val useSplitScreen = if (windowSizeClass == null) {
+        false
+    } else {
         windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     }
 
@@ -283,7 +287,9 @@ fun LazyItemScope.QuestionSummaryContent(
 
 @Composable
 fun QuestionSummaryDivider(windowSizeClass: WindowSizeClass? = null) {
-    val useSplitScreen = if (windowSizeClass == null) false else {
+    val useSplitScreen = if (windowSizeClass == null) {
+        false
+    } else {
         windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     }
     Divider(

@@ -33,15 +33,15 @@ class QuizViewModel @Inject constructor(
     private val handle: SavedStateHandle,
 ) : BaseViewModel() {
 
-    val useTimer: StateFlow<Boolean> = handle.getStateFlow(QuizConstants.useTimer, false)
+    val useTimer: StateFlow<Boolean> = handle.getStateFlow(QuizConstants.USE_TIMER, false)
     private val timer = QuizTimer(viewModelScope).also { timer ->
         if (useTimer.value) timer.start()
     }
     val elapsedTime = timer.elapsedTime.asStateFlow()
 
-    private val quizNumbers: Int = handle[QuizConstants.quizNumbers] ?: DEFAULT_INT
+    private val quizNumbers: Int = handle[QuizConstants.QUIZ_NUMBERS] ?: DEFAULT_INT
     private val selectedSubtypes: List<String> =
-        handle.get<ArrayList<String>>(QuizConstants.selectedSubtypes) ?: emptyList()
+        handle.get<ArrayList<String>>(QuizConstants.SELECTED_SUBTYPES) ?: emptyList()
 
     val numOfTotalQuestions = MutableStateFlow(quizNumbers).asStateFlow()
 
@@ -51,7 +51,7 @@ class QuizViewModel @Inject constructor(
     val quizState = MutableStateFlow<QuizState>(QuizState.Solving)
     val snackbarState = MutableStateFlow<SnackbarState>(SnackbarState.Hide)
 
-    val quizType = handle.get<QuizType>(QuizConstants.quizType) ?: QuizType.Accounting
+    val quizType = handle.get<QuizType>(QuizConstants.QUIZ_TYPE) ?: QuizType.Accounting
 
     private val _questions = mutableListOf<Problem>()
     val questions: List<Problem> = _questions

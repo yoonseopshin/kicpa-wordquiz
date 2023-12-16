@@ -100,7 +100,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ysshin.cpaquiz.core.android.R as CR
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
@@ -138,12 +137,10 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryH
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import com.ysshin.cpaquiz.core.android.R as CR
 
 @Composable
-fun NoteRoute(
-    windowSizeClass: WindowSizeClass,
-    viewModel: NoteViewModel = hiltViewModel(),
-) {
+fun NoteRoute(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
     val noteUiState = viewModel.noteUiState.collectAsStateWithLifecycle()
     val noteFilter = viewModel.noteFilter.collectAsStateWithLifecycle()
     val searchKeyword = viewModel.searchKeyword.collectAsStateWithLifecycle()
@@ -162,7 +159,7 @@ fun NoteRoute(
         selectableFilteredTypes = viewModel.selectableFilteredTypes,
         deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
         deleteTargetWrongProblem = viewModel::deleteTargetWrongProblem,
-        setSelectedQuestion = viewModel::setSelectedQuestion
+        setSelectedQuestion = viewModel::setSelectedQuestion,
     )
 }
 
@@ -217,7 +214,7 @@ fun NoteScreen(
             AnimatedVisibility(
                 visible = isMenuOpened,
                 enter = expandVertically() + fadeIn(),
-                exit = fadeOut() + shrinkVertically()
+                exit = fadeOut() + shrinkVertically(),
             ) {
                 Surface {
                     when (noteMenuContent) {
@@ -228,14 +225,14 @@ fun NoteScreen(
                             selectableFilteredYears = selectableFilteredYears,
                             selectableFilteredTypes = selectableFilteredTypes,
                             setFilter = setFilter,
-                            snackbarHostState = snackbarHostState
+                            snackbarHostState = snackbarHostState,
                         )
 
                         is NoteMenuContent.Search -> NoteSearchMenuContent(
                             isMenuOpened = isMenuOpened,
                             hideMenu = { isMenuOpened = false },
                             searchKeyword = searchKeyword,
-                            updateSearchKeyword = updateSearchKeyword
+                            updateSearchKeyword = updateSearchKeyword,
                         )
                     }
                 }
@@ -249,8 +246,9 @@ fun NoteScreen(
             var isDeleteWrongProblemDialogOpened by rememberSaveable {
                 mutableStateOf(
                     DeleteWrongProblemDialog(
-                        isOpened = false, problem = Problem.default().toModel()
-                    )
+                        isOpened = false,
+                        problem = Problem.default().toModel(),
+                    ),
                 )
             }
 
@@ -268,8 +266,8 @@ fun NoteScreen(
                         QuestionViewerActivity.newIntent(
                             context = context,
                             problemModel = problem.toModel(),
-                            totalProblemModels = extractedQuestions.toModel()
-                        )
+                            totalProblemModels = extractedQuestions.toModel(),
+                        ),
                     )
                 }
             }
@@ -277,7 +275,8 @@ fun NoteScreen(
             when (getNoteScreenType(useSplitScreen)) {
                 NoteScreenType.Question -> {
                     LazyColumn(
-                        modifier = Modifier.resourceTestTag("noteLazyColumn"), state = listState
+                        modifier = Modifier.resourceTestTag("noteLazyColumn"),
+                        state = listState,
                     ) {
                         if (searchKeyword.isBlank()) {
                             onViewingContent(
@@ -291,7 +290,7 @@ fun NoteScreen(
                                 isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
                                 updateDeletingWrongProblemDialogOpened = { dialog ->
                                     isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened.copy(
-                                        isOpened = dialog.isOpened, problem = dialog.problem
+                                        isOpened = dialog.isOpened, problem = dialog.problem,
                                     )
                                     Timber.d("dialog info: $dialog")
                                 },
@@ -305,7 +304,7 @@ fun NoteScreen(
                                 noteUiState.searchedProblemsUiState,
                                 windowSizeClass,
                                 onProblemClick,
-                                selectedQuestionInSplitScreen
+                                selectedQuestionInSplitScreen,
                             )
                         }
                     }
@@ -314,7 +313,8 @@ fun NoteScreen(
                 NoteScreenType.QuestionWithDetails -> {
                     Row {
                         LazyColumn(
-                            modifier = Modifier.resourceTestTag("noteLazyColumn"), state = listState
+                            modifier = Modifier.resourceTestTag("noteLazyColumn"),
+                            state = listState,
                         ) {
                             if (searchKeyword.isBlank()) {
                                 onViewingContent(
@@ -329,7 +329,7 @@ fun NoteScreen(
                                     updateDeletingWrongProblemDialogOpened = { dialog ->
                                         isDeleteWrongProblemDialogOpened =
                                             isDeleteWrongProblemDialogOpened.copy(
-                                                isOpened = dialog.isOpened, problem = dialog.problem
+                                                isOpened = dialog.isOpened, problem = dialog.problem,
                                             )
                                         Timber.d("dialog info: $dialog")
                                     },
@@ -343,7 +343,7 @@ fun NoteScreen(
                                     noteUiState.searchedProblemsUiState,
                                     windowSizeClass,
                                     onProblemClick,
-                                    selectedQuestionInSplitScreen
+                                    selectedQuestionInSplitScreen,
                                 )
                             }
                         }
@@ -356,7 +356,7 @@ fun NoteScreen(
 
                         Crossfade(
                             targetState = selectedQuestionInSplitScreen,
-                            label = "Crossfade animation"
+                            label = "Crossfade animation",
                         ) { selectedQuestion ->
                             if (selectedQuestion == null) {
                                 NoSelectedQuestionScreen()
@@ -364,13 +364,13 @@ fun NoteScreen(
                                 Surface(
                                     modifier = Modifier
                                         .verticalScroll(scrollState)
-                                        .padding(bottom = 8.dp)
+                                        .padding(bottom = 8.dp),
                                 ) {
                                     QuestionDetail(
                                         currentQuestion = selectedQuestion,
                                         onQuestionClick = {},
                                         onSelectAnswer = {},
-                                        isSelectedQuestion = { it == 1 }
+                                        isSelectedQuestion = { it == 1 },
                                     )
                                 }
                             }
@@ -385,7 +385,7 @@ fun NoteScreen(
 @Composable
 fun NoSelectedQuestionScreen() {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         val minSize = 100.dp
         val maxSize = 140.dp
@@ -400,7 +400,7 @@ fun NoSelectedQuestionScreen() {
                     maxHeight = maxSize,
                 ),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+            tint = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
         )
     }
 }
@@ -472,7 +472,7 @@ private fun LazyListScope.onSearchingContent(
                 totalProblems = items,
                 windowSizeClass = windowSizeClass,
                 onProblemClick = onProblemClick,
-                selectedQuestionInSplitScreen = selectedQuestionInSplitScreen
+                selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
@@ -505,10 +505,13 @@ private fun LazyListScope.onViewingContent(
         deleteTargetWrongProblem,
         onProblemClick,
         windowSizeClass,
-        selectedQuestionInSplitScreen
+        selectedQuestionInSplitScreen,
     )
     totalProblemsContent(
-        totalProblemsUiState, windowSizeClass, onProblemClick, selectedQuestionInSplitScreen
+        totalProblemsUiState,
+        windowSizeClass,
+        onProblemClick,
+        selectedQuestionInSplitScreen,
     )
 }
 
@@ -540,14 +543,16 @@ private fun LazyListScope.wrongProblemsContent(
                     },
                     onDismiss = {
                         updateDeletingAllWrongProblemsDialog(false)
-                    }
+                    },
                 )
             }
 
             WrongNoteHeaderContent(
-                state = uiState, onHeaderLongClick = {
+                state = uiState,
+                onHeaderLongClick = {
                     updateDeletingAllWrongProblemsDialog(true)
-                }, windowSizeClass = windowSizeClass
+                },
+                windowSizeClass = windowSizeClass,
             )
         }
 
@@ -584,11 +589,11 @@ private fun LazyListScope.wrongProblemsContent(
                     val alpha = (dismissState.progress * multiplier).coerceAtMost(1f)
                     val scale by animateFloatAsState(
                         targetValue = if (dismissState.targetValue == DismissValue.Default) 0.66f else 1f,
-                        label = "Scale animation"
+                        label = "Scale animation",
                     )
                     val paddingEnd by animateDpAsState(
                         targetValue = if (dismissState.targetValue == DismissValue.Default) 12.dp else 24.dp,
-                        label = "Padding animation"
+                        label = "Padding animation",
                     )
                     val backgroundColor by animateColorAsState(
                         targetValue = if (dismissState.targetValue == DismissValue.Default) {
@@ -596,7 +601,7 @@ private fun LazyListScope.wrongProblemsContent(
                         } else {
                             MaterialTheme.colorScheme.errorContainer.copy(alpha = alpha)
                         },
-                        label = "Background color animation"
+                        label = "Background color animation",
                     )
                     val onBackgroundColor by animateColorAsState(
                         targetValue = if (dismissState.targetValue == DismissValue.Default) {
@@ -604,7 +609,7 @@ private fun LazyListScope.wrongProblemsContent(
                         } else {
                             MaterialTheme.colorScheme.onErrorContainer.copy(alpha = alpha)
                         },
-                        label = "Color on background animation"
+                        label = "Color on background animation",
                     )
 
                     AnimatedVisibility(
@@ -612,14 +617,14 @@ private fun LazyListScope.wrongProblemsContent(
                         exit = shrinkVertically(
                             shrinkTowards = Alignment.Top,
                             animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy),
-                        )
+                        ),
                     ) {
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(backgroundColor)
                                 .padding(end = paddingEnd),
-                            contentAlignment = Alignment.CenterEnd
+                            contentAlignment = Alignment.CenterEnd,
                         ) {
                             CpaIcon(
                                 icon = CpaIcons.Delete,
@@ -640,7 +645,7 @@ private fun LazyListScope.wrongProblemsContent(
                         exit = shrinkVertically(
                             shrinkTowards = Alignment.Top,
                             animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy),
-                        )
+                        ),
                     ) {
                         QuestionSummaryContent(
                             modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
@@ -654,7 +659,7 @@ private fun LazyListScope.wrongProblemsContent(
                                     isDeleteWrongProblemDialogOpened.copy(
                                         isOpened = true,
                                         problem = problem.toModel(),
-                                    )
+                                    ),
                                 )
                             },
                             isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
@@ -664,7 +669,7 @@ private fun LazyListScope.wrongProblemsContent(
                         ).takeIf { problem.isValid() }
                     }
                 },
-                directions = setOf(DismissDirection.EndToStart)
+                directions = setOf(DismissDirection.EndToStart),
             )
 
             if (index < items.lastIndex) {
@@ -705,10 +710,7 @@ private fun LazyListScope.totalProblemsContent(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-fun LazyListScope.itemHeader(
-    shouldShowListHeaderAsSticky: Boolean,
-    content: @Composable LazyItemScope.() -> Unit,
-) {
+fun LazyListScope.itemHeader(shouldShowListHeaderAsSticky: Boolean, content: @Composable LazyItemScope.() -> Unit) {
     if (shouldShowListHeaderAsSticky) {
         stickyHeader {
             content()
@@ -738,7 +740,7 @@ private fun WrongNoteHeaderContent(
                     windowSizeClass = windowSizeClass,
                     title = stringResource(id = CR.string.wrong_note),
                     numOfProblems = problems.size,
-                    onHeaderLongClick = onHeaderLongClick
+                    onHeaderLongClick = onHeaderLongClick,
                 )
             }
         }
@@ -760,7 +762,7 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState, windowSizeClass:
             QuestionSummaryHeader(
                 windowSizeClass = windowSizeClass,
                 title = stringResource(id = CR.string.total_note),
-                numOfProblems = problems.size
+                numOfProblems = problems.size,
             )
         }
 
@@ -781,7 +783,7 @@ private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState, windowSize
             QuestionSummaryHeader(
                 windowSizeClass = windowSizeClass,
                 title = stringResource(id = CR.string.searched_problem),
-                numOfProblems = problems.size
+                numOfProblems = problems.size,
             )
         }
 
@@ -831,7 +833,7 @@ private fun NoteFilterMenuContent(
             },
             onDismiss = {
                 isYearFilterDialogOpened = false
-            }
+            },
         )
     }
 
@@ -863,7 +865,7 @@ private fun NoteFilterMenuContent(
             },
             onDismiss = {
                 isQuizTypeFilterDialogOpened = false
-            }
+            },
         )
     }
 
@@ -891,7 +893,7 @@ private fun NoteFilterMenuContent(
         onTypeFilter = {
             isQuizTypeFilterDialogOpened = true
         },
-        hideMenu = hideMenu
+        hideMenu = hideMenu,
     )
 }
 
@@ -910,7 +912,7 @@ private fun NoteFilterMenuContentDetail(
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 64.dp)
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp)),
     ) {
         Spacer(modifier = Modifier.width(12.dp))
 
@@ -923,7 +925,7 @@ private fun NoteFilterMenuContentDetail(
                     Text(text = stringResource(id = CR.string.year))
                 }
             },
-            colors = FilterChipDefaults.filterChipColors()
+            colors = FilterChipDefaults.filterChipColors(),
         )
 
         FilterChip(
@@ -935,18 +937,19 @@ private fun NoteFilterMenuContentDetail(
                     Text(text = stringResource(id = CR.string.quiz_type))
                 }
             },
-            colors = FilterChipDefaults.filterChipColors()
+            colors = FilterChipDefaults.filterChipColors(),
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         IconButton(
-            onClick = { hideMenu() }, modifier = Modifier.padding(end = 4.dp)
+            onClick = { hideMenu() },
+            modifier = Modifier.padding(end = 4.dp),
         ) {
             CpaIcon(
                 icon = CpaIcons.KeyboardArrowUp,
                 contentDescription = stringResource(id = CR.string.hide_menu),
-                tint = MaterialTheme.colorScheme.secondary
+                tint = MaterialTheme.colorScheme.secondary,
             )
         }
     }
@@ -1021,21 +1024,23 @@ private fun NoteSearchMenuContent(
             maxLines = 1,
             placeholder = { Text(text = stringResource(id = CR.string.search_hint)) },
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done, keyboardType = KeyboardType.Text
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Text,
             ),
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide()
                 hideMenu()
-            })
+            }),
         )
 
         IconButton(
-            onClick = hideMenu, modifier = Modifier.padding(end = 4.dp)
+            onClick = hideMenu,
+            modifier = Modifier.padding(end = 4.dp),
         ) {
             CpaIcon(
                 icon = CpaIcons.KeyboardArrowUp,
                 contentDescription = stringResource(id = CR.string.hide_menu),
-                tint = MaterialTheme.colorScheme.secondary
+                tint = MaterialTheme.colorScheme.secondary,
             )
         }
     }
@@ -1055,7 +1060,7 @@ private fun NoteTopMenu(
     AnimatedVisibility(
         visible = isSearching,
         enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
-        exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
+        exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically),
     ) {
         AssistChip(
             onClick = { updateSearchKeyword("") },
@@ -1070,14 +1075,14 @@ private fun NoteTopMenu(
             },
             label = {
                 Text(text = stringResource(id = CR.string.clear_search))
-            }
+            },
         )
     }
 
     AnimatedVisibility(
         visible = isFiltering,
         enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
-        exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
+        exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically),
     ) {
         AssistChip(onClick = { clearFilter() }, modifier = Modifier.padding(all = 4.dp), label = {
             Text(text = stringResource(id = CR.string.clear_filter))
@@ -1086,7 +1091,7 @@ private fun NoteTopMenu(
                 icon = CpaIcons.Filter,
                 modifier = Modifier.padding(start = 4.dp),
                 contentDescription = stringResource(id = CR.string.clear_filter),
-                tint = MaterialTheme.colorScheme.secondary
+                tint = MaterialTheme.colorScheme.secondary,
             )
         })
     }
@@ -1101,7 +1106,7 @@ private fun NoteTopMenu(
 
         val transition = updateTransition(
             targetState = isMenuOpened && noteMenuContent is NoteMenuContent.Search,
-            label = "SearchingMenuIconTransition"
+            label = "SearchingMenuIconTransition",
         )
 
         val tint by transition.animateColor(
@@ -1111,7 +1116,8 @@ private fun NoteTopMenu(
                 } else {
                     spring(stiffness = Spring.StiffnessLow)
                 }
-            }, label = "SearchingMenuIconColor"
+            },
+            label = "SearchingMenuIconColor",
         ) { isExpanded ->
             if (isExpanded) {
                 MaterialTheme.colorScheme.primary
@@ -1138,20 +1144,21 @@ private fun NoteTopMenu(
             icon = CpaIcon.ImageVectorIcon(if (isMenuOpened) Icons.Filled.Search else Icons.Outlined.Search),
             modifier = Modifier.size(size),
             contentDescription = stringResource(id = CR.string.search),
-            tint = tint
+            tint = tint,
         )
     }
 
     IconButton(
         onClick = {
             toggleMenu(NoteMenuContent.Filter)
-        }, enabled = isSearching.not()
+        },
+        enabled = isSearching.not(),
     ) {
         val isEnabled = isSearching.not()
 
         val transition = updateTransition(
             targetState = isMenuOpened && noteMenuContent is NoteMenuContent.Filter,
-            label = "FilteringMenuIconTransition"
+            label = "FilteringMenuIconTransition",
         )
 
         val tint by transition.animateColor(
@@ -1161,7 +1168,8 @@ private fun NoteTopMenu(
                 } else {
                     spring(stiffness = Spring.StiffnessLow)
                 }
-            }, label = "FilteringMenuIconColor"
+            },
+            label = "FilteringMenuIconColor",
         ) { isExpanded ->
             if (isExpanded) {
                 MaterialTheme.colorScheme.primary
@@ -1209,16 +1217,16 @@ fun NoteScreenViewPreview() {
                                 pid = 1,
                                 type = QuizType.Accounting,
                                 description = "blah",
-                                source = ProblemSource.CPA
+                                source = ProblemSource.CPA,
                             ),
                             Problem(
                                 year = 2023,
                                 pid = 2,
                                 type = QuizType.Business,
                                 description = "blahblah",
-                                source = ProblemSource.CPA
+                                source = ProblemSource.CPA,
                             ),
-                        )
+                        ),
                     ),
                     wrongProblemsUiState = WrongProblemsUiState.Success(
                         listOf(
@@ -1227,16 +1235,16 @@ fun NoteScreenViewPreview() {
                                 pid = 15,
                                 type = QuizType.CommercialLaw,
                                 description = "hello",
-                                source = ProblemSource.CPA
+                                source = ProblemSource.CPA,
                             ),
                             Problem(
                                 year = 2021,
                                 pid = 22,
                                 type = QuizType.TaxLaw,
                                 description = "world",
-                                source = ProblemSource.CPA
+                                source = ProblemSource.CPA,
                             ),
-                        )
+                        ),
                     ),
                     searchedProblemsUiState = SearchedProblemsUiState.Loading,
                 ),
@@ -1274,23 +1282,23 @@ private fun NoteScreenSearchPreview() {
                                 pid = 15,
                                 type = QuizType.CommercialLaw,
                                 description = "blah",
-                                source = ProblemSource.CPA
+                                source = ProblemSource.CPA,
                             ),
                             Problem(
                                 year = 2021,
                                 pid = 22,
                                 type = QuizType.TaxLaw,
                                 description = "blahblah",
-                                source = ProblemSource.CPA
+                                source = ProblemSource.CPA,
                             ),
                             Problem(
                                 year = 2020,
                                 pid = 12,
                                 type = QuizType.Business,
                                 description = "blahblahblah",
-                                source = ProblemSource.CPA
+                                source = ProblemSource.CPA,
                             ),
-                        )
+                        ),
                     ),
                 ),
                 searchKeyword = "blah",
@@ -1310,11 +1318,11 @@ private fun NoteScreenSearchPreview() {
 }
 
 private enum class NoteScreenType {
-    Question, QuestionWithDetails
+    Question,
+    QuestionWithDetails,
 }
 
 private fun getNoteScreenType(useSplitScreen: Boolean) =
     if (useSplitScreen) NoteScreenType.QuestionWithDetails else NoteScreenType.Question
 
-fun Modifier.widthBySplit(useSplitScreen: Boolean) =
-    this.then(Modifier.fillMaxWidth(if (useSplitScreen) 0.45f else 1f))
+fun Modifier.widthBySplit(useSplitScreen: Boolean) = this.then(Modifier.fillMaxWidth(if (useSplitScreen) 0.45f else 1f))

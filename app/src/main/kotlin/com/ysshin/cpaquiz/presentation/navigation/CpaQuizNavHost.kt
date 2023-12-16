@@ -19,7 +19,7 @@ fun CpaQuizNavHost(
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier
+        modifier = modifier,
     ) {
         homeGraph()
         noteGraph(windowSizeClass)

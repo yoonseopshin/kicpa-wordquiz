@@ -5,11 +5,11 @@ import androidx.room.Entity
 import com.ysshin.cpaquiz.core.database.AppContract.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
-import java.util.*
+import java.util.Objects
 
 @Entity(
     tableName = Problem.TABLE_NAME,
-    primaryKeys = [Problem.PID, Problem.YEAR, Problem.TYPE, Problem.SOURCE]
+    primaryKeys = [Problem.PID, Problem.YEAR, Problem.TYPE, Problem.SOURCE],
 )
 data class ProblemEntity(
     @ColumnInfo(name = Problem.PID) val pid: Int,

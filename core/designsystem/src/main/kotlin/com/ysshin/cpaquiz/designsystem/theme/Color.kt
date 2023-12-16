@@ -65,7 +65,6 @@ val md_theme_dark_inverseOnSurface = Color(0xFF323030)
 val md_theme_dark_inversePrimary = Color(0xFF71585F)
 val md_theme_dark_surfaceTint = Color(0xFFDEBEC7)
 
-
 val DayNightGray900S
     @Composable
     get() = colorResource(id = R.color.daynight_gray900s)
@@ -85,7 +84,6 @@ val DayNightGray100A
 val DayNightGray070S
     @Composable
     get() = colorResource(id = R.color.daynight_gray070s)
-
 
 val ColorScheme.shimmerColorShades: List<Color>
     @Composable

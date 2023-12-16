@@ -41,7 +41,7 @@ class InterstitialAdDelegatorImpl @Inject constructor() : InterstitialAdDelegato
                     interstitialAd = ad
                     ad.show(activity)
                 }
-            }
+            },
         )
 
         interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {

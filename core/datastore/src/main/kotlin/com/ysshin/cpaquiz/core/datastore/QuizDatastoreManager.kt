@@ -12,8 +12,8 @@ import com.ysshin.cpaquiz.domain.model.DEFAULT_SOLVED_QUIZ
 import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
 import com.ysshin.cpaquiz.domain.model.IN_APP_REVIEW_THRESHOLD
 import com.ysshin.cpaquiz.domain.model.SOLVED_QUIZ_THRESHOLD
-import javax.inject.Inject
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 val Context.quizDataStore: DataStore<Preferences> by preferencesDataStore(name = "quiz_prefs")
 

@@ -10,6 +10,6 @@ import dagger.hilt.components.SingletonComponent
 abstract class AdModule {
     @Binds
     abstract fun bindsInterstitialAdDelegator(
-        noOpInterstitialAdDelegator: NoOpInterstitialAdDelegator
+        noOpInterstitialAdDelegator: NoOpInterstitialAdDelegator,
     ): InterstitialAdDelegator
 }

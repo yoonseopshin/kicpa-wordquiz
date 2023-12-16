@@ -45,38 +45,35 @@ class QuizRepositoryImpl @Inject constructor(
                 .getOrNull() ?: emptyList()
         }
 
-    override suspend fun getTotalProblems(type: QuizType, size: Int): List<Problem> =
-        withContext(Dispatchers.IO) {
-            runCatching {
-                problemDao.get(type, size)
-            }
-                .onFailure {
-                    Timber.e(it)
-                }
-                .map(List<ProblemEntity>::toDomain)
-                .getOrNull() ?: emptyList()
+    override suspend fun getTotalProblems(type: QuizType, size: Int): List<Problem> = withContext(Dispatchers.IO) {
+        runCatching {
+            problemDao.get(type, size)
         }
+            .onFailure {
+                Timber.e(it)
+            }
+            .map(List<ProblemEntity>::toDomain)
+            .getOrNull() ?: emptyList()
+    }
 
-    override fun getWrongProblems(): Flow<List<Problem>> =
-        wrongProblemDao.getAll().map { entities ->
-            entities.map { wrongProblem ->
-                problemDao.get(
-                    wrongProblem.year,
-                    wrongProblem.pid,
-                    wrongProblem.type,
-                    wrongProblem.source,
-                )
-                    .toDomain()
-            }
+    override fun getWrongProblems(): Flow<List<Problem>> = wrongProblemDao.getAll().map { entities ->
+        entities.map { wrongProblem ->
+            problemDao.get(
+                wrongProblem.year,
+                wrongProblem.pid,
+                wrongProblem.type,
+                wrongProblem.source,
+            )
+                .toDomain()
         }
+    }
 
     override suspend fun searchProblems(text: String) =
         if (text.isBlank()) emptyList() else problemDao.search(text).map(ProblemEntity::toDomain)
 
-    override suspend fun upsertWrongProblems(wrongProblems: List<WrongProblem>) =
-        withContext(Dispatchers.IO) {
-            wrongProblemDao.upsert(wrongProblems.toLocalData())
-        }
+    override suspend fun upsertWrongProblems(wrongProblems: List<WrongProblem>) = withContext(Dispatchers.IO) {
+        wrongProblemDao.upsert(wrongProblems.toLocalData())
+    }
 
     override suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType) = runCatching {
         withContext(Dispatchers.IO) {
@@ -90,18 +87,17 @@ class QuizRepositoryImpl @Inject constructor(
         }
     }.isSuccess
 
-    override suspend fun syncRemoteProblems(): Unit =
-        withContext(Dispatchers.IO) {
-            runCatching {
-                quizService.getCpaProblems()
-            }.map { problems ->
-                problems.toDomain().toLocalData()
-            }.onSuccess { problems ->
-                problemDao.insert(problems)
-            }.onFailure { throwable ->
-                Timber.e(throwable)
-            }
+    override suspend fun syncRemoteProblems(): Unit = withContext(Dispatchers.IO) {
+        runCatching {
+            quizService.getCpaProblems()
+        }.map { problems ->
+            problems.toDomain().toLocalData()
+        }.onSuccess { problems ->
+            problemDao.insert(problems)
+        }.onFailure { throwable ->
+            Timber.e(throwable)
         }
+    }
 
     override fun getNextExamDate() = flow {
         runCatching {
@@ -161,4 +157,3 @@ class QuizRepositoryImpl @Inject constructor(
 
     override fun getSolvedQuiz() = quizDataStoreManager.solvedQuiz
 }
-

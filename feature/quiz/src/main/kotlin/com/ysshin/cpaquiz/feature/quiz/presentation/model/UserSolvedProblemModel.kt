@@ -28,8 +28,8 @@ fun List<UserSolvedProblemModel>.from(
                 UserSolvedProblemModel(
                     elapsedTime = elapsedTimes[i],
                     userSelectedIndex = userSelectedIndices[i],
-                    problem = problems[i]
-                )
+                    problem = problems[i],
+                ),
             )
         }
     }.toList()

@@ -12,7 +12,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 @Database(
     entities = [ProblemEntity::class, WrongProblemEntity::class],
     version = 13,
-    exportSchema = false
+    exportSchema = false,
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -23,10 +23,9 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var instance: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase =
-            instance ?: synchronized(this) {
-                instance ?: buildDatabase(context).also { instance = it }
-            }
+        fun getInstance(context: Context): AppDatabase = instance ?: synchronized(this) {
+            instance ?: buildDatabase(context).also { instance = it }
+        }
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context, AppDatabase::class.java, AppContract.DATABASE_NAME)

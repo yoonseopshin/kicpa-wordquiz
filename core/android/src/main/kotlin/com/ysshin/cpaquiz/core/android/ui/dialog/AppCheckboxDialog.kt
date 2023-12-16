@@ -70,7 +70,7 @@ fun AppCheckboxDialog(
                 .verticalScroll(state = verticalScrollState),
         ) {
             Column(
-                modifier.background(MaterialTheme.colorScheme.surface)
+                modifier.background(MaterialTheme.colorScheme.surface),
             ) {
                 CpaIcon(
                     icon = icon,
@@ -78,7 +78,7 @@ fun AppCheckboxDialog(
                     modifier = Modifier
                         .padding(top = 36.dp)
                         .height(48.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 )
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
@@ -89,7 +89,7 @@ fun AppCheckboxDialog(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineSmall
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                     Text(
                         text = description,
@@ -97,7 +97,7 @@ fun AppCheckboxDialog(
                             .padding(top = 12.dp, start = 24.dp, end = 24.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
 
@@ -125,7 +125,7 @@ fun AppCheckboxDialog(
                                     Text(text = item.text)
                                 }
                             },
-                            colors = FilterChipDefaults.filterChipColors()
+                            colors = FilterChipDefaults.filterChipColors(),
                         )
                     }
                 }
@@ -135,14 +135,14 @@ fun AppCheckboxDialog(
                         .fillMaxWidth()
                         .padding(top = 12.dp)
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceAround,
                 ) {
                     if (dialogType == AppDialogType.ConfirmDismiss) {
                         TextButton(onClick = onDismiss) {
                             Text(
                                 text = dismissText,
                                 style = Typography.labelLarge,
-                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
                             )
                         }
                     }
@@ -168,7 +168,7 @@ private fun YearFilterDialogPreview() {
         description = stringResource(id = R.string.choose_filtered_years),
         selectableItems = (2016..2023).map {
             SelectableTextItem("$it", false)
-        }
+        },
     )
 }
 
@@ -179,6 +179,6 @@ private fun QuizTypeFilterDialogPreview() {
         icon = CpaIcons.Filter,
         title = stringResource(id = R.string.quiz),
         description = stringResource(id = R.string.choose_filtered_types),
-        selectableItems = QuizType.all().map { SelectableTextItem(it.toKorean(), false) }
+        selectableItems = QuizType.all().map { SelectableTextItem(it.toKorean(), false) },
     )
 }

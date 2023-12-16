@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:property-naming")
+
 package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz
 
 import androidx.lifecycle.SavedStateHandle
@@ -8,12 +10,12 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.zip
+import javax.inject.Inject
 
 @HiltViewModel
 class QuestionViewerViewModel @Inject constructor(
@@ -34,11 +36,12 @@ class QuestionViewerViewModel @Inject constructor(
             )
 
     init {
-        handle.get<ProblemModel>(QuizConstants.problemModel)?.toDomain()?.let { question ->
+        handle.get<ProblemModel>(QuizConstants.PROBLEM_MODEL)?.toDomain()?.let { question ->
             _currentQuestion.value = question
         }
 
-        handle.get<ArrayList<ProblemModel>>(QuizConstants.totalProblemModels)?.map(ProblemModel::toDomain)
+        handle.get<ArrayList<ProblemModel>>(QuizConstants.TOTAL_PROBLEM_MODELS)
+            ?.map(ProblemModel::toDomain)
             ?.let { questions ->
                 _totalQuestions.value = questions
             }
@@ -47,7 +50,8 @@ class QuestionViewerViewModel @Inject constructor(
 
 sealed interface QuestionPagerUiState {
     object Loading : QuestionPagerUiState
-    data class Success(val totalQuestions: List<Problem>, val currentPage: Int) : QuestionPagerUiState {
+    data class Success(val totalQuestions: List<Problem>, val currentPage: Int) :
+        QuestionPagerUiState {
         fun getQuestion(page: Int) = totalQuestions[page]
         val pageCount: Int get() = totalQuestions.size
     }

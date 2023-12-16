@@ -20,8 +20,8 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-private const val SyncNotificationId = 1996
-private const val SyncNotificationChannelID = "SyncNotificationChannel"
+private const val SYNC_NOTIFICATION_ID = 1996
+private const val SYNC_NOTIFICATION_CHANNEL = "SyncNotificationChannel"
 
 private val SyncConstraints
     get() = Constraints.Builder()
@@ -54,13 +54,13 @@ class SyncWorker @AssistedInject constructor(
 }
 
 private fun Context.syncForegroundInfo() = ForegroundInfo(
-    SyncNotificationId,
+    SYNC_NOTIFICATION_ID,
     syncWorkNotification(),
 )
 
 private fun Context.syncWorkNotification(): Notification {
     val channel = NotificationChannel(
-        SyncNotificationChannelID,
+        SYNC_NOTIFICATION_CHANNEL,
         getString(R.string.sync_data),
         NotificationManager.IMPORTANCE_DEFAULT,
     )
@@ -70,7 +70,7 @@ private fun Context.syncWorkNotification(): Notification {
 
     return NotificationCompat.Builder(
         this,
-        SyncNotificationChannelID,
+        SYNC_NOTIFICATION_CHANNEL,
     )
         .setSmallIcon(R.drawable.ic_done)
         .setContentTitle(getString(R.string.sync_data_successfully))

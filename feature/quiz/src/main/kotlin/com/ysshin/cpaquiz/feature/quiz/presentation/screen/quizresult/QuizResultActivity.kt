@@ -37,9 +37,9 @@ class QuizResultActivity : BaseActivity() {
             selected: List<Int> = listOf(),
             timesPerQuestion: List<Long> = listOf(),
         ) = Intent(context, QuizResultActivity::class.java).apply {
-            putParcelableArrayListExtra(QuizConstants.problems, ArrayList(problems))
-            putExtra(QuizConstants.selected, ArrayList(selected))
-            putExtra(QuizConstants.timesPerQuestion, timesPerQuestion.toLongArray())
+            putParcelableArrayListExtra(QuizConstants.PROBLEMS, ArrayList(problems))
+            putExtra(QuizConstants.SELECTED, ArrayList(selected))
+            putExtra(QuizConstants.TIMES_PER_QUESTION, timesPerQuestion.toLongArray())
         }
     }
 }

@@ -21,7 +21,7 @@ interface WrongProblemDao {
         WHERE $YEAR = :year
         AND $PID = :pid
         AND $TYPE = :type
-        """
+        """,
     )
     suspend fun delete(year: Int, pid: Int, type: QuizType)
 

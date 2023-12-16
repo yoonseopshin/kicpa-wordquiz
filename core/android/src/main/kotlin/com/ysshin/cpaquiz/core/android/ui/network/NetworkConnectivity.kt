@@ -56,14 +56,14 @@ fun NetworkConnectivityStatusBox(isOffline: Boolean) {
             MaterialTheme.colorScheme.error
         } else {
             MaterialTheme.colorScheme.primary
-        }
+        },
     )
     val backgroundTint by animateColorAsState(
         targetValue = if (isOffline) {
             MaterialTheme.colorScheme.onError
         } else {
             MaterialTheme.colorScheme.onPrimary
-        }
+        },
     )
     val iconVector = if (isOffline) {
         Icons.Rounded.Warning
@@ -94,13 +94,13 @@ fun NetworkConnectivityStatusBox(isOffline: Boolean) {
                 .background(backgroundColor)
                 .fillMaxWidth()
                 .padding(vertical = 2.dp),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 CpaIcon(
                     icon = CpaIcon.ImageVectorIcon(iconVector),
                     contentDescription = "Network connectivity",
-                    tint = backgroundTint
+                    tint = backgroundTint,
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
@@ -126,7 +126,7 @@ private fun StatusBarByNetworkConnectivity(
             } else {
                 MaterialTheme.colorScheme.systemBarColor()
             }
-        }
+        },
     )
     val isAppearanceLightStatusBars = if (isOffline) {
         isDarkTheme

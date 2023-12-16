@@ -25,7 +25,7 @@ class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
                 quizNumbers = quizNumbers,
                 useTimer = useTimer,
                 selectedSubtypes = selectedSubtypes,
-            )
+            ),
         )
     }
 
@@ -41,7 +41,7 @@ class Navigator : QuizStartNavigationActions, QuizEndNavigationActions {
                 problems = problems.toModel(),
                 selected = selected,
                 timesPerQuestion = timesPerQuestion,
-            )
+            ),
         )
         activity.finish()
     }

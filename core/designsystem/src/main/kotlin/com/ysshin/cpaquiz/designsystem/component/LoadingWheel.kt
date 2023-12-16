@@ -35,10 +35,7 @@ import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun CpaLoadingWheel(
-    contentDesc: String,
-    modifier: Modifier = Modifier,
-) {
+fun CpaLoadingWheel(contentDesc: String, modifier: Modifier = Modifier) {
     val infiniteTransition = rememberInfiniteTransition()
 
     // Specifies the float animation for slowly drawing out the lines on entering
@@ -113,10 +110,7 @@ fun CpaLoadingWheel(
 }
 
 @Composable
-fun CpaOverlayLoadingWheel(
-    contentDesc: String,
-    modifier: Modifier = Modifier,
-) {
+fun CpaOverlayLoadingWheel(contentDesc: String, modifier: Modifier = Modifier) {
     Surface(
         shape = RoundedCornerShape(60.dp),
         shadowElevation = 8.dp,

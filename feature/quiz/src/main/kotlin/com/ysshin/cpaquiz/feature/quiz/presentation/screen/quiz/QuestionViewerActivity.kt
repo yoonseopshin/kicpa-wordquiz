@@ -27,11 +27,11 @@ class QuestionViewerActivity : BaseActivity() {
             problemModel: ProblemModel? = null,
             totalProblemModels: List<ProblemModel>? = null,
         ) = Intent(context, QuestionViewerActivity::class.java).apply {
-            problemModel?.let { problemModel -> putExtra(QuizConstants.problemModel, problemModel) }
+            problemModel?.let { problemModel -> putExtra(QuizConstants.PROBLEM_MODEL, problemModel) }
             totalProblemModels?.let { totalProblemModels ->
                 putParcelableArrayListExtra(
-                    QuizConstants.totalProblemModels,
-                    ArrayList(totalProblemModels)
+                    QuizConstants.TOTAL_PROBLEM_MODELS,
+                    ArrayList(totalProblemModels),
                 )
             }
         }

@@ -25,10 +25,7 @@ import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.designsystem.theme.shimmerColorShades
 
 @Composable
-fun ShimmerAnimation(
-    modifier: Modifier,
-    content: @Composable BoxScope.() -> Unit = {},
-) {
+fun ShimmerAnimation(modifier: Modifier, content: @Composable BoxScope.() -> Unit = {}) {
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
     val density = LocalDensity.current.density
 
@@ -38,21 +35,21 @@ fun ShimmerAnimation(
         targetValue = screenWidthDp * density,
         animationSpec = infiniteRepeatable(
             tween(durationMillis = 1200, easing = FastOutSlowInEasing),
-            RepeatMode.Reverse
-        )
+            RepeatMode.Reverse,
+        ),
     )
 
     val brush = Brush.linearGradient(
         colors = MaterialTheme.colorScheme.shimmerColorShades,
         start = Offset(0f, 0f),
-        end = Offset(translateAnim, translateAnim)
+        end = Offset(translateAnim, translateAnim),
     )
 
     Box(modifier = modifier) {
         Spacer(
             modifier = Modifier
                 .matchParentSize()
-                .background(brush = brush)
+                .background(brush = brush),
         )
         content()
     }

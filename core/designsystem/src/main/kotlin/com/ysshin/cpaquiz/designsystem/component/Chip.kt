@@ -19,14 +19,18 @@ fun NotClickableAssistedChip(
 ) {
     Box {
         AssistChip(
-            modifier = modifier, onClick = {}, label = label, colors = colors, border = border
+            modifier = modifier,
+            onClick = {},
+            label = label,
+            colors = colors,
+            border = border,
         )
 
         Box(
             modifier = Modifier
                 .matchParentSize()
                 .alpha(0f)
-                .clickable(onClick = {})
+                .clickable(onClick = {}),
         )
     }
 }
