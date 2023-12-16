@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_data">데이터 동기화</string>
+    <string name="sync_data_successfully">CPA 문제를 업데이트했습니다.</string>
+</resources>

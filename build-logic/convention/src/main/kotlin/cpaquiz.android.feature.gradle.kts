@@ -16,22 +16,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.findVersion("compose.compiler").get().toString()
-    }
-
 }
 
 dependencies {
@@ -51,7 +35,6 @@ dependencies {
     add("androidTestImplementation", libs.findBundle("androidx-test").get())
 
     add("implementation", platform(libs.findLibrary("androidx.compose.bom").get()))
-    add("implementation", libs.findLibrary("compose.material.iconsExtended").get())
     add("implementation", libs.findLibrary("compose.material3").get())
     add("implementation", libs.findLibrary("compose.material3.windowsizeclass").get())
 }

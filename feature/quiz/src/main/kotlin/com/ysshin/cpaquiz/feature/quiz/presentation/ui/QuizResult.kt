@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.util.TimeFormatter
 import com.ysshin.cpaquiz.core.android.util.findActivity
@@ -40,6 +39,7 @@ import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemSource
 import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
@@ -64,8 +64,8 @@ fun QuizResultRoute(
             QuestionViewerActivity.newIntent(
                 context = context,
                 problemModel = problem.toModel(),
-                totalProblemModels = totalProblems.map(Problem::toModel)
-            )
+                totalProblemModels = totalProblems.map(Problem::toModel),
+            ),
         )
     }
 
@@ -110,9 +110,9 @@ fun QuizResultScreen(
         topBar = {
             QuizResultTopAppBar(
                 quizResultUiState = quizResultUiState,
-                onConfirmClick = onConfirmClick
+                onConfirmClick = onConfirmClick,
             )
-        }
+        },
     ) { padding ->
         when (quizResultUiState) {
             QuizResultUiState.Loading -> {}
@@ -121,7 +121,7 @@ fun QuizResultScreen(
                 LazyColumn(
                     modifier = Modifier
                         .padding(padding)
-                        .fillMaxSize()
+                        .fillMaxSize(),
                 ) {
                     item {
                         NativeMediumAd()
@@ -139,7 +139,7 @@ fun QuizResultScreen(
                         Column(
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
-                                .padding(vertical = 20.dp)
+                                .padding(vertical = 20.dp),
                         ) {
                             Text(
                                 text = buildAnnotatedString {
@@ -149,7 +149,7 @@ fun QuizResultScreen(
                                         style = SpanStyle(
                                             fontWeight = FontWeight.Bold,
                                             color = MaterialTheme.colorScheme.primary,
-                                        )
+                                        ),
                                     ) {
                                         append(TimeFormatter.format((1f * elapsedTime / total).roundToInt()))
                                     }
@@ -164,7 +164,7 @@ fun QuizResultScreen(
                                         style = SpanStyle(
                                             fontWeight = FontWeight.Bold,
                                             color = MaterialTheme.colorScheme.primary,
-                                        )
+                                        ),
                                     ) {
                                         append("$total")
                                     }
@@ -174,7 +174,7 @@ fun QuizResultScreen(
                                         style = SpanStyle(
                                             fontWeight = FontWeight.Bold,
                                             color = MaterialTheme.colorScheme.primary,
-                                        )
+                                        ),
                                     ) {
                                         append("$solved")
                                     }
@@ -188,7 +188,7 @@ fun QuizResultScreen(
                     itemHeader(shouldShowListHeaderAsSticky = true) {
                         QuestionSummaryHeader(
                             title = stringResource(id = R.string.solved_problems),
-                            numOfProblems = solvedQuestions.size
+                            numOfProblems = solvedQuestions.size,
                         )
                     }
 
@@ -230,7 +230,7 @@ private fun QuizResultScreenPreview() {
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
                 type = QuizType.CommercialLaw,
                 source = ProblemSource.CPA,
-                subtype = "상행위"
+                subtype = "상행위",
             ),
             ProblemModel(
                 year = 2022,
@@ -239,7 +239,7 @@ private fun QuizResultScreenPreview() {
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
                 type = QuizType.CommercialLaw,
                 source = ProblemSource.CPA,
-                subtype = "어음수표법"
+                subtype = "어음수표법",
             ),
             ProblemModel(
                 year = 2020,
@@ -248,9 +248,9 @@ private fun QuizResultScreenPreview() {
                 description = "문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. 문제 설명입니다. ",
                 type = QuizType.CommercialLaw,
                 source = ProblemSource.CPA,
-                subtype = "회사법"
+                subtype = "회사법",
             ),
-        )
+        ),
     )
     CpaQuizTheme {
         QuizResultScreen(quizResultUiState)

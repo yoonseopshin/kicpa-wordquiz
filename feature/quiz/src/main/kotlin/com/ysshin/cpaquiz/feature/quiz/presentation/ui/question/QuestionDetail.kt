@@ -38,11 +38,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
 import com.ysshin.cpaquiz.core.android.util.RegexUtils
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.designsystem.component.NotClickableAssistedChip
+import com.ysshin.cpaquiz.designsystem.theme.DayNightGray100A
+import com.ysshin.cpaquiz.designsystem.theme.DayNightGray600S
+import com.ysshin.cpaquiz.designsystem.theme.DayNightGray800S
+import com.ysshin.cpaquiz.designsystem.theme.DayNightGray900S
 import com.ysshin.cpaquiz.designsystem.theme.Typography
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemSource
@@ -59,17 +62,24 @@ fun QuestionDetail(
     questionClickable: Boolean = true,
     isSelectedQuestion: (Int) -> Boolean = { false },
 ) {
-    ElevatedCard(modifier = modifier.padding(start = 12.dp, end = 12.dp, bottom = 8.dp, top = 8.dp)) {
+    ElevatedCard(
+        modifier = modifier.padding(
+            start = 12.dp,
+            end = 12.dp,
+            bottom = 8.dp,
+            top = 8.dp,
+        ),
+    ) {
         Column(modifier = modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
             Box(
-                modifier = modifier.fillMaxWidth()
+                modifier = modifier.fillMaxWidth(),
             ) {
                 LazyRow(
                     horizontalArrangement = Arrangement.Start,
-                    modifier = modifier.align(Alignment.TopStart)
+                    modifier = modifier.align(Alignment.TopStart),
                 ) {
                     item {
-                        val assistChipContainerColor = colorResource(id = R.color.daynight_gray100a)
+                        val assistChipContainerColor = DayNightGray100A
                         NotClickableAssistedChip(
                             modifier = Modifier.padding(all = 4.dp),
                             label = {
@@ -79,13 +89,13 @@ fun QuestionDetail(
                                             id = com.ysshin.cpaquiz.feature.quiz.R.string.text_source_year_pid,
                                             currentQuestion.source,
                                             currentQuestion.year,
-                                            currentQuestion.pid
-                                        )
+                                            currentQuestion.pid,
+                                        ),
                                     )
                                 }
                             },
                             colors = AssistChipDefaults.assistChipColors(
-                                containerColor = assistChipContainerColor
+                                containerColor = assistChipContainerColor,
                             ),
                             border = null,
                         )
@@ -104,7 +114,7 @@ fun QuestionDetail(
                             },
                             colors = AssistChipDefaults.assistChipColors(
                                 containerColor = colorResource(id = containerColorResourceIdByType)
-                                    .copy(alpha = 0.2f)
+                                    .copy(alpha = 0.2f),
                             ),
                             border = null,
                         )
@@ -121,7 +131,7 @@ fun QuestionDetail(
                                 },
                                 colors = AssistChipDefaults.assistChipColors(
                                     containerColor = colorResource(id = containerColorResourceIdByType)
-                                        .copy(alpha = 0.2f)
+                                        .copy(alpha = 0.2f),
                                 ),
                                 border = null,
                             )
@@ -145,9 +155,9 @@ fun QuestionDetail(
                             withStyle(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
-                                    color = colorResource(id = R.color.daynight_gray900s),
+                                    color = DayNightGray900S,
                                     textDecoration = TextDecoration.Underline,
-                                )
+                                ),
                             ) {
                                 append(currentQuestion.description.substring(start, end))
                             }
@@ -159,7 +169,7 @@ fun QuestionDetail(
                     append(currentQuestion.description)
                 },
                 style = Typography.bodyMedium,
-                color = colorResource(id = R.color.daynight_gray800s),
+                color = DayNightGray800S,
             )
 
             if (currentQuestion.subDescriptions.isNotEmpty()) {
@@ -172,7 +182,7 @@ fun QuestionDetail(
                         .shadow(elevation = elevation, shape = ShapeDefaults.Medium)
                         .background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp))
                         .padding(horizontal = 12.dp, vertical = 8.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     currentQuestion.subDescriptions.forEach { subDescription ->
                         val (mark, description) = RegexUtils.getMarkedString(subDescription)
@@ -181,12 +191,12 @@ fun QuestionDetail(
                             Text(
                                 text = mark,
                                 style = Typography.bodyMedium,
-                                color = colorResource(id = R.color.daynight_gray600s),
+                                color = DayNightGray600S,
                             )
                             Text(
                                 text = description,
                                 style = Typography.bodyMedium,
-                                color = colorResource(id = R.color.daynight_gray600s),
+                                color = DayNightGray600S,
                             )
                         }
                     }
@@ -198,7 +208,7 @@ fun QuestionDetail(
                 modifier = Modifier
                     .padding(horizontal = 12.dp)
                     .fillMaxWidth(),
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)
+                color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
             )
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -223,7 +233,7 @@ fun QuestionDetail(
                             this.selected = isSelectedQuestion(index)
                         }
                         .padding(all = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     RadioButton(
                         selected = isSelectedQuestion(index),
@@ -236,7 +246,7 @@ fun QuestionDetail(
                             .semantics { testTagsAsResourceId = true },
                         text = s,
                         style = Typography.bodyMedium,
-                        color = colorResource(id = R.color.daynight_gray600s),
+                        color = DayNightGray600S,
                     )
                 }
             }
@@ -259,7 +269,7 @@ fun QuestionDetailPreview() {
         ),
         onQuestionClick = {},
         onSelectAnswer = {},
-        isSelectedQuestion = { it == 1 }
+        isSelectedQuestion = { it == 1 },
     )
 }
 
@@ -277,20 +287,20 @@ fun QuestionDetailHangeulPreview() {
                 "ᄂ. 소규모합병을 반대하는 소멸회사의 주주",
                 "ᄃ. 주주총회의 결의에 의하여 해산한 회사에서 회사 계속의 결의에 반대하는 주주",
                 "ᄅ. 영업 일부의 임대에 반대하는 주주",
-                "ᄆ. 타인과 영업의 손익 전부를 같이 하는 계약의 체결ᆞ변경 또는 해약에 반대하는 주주"
+                "ᄆ. 타인과 영업의 손익 전부를 같이 하는 계약의 체결ᆞ변경 또는 해약에 반대하는 주주",
             ),
             questions = listOf(
                 "ㄱ, ㄴ, ㄷ",
                 "ㄱ, ㄴ, ㅁ",
                 "ㄱ, ㄹ, ㅁ",
                 "ㄴ, ㄷ, ㄹ",
-                "ㄷ, ㄹ, ㅁ"
+                "ㄷ, ㄹ, ㅁ",
             ),
             source = ProblemSource.CPA,
-            subtype = "회사법"
+            subtype = "회사법",
         ),
         onQuestionClick = {},
         onSelectAnswer = {},
-        isSelectedQuestion = { it == 1 }
+        isSelectedQuestion = { it == 1 },
     )
 }

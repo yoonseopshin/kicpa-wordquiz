@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="problem_detail_status_bar">#1cc0a9ff</color>
+    <color name="color_on_correct">#441B4125</color>
+    <color name="color_on_correct_bg">#441B4125</color>
+    <color name="color_on_incorrect">#44662228</color>
+    <color name="color_on_incorrect_bg">#44662228</color>
 </resources>

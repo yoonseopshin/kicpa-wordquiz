@@ -3,6 +3,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://storage.googleapis.com/r8-releases/raw") }
     }
 
     dependencies {
@@ -16,8 +17,4 @@ buildscript {
         classpath(libs.oss.licenses.plugin)
         classpath(libs.gms.google.services.plugin)
     }
-}
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
 }

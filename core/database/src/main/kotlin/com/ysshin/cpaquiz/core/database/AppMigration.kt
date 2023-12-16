@@ -20,8 +20,8 @@ object AppMigration {
         "ALTER TABLE ${AppContract.Problem.TABLE_NAME} ADD COLUMN $SOURCE TEXT NOT NULL DEFAULT ${ProblemSource.CPA}"
 
     private val MIGRATION_10_11: Migration = object : Migration(10, 11) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL(SQL_10_11)
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(SQL_10_11)
         }
     }
 
@@ -29,8 +29,8 @@ object AppMigration {
         "ALTER TABLE ${AppContract.Problem.TABLE_NAME} ADD COLUMN $SUBTYPE TEXT NOT NULL DEFAULT ''"
 
     private val MIGRATION_11_12: Migration = object : Migration(11, 12) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL(SQL_11_12)
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(SQL_11_12)
         }
     }
 
@@ -98,8 +98,8 @@ object AppMigration {
     )
 
     private val MIGRATION_12_13: Migration = object : Migration(12, 13) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            SQL_12_13.forEach(database::execSQL)
+        override fun migrate(db: SupportSQLiteDatabase) {
+            SQL_12_13.forEach(db::execSQL)
         }
     }
 

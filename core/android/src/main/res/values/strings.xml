@@ -9,7 +9,6 @@
     <string name="note">노트</string>
     <string name="quiz_amount">문제 수</string>
     <string name="timer">타이머</string>
-    <string name="result">결과</string>
     <string name="year">연도</string>
     <string name="choose_filtered_years">연도를 고르세요.</string>
     <string name="quiz_type">과목</string>
@@ -44,13 +43,7 @@
     <string name="icon">아이콘</string>
     <string name="msg_need_filtered_year">하나 이상의 연도를 선택해주세요.</string>
     <string name="msg_need_filtered_quiz_type">하나 이상의 과목을 선택해주세요.</string>
-    <string name="msg_need_answer">정답을 선택해주세요.</string>
     <string name="total_elapsed_time">총 소요 시간</string>
-    <string name="solved_problems">내가 푼 문제</string>
-    <string name="report_elapsed_time_per_question_1">한 문제당 평균</string>
-    <string name="report_elapsed_time_per_question_2">초</string>
-    <string name="report_total_solved_question_1">문제 중</string>
-    <string name="report_total_solved_question_2">문제 맞음</string>
     <string name="move">이동</string>
     <string name="scroll_to_top">상단으로 이동</string>
     <string name="subject_total_count">총 %1$d문제</string>
@@ -69,8 +62,6 @@
     <string name="app_version_name_and_code">현재 버전 %1$s\n버전 코드 %2$s</string>
     <string name="hide_menu">메뉴 숨기기</string>
     <string name="clear_search">검색 초기화</string>
-    <string name="sync_data">데이터 동기화</string>
-    <string name="sync_data_successfully">CPA 문제를 업데이트했습니다.</string>
     <string name="ad">Ad</string>
     <string name="network_offline_message">네트워크 연결을 확인해주세요.</string>
     <string name="network_online_message">네트워크에 연결되었습니다.</string>

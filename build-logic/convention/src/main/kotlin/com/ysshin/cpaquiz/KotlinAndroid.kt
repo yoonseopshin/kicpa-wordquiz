@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
@@ -21,16 +21,16 @@ fun Project.configureKotlinAndroid(
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
 
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_11.toString()
+            jvmTarget = JavaVersion.VERSION_17.toString()
 
             allWarningsAsErrors = properties["warningsAsErrors"] as? Boolean ?: false
 
-            freeCompilerArgs = freeCompilerArgs + listOf(
+            freeCompilerArgs += listOf(
                 // Enable compose metrics
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${rootProject.file(".").absolutePath}/compose/metric",
@@ -50,15 +50,23 @@ fun Project.configureKotlinAndroid(
                 "-opt-in=kotlinx.serialization.ExperimentalMaterial3Api",
                 // Enable experimental lifecycle compose APIs
                 "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+
+                // https://github.com/Kotlin/kotlinx.serialization/issues/2145#issuecomment-1653091753
+                "-Xstring-concat=inline",
             )
         }
 
         buildFeatures {
             buildConfig = true
+            compose = true
+        }
+
+        composeOptions {
+            kotlinCompilerExtensionVersion = libs.findVersion("compose-compiler").get().toString()
         }
     }
 }
 
-private fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
+private fun CommonExtension<*, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }

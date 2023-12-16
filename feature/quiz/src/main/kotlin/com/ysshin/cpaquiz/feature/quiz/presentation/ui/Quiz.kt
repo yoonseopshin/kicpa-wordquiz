@@ -51,7 +51,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.animation.PopScaleAnimation
@@ -62,6 +61,7 @@ import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.designsystem.theme.Typography
+import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.QuizEndNavigationActionsProvider
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizViewModel
@@ -119,7 +119,7 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
                     message = state.message.asString(context),
                     actionLabel = state.actionLabel.asString(context).takeUnless(String::isBlank),
                     withDismissAction = true,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
 
@@ -137,7 +137,8 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
 
             QuizState.Grading -> Unit
             QuizState.End -> {
-                val quizEndNavActions = (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
+                val quizEndNavActions =
+                    (appContext as QuizEndNavigationActionsProvider).quizEndNavActions
                 quizEndNavActions.onQuizEnd(
                     activity = activity,
                     problems = viewModel.questions,
@@ -172,7 +173,7 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
                             fabPosition = newPositionInWindow
                         }
                     },
-                    onFabClick = viewModel::selectAnswer
+                    onFabClick = viewModel::selectAnswer,
                 )
             },
         ) { contentPadding ->
@@ -181,7 +182,7 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
                     .padding(contentPadding)
                     .fillMaxSize()
                     .verticalScroll(questionContentScrollState)
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 8.dp),
             ) {
                 Column(
                     modifier = Modifier.onGloballyPositioned { coordinates ->
@@ -193,7 +194,7 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
                             Timber.d("quizDetailPosition updated")
                             quizDetailPosition = coordinates.positionInWindow()
                         }
-                    }
+                    },
                 ) {
                     QuestionDetail(
                         currentQuestion = currentQuestion.value,
@@ -255,7 +256,7 @@ fun QuizTopAppBar(
         actions = {
             Clock(useTimer, elapsedTime())
         },
-        scrollBehavior = scrollBehavior
+        scrollBehavior = scrollBehavior,
     )
 }
 
@@ -287,7 +288,7 @@ fun QuizFloatingActionButton(
                 0.dp,
                 0.dp,
                 0.dp,
-                0.dp
+                0.dp,
             )
         } else {
             FloatingActionButtonDefaults.elevation()
@@ -305,8 +306,8 @@ fun QuizFloatingActionButton(
                         border(
                             width = 1.dp,
                             color = MaterialTheme.colorScheme.primary,
-                            shape = FloatingActionButtonDefaults.shape
-                        )
+                            shape = FloatingActionButtonDefaults.shape,
+                        ),
                     )
             },
         onClick = onFabClick,

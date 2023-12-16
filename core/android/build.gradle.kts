@@ -11,6 +11,8 @@ plugins {
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
 
+    namespace = "com.ysshin.cpaquiz.core.android"
+
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
 
@@ -20,25 +22,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
@@ -55,7 +51,6 @@ dependencies {
     api(libs.bundles.androidx.shared)
 
     implementation(libs.hilt.android)
-    implementation(libs.google.android.material)
     kapt(libs.hilt.compiler)
 
     api(platform(libs.androidx.compose.bom))
@@ -79,6 +74,7 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.accompanist.flowlayout)
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     implementation(libs.coroutines.android)
     api(libs.timber)

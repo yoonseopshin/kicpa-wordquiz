@@ -10,13 +10,13 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class QuizResultViewModel @Inject constructor(
@@ -68,7 +68,7 @@ class QuizResultViewModel @Inject constructor(
             }
             .map(WrongProblem::from)
             .also { wrongQuestions ->
-                problemUseCases.insertWrongProblems(wrongQuestions, viewModelScope)
+                problemUseCases.upsertWrongProblems(wrongQuestions, viewModelScope)
                 Timber.d("Insert wrong problems to local database $wrongQuestions")
             }
     }

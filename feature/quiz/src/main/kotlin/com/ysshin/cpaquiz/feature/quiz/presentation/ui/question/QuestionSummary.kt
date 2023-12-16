@@ -5,7 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,20 +45,26 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.util.chipContainerColorResIdByType
 import com.ysshin.cpaquiz.designsystem.component.NotClickableAssistedChip
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
+import com.ysshin.cpaquiz.designsystem.theme.DayNightGray070S
+import com.ysshin.cpaquiz.designsystem.theme.DayNightGray900S
 import com.ysshin.cpaquiz.designsystem.theme.Typography
 import com.ysshin.cpaquiz.domain.model.Problem
+import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.DeleteWrongProblemDialog
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.widthBySplit
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+)
 @Composable
 fun QuestionSummaryHeader(
     windowSizeClass: WindowSizeClass? = null,
@@ -80,33 +86,34 @@ fun QuestionSummaryHeader(
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     onHeaderLongClick()
-                }
+                },
             )
             .widthBySplit(useSplitScreen)
             .background(MaterialTheme.colorScheme.surfaceColorAtElevation(elevation = 3.dp))
-            .defaultMinSize(minHeight = 52.dp)
+            .defaultMinSize(minHeight = 52.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = title,
                 modifier = Modifier.padding(start = 16.dp, end = 8.dp),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
 
             Badge(
                 modifier = Modifier.animateContentSize(),
-                containerColor = MaterialTheme.colorScheme.primaryContainer
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
             ) {
                 AnimatedContent(
                     targetState = numOfProblems,
                     transitionSpec = {
-                        fadeIn() with fadeOut()
-                    }
+                        fadeIn() togetherWith fadeOut()
+                    },
+                    label = "",
                 ) { numOfProblems ->
                     Text(
                         text = numOfProblems.toString(),
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
@@ -141,14 +148,14 @@ fun LazyItemScope.QuestionSummaryContent(
                 onConfirm = {
                     deleteTargetWrongProblem?.invoke(dialog.problem.toDomain())
                     updateDeletingWrongProblemDialogOpened?.invoke(
-                        isDeleteWrongProblemDialogOpened.copy(isOpened = false)
+                        isDeleteWrongProblemDialogOpened.copy(isOpened = false),
                     )
                 },
                 onDismiss = {
                     updateDeletingWrongProblemDialogOpened?.invoke(
-                        isDeleteWrongProblemDialogOpened.copy(isOpened = false)
+                        isDeleteWrongProblemDialogOpened.copy(isOpened = false),
                     )
-                }
+                },
             )
         }
     }
@@ -164,7 +171,7 @@ fun LazyItemScope.QuestionSummaryContent(
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     onProblemLongClick?.invoke()
-                }
+                },
             )
             .modifyIf(useSplitScreen && problem == selectedQuestionInSplitScreen) {
                 background(color = MaterialTheme.colorScheme.surfaceColorAtElevation(0.5.dp))
@@ -172,24 +179,23 @@ fun LazyItemScope.QuestionSummaryContent(
                         border(
                             width = 1.dp,
                             color = MaterialTheme.colorScheme.primary,
-                            shape = RectangleShape
-                        )
+                            shape = RectangleShape,
+                        ),
                     )
             }
             .widthBySplit(useSplitScreen)
             .padding(bottom = 20.dp)
-            .animateItemPlacement()
+            .animateItemPlacement(),
     ) {
         Box {
             LazyRow(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
                     .align(Alignment.TopStart)
-                    .padding(start = 8.dp)
+                    .padding(start = 8.dp),
             ) {
                 item {
-                    val assistChipContainerColor =
-                        colorResource(id = R.color.daynight_gray070s)
+                    val assistChipContainerColor = DayNightGray070S
 
                     NotClickableAssistedChip(
                         modifier = Modifier.padding(all = 4.dp),
@@ -214,7 +220,7 @@ fun LazyItemScope.QuestionSummaryContent(
                         },
                         colors = AssistChipDefaults.assistChipColors(
                             containerColor = colorResource(id = containerColorResourceIdByType)
-                                .copy(alpha = 0.2f)
+                                .copy(alpha = 0.2f),
                         ),
                         border = null,
                     )
@@ -231,7 +237,7 @@ fun LazyItemScope.QuestionSummaryContent(
                             },
                             colors = AssistChipDefaults.assistChipColors(
                                 containerColor = colorResource(id = containerColorResourceIdByType)
-                                    .copy(alpha = 0.2f)
+                                    .copy(alpha = 0.2f),
                             ),
                             border = null,
                         )
@@ -251,9 +257,9 @@ fun LazyItemScope.QuestionSummaryContent(
                         withStyle(
                             style = SpanStyle(
                                 fontWeight = FontWeight.Bold,
-                                color = colorResource(id = R.color.daynight_gray900s),
+                                color = DayNightGray900S,
                                 textDecoration = TextDecoration.Underline,
-                            )
+                            ),
                         ) {
                             append(problem.description.substring(start, end))
                         }
@@ -270,7 +276,7 @@ fun LazyItemScope.QuestionSummaryContent(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
                 .padding(top = 8.dp),
-            style = Typography.bodyMedium
+            style = Typography.bodyMedium,
         )
     }
 }
@@ -284,6 +290,6 @@ fun QuestionSummaryDivider(windowSizeClass: WindowSizeClass? = null) {
         modifier = Modifier
             .widthBySplit(useSplitScreen)
             .padding(horizontal = 12.dp),
-        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
     )
 }

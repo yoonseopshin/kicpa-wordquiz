@@ -19,7 +19,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -59,7 +59,7 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
                 initialPageOffsetFraction = 0f,
                 pageCount = { questionPagerUiState.pageCount },
             )
-            var currentPage by remember { mutableStateOf(questionPagerUiState.currentPage) }
+            var currentPage by remember { mutableIntStateOf(questionPagerUiState.currentPage) }
 
             LaunchedEffect(pagerState) {
                 snapshotFlow { pagerState.currentPage }.distinctUntilChanged().collect { page ->
@@ -73,7 +73,10 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
                     topBar = {
                         TopAppBar(
                             title = {
-                                QuestionTopAppBar(currentPage, questionPagerUiState.totalQuestions.size)
+                                QuestionTopAppBar(
+                                    currentPage,
+                                    questionPagerUiState.totalQuestions.size
+                                )
                             },
                             navigationIcon = {
                                 IconButton(onClick = activity::finish) {

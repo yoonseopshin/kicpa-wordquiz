@@ -6,7 +6,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.util.UiText
 import com.ysshin.cpaquiz.core.base.DEFAULT_INT
@@ -14,9 +13,9 @@ import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
+import com.ysshin.cpaquiz.feature.quiz.R
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +23,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
+import com.ysshin.cpaquiz.core.android.R as CR
 
 @HiltViewModel
 class QuizViewModel @Inject constructor(
@@ -66,7 +67,8 @@ class QuizViewModel @Inject constructor(
     private val _isAnimationShowing = MutableStateFlow(false)
     val isAnimationShowing = _isAnimationShowing.asStateFlow()
 
-    private val _animationInfo = MutableStateFlow<PopScaleAnimationInfo>(PopScaleAnimationInfo.Correct)
+    private val _animationInfo =
+        MutableStateFlow<PopScaleAnimationInfo>(PopScaleAnimationInfo.Correct)
     val animationInfo = _animationInfo.asStateFlow()
 
     fun onPause() {
@@ -166,10 +168,18 @@ sealed class PopScaleAnimationInfo(
     val icon: ImageVector,
 ) {
     object Correct :
-        PopScaleAnimationInfo(R.color.color_on_correct, R.color.daynight_pastel_green, Icons.Default.Check)
+        PopScaleAnimationInfo(
+            R.color.color_on_correct,
+            CR.color.daynight_pastel_green,
+            Icons.Default.Check,
+        )
 
     object Incorrect :
-        PopScaleAnimationInfo(R.color.color_on_incorrect, R.color.daynight_pastel_red, Icons.Default.Close)
+        PopScaleAnimationInfo(
+            R.color.color_on_incorrect,
+            CR.color.daynight_pastel_red,
+            Icons.Default.Close,
+        )
 }
 
 sealed interface SnackbarState {

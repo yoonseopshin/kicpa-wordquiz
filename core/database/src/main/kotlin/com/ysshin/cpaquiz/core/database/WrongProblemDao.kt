@@ -29,5 +29,5 @@ interface WrongProblemDao {
     suspend fun deleteAll()
 
     @Upsert
-    suspend fun insert(problems: List<WrongProblemEntity>)
+    suspend fun upsert(problems: List<WrongProblemEntity>)
 }

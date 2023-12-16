@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -46,11 +46,11 @@ fun AnimatedCountText(
             AnimatedContent(
                 targetState = char,
                 transitionSpec = {
-                    slideInVertically { slideInDirection * it } with slideOutVertically { slideOutDirection * it }
+                    slideInVertically { slideInDirection * it } togetherWith slideOutVertically { slideOutDirection * it }
                 },
                 label = "Content Slider Animation"
             ) {
-                Text(text = char.toString(), style = style)
+                Text(text = it.toString(), style = style)
             }
         }
     }

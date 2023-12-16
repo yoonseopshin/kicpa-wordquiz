@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="dayonly_pastel_red">#e57373</color>
+    <color name="dayonly_pastel_orange">#ff8a65</color>
+    <color name="dayonly_pastel_yellow">#fff176</color>
+    <color name="dayonly_pastel_green">#aed581</color>
+    <color name="dayonly_pastel_blue">#64b5f6</color>
+    <color name="dayonly_pastel_indigo">#7986cb</color>
+    <color name="dayonly_pastel_purple">#ba68c8</color>
+    <color name="dayonly_pastel_deep_purple">#9575cd</color>
+    <color name="dayonly_pastel_brown">#a1887f</color>
+    <color name="dayonly_pastel_light_gray">#bdbdbd</color>
+
+    <color name="dayonly_pastel_orange_0.20">#33ff8a65</color>
+    <color name="dayonly_pastel_green_0.20">#33aed581</color>
+    <color name="dayonly_pastel_blue_0.20">#3364b5f6</color>
+    <color name="dayonly_pastel_indigo_0.20">#337986cb</color>
+    <color name="dayonly_pastel_purple_0.20">#33ba68c8</color>
+    <color name="dayonly_pastel_deep_purple_0.20">#339575cd</color>
+    <color name="dayonly_pastel_brown_0.20">#33a1887f</color>
+
+    <color name="dayonly_gray900s">#191919</color>
+    <color name="dayonly_gray800s">#4C4C4C</color>
+    <color name="dayonly_gray700s">#666666</color>
+    <color name="dayonly_gray600s">#7F7F7F</color>
+    <color name="dayonly_gray550s">#8E8E8E</color>
+    <color name="dayonly_gray500s">#999999</color>
+    <color name="dayonly_gray400s">#B2B2B2</color>
+    <color name="dayonly_gray300a">#33000000</color> <!-- 000000, 20% -->
+    <color name="dayonly_gray300s">#CCCCCC</color>
+    <color name="dayonly_gray200a">#24000000</color> <!-- 000000, 14% -->
+    <color name="dayonly_gray150a">#1F000000</color> <!-- 000000, 12% -->
+    <color name="dayonly_gray120a">#1A000000</color> <!-- 000000, 10% -->
+    <color name="dayonly_gray100a">#14000000</color> <!-- 000000, 8% -->
+    <color name="dayonly_gray070a">#0F000000</color> <!-- 000000, 6% -->
+    <color name="dayonly_gray070s">#F0F0F0</color>
+    <color name="dayonly_gray050a">#0A000000</color> <!-- 000000, 4% -->
+    <color name="dayonly_gray050s">#F5F5F5</color>
+    <color name="dayonly_gray000a">#05000000</color> <!-- 000000, 2% -->
+    <color name="dayonly_gray000s">#FAFAFA</color>
+
+</resources>

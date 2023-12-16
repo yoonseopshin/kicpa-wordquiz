@@ -11,8 +11,6 @@ import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.QuizType
 import com.ysshin.cpaquiz.domain.model.WrongProblem
 import com.ysshin.cpaquiz.domain.repository.QuizRepository
-import java.time.LocalDate
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,6 +18,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import timber.log.Timber
+import java.time.LocalDate
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
 class QuizRepositoryImpl @Inject constructor(
@@ -37,7 +37,11 @@ class QuizRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             runCatching {
                 problemDao.get(type, subtypes)
-            }.map(List<ProblemEntity>::toDomain)
+            }
+                .onFailure {
+                    Timber.e(it)
+                }
+                .map(List<ProblemEntity>::toDomain)
                 .getOrNull() ?: emptyList()
         }
 
@@ -45,14 +49,23 @@ class QuizRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             runCatching {
                 problemDao.get(type, size)
-            }.map(List<ProblemEntity>::toDomain)
+            }
+                .onFailure {
+                    Timber.e(it)
+                }
+                .map(List<ProblemEntity>::toDomain)
                 .getOrNull() ?: emptyList()
         }
 
     override fun getWrongProblems(): Flow<List<Problem>> =
         wrongProblemDao.getAll().map { entities ->
             entities.map { wrongProblem ->
-                problemDao.get(wrongProblem.year, wrongProblem.pid, wrongProblem.type, wrongProblem.source)
+                problemDao.get(
+                    wrongProblem.year,
+                    wrongProblem.pid,
+                    wrongProblem.type,
+                    wrongProblem.source,
+                )
                     .toDomain()
             }
         }
@@ -60,9 +73,9 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun searchProblems(text: String) =
         if (text.isBlank()) emptyList() else problemDao.search(text).map(ProblemEntity::toDomain)
 
-    override suspend fun insertWrongProblems(wrongProblems: List<WrongProblem>) =
+    override suspend fun upsertWrongProblems(wrongProblems: List<WrongProblem>) =
         withContext(Dispatchers.IO) {
-            wrongProblemDao.insert(wrongProblems.toLocalData())
+            wrongProblemDao.upsert(wrongProblems.toLocalData())
         }
 
     override suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType) = runCatching {
@@ -125,11 +138,21 @@ class QuizRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setUseTimer(value: Boolean) {
-        quizDataStoreManager.setTimer(value)
+        runCatching {
+            quizDataStoreManager.setTimer(value)
+        }
+            .onFailure {
+                Timber.e(it)
+            }
     }
 
     override suspend fun increaseSolvedQuiz() {
-        quizDataStoreManager.increaseSolvedQuiz()
+        runCatching {
+            quizDataStoreManager.increaseSolvedQuiz()
+        }
+            .onFailure {
+                Timber.e(it)
+            }
     }
 
     override fun getShouldRequestInAppReview() = quizDataStoreManager.shouldRequestInAppReview
@@ -138,3 +161,4 @@ class QuizRepositoryImpl @Inject constructor(
 
     override fun getSolvedQuiz() = quizDataStoreManager.solvedQuiz
 }
+

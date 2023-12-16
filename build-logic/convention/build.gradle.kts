@@ -7,18 +7,19 @@ plugins {
 group = "com.ysshin.cpaquiz.buildlogic"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
 dependencies {
     implementation(libs.android.gradle.plugin)
+    implementation(libs.android.tools.common)
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.spotless.gradle.plugin)
     implementation(libs.versioning.gradle.plugin)

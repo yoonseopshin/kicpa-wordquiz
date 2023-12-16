@@ -17,7 +17,7 @@ interface QuizRepository {
 
     suspend fun searchProblems(text: String): List<Problem>
 
-    suspend fun insertWrongProblems(wrongProblems: List<WrongProblem>)
+    suspend fun upsertWrongProblems(wrongProblems: List<WrongProblem>)
 
     suspend fun deleteWrongProblem(year: Int, pid: Int, type: QuizType): Boolean
 

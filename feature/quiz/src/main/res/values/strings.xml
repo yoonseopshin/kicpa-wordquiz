@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="text_source_year_pid">%1$s %2$d년 %3$d번</string>
+    <string name="report_elapsed_time_per_question_1">한 문제당 평균</string>
+    <string name="report_elapsed_time_per_question_2">초</string>
+    <string name="report_total_solved_question_1">문제 중</string>
+    <string name="report_total_solved_question_2">문제 맞음</string>
+    <string name="solved_problems">내가 푼 문제</string>
+    <string name="result">결과</string>
+    <string name="confirm">확인</string>
+    <string name="msg_need_answer">정답을 선택해주세요.</string>
+    <string name="quiz">퀴즈</string>
+    <string name="delete_wrong_note">오답노트 초기화</string>
+    <string name="delete_wrong_problem">문제 삭제</string>
+    <string name="question_delete_all_wrong_note">오답노트를 초기화할까요?</string>
+    <string name="question_delete_wrong_note">선택한 문제를 오답노트에서 삭제할까요?</string>
 </resources>

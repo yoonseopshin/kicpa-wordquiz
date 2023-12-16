@@ -4,6 +4,10 @@ plugins {
     id("cpaquiz.spotless")
 }
 
+android {
+    namespace = "com.ysshin.cpaquiz.feature.settings"
+}
+
 dependencies {
     implementation(libs.play.services.oss.licenses)
 }

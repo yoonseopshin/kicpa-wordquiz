@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -35,7 +36,6 @@ import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.core.android.databinding.LayoutNativeAdMediumBinding
 import com.ysshin.cpaquiz.core.android.databinding.LayoutNativeAdSmallBinding
 import com.ysshin.cpaquiz.core.android.util.AdConstants
-import com.ysshin.cpaquiz.core.android.util.visible
 import com.ysshin.cpaquiz.designsystem.component.CpaLoadingWheel
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
@@ -52,13 +52,13 @@ private fun BoxScope.NativeMediumAdError() {
     ) {
         CpaIcon(
             icon = CpaIcons.Warning,
-            modifier = Modifier.size(56.dp)
+            modifier = Modifier.size(56.dp),
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.ad_load_failed),
             style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -73,7 +73,7 @@ fun NativeMediumAd() {
         when (adState) {
             AdState.Loading -> CpaLoadingWheel(
                 contentDesc = "Loading",
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             )
 
             AdState.Error -> NativeMediumAdError()
@@ -100,68 +100,70 @@ fun NativeMediumAd() {
                 try {
                     val adLoader = AdLoader.Builder(
                         adView.context,
-                        AdConstants.getNativeMediumAdUnitId()
+                        AdConstants.getNativeMediumAdUnitId(),
                     )
                         .forNativeAd { nativeAd ->
                             nativeAd.advertiser?.let {
                                 if (it.isNotBlank()) {
                                     binding.tvAdvertiser.text = it
-                                    binding.tvAdvertiser.visible()
+                                    binding.tvAdvertiser.isVisible = true
                                 }
                             }
                             nativeAd.body?.let {
                                 if (it.isNotBlank()) {
                                     binding.tvBody.text = it
-                                    binding.tvBody.visible()
+                                    binding.tvBody.isVisible = true
                                 }
                             }
                             nativeAd.callToAction?.let {
                                 if (it.isNotBlank()) {
                                     binding.btnCta.text = it
-                                    binding.btnCta.visible()
+                                    binding.btnCta.isVisible = true
                                 }
                             }
                             nativeAd.icon?.let {
                                 binding.ivAppIcon.setImageDrawable(it.drawable)
-                                binding.ivAppIcon.visible()
+                                binding.ivAppIcon.isVisible = true
                             }
                             nativeAd.headline?.let {
                                 if (it.isNotBlank()) {
                                     binding.tvHeadline.text = it
-                                    binding.tvHeadline.visible()
+                                    binding.tvHeadline.isVisible = true
                                 }
                             }
                             nativeAd.price?.let {
                                 if (it.isNotBlank()) {
                                     binding.tvPrice.text = it
-                                    binding.tvPrice.visible()
+                                    binding.tvPrice.isVisible = true
                                 }
                             }
                             nativeAd.starRating?.let {
                                 binding.rtbStars.rating = it.toFloat()
-                                binding.rtbStars.visible()
+                                binding.rtbStars.isVisible = true
                             }
                             nativeAd.store?.let {
                                 if (it.isNotBlank()) {
                                     binding.tvStore.text = it
-                                    binding.tvStore.visible()
+                                    binding.tvStore.isVisible = true
                                 }
                             }
                             adView.setNativeAd(nativeAd)
                             adView.requestLayoutWithDelay()
                         }
-                        .withAdListener(object : AdListener() {
-                            override fun onAdFailedToLoad(error: LoadAdError) {
-                                super.onAdFailedToLoad(error)
-                                adState = AdState.Error
-                            }
+                        .withAdListener(
+                            object : AdListener() {
+                                override fun onAdFailedToLoad(error: LoadAdError) {
+                                    super.onAdFailedToLoad(error)
+                                    adState = AdState.Error
+                                }
 
-                            override fun onAdLoaded() {
-                                super.onAdLoaded()
-                                adState = AdState.Success
-                                adView.visible(withAnimation = true)
-                            }
-                        })
+                                override fun onAdLoaded() {
+                                    super.onAdLoaded()
+                                    adState = AdState.Success
+                                    adView.isVisible = true
+                                }
+                            },
+                        )
                         .withNativeAdOptions(NativeAdOptions.Builder().build())
                         .build()
                     adLoader.loadAd(AdRequest.Builder().build())
@@ -171,7 +173,7 @@ fun NativeMediumAd() {
                 binding
             },
             update = {
-            }
+            },
         )
     }
 }
@@ -190,13 +192,13 @@ private fun BoxScope.NativeSmallAdError() {
     ) {
         CpaIcon(
             icon = CpaIcons.Warning,
-            modifier = Modifier.size(28.dp)
+            modifier = Modifier.size(28.dp),
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(
             text = stringResource(id = R.string.ad_load_failed),
             style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -211,68 +213,73 @@ fun NativeSmallAd() {
         when (adState) {
             AdState.Loading -> CpaLoadingWheel(
                 contentDesc = "Loading",
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             )
 
             AdState.Error -> NativeSmallAdError()
             AdState.Success -> {}
         }
 
-        AndroidViewBinding(factory = { inflater, parent, attachToParent ->
-            adState = AdState.Loading
+        AndroidViewBinding(
+            factory = { inflater, parent, attachToParent ->
+                adState = AdState.Loading
 
-            val binding = LayoutNativeAdSmallBinding.inflate(inflater, parent, attachToParent)
-            val adView = binding.root.also { adView ->
-                adView.bodyView = binding.tvBody
-                adView.callToActionView = binding.btnCta
-                adView.headlineView = binding.tvHeadline
-                adView.iconView = binding.ivAppIcon
-                adView.storeView = binding.tvStore
-            }
+                val binding = LayoutNativeAdSmallBinding.inflate(inflater, parent, attachToParent)
+                val adView = binding.root.also { adView ->
+                    adView.bodyView = binding.tvBody
+                    adView.callToActionView = binding.btnCta
+                    adView.headlineView = binding.tvHeadline
+                    adView.iconView = binding.ivAppIcon
+                    adView.storeView = binding.tvStore
+                }
 
-            try {
-                val adLoader = AdLoader.Builder(adView.context, AdConstants.getNativeSmallAdUnitId())
-                    .forNativeAd { nativeAd ->
-                        nativeAd.icon?.let {
-                            binding.ivAppIcon.setImageDrawable(it.drawable)
-                            binding.ivAppIcon.visible()
-                        }
-                        nativeAd.headline?.let {
-                            binding.tvHeadline.text = it
-                            binding.tvHeadline.visible()
-                        }
-                        nativeAd.body?.let {
-                            binding.tvBody.text = it
-                            binding.tvBody.visible()
-                        }
-                        nativeAd.callToAction?.let { binding.btnCta.text = it }
-                        nativeAd.store?.let {
-                            binding.tvStore.text = it
-                            binding.tvStore.visible()
-                        }
-                        adView.setNativeAd(nativeAd)
-                        adView.requestLayoutWithDelay()
-                    }
-                    .withAdListener(object : AdListener() {
-                        override fun onAdFailedToLoad(error: LoadAdError) {
-                            super.onAdFailedToLoad(error)
-                            adState = AdState.Error
-                        }
+                try {
+                    val adLoader =
+                        AdLoader.Builder(adView.context, AdConstants.getNativeSmallAdUnitId())
+                            .forNativeAd { nativeAd ->
+                                nativeAd.icon?.let {
+                                    binding.ivAppIcon.setImageDrawable(it.drawable)
+                                    binding.ivAppIcon.isVisible = true
+                                }
+                                nativeAd.headline?.let {
+                                    binding.tvHeadline.text = it
+                                    binding.tvHeadline.isVisible = true
+                                }
+                                nativeAd.body?.let {
+                                    binding.tvBody.text = it
+                                    binding.tvBody.isVisible = true
+                                }
+                                nativeAd.callToAction?.let { binding.btnCta.text = it }
+                                nativeAd.store?.let {
+                                    binding.tvStore.text = it
+                                    binding.tvStore.isVisible = true
+                                }
+                                adView.setNativeAd(nativeAd)
+                                adView.requestLayoutWithDelay()
+                            }
+                            .withAdListener(
+                                object : AdListener() {
+                                    override fun onAdFailedToLoad(error: LoadAdError) {
+                                        super.onAdFailedToLoad(error)
+                                        adState = AdState.Error
+                                    }
 
-                        override fun onAdLoaded() {
-                            super.onAdLoaded()
-                            adState = AdState.Success
-                            adView.visible(withAnimation = true)
-                        }
-                    })
-                    .withNativeAdOptions(NativeAdOptions.Builder().build())
-                    .build()
-                adLoader.loadAd(AdRequest.Builder().build())
-            } catch (ignore: Exception) {
-            }
+                                    override fun onAdLoaded() {
+                                        super.onAdLoaded()
+                                        adState = AdState.Success
+                                        adView.isVisible = true
+                                    }
+                                },
+                            )
+                            .withNativeAdOptions(NativeAdOptions.Builder().build())
+                            .build()
+                    adLoader.loadAd(AdRequest.Builder().build())
+                } catch (ignore: Exception) {
+                }
 
-            binding
-        })
+                binding
+            },
+        )
     }
 }
 

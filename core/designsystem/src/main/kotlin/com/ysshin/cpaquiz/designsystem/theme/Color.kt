@@ -4,6 +4,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import com.ysshin.cpaquiz.designsystem.R
 
 val md_theme_light_primary = Color(0xFF71585F)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
@@ -62,6 +64,28 @@ val md_theme_dark_inverseSurface = Color(0xFFE7E1E1)
 val md_theme_dark_inverseOnSurface = Color(0xFF323030)
 val md_theme_dark_inversePrimary = Color(0xFF71585F)
 val md_theme_dark_surfaceTint = Color(0xFFDEBEC7)
+
+
+val DayNightGray900S
+    @Composable
+    get() = colorResource(id = R.color.daynight_gray900s)
+
+val DayNightGray800S
+    @Composable
+    get() = colorResource(id = R.color.daynight_gray800s)
+
+val DayNightGray600S
+    @Composable
+    get() = colorResource(id = R.color.daynight_gray600s)
+
+val DayNightGray100A
+    @Composable
+    get() = colorResource(id = R.color.daynight_gray100a)
+
+val DayNightGray070S
+    @Composable
+    get() = colorResource(id = R.color.daynight_gray070s)
+
 
 val ColorScheme.shimmerColorShades: List<Color>
     @Composable

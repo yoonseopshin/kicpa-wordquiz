@@ -25,7 +25,7 @@ object UseCaseModule {
         GetTotalProblems(repository),
         GetWrongProblems(repository),
         SearchProblems(repository),
-        InsertWrongProblems(repository),
+        UpsertWrongProblems(repository),
         DeleteWrongProblem(repository),
         DeleteAllWrongProblems(repository),
         GetProblems(repository),

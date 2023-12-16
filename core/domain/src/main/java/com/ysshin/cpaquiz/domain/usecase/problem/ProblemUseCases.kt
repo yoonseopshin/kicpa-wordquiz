@@ -4,7 +4,7 @@ data class ProblemUseCases(
     val getTotalProblems: GetTotalProblems,
     val getWrongProblems: GetWrongProblems,
     val searchProblems: SearchProblems,
-    val insertWrongProblems: InsertWrongProblems,
+    val upsertWrongProblems: UpsertWrongProblems,
     val deleteWrongProblem: DeleteWrongProblem,
     val deleteAllWrongProblems: DeleteAllWrongProblems,
     val getProblems: GetProblems,

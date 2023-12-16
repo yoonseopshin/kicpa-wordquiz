@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.ManagedVirtualDevice
-
 plugins {
     id("com.android.test")
     id("org.jetbrains.kotlin.android")
@@ -11,12 +9,12 @@ android {
     namespace = "com.ysshin.cpaquiz.benchmark"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     defaultConfig {
@@ -30,8 +28,9 @@ android {
         // for easy local/CI testing.
         create("benchmark") {
             isDebuggable = true
-            signingConfig = getByName("debug").signingConfig
-            matchingFallbacks += listOf("release")
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks.add("release")
+
         }
     }
 
@@ -44,10 +43,4 @@ dependencies {
     implementation("androidx.test.espresso:espresso-core:3.4.0")
     implementation("androidx.test.uiautomator:uiautomator:2.2.0")
     implementation("androidx.benchmark:benchmark-macro-junit4:1.1.1")
-}
-
-androidComponents {
-    beforeVariants(selector().all()) {
-        it.enabled = it.buildType == "benchmark"
-    }
 }

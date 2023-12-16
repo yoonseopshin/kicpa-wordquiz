@@ -5,11 +5,11 @@ import com.ysshin.cpaquiz.domain.repository.QuizRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class InsertWrongProblems(private val repository: QuizRepository) {
+class UpsertWrongProblems(private val repository: QuizRepository) {
 
     operator fun invoke(wrongProblems: List<WrongProblem>, scope: CoroutineScope) {
         scope.launch {
-            repository.insertWrongProblems(wrongProblems)
+            repository.upsertWrongProblems(wrongProblems)
         }
     }
 }

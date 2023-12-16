@@ -35,7 +35,7 @@ interface ProblemDao {
         ORDER BY RANDOM()
         """
     )
-    fun get(type: QuizType, subtypes: List<String>): List<ProblemEntity>
+    suspend fun get(type: QuizType, subtypes: List<String>): List<ProblemEntity>
 
     @Query(
         """
@@ -45,7 +45,7 @@ interface ProblemDao {
         ORDER BY RANDOM() 
         LIMIT :size"""
     )
-    fun get(type: QuizType, size: Int): List<ProblemEntity>
+    suspend fun get(type: QuizType, size: Int): List<ProblemEntity>
 
     @Query(
         """
@@ -76,7 +76,7 @@ interface ProblemDao {
         WHERE $TYPE = :type 
     """
     )
-    fun getSubtypesByQuizType(type: QuizType): List<String>
+    suspend fun getSubtypesByQuizType(type: QuizType): List<String>
 
     @Query(
         """

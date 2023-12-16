@@ -1,10 +1,12 @@
 package com.ysshin.benchmark.baselineprofile
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.benchmark.macro.ExperimentalBaselineProfilesApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import com.ysshin.benchmark.PACKAGE_NAME
-import com.ysshin.benchmark.navigateQuizJourney
 import com.ysshin.benchmark.navigateNoteJourney
+import com.ysshin.benchmark.navigateQuizJourney
 import com.ysshin.benchmark.navigateSettingsJourney
 import com.ysshin.benchmark.wait
 import org.junit.Rule
@@ -16,9 +18,11 @@ import org.junit.Test
 @ExperimentalBaselineProfilesApi
 class BaselineProfileGenerator {
 
+    @RequiresApi(Build.VERSION_CODES.P)
     @get:Rule
     val baselineProfileRule = BaselineProfileRule()
 
+    @RequiresApi(Build.VERSION_CODES.P)
     @Test
     fun generate() =
         baselineProfileRule.collectBaselineProfile(PACKAGE_NAME) {

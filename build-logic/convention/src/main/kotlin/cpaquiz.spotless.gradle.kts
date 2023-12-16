@@ -8,7 +8,7 @@ spotless {
     kotlin {
         target("**/*.kt")
         targetExclude("**/build/**/*.kt")
-        ktlint(libs.findVersion("ktlint").get().toString()).userData(
+        ktlint(libs.findVersion("ktlint").get().toString()).editorConfigOverride(
             mapOf(
                 "android" to "true",
                 "disabled_rules" to "no-wildcard-imports",
