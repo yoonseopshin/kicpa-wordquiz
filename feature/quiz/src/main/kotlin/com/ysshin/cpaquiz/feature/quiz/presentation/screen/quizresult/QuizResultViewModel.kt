@@ -49,11 +49,10 @@ class QuizResultViewModel @Inject constructor(
 
             insertWrongQuestionsToLocalDb(selected, currentSolved)
 
-            // FIXME: Temporarily disable interstitial ad
             QuizResultUiState.Success(
                 totalElapsedTime = totalElapsedTime,
                 shouldRequestInAppReview = shouldRequestInAppReview,
-                shouldShowInterstitialAd = false,
+                shouldShowInterstitialAd = shouldShowInterstitialAd,
                 selectedIndices = selected,
                 solvedQuestions = currentSolved,
             )

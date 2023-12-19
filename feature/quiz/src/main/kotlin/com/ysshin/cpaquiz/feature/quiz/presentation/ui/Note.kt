@@ -208,7 +208,9 @@ fun NoteScreen(
             clearFilter = clearFilter,
         )
     }) { padding ->
-        val shouldShowAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+        // val shouldShowAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+        // FIXME: Temporarily disable
+        val shouldShowAd = false
 
         Column(modifier = Modifier.padding(padding)) {
             AnimatedVisibility(
