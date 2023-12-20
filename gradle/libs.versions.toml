@@ -5,8 +5,8 @@ minSdk = "26"
 
 # Need to change ugly app naming, but changing app package name that has already been deployed is too cumbersome
 applicationId = "com.cpa.cpa_word_problem"
-versionCode = "99"
-versionName = "1.14.1"
+versionCode = "1002"
+versionName = "1.15.0"
 
 # https://developer.android.com/build/kotlin-support
 android-r8 = "8.2.33"
