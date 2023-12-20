@@ -2,7 +2,7 @@ package com.ysshin.cpaquiz.core.network.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.ysshin.cpaquiz.core.network.BuildConfig
-import com.ysshin.cpaquiz.core.network.api.QuizService
+import com.ysshin.cpaquiz.core.network.api.RemoteApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,5 +58,5 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideQuizService(retrofit: Retrofit): QuizService = retrofit.create(QuizService::class.java)
+    fun provideRemoteApi(retrofit: Retrofit): RemoteApi = retrofit.create(RemoteApi::class.java)
 }

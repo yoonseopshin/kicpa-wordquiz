@@ -141,17 +141,19 @@ import com.ysshin.cpaquiz.core.android.R as CR
 
 @Composable
 fun NoteRoute(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltViewModel()) {
-    val noteUiState = viewModel.noteUiState.collectAsStateWithLifecycle()
-    val noteFilter = viewModel.noteFilter.collectAsStateWithLifecycle()
-    val searchKeyword = viewModel.searchKeyword.collectAsStateWithLifecycle()
-    val selectedQuestionInSplitScreen = viewModel.selectedQuestion.collectAsStateWithLifecycle()
+    val noteUiState by viewModel.noteUiState.collectAsStateWithLifecycle()
+    val noteFilter by viewModel.noteFilter.collectAsStateWithLifecycle()
+    val isNoteNativeSmallAdEnabled by viewModel.isNoteNativeSmallAdEnabled.collectAsStateWithLifecycle()
+    val searchKeyword by viewModel.searchKeyword.collectAsStateWithLifecycle()
+    val selectedQuestionInSplitScreen by viewModel.selectedQuestion.collectAsStateWithLifecycle()
 
     NoteScreen(
         windowSizeClass = windowSizeClass,
-        noteUiState = noteUiState.value,
-        noteFilter = noteFilter.value,
-        searchKeyword = searchKeyword.value,
-        selectedQuestionInSplitScreen = selectedQuestionInSplitScreen.value,
+        noteUiState = noteUiState,
+        noteFilter = noteFilter,
+        isNoteNativeSmallAdEnabled = isNoteNativeSmallAdEnabled,
+        searchKeyword = searchKeyword,
+        selectedQuestionInSplitScreen = selectedQuestionInSplitScreen,
         updateSearchKeyword = viewModel::updateSearchKeyword,
         setFilter = viewModel::setFilter,
         clearFilter = viewModel::clearFilter,
@@ -163,12 +165,12 @@ fun NoteRoute(windowSizeClass: WindowSizeClass, viewModel: NoteViewModel = hiltV
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(
     windowSizeClass: WindowSizeClass,
     noteUiState: NoteUiState,
     noteFilter: NoteFilter,
+    isNoteNativeSmallAdEnabled: Boolean,
     searchKeyword: String,
     selectedQuestionInSplitScreen: Problem?,
     updateSearchKeyword: Consumer<String>,
@@ -208,9 +210,8 @@ fun NoteScreen(
             clearFilter = clearFilter,
         )
     }) { padding ->
-        // val shouldShowAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
-        // FIXME: Temporarily disable
-        val shouldShowAd = false
+        val shouldShowAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact &&
+                isNoteNativeSmallAdEnabled
 
         Column(modifier = Modifier.padding(padding)) {
             AnimatedVisibility(
@@ -1250,6 +1251,7 @@ fun NoteScreenViewPreview() {
                     ),
                     searchedProblemsUiState = SearchedProblemsUiState.Loading,
                 ),
+                isNoteNativeSmallAdEnabled = true,
                 searchKeyword = "",
                 selectedQuestionInSplitScreen = Problem.default(),
                 updateSearchKeyword = {},
@@ -1303,6 +1305,7 @@ private fun NoteScreenSearchPreview() {
                         ),
                     ),
                 ),
+                isNoteNativeSmallAdEnabled = true,
                 searchKeyword = "blah",
                 selectedQuestionInSplitScreen = Problem.default(),
                 updateSearchKeyword = { },

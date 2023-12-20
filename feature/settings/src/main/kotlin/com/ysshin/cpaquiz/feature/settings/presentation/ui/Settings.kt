@@ -27,6 +27,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -43,8 +44,10 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ysshin.cpaquiz.core.android.BuildConfig
+import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppDialogType
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
 import com.ysshin.cpaquiz.core.android.ui.modifier.bounceClickable
@@ -60,15 +63,25 @@ import kotlinx.coroutines.launch
 import com.ysshin.cpaquiz.core.android.R as CR
 
 @Composable
-fun SettingsRoute(windowSizeClass: WindowSizeClass, viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsRoute(
+    windowSizeClass: WindowSizeClass,
+    viewModel: SettingsViewModel = hiltViewModel(),
+) {
+    val isSettingsNativeMediumAdEnabled by viewModel.isSettingsNativeMediumAdEnabled.collectAsStateWithLifecycle()
+
     SettingsScreen(
         windowSizeClass = windowSizeClass,
         deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
+        isSettingsNativeMediumAdEnabled = isSettingsNativeMediumAdEnabled,
     )
 }
 
 @Composable
-fun SettingsScreen(windowSizeClass: WindowSizeClass, deleteAllWrongProblems: Action) {
+fun SettingsScreen(
+    windowSizeClass: WindowSizeClass,
+    deleteAllWrongProblems: Action,
+    isSettingsNativeMediumAdEnabled: Boolean,
+) {
     val snackbarHostState = LocalSnackbarHostState.current
 
     CpaBackground {
@@ -80,6 +93,10 @@ fun SettingsScreen(windowSizeClass: WindowSizeClass, deleteAllWrongProblems: Act
                 snackbarHostState = snackbarHostState,
                 deleteAllWrongProblems = deleteAllWrongProblems,
             )
+
+            if (isSettingsNativeMediumAdEnabled) {
+                NativeMediumAd()
+            }
         }
     }
 }
@@ -115,7 +132,11 @@ private fun SettingsLazyVerticalGrid(
     val (isDeleteWrongProblemDialogOpened, setDeleteWrongProblemDialogOpened) = rememberSaveable {
         mutableStateOf(false)
     }
-    val (isAppVersionDialogOpened, setAppVersionDialogOpened) = rememberSaveable { mutableStateOf(false) }
+    val (isAppVersionDialogOpened, setAppVersionDialogOpened) = rememberSaveable {
+        mutableStateOf(
+            false,
+        )
+    }
 
     InitSettingsDialog(
         isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
@@ -277,6 +298,7 @@ private fun SettingsScreenPreview() {
             SettingsScreen(
                 windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(maxWidth, maxHeight)),
                 deleteAllWrongProblems = {},
+                isSettingsNativeMediumAdEnabled = true,
             )
         }
     }

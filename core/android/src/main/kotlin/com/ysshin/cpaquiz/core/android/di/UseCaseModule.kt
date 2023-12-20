@@ -1,7 +1,11 @@
 package com.ysshin.cpaquiz.core.android.di
 
+import com.ysshin.cpaquiz.domain.repository.ConfigRepository
 import com.ysshin.cpaquiz.domain.repository.QuizRepository
 import com.ysshin.cpaquiz.domain.repository.UserRepository
+import com.ysshin.cpaquiz.domain.usecase.config.ConfigUseCases
+import com.ysshin.cpaquiz.domain.usecase.config.GetAdConfig
+import com.ysshin.cpaquiz.domain.usecase.config.SyncConfigs
 import com.ysshin.cpaquiz.domain.usecase.problem.DeleteAllWrongProblems
 import com.ysshin.cpaquiz.domain.usecase.problem.DeleteWrongProblem
 import com.ysshin.cpaquiz.domain.usecase.problem.GetProblemCount
@@ -67,9 +71,12 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideSharedUseCases(repository: QuizRepository) = SharedUseCases(
-        GetShouldRequestInAppReview(repository),
-        GetShouldShowInterstitialAd(repository),
+    fun provideSharedUseCases(
+        quizRepository: QuizRepository,
+        configRepository: ConfigRepository,
+    ) = SharedUseCases(
+        GetShouldRequestInAppReview(quizRepository),
+        GetShouldShowInterstitialAd(quizRepository, configRepository),
     )
 
     @Provides
@@ -78,5 +85,12 @@ object UseCaseModule {
         GetPostNotification(repository),
         GrantPostNotification(repository),
         DenyPostNotification(repository),
+    )
+
+    @Provides
+    @Singleton
+    fun provideConfigUseCases(repository: ConfigRepository) = ConfigUseCases(
+        SyncConfigs(repository),
+        GetAdConfig(repository),
     )
 }

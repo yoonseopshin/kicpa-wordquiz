@@ -97,6 +97,7 @@ import com.ysshin.cpaquiz.core.android.R as CR
 fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
     val homeQuizUiState by viewModel.homeQuizUiState.collectAsStateWithLifecycle()
     val homeInfoUiState by viewModel.homeInfoUiState.collectAsStateWithLifecycle()
+    val isHomeNativeMediumAdEnabled by viewModel.isHomeNativeMediumAdEnabled.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val activity = context.findActivity()
@@ -107,6 +108,7 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
     HomeScreen(
         homeQuizUiState = homeQuizUiState,
         homeInfoUiState = homeInfoUiState,
+        isHomeNativeMediumAdEnabled = isHomeNativeMediumAdEnabled,
         onSetQuizNumber = viewModel::setQuizNumber,
         onToggleTimer = viewModel::toggleTimer,
         onQuizCardClick = onQuizCardClick@{ type ->
@@ -140,6 +142,7 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
 fun HomeScreen(
     homeQuizUiState: HomeQuizUiState,
     homeInfoUiState: HomeInfoUiState,
+    isHomeNativeMediumAdEnabled: Boolean,
     onSetQuizNumber: Consumer<Int>,
     onToggleTimer: Action,
     onQuizCardClick: Consumer<QuizType>,
@@ -220,7 +223,9 @@ fun HomeScreen(
                                 toggleSubtype = onToggleSubtype,
                             )
 
-                            NativeMediumAd()
+                            if (isHomeNativeMediumAdEnabled) {
+                                NativeMediumAd()
+                            }
                         }
                     }
                 }
@@ -595,6 +600,7 @@ private fun HomeScreenPreview() {
                     quizNumber = 20,
                     useTimer = true,
                 ),
+                isHomeNativeMediumAdEnabled = true,
                 onSetQuizNumber = {},
                 onToggleTimer = {},
                 onQuizCardClick = {},

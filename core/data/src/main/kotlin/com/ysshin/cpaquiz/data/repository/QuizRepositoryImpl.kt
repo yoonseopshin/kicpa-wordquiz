@@ -4,7 +4,7 @@ import com.ysshin.cpaquiz.core.database.ProblemDao
 import com.ysshin.cpaquiz.core.database.ProblemEntity
 import com.ysshin.cpaquiz.core.database.WrongProblemDao
 import com.ysshin.cpaquiz.core.datastore.QuizDatastoreManager
-import com.ysshin.cpaquiz.core.network.api.QuizService
+import com.ysshin.cpaquiz.core.network.api.RemoteApi
 import com.ysshin.cpaquiz.data.mapper.toDomain
 import com.ysshin.cpaquiz.data.mapper.toLocalData
 import com.ysshin.cpaquiz.domain.model.Problem
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @ExperimentalSerializationApi
 class QuizRepositoryImpl @Inject constructor(
-    private val quizService: QuizService,
+    private val remoteApi: RemoteApi,
     private val problemDao: ProblemDao,
     private val wrongProblemDao: WrongProblemDao,
     private val quizDataStoreManager: QuizDatastoreManager,
@@ -89,7 +89,7 @@ class QuizRepositoryImpl @Inject constructor(
 
     override suspend fun syncRemoteProblems(): Unit = withContext(Dispatchers.IO) {
         runCatching {
-            quizService.getCpaProblems()
+            remoteApi.getCpaProblems()
         }.map { problems ->
             problems.toDomain().toLocalData()
         }.onSuccess { problems ->
@@ -101,7 +101,7 @@ class QuizRepositoryImpl @Inject constructor(
 
     override fun getNextExamDate() = flow {
         runCatching {
-            quizService.getCpaScheduledDate()
+            remoteApi.getCpaScheduledDate()
         }.map { scheduledDates ->
             scheduledDates.toDomain()
         }.onSuccess { scheduledDates ->

@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,10 +53,14 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryH
 import kotlin.math.roundToInt
 
 @Composable
-fun QuizResultRoute(viewModel: QuizResultViewModel = hiltViewModel(), showInterstitialAd: () -> Unit) {
+fun QuizResultRoute(
+    viewModel: QuizResultViewModel = hiltViewModel(),
+    showInterstitialAd: () -> Unit,
+) {
     val context = LocalContext.current
     val activity = context.findActivity()
-    val quizResultUiState = viewModel.quizResultUiState.collectAsStateWithLifecycle()
+    val quizResultUiState by viewModel.quizResultUiState.collectAsStateWithLifecycle()
+    val isQuizResultNativeMediumAdEnabled by viewModel.isQuizResultNativeMediumAdEnabled.collectAsStateWithLifecycle()
     val onProblemClick: (Problem, List<Problem>) -> Unit = { problem, totalProblems ->
         context.startActivity(
             QuestionViewerActivity.newIntent(
@@ -67,7 +72,8 @@ fun QuizResultRoute(viewModel: QuizResultViewModel = hiltViewModel(), showInters
     }
 
     QuizResultScreen(
-        quizResultUiState = quizResultUiState.value,
+        quizResultUiState = quizResultUiState,
+        isQuizResultNativeMediumAdEnabled = isQuizResultNativeMediumAdEnabled,
         onConfirmClick = activity::finish,
         onProblemClick = onProblemClick,
         showInterstitialAd = showInterstitialAd,
@@ -77,6 +83,7 @@ fun QuizResultRoute(viewModel: QuizResultViewModel = hiltViewModel(), showInters
 @Composable
 fun QuizResultScreen(
     quizResultUiState: QuizResultUiState,
+    isQuizResultNativeMediumAdEnabled: Boolean,
     onConfirmClick: () -> Unit = {},
     onProblemClick: (Problem, List<Problem>) -> Unit = { _, _ -> },
     showInterstitialAd: () -> Unit = {},
@@ -120,8 +127,10 @@ fun QuizResultScreen(
                         .padding(padding)
                         .fillMaxSize(),
                 ) {
-                    item {
-                        NativeMediumAd()
+                    if (isQuizResultNativeMediumAdEnabled) {
+                        item {
+                            NativeMediumAd()
+                        }
                     }
 
                     val solvedQuestions = quizResultUiState.solvedQuestions
@@ -250,7 +259,10 @@ private fun QuizResultScreenPreview() {
         ),
     )
     CpaQuizTheme {
-        QuizResultScreen(quizResultUiState)
+        QuizResultScreen(
+            quizResultUiState = quizResultUiState,
+            isQuizResultNativeMediumAdEnabled = true,
+        )
     }
 }
 

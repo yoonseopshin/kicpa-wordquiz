@@ -5,7 +5,9 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
+import com.ysshin.cpaquiz.domain.model.AdType
 import com.ysshin.cpaquiz.domain.model.WrongProblem
+import com.ysshin.cpaquiz.domain.usecase.config.ConfigUseCases
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.shared.SharedUseCases
 import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
@@ -24,6 +26,7 @@ import javax.inject.Inject
 class QuizResultViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
     sharedUseCases: SharedUseCases,
+    configUseCases: ConfigUseCases,
     handle: SavedStateHandle,
 ) : BaseViewModel() {
 
@@ -34,6 +37,13 @@ class QuizResultViewModel @Inject constructor(
         handle.getStateFlow<ArrayList<Int>>(QuizConstants.SELECTED, ArrayList())
     private val _solvedQuestions =
         handle.getStateFlow<ArrayList<ProblemModel>>(QuizConstants.PROBLEMS, ArrayList())
+
+    val isQuizResultNativeMediumAdEnabled = configUseCases.getAdConfig(AdType.QuizResultNativeMediumAd)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000L),
+            initialValue = true,
+        )
 
     val quizResultUiState: StateFlow<QuizResultUiState> =
         combine(
