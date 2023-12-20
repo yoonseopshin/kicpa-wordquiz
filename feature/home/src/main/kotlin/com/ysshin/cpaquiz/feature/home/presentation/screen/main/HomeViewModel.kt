@@ -2,9 +2,11 @@ package com.ysshin.cpaquiz.feature.home.presentation.screen.main
 
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
+import com.ysshin.cpaquiz.domain.model.AdType
 import com.ysshin.cpaquiz.domain.model.DEFAULT_QUIZ_NUMBER
 import com.ysshin.cpaquiz.domain.model.DEFAULT_USE_TIMER
 import com.ysshin.cpaquiz.domain.model.QuizType
+import com.ysshin.cpaquiz.domain.usecase.config.ConfigUseCases
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.domain.usecase.quiz.QuizUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,11 +25,19 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
     private val quizUseCases: QuizUseCases,
+    private val configUseCases: ConfigUseCases,
 ) : BaseViewModel() {
 
     private val countMap = MutableStateFlow<MutableMap<QuizType, Int>>(mutableMapOf())
     private val subtypesMap = MutableStateFlow<MutableMap<QuizType, List<String>>>(mutableMapOf())
     private val selectedSubtypes = MutableStateFlow<MutableMap<String, Boolean>>(mutableMapOf())
+
+    val isHomeNativeMediumAdEnabled = configUseCases.getAdConfig(AdType.HomeNativeMediumAd)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000L),
+            initialValue = true,
+        )
 
     val homeQuizUiState: StateFlow<HomeQuizUiState> =
         combine(

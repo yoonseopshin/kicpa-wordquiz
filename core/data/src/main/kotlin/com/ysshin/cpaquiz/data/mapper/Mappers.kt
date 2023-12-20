@@ -2,8 +2,12 @@ package com.ysshin.cpaquiz.data.mapper
 
 import com.ysshin.cpaquiz.core.database.ProblemEntity
 import com.ysshin.cpaquiz.core.database.WrongProblemEntity
+import com.ysshin.cpaquiz.core.network.response.AppConfigResponse
 import com.ysshin.cpaquiz.core.network.response.ProblemResponse
 import com.ysshin.cpaquiz.core.network.response.ScheduledDateResponse
+import com.ysshin.cpaquiz.domain.model.AdConfig
+import com.ysshin.cpaquiz.domain.model.AdType
+import com.ysshin.cpaquiz.domain.model.AppConfig
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ScheduledDate
 import com.ysshin.cpaquiz.domain.model.WrongProblem
@@ -68,3 +72,11 @@ fun WrongProblem.toLocalData() = WrongProblemEntity(
 
 @JvmName("wrongProblemListToLocalData")
 fun List<WrongProblem>.toLocalData() = map { it.toLocalData() }
+
+fun AppConfigResponse.toDomain() = AppConfig(
+    homeNativeMediumAd = AdConfig(AdType.HomeNativeMediumAd, homeNativeMediumAd),
+    noteNativeSmallAd = AdConfig(AdType.NoteNativeSmallAd, noteNativeSmallAd),
+    settingsNativeMediumAd = AdConfig(AdType.SettingsNativeMediumAd, settingsNativeMediumAd),
+    quizResultInterstitialAd = AdConfig(AdType.QuizResultInterstitialAd, quizResultInterstitialAd),
+    quizResultNativeMediumAd = AdConfig(AdType.QuizResultNativeMediumAd, quizResultNativeMediumAd),
+)

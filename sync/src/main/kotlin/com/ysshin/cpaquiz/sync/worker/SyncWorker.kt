@@ -13,6 +13,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
+import com.ysshin.cpaquiz.domain.usecase.config.ConfigUseCases
 import com.ysshin.cpaquiz.domain.usecase.problem.ProblemUseCases
 import com.ysshin.cpaquiz.sync.R
 import dagger.assisted.Assisted
@@ -33,6 +34,7 @@ class SyncWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val problemUseCases: ProblemUseCases,
+    private val configUseCases: ConfigUseCases,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun getForegroundInfo(): ForegroundInfo {
@@ -41,6 +43,7 @@ class SyncWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         problemUseCases.syncRemoteProblems()
+        configUseCases.syncConfigs()
         Result.success()
     }
 
