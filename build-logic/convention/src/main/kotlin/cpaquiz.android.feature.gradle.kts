@@ -1,4 +1,5 @@
 import com.ysshin.cpaquiz.configureKotlinAndroid
+import com.ysshin.cpaquiz.libs
 
 plugins {
     id("com.android.library")
@@ -6,8 +7,6 @@ plugins {
     kotlin("kapt")
     id("kotlin-parcelize")
 }
-
-val libs: VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 android {
     configureKotlinAndroid(this)

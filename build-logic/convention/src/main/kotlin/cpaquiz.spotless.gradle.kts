@@ -1,8 +1,8 @@
+import com.ysshin.cpaquiz.libs
+
 plugins {
     id("com.diffplug.spotless")
 }
-
-val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 spotless {
     kotlin {
@@ -13,7 +13,7 @@ spotless {
                 mapOf("android" to "true"),
             )
             .customRuleSets(
-                listOf("io.nlopez.compose.rules:ktlint:0.3.7")
+                listOf("io.nlopez.compose.rules:ktlint:0.3.7"),
             )
     }
     format("kts") {
