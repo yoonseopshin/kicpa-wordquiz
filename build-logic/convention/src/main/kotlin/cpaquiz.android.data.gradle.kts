@@ -1,4 +1,5 @@
 import com.ysshin.cpaquiz.configureKotlinAndroid
+import com.ysshin.cpaquiz.libs
 
 plugins {
     id("com.android.library")
@@ -7,15 +8,12 @@ plugins {
     id("kotlin-parcelize")
 }
 
-val libs: VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
-
 android {
     configureKotlinAndroid(this)
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
 }
 
 dependencies {
