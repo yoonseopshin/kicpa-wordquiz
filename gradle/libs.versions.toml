@@ -31,6 +31,7 @@ androidx-lifecycle-runtime-compose = "2.7.0-rc01"
 androidx-customview = "1.2.0-alpha02"
 androidx-customview-poolingcontainer = "1.0.0"
 androidx-work-runtime-ktx = "2.9.0"
+androidxProfileinstaller = "1.3.1"
 material3 = "1.1.2"
 room = "2.6.1"
 
@@ -86,6 +87,7 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 androidx-customview = { group = "androidx.customview", name = "customview", version.ref = "androidx-customview" }
 androidx-customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "androidx-customview-poolingcontainer" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidx-work-runtime-ktx" }
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "androidxProfileinstaller" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -114,6 +116,7 @@ compose-material3-windowsizeclass = { group = "androidx.compose.material3", name
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "coroutines" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-text-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-text-ext-junit" }
