@@ -48,6 +48,13 @@ jobs:
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
 
+      - name: Clean Managed Devices
+        run: ./gradlew cleanManagedDevices --unused-only
+
+      - name: Generate Baseline Profile
+        run: |
+          ./gradlew generateBaselineProfile 
+
       - name: Deploy to Google Play Store
         run: bundle exec fastlane deploy
 
