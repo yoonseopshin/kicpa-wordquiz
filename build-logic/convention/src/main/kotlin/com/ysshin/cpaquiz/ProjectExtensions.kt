@@ -53,7 +53,7 @@ val Project.gitBranchOrTag: String
 val Project.projectArchivesName: String
     get() {
         val android = requireNotNull(project.extensions.findByType(AppExtension::class.java))
-        val date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"))
+        val date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))
         val outputName = buildString {
             append("CpaQuiz-v${android.defaultConfig.versionName}(${android.defaultConfig.versionCode})-$date-${project.gitBranchOrTag}(${project.gitHash})")
         }
