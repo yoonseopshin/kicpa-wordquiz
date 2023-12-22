@@ -16,5 +16,6 @@ buildscript {
         classpath(libs.spotless.gradle.plugin)
         classpath(libs.oss.licenses.plugin)
         classpath(libs.gms.google.services.plugin)
+        classpath(libs.androidx.benchmark.baseline.profile.gradle.plugin)
     }
 }

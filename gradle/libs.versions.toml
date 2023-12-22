@@ -10,8 +10,8 @@ versionName = "1.15.0"
 
 # https://developer.android.com/build/kotlin-support
 android-r8 = "8.2.33"
-android-gradle-plugin = "8.1.3"
-android-tools = "31.1.3"
+android-gradle-plugin = "8.1.4"
+android-tools = "31.2.0"
 
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 kotlin = "1.9.10"
@@ -45,7 +45,7 @@ androidx-test-espresso-core = "3.5.1"
 
 timber = "5.0.1"
 retrofit = "2.9.0"
-okhttp = "5.0.0-alpha.11"
+okhttp = "5.0.0-alpha.12"
 retrofit-kotlinx-serialization = "1.0.0"
 spotless = "6.23.3"
 versions = "0.42.0"
@@ -59,10 +59,17 @@ gms-google-services = "4.4.0"
 gms-play-services-ads = "22.6.0"
 google-play-inappreview-ktx = "2.0.1"
 
+uiautomator = "2.2.0"
+benchmarkBaselineProfileGradlePlugin = "1.2.2"
+benchmarkMacroJunit4 = "1.2.2"
+
 [libraries]
 android-r8 = { module = "com.android.tools:r8", version.ref = "android-r8" }
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "android-tools" }
+androidx-benchmark-baseline-profile-gradle-plugin = { module = "androidx.benchmark:benchmark-baseline-profile-gradle-plugin", version.ref = "benchmarkBaselineProfileGradlePlugin" }
+androidx-benchmark-macro-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }

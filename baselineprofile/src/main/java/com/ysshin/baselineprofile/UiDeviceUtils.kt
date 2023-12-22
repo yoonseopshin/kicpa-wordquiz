@@ -1,4 +1,4 @@
-package com.ysshin.benchmark
+package com.ysshin.baselineprofile
 
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.Direction

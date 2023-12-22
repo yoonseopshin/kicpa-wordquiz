@@ -12,6 +12,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("com.google.android.gms.oss-licenses-plugin")
     id("cpaquiz.spotless")
+    id("androidx.baselineprofile")
 }
 
 android {
@@ -60,7 +61,8 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks.add("release")
             isDebuggable = false
-            isMinifyEnabled = true
+            isShrinkResources = false
+            isMinifyEnabled = false
             proguardFiles("benchmark-rules.pro")
         }
     }
@@ -111,6 +113,7 @@ dependencies {
     implementation(project(":feature:quiz"))
     implementation(project(":feature:settings"))
     implementation(project(":sync"))
+    baselineProfile(project(":baselineprofile"))
 
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.windowsizeclass)
