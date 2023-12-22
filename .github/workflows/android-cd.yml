@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     name: Deploy to Google Play Store
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     if: "!contains(github.event.head_commit.message, '[skip cd]')"
 
     steps:
@@ -47,6 +47,16 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
+
+      - name: Set up Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          package: 'system-images;android-31;google_apis;x86_64'
+          script: |
+            echo no | avdmanager create avd --force -n test -k 'system-images;android-31;google_apis;x86_64'
+            emulator -avd test -no-window -no-audio -no-boot-anim &
+            android-wait-for-emulator
 
       - name: Clean Managed Devices
         run: ./gradlew cleanManagedDevices --unused-only
