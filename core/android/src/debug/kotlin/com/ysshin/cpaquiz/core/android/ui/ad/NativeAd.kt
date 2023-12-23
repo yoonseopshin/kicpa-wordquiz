@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.ysshin.cpaquiz.designsystem.animation.ShimmerAnimation
 
 @Composable
-fun NativeMediumAd() {
+fun NativeMediumAd(modifier: Modifier = Modifier) {
     ShimmerAnimation(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 300.dp),
     ) {
@@ -36,9 +36,9 @@ private fun NativeMediumAdPreview() {
 }
 
 @Composable
-fun NativeSmallAd() {
+fun NativeSmallAd(modifier: Modifier = Modifier) {
     ShimmerAnimation(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 64.dp),
     ) {

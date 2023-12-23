@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -78,6 +78,7 @@ fun SettingsRoute(
 
 @Composable
 fun SettingsScreen(
+    modifier: Modifier = Modifier,
     windowSizeClass: WindowSizeClass,
     deleteAllWrongProblems: Action,
     isSettingsNativeMediumAdEnabled: Boolean,
@@ -85,31 +86,29 @@ fun SettingsScreen(
     val snackbarHostState = LocalSnackbarHostState.current
 
     CpaBackground {
-        Column(Modifier.fillMaxSize()) {
+        Column {
             SettingsTopAppBar()
 
             SettingsLazyVerticalGrid(
+                modifier = modifier,
                 windowSizeClass = windowSizeClass,
                 snackbarHostState = snackbarHostState,
                 deleteAllWrongProblems = deleteAllWrongProblems,
+                isSettingsNativeMediumAdEnabled = isSettingsNativeMediumAdEnabled,
             )
-
-            if (isSettingsNativeMediumAdEnabled) {
-                NativeMediumAd()
-            }
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsTopAppBar() {
+private fun SettingsTopAppBar(modifier: Modifier = Modifier) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
             Text(
                 text = stringResource(id = CR.string.settings),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
             )
         },
     )
@@ -121,6 +120,7 @@ private fun SettingsLazyVerticalGrid(
     windowSizeClass: WindowSizeClass,
     snackbarHostState: SnackbarHostState,
     deleteAllWrongProblems: Action,
+    isSettingsNativeMediumAdEnabled: Boolean,
 ) {
     val context = LocalContext.current
 
@@ -187,7 +187,14 @@ private fun SettingsLazyVerticalGrid(
                 onClick = context::startCpaQuizContactActivity,
             )
         }
+
+        if (isSettingsNativeMediumAdEnabled) {
+            item(span = { GridItemSpan(numberOfColumns) }) {
+                NativeMediumAd(modifier = Modifier.padding(top = 20.dp))
+            }
+        }
     }
+
 }
 
 @Composable
