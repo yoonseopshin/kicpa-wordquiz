@@ -25,8 +25,11 @@ class BaselineProfileGenerator {
             pressHome()
             startActivityAndWait()
 
-            // Wait for network, database job
+            // Wait network call and database queries.
             device.wait(2000L)
+            device.closeNotificationRequestDialogIfOpened()
+
+            device.wait(100L)
             device.navigateQuizJourney()
 
             device.wait(100L)
