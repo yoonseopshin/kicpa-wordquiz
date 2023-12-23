@@ -11,35 +11,39 @@ fun UiDevice.wait(timeMillis: Long) {
     waitForWindowUpdate(PACKAGE_NAME, timeMillis)
 }
 
+fun UiDevice.closeNotificationRequestDialogIfOpened() {
+    findObject(By.text("닫기"))?.click()
+}
+
 fun UiDevice.navigateQuizJourney() {
     // Move to home tab
-    findObject(By.res("홈")).click()
+    findObject(By.res("홈"))?.click()
 
     // Navigate to quiz screen
-    findObject(By.res("quizCard${Random.nextInt(4)}")).click()
+    findObject(By.res("quizCard${Random.nextInt(4)}"))?.click()
 
     repeat(5) {
         wait(1000L)
-        findObject(By.res("rb${Random.nextInt(5)}")).click()
+        findObject(By.res("rb${Random.nextInt(5)}"))?.click()
         wait(500L)
-        findObject(By.res("fab")).click()
+        findObject(By.res("fab"))?.click()
     }
 
     wait(1000L)
-    findObject(By.text("확인")).click()
+    findObject(By.text("확인"))?.click()
 }
 
 fun UiDevice.navigateNoteJourney() {
     // Move to note tab
-    findObject(By.res("노트")).click()
+    findObject(By.res("노트"))?.click()
 
     wait(1000L)
 
     // Scroll LazyColumn
-    findObject(By.res("noteLazyColumn")).scroll(Direction.DOWN, 1f)
+    findObject(By.res("noteLazyColumn"))?.scroll(Direction.DOWN, 1f)
 }
 
 fun UiDevice.navigateSettingsJourney() {
     // Move to settings tab
-    findObject(By.res("설정")).click()
+    findObject(By.res("설정"))?.click()
 }
