@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -65,6 +66,7 @@ import com.ysshin.cpaquiz.core.android.R as CR
 @Composable
 fun SettingsRoute(
     windowSizeClass: WindowSizeClass,
+    modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val isSettingsNativeMediumAdEnabled by viewModel.isSettingsNativeMediumAdEnabled.collectAsStateWithLifecycle()
@@ -73,24 +75,24 @@ fun SettingsRoute(
         windowSizeClass = windowSizeClass,
         deleteAllWrongProblems = viewModel::deleteAllWrongProblems,
         isSettingsNativeMediumAdEnabled = isSettingsNativeMediumAdEnabled,
+        modifier = modifier,
     )
 }
 
 @Composable
 fun SettingsScreen(
-    modifier: Modifier = Modifier,
     windowSizeClass: WindowSizeClass,
     deleteAllWrongProblems: Action,
     isSettingsNativeMediumAdEnabled: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     val snackbarHostState = LocalSnackbarHostState.current
 
     CpaBackground {
-        Column {
+        Column(modifier = modifier.fillMaxSize()) {
             SettingsTopAppBar()
 
             SettingsLazyVerticalGrid(
-                modifier = modifier,
                 windowSizeClass = windowSizeClass,
                 snackbarHostState = snackbarHostState,
                 deleteAllWrongProblems = deleteAllWrongProblems,
@@ -102,13 +104,13 @@ fun SettingsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsTopAppBar(modifier: Modifier = Modifier) {
+private fun SettingsTopAppBar() {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
             Text(
                 text = stringResource(id = CR.string.settings),
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
             )
         },
     )
@@ -116,7 +118,6 @@ private fun SettingsTopAppBar(modifier: Modifier = Modifier) {
 
 @Composable
 private fun SettingsLazyVerticalGrid(
-    modifier: Modifier = Modifier,
     windowSizeClass: WindowSizeClass,
     snackbarHostState: SnackbarHostState,
     deleteAllWrongProblems: Action,
@@ -148,7 +149,6 @@ private fun SettingsLazyVerticalGrid(
     )
 
     LazyVerticalGrid(
-        modifier = modifier,
         contentPadding = PaddingValues(vertical = 20.dp),
         columns = GridCells.Fixed(numberOfColumns),
     ) {
@@ -194,7 +194,6 @@ private fun SettingsLazyVerticalGrid(
             }
         }
     }
-
 }
 
 @Composable
