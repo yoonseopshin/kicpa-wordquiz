@@ -1,8 +1,10 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -27,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.util.findActivity
@@ -90,17 +91,14 @@ fun QuestionViewerScreen(
                         )
                     },
                 ) { contentPadding ->
-                    Column(
+                    HorizontalQuestionPager(
                         modifier = Modifier
                             .padding(contentPadding)
-                            .verticalScroll(questionContentScrollState)
-                            .padding(bottom = 8.dp),
-                    ) {
-                        HorizontalQuestionPager(
-                            questionPagerUiState = questionPagerUiState,
-                            pagerState = pagerState,
-                        )
-                    }
+                            .fillMaxSize(),
+                        questionPagerUiState = questionPagerUiState,
+                        scrollState = questionContentScrollState,
+                        pagerState = pagerState,
+                    )
                 }
             }
         }
@@ -120,6 +118,7 @@ fun QuestionTopAppBar(currentPage: Int, totalPage: Int, modifier: Modifier = Mod
 fun HorizontalQuestionPager(
     questionPagerUiState: QuestionPagerUiState.Success,
     pagerState: PagerState,
+    scrollState: ScrollState,
     modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
@@ -127,11 +126,15 @@ fun HorizontalQuestionPager(
         state = pagerState,
         verticalAlignment = Alignment.Top,
     ) { page ->
-        val question = questionPagerUiState.getQuestion(page)
-        QuestionDetail(
-            currentQuestion = question,
-            questionClickable = false,
-            isSelectedQuestion = { position -> position == question.answer },
-        )
+        Column(
+            Modifier.verticalScroll(scrollState),
+        ) {
+            val question = questionPagerUiState.getQuestion(page)
+            QuestionDetail(
+                currentQuestion = question,
+                questionClickable = false,
+                isSelectedQuestion = { position -> position == question.answer },
+            )
+        }
     }
 }
