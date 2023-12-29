@@ -10,5 +10,4 @@ interface ConfigRepository {
     fun isSettingsNativeMediumAdEnabled(): Flow<Boolean>
     fun isQuizResultInterstitialAdEnabled(): Flow<Boolean>
     fun isQuizResultNativeMediumAdEnabled(): Flow<Boolean>
-
 }

@@ -14,5 +14,4 @@ class GetShouldShowInterstitialAd(
         configRepository.isQuizResultInterstitialAdEnabled(),
         Boolean::and,
     )
-
 }
