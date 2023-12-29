@@ -27,5 +27,4 @@ class ConfigRepositoryImpl @Inject constructor(
 
     override fun isQuizResultNativeMediumAdEnabled() =
         appPreferenceDataSource.isQuizResultNativeMediumAdEnabled
-
 }
