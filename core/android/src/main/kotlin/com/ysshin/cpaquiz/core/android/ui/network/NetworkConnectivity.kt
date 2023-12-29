@@ -40,15 +40,15 @@ import com.ysshin.cpaquiz.designsystem.theme.systemBarColor
 import kotlinx.coroutines.delay
 
 @Composable
-fun NetworkConnectivityStatusBox(isOffline: Boolean) {
+fun NetworkConnectivityStatusBox(isOffline: Boolean, modifier: Modifier = Modifier) {
     var isVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(isOffline) {
-        if (isOffline) {
-            isVisible = true
+        isVisible = if (isOffline) {
+            true
         } else {
             delay(2000L)
-            isVisible = false
+            false
         }
     }
     val backgroundColor by animateColorAsState(
@@ -57,6 +57,7 @@ fun NetworkConnectivityStatusBox(isOffline: Boolean) {
         } else {
             MaterialTheme.colorScheme.primary
         },
+        label = "NetworkBackgroundColor",
     )
     val backgroundTint by animateColorAsState(
         targetValue = if (isOffline) {
@@ -64,6 +65,7 @@ fun NetworkConnectivityStatusBox(isOffline: Boolean) {
         } else {
             MaterialTheme.colorScheme.onPrimary
         },
+        label = "NetworkBackgroundTint",
     )
     val iconVector = if (isOffline) {
         Icons.Rounded.Warning
@@ -90,7 +92,7 @@ fun NetworkConnectivityStatusBox(isOffline: Boolean) {
         ),
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .background(backgroundColor)
                 .fillMaxWidth()
                 .padding(vertical = 2.dp),
@@ -113,9 +115,9 @@ fun NetworkConnectivityStatusBox(isOffline: Boolean) {
 
 @Composable
 private fun StatusBarByNetworkConnectivity(
-    isDarkTheme: Boolean = isSystemInDarkTheme(),
     isOffline: Boolean,
     isNetworkStatusVisible: Boolean,
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
 ) {
     val statusBarBackgroundColor by animateColorAsState(
         targetValue = if (isOffline) {
@@ -127,6 +129,7 @@ private fun StatusBarByNetworkConnectivity(
                 MaterialTheme.colorScheme.systemBarColor()
             }
         },
+        label = "NetworkStatusBarBackgroundColor",
     )
     val isAppearanceLightStatusBars = if (isOffline) {
         isDarkTheme

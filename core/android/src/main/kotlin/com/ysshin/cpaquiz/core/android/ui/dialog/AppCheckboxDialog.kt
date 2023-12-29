@@ -20,6 +20,7 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,16 +47,19 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SelectableTextItem(val text: String, val isSelected: Boolean) : Parcelable
 
+@Immutable
+data class SelectableTextItems(val items: List<SelectableTextItem>)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppCheckboxDialog(
-    modifier: Modifier = Modifier,
-    onConfirm: Consumer<List<SelectableTextItem>> = {},
-    onDismiss: Action = {},
+    onConfirm: Consumer<SelectableTextItems>,
+    onDismiss: Action,
     icon: CpaIcon,
     title: String,
     description: String,
-    selectableItems: List<SelectableTextItem>,
+    selectableItems: SelectableTextItems,
+    modifier: Modifier = Modifier,
     confirmText: String = stringResource(id = R.string.confirm),
     dismissText: String = stringResource(id = R.string.cancel),
     dialogType: AppDialogType = AppDialogType.ConfirmDismiss,
@@ -65,12 +69,12 @@ fun AppCheckboxDialog(
 
         Card(
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
+            modifier = modifier
                 .padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
                 .verticalScroll(state = verticalScrollState),
         ) {
             Column(
-                modifier.background(MaterialTheme.colorScheme.surface),
+                Modifier.background(MaterialTheme.colorScheme.surface),
             ) {
                 CpaIcon(
                     icon = icon,
@@ -101,7 +105,7 @@ fun AppCheckboxDialog(
                     )
                 }
 
-                var items by remember { mutableStateOf(selectableItems) }
+                var items by remember { mutableStateOf(selectableItems.items) }
 
                 FlowRow(
                     mainAxisAlignment = MainAxisAlignment.Center,
@@ -146,7 +150,7 @@ fun AppCheckboxDialog(
                             )
                         }
                     }
-                    TextButton(onClick = { onConfirm(items) }) {
+                    TextButton(onClick = { onConfirm(SelectableTextItems(items)) }) {
                         Text(
                             text = confirmText,
                             style = Typography.labelLarge,
@@ -166,9 +170,13 @@ private fun YearFilterDialogPreview() {
         icon = CpaIcons.Filter,
         title = stringResource(id = R.string.year),
         description = stringResource(id = R.string.choose_filtered_years),
-        selectableItems = (2016..2023).map {
-            SelectableTextItem("$it", false)
-        },
+        selectableItems = SelectableTextItems(
+            (2016..2023).map {
+                SelectableTextItem("$it", false)
+            },
+        ),
+        onConfirm = {},
+        onDismiss = {},
     )
 }
 
@@ -179,6 +187,10 @@ private fun QuizTypeFilterDialogPreview() {
         icon = CpaIcons.Filter,
         title = stringResource(id = R.string.quiz),
         description = stringResource(id = R.string.choose_filtered_types),
-        selectableItems = QuizType.all().map { SelectableTextItem(it.toKorean(), false) },
+        selectableItems = SelectableTextItems(
+            QuizType.all().map { SelectableTextItem(it.toKorean(), false) },
+        ),
+        onConfirm = {},
+        onDismiss = {},
     )
 }

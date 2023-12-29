@@ -38,15 +38,15 @@ import com.ysshin.cpaquiz.designsystem.theme.Typography
 
 @Composable
 fun AppNumberPickerDialog(
-    modifier: Modifier = Modifier,
     onConfirm: Consumer<Int>,
-    onDismiss: Action = {},
+    onDismiss: Action,
     minNumber: Int,
     maxNumber: Int,
     defaultNumber: Int,
     icon: CpaIcon,
     title: String,
     description: String,
+    modifier: Modifier = Modifier,
     confirmText: String = stringResource(id = R.string.confirm),
     dismissText: String = stringResource(id = R.string.cancel),
     dialogType: AppDialogType = AppDialogType.ConfirmDismiss,
@@ -56,12 +56,12 @@ fun AppNumberPickerDialog(
 
         Card(
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
+            modifier = modifier
                 .padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
                 .verticalScroll(scrollState),
         ) {
             Column(
-                modifier.background(MaterialTheme.colorScheme.surface),
+                Modifier.background(MaterialTheme.colorScheme.surface),
             ) {
                 CpaIcon(
                     icon = icon,
@@ -158,5 +158,6 @@ private fun AppNumberPickerDialogPreview() {
         title = stringResource(id = R.string.quiz_number_picker_title),
         description = stringResource(id = R.string.quiz_number_picker_description),
         onConfirm = {},
+        onDismiss = {},
     )
 }

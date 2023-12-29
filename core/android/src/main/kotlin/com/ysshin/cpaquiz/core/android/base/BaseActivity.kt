@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
         To see quick turnaround of the ProfileVerifier, we recommend using `speed-profile`.
         If you don't do either of these steps, you might only see the profile status reported as
         "enqueued for compilation" when running the sample locally.
-        */
+         */
         withContext(Dispatchers.IO) {
             val status = ProfileVerifier.getCompilationStatusAsync().await()
 
@@ -66,5 +66,4 @@ abstract class BaseActivity : AppCompatActivity() {
             )
         }
     }
-
 }

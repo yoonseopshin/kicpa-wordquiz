@@ -66,12 +66,12 @@ private fun BoxScope.NativeMediumAdError() {
 }
 
 @Composable
-fun NativeMediumAd() {
+fun NativeMediumAd(modifier: Modifier = Modifier) {
     var adState by rememberSaveable {
         mutableStateOf(AdState.Loading)
     }
 
-    Box(modifier = Modifier.defaultMinSize(minHeight = 300.dp)) {
+    Box(modifier = modifier.defaultMinSize(minHeight = 300.dp)) {
         when (adState) {
             AdState.Loading -> CpaLoadingWheel(
                 contentDesc = "Loading",
@@ -206,12 +206,12 @@ private fun BoxScope.NativeSmallAdError() {
 }
 
 @Composable
-fun NativeSmallAd() {
+fun NativeSmallAd(modifier: Modifier = Modifier) {
     var adState by rememberSaveable {
         mutableStateOf(AdState.Loading)
     }
 
-    Box(modifier = Modifier.defaultMinSize(minHeight = 64.dp)) {
+    Box(modifier = modifier.defaultMinSize(minHeight = 64.dp)) {
         when (adState) {
             AdState.Loading -> CpaLoadingWheel(
                 contentDesc = "Loading",

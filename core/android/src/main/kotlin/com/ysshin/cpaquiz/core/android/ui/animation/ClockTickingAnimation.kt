@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ClockTickingAnimation(
-    modifier: Modifier,
     timeMillis: Long,
     clockSize: Dp,
     clockEndOffset: Dp,
@@ -29,6 +28,7 @@ fun ClockTickingAnimation(
     clockHandColor: Color,
     clockHandStroke: Dp,
     content: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val rotationPerSecond = 360f
     val secondProgress by updateTransition(

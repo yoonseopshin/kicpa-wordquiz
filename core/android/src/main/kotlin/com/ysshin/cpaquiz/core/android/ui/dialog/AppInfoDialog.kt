@@ -31,12 +31,12 @@ import com.ysshin.cpaquiz.designsystem.theme.Typography
 
 @Composable
 fun AppInfoDialog(
-    modifier: Modifier = Modifier,
-    onConfirm: Action = {},
-    onDismiss: Action = {},
+    onConfirm: Action,
+    onDismiss: Action,
     icon: CpaIcon,
     title: String,
     description: String,
+    modifier: Modifier = Modifier,
     confirmText: String = stringResource(id = R.string.confirm),
     dismissText: String = stringResource(id = R.string.cancel),
     dialogType: AppDialogType = AppDialogType.ConfirmDismiss,
@@ -46,12 +46,12 @@ fun AppInfoDialog(
 
         Card(
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
+            modifier = modifier
                 .padding(start = 12.dp, top = 4.dp, end = 12.dp, bottom = 12.dp)
                 .verticalScroll(scrollState),
         ) {
             Column(
-                modifier.background(MaterialTheme.colorScheme.surface),
+                Modifier.background(MaterialTheme.colorScheme.surface),
             ) {
                 CpaIcon(
                     icon = icon,
@@ -122,5 +122,7 @@ private fun AppInfoDialogPreview() {
             BuildConfig.APP_VERSION_CODE,
         ),
         dialogType = AppDialogType.OnlyConfirm,
+        onConfirm = {},
+        onDismiss = {},
     )
 }
