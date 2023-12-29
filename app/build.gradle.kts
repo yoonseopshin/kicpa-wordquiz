@@ -133,4 +133,6 @@ dependencies {
     implementation(libs.firebase.messaging)
 
     debugImplementation(libs.leakcanary)
+
+    implementation(libs.kotlinx.collections.immutable)
 }

@@ -20,6 +20,7 @@ import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.NoteDestination
 import com.ysshin.cpaquiz.feature.settings.presentation.navigation.SettingsDestination
 import com.ysshin.cpaquiz.presentation.navigation.TopLevelDestination
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -55,7 +56,7 @@ class CpaQuizAppState(
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
-    val topLevelDestinations = listOf(
+    val topLevelDestinations = persistentListOf(
         TopLevelDestination(
             route = HomeDestination.route,
             destination = HomeDestination.destination,
@@ -108,5 +109,4 @@ class CpaQuizAppState(
             navController.navigate(destination.route)
         }
     }
-
 }

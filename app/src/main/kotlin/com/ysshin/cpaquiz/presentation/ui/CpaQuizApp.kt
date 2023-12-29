@@ -59,19 +59,20 @@ import com.ysshin.cpaquiz.presentation.MainViewModel
 import com.ysshin.cpaquiz.presentation.PostNotificationUiState
 import com.ysshin.cpaquiz.presentation.navigation.CpaQuizNavHost
 import com.ysshin.cpaquiz.presentation.navigation.TopLevelDestination
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CpaQuizApp(appState: CpaQuizAppState) {
+fun CpaQuizApp(appState: CpaQuizAppState, modifier: Modifier = Modifier) {
     val snackbarHostState = LocalSnackbarHostState.current
     val isOffline by appState.isOffline.collectAsStateWithLifecycle()
 
     RequestPostNotificationsPermission(snackbarHostState)
 
     Scaffold(
-        modifier = Modifier.resourceTestTag("appScaffold"),
+        modifier = modifier.resourceTestTag("appScaffold"),
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
         bottomBar = {
@@ -214,7 +215,7 @@ private fun RequestPostNotificationsPermission(
 
 @Composable
 private fun CpaQuizBottomBar(
-    destinations: List<TopLevelDestination>,
+    destinations: ImmutableList<TopLevelDestination>,
     onNavigateToDestination: Consumer<TopLevelDestination>,
     currentDestination: NavDestination?,
 ) {
@@ -253,7 +254,7 @@ private fun CpaQuizBottomBar(
 
 @Composable
 private fun CpaQuizNavigationRail(
-    destinations: List<TopLevelDestination>,
+    destinations: ImmutableList<TopLevelDestination>,
     onNavigateToDestination: Consumer<TopLevelDestination>,
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
