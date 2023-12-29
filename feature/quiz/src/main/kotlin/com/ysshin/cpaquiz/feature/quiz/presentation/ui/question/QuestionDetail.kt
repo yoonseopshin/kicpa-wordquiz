@@ -1,3 +1,4 @@
+
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui.question
 
 import androidx.compose.foundation.background
@@ -70,13 +71,13 @@ fun QuestionDetail(
             top = 8.dp,
         ),
     ) {
-        Column(modifier = modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
+        Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)) {
             Box(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 LazyRow(
                     horizontalArrangement = Arrangement.Start,
-                    modifier = modifier.align(Alignment.TopStart),
+                    modifier = Modifier.align(Alignment.TopStart),
                 ) {
                     item {
                         val assistChipContainerColor = DayNightGray100A
@@ -256,7 +257,7 @@ fun QuestionDetail(
 
 @Preview(showBackground = true)
 @Composable
-fun QuestionDetailPreview() {
+private fun QuestionDetailPreview() {
     QuestionDetail(
         currentQuestion = Problem(
             year = 2022,
@@ -275,7 +276,7 @@ fun QuestionDetailPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun QuestionDetailHangeulPreview() {
+private fun QuestionDetailHangeulPreview() {
     QuestionDetail(
         currentQuestion = Problem(
             year = 2022,

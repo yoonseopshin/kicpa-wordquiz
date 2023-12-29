@@ -42,7 +42,10 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
+fun QuestionViewerScreen(
+    modifier: Modifier = Modifier,
+    viewModel: QuestionViewerViewModel = hiltViewModel(),
+) {
     val questionPagerUiState = viewModel.questionPagerUiState.collectAsStateWithLifecycle().value
 
     val context = LocalContext.current
@@ -69,7 +72,7 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
 
             CpaQuizTheme {
                 Scaffold(
-                    modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+                    modifier = modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
                     topBar = {
                         TopAppBar(
                             title = {
@@ -105,8 +108,8 @@ fun QuestionViewerScreen(viewModel: QuestionViewerViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun QuestionTopAppBar(currentPage: Int, totalPage: Int) {
-    Row {
+fun QuestionTopAppBar(currentPage: Int, totalPage: Int, modifier: Modifier = Modifier) {
+    Row(modifier = modifier) {
         AnimatedCountText(count = currentPage + 1)
         Text(text = "/$totalPage")
     }
@@ -114,8 +117,13 @@ fun QuestionTopAppBar(currentPage: Int, totalPage: Int) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizontalQuestionPager(questionPagerUiState: QuestionPagerUiState.Success, pagerState: PagerState) {
+fun HorizontalQuestionPager(
+    questionPagerUiState: QuestionPagerUiState.Success,
+    pagerState: PagerState,
+    modifier: Modifier = Modifier,
+) {
     HorizontalPager(
+        modifier = modifier,
         state = pagerState,
         verticalAlignment = Alignment.Top,
     ) { page ->

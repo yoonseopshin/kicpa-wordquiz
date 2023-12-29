@@ -85,7 +85,6 @@ fun SettingsScreen(
     deleteAllWrongProblems: Action,
     isSettingsNativeMediumAdEnabled: Boolean,
     modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState = LocalSnackbarHostState.current
 ) {
     CpaBackground {
         Column(modifier = modifier.fillMaxSize()) {
@@ -93,7 +92,6 @@ fun SettingsScreen(
 
             SettingsLazyVerticalGrid(
                 windowSizeClass = windowSizeClass,
-                snackbarHostState = snackbarHostState,
                 deleteAllWrongProblems = deleteAllWrongProblems,
                 isSettingsNativeMediumAdEnabled = isSettingsNativeMediumAdEnabled,
             )
@@ -118,11 +116,11 @@ private fun SettingsTopAppBar() {
 @Composable
 private fun SettingsLazyVerticalGrid(
     windowSizeClass: WindowSizeClass,
-    snackbarHostState: SnackbarHostState,
     deleteAllWrongProblems: Action,
     isSettingsNativeMediumAdEnabled: Boolean,
 ) {
     val context = LocalContext.current
+    val snackbarHostState = LocalSnackbarHostState.current
 
     val numberOfColumns = when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Medium, WindowWidthSizeClass.Expanded -> 2

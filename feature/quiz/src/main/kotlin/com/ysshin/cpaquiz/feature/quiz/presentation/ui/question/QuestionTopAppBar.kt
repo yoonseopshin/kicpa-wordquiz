@@ -12,8 +12,8 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.ysshin.cpaquiz.core.android.R
+import com.ysshin.cpaquiz.designsystem.component.PreviewLightDark
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
@@ -30,8 +30,10 @@ fun QuestionTopAppBar(
     elapsedTime: () -> Long,
     onBackClick: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
+    modifier: Modifier = Modifier,
 ) {
     TopAppBar(
+        modifier = modifier,
         title = {
             if (isVisible) {
                 Column {
@@ -62,7 +64,7 @@ fun QuestionTopAppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview(showBackground = true)
+@PreviewLightDark
 private fun QuestionTopAppBarPreview() {
     CpaQuizTheme {
         QuestionTopAppBar(

@@ -1,7 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 
 import android.app.Activity
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +27,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -36,6 +34,7 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeMediumAd
 import com.ysshin.cpaquiz.core.android.util.TimeFormatter
 import com.ysshin.cpaquiz.core.android.util.findActivity
+import com.ysshin.cpaquiz.designsystem.component.PreviewLightDark
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.domain.model.ProblemSource
@@ -50,6 +49,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quizresult.QuizResult
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryContent
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryDivider
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryHeader
+import kotlinx.collections.immutable.persistentListOf
 import kotlin.math.roundToInt
 
 @Composable
@@ -84,6 +84,7 @@ fun QuizResultRoute(
 fun QuizResultScreen(
     quizResultUiState: QuizResultUiState,
     isQuizResultNativeMediumAdEnabled: Boolean,
+    modifier: Modifier = Modifier,
     onConfirmClick: () -> Unit = {},
     onProblemClick: (Problem, List<Problem>) -> Unit = { _, _ -> },
     showInterstitialAd: () -> Unit = {},
@@ -111,6 +112,7 @@ fun QuizResultScreen(
     }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             QuizResultTopAppBar(
                 quizResultUiState = quizResultUiState,
@@ -220,7 +222,7 @@ fun QuizResultScreen(
     }
 }
 
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewLightDark
 @Composable
 private fun QuizResultScreenPreview() {
     val quizResultUiState = QuizResultUiState.Success(
@@ -228,7 +230,7 @@ private fun QuizResultScreenPreview() {
         shouldRequestInAppReview = false,
         shouldShowInterstitialAd = false,
         selectedIndices = listOf(1, 2, 3),
-        solvedQuestions = listOf(
+        solvedQuestions = persistentListOf(
             ProblemModel(
                 year = 2021,
                 pid = 14,

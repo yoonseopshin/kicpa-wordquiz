@@ -1,6 +1,5 @@
 package com.ysshin.cpaquiz.presentation.ui
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -17,7 +16,6 @@ import com.ysshin.core.navigation.CpaQuizNavigationDestination
 import com.ysshin.cpaquiz.core.android.R
 import com.ysshin.cpaquiz.data.util.NetworkMonitor
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
-import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
 import com.ysshin.cpaquiz.feature.home.presentation.navigation.HomeDestination
 import com.ysshin.cpaquiz.feature.quiz.presentation.navigation.NoteDestination
 import com.ysshin.cpaquiz.feature.settings.presentation.navigation.SettingsDestination
@@ -34,7 +32,6 @@ fun rememberCpaQuizAppState(
     startDestination: String,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
-    snackbarHostState: SnackbarHostState = LocalSnackbarHostState.current,
 ): CpaQuizAppState {
     return remember(navController) {
         CpaQuizAppState(
@@ -43,7 +40,6 @@ fun rememberCpaQuizAppState(
             windowSizeClass = windowSizeClass,
             networkMonitor = networkMonitor,
             startDestination = startDestination,
-            snackbarHostState = snackbarHostState,
         )
     }
 }
@@ -55,7 +51,6 @@ class CpaQuizAppState(
     val windowSizeClass: WindowSizeClass,
     networkMonitor: NetworkMonitor,
     val startDestination: String,
-    val snackbarHostState: SnackbarHostState,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination

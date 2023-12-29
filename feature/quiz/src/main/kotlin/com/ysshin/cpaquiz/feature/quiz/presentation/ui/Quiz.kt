@@ -71,7 +71,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
+fun QuizScreen(modifier: Modifier = Modifier, viewModel: QuizViewModel = hiltViewModel()) {
     // State
     val numOfSolvedQuestion = viewModel.numOfSolvedQuestions.collectAsStateWithLifecycle()
     val numOfTotalQuestion = viewModel.numOfTotalQuestions.collectAsStateWithLifecycle()
@@ -150,7 +150,7 @@ fun QuizScreen(viewModel: QuizViewModel = hiltViewModel()) {
 
     CpaQuizTheme {
         Scaffold(
-            modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+            modifier = modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             topBar = {
                 QuizTopAppBar(
@@ -230,8 +230,10 @@ fun QuizTopAppBar(
     elapsedTime: () -> Long,
     onBackClick: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
+    modifier: Modifier = Modifier,
 ) {
     TopAppBar(
+        modifier = modifier,
         title = {
             Column {
                 Text(
@@ -280,6 +282,7 @@ fun QuizFloatingActionButton(
     areFabAndQuizDetailScreenOverlapped: Boolean,
     onFabGloballyPositioned: (coordinates: LayoutCoordinates) -> Unit,
     onFabClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val fabElevation =
         if (areFabAndQuizDetailScreenOverlapped) {
@@ -294,7 +297,7 @@ fun QuizFloatingActionButton(
         }
 
     FloatingActionButton(
-        modifier = Modifier
+        modifier = modifier
             .resourceTestTag("fab")
             .bounceClickable(useHapticFeedback = false)
             .padding(16.dp)

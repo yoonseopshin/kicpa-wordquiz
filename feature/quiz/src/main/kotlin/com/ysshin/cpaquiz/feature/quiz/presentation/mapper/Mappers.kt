@@ -3,6 +3,8 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.mapper
 import com.ysshin.cpaquiz.domain.model.Problem
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.WrongProblemModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 fun Problem.toModel() = ProblemModel(
     year = year,
@@ -29,7 +31,7 @@ fun ProblemModel.toDomain() = Problem(
 )
 
 @JvmName("problemModelListToDomain")
-fun List<ProblemModel>.toDomain() = map { it.toDomain() }
+fun List<ProblemModel>.toDomain(): ImmutableList<Problem> = map { it.toDomain() }.toImmutableList()
 
 @JvmName("problemListToModel")
 fun List<Problem>.toModel() = map { it.toModel() }

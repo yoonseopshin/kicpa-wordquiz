@@ -36,4 +36,6 @@ dependencies {
     add("implementation", platform(libs.findLibrary("androidx.compose.bom").get()))
     add("implementation", libs.findLibrary("compose.material3").get())
     add("implementation", libs.findLibrary("compose.material3.windowsizeclass").get())
+
+    add("implementation", libs.findLibrary("kotlinx.collections.immutable").get())
 }

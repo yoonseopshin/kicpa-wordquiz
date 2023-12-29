@@ -21,8 +21,8 @@ private fun ClockPreview() {
 }
 
 @Composable
-fun Clock(useTimer: Boolean, elapsedTime: Long) {
-    Box(contentAlignment = Alignment.BottomStart) {
+fun Clock(useTimer: Boolean, elapsedTime: Long, modifier: Modifier = Modifier) {
+    Box(modifier = modifier, contentAlignment = Alignment.BottomStart) {
         if (useTimer) {
             ClockTickingAnimation(
                 modifier = Modifier.padding(16.dp),

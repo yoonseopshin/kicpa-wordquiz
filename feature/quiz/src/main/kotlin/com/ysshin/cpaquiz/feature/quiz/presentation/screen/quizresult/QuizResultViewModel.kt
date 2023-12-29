@@ -14,6 +14,8 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.model.ProblemModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -38,12 +40,13 @@ class QuizResultViewModel @Inject constructor(
     private val _solvedQuestions =
         handle.getStateFlow<ArrayList<ProblemModel>>(QuizConstants.PROBLEMS, ArrayList())
 
-    val isQuizResultNativeMediumAdEnabled = configUseCases.getAdConfig(AdType.QuizResultNativeMediumAd)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = true,
-        )
+    val isQuizResultNativeMediumAdEnabled =
+        configUseCases.getAdConfig(AdType.QuizResultNativeMediumAd)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = true,
+            )
 
     val quizResultUiState: StateFlow<QuizResultUiState> =
         combine(
@@ -64,7 +67,7 @@ class QuizResultViewModel @Inject constructor(
                 shouldRequestInAppReview = shouldRequestInAppReview,
                 shouldShowInterstitialAd = shouldShowInterstitialAd,
                 selectedIndices = selected,
-                solvedQuestions = currentSolved,
+                solvedQuestions = currentSolved.toImmutableList(),
             )
         }
             .stateIn(
@@ -95,6 +98,6 @@ sealed interface QuizResultUiState {
         val shouldRequestInAppReview: Boolean,
         val shouldShowInterstitialAd: Boolean,
         val selectedIndices: List<Int>,
-        val solvedQuestions: List<ProblemModel>,
+        val solvedQuestions: ImmutableList<ProblemModel>,
     ) : QuizResultUiState
 }

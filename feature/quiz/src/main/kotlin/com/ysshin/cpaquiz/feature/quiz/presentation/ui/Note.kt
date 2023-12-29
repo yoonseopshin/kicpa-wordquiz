@@ -3,7 +3,6 @@ package com.ysshin.cpaquiz.feature.quiz.presentation.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -26,6 +25,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -134,6 +134,7 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionDetail
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryContent
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryDivider
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionSummaryHeader
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -181,6 +182,7 @@ fun NoteScreen(
     deleteAllWrongProblems: Action,
     deleteTargetWrongProblem: Consumer<Problem>,
     setSelectedQuestion: (Problem?) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -197,6 +199,7 @@ fun NoteScreen(
     }
 
     Scaffold(
+        modifier = modifier,
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             NoteTopAppBar(
@@ -214,7 +217,7 @@ fun NoteScreen(
         },
     ) { padding ->
         val shouldShowAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact &&
-                isNoteNativeSmallAdEnabled
+            isNoteNativeSmallAdEnabled
 
         Column(modifier = Modifier.padding(padding)) {
             AnimatedVisibility(
@@ -391,10 +394,8 @@ fun NoteScreen(
 }
 
 @Composable
-fun NoSelectedQuestionScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+fun NoSelectedQuestionScreen(modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxSize()) {
         val minSize = 100.dp
         val maxSize = 140.dp
         CpaIcon(
@@ -474,7 +475,7 @@ private fun LazyListScope.onSearchingContent(
             SearchedNoteHeaderContent(uiState, windowSizeClass)
         }
 
-        val items = uiState.data
+        val items = uiState.data.toImmutableList()
         itemsIndexed(items = items) { index, problem ->
             QuestionSummaryContent(
                 problem = problem,
@@ -485,7 +486,7 @@ private fun LazyListScope.onSearchingContent(
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
-                QuestionSummaryDivider(windowSizeClass)
+                QuestionSummaryDivider(windowSizeClass = windowSizeClass)
             }
         }
     }
@@ -663,7 +664,7 @@ private fun LazyListScope.wrongProblemsContent(
                         QuestionSummaryContent(
                             modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
                             problem = problem,
-                            totalProblems = uiState.data,
+                            totalProblems = uiState.data.toImmutableList(),
                             windowSizeClass = windowSizeClass,
                             onProblemClick = onProblemClick,
                             onProblemLongClick = {
@@ -686,7 +687,7 @@ private fun LazyListScope.wrongProblemsContent(
             )
 
             if (index < items.lastIndex) {
-                QuestionSummaryDivider(windowSizeClass)
+                QuestionSummaryDivider(windowSizeClass = windowSizeClass)
             }
         }
     }
@@ -706,7 +707,7 @@ private fun LazyListScope.totalProblemsContent(
             TotalNoteHeaderContent(uiState, windowSizeClass)
         }
 
-        val items = uiState.data
+        val items = uiState.data.toImmutableList()
         itemsIndexed(items = items) { index, problem ->
             QuestionSummaryContent(
                 problem = problem,
@@ -717,7 +718,7 @@ private fun LazyListScope.totalProblemsContent(
             ).takeIf { problem.isValid() }
 
             if (index < items.lastIndex) {
-                QuestionSummaryDivider(windowSizeClass)
+                QuestionSummaryDivider(windowSizeClass = windowSizeClass)
             }
         }
     }
@@ -1072,9 +1073,8 @@ private fun NoteSearchMenuContent(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-private fun NoteTopMenu(
+private fun RowScope.NoteTopMenu(
     isMenuOpened: Boolean,
     toggleMenu: Consumer<NoteMenuContent>,
     noteMenuContent: NoteMenuContent,
@@ -1089,8 +1089,8 @@ private fun NoteTopMenu(
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically),
     ) {
         AssistChip(
-            onClick = { updateSearchKeyword("") },
             modifier = Modifier.padding(all = 4.dp),
+            onClick = { updateSearchKeyword("") },
             leadingIcon = {
                 CpaIcon(
                     icon = CpaIcons.SearchOff,
@@ -1111,7 +1111,8 @@ private fun NoteTopMenu(
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically),
     ) {
         AssistChip(
-            onClick = { clearFilter() }, modifier = Modifier.padding(all = 4.dp),
+            modifier = Modifier.padding(all = 4.dp),
+            onClick = { clearFilter() },
             label = {
                 Text(text = stringResource(id = CR.string.clear_filter))
             },
@@ -1246,7 +1247,7 @@ private fun NoteTopMenu(
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)
 @Composable
-fun NoteScreenViewPreview() {
+private fun NoteScreenViewPreview() {
     CpaQuizTheme {
         BoxWithConstraints {
             NoteScreen(

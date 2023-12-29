@@ -1,7 +1,6 @@
 package com.ysshin.cpaquiz.feature.quiz.presentation.ui.question
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -59,14 +58,15 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.mapper.toDomain
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.main.DeleteWrongProblemDialog
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.widthBySplit
 import com.ysshin.cpaquiz.feature.quiz.presentation.util.QuizUtil
+import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(
     ExperimentalFoundationApi::class,
     ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class,
 )
 @Composable
 fun QuestionSummaryHeader(
+    modifier: Modifier = Modifier,
     windowSizeClass: WindowSizeClass? = null,
     title: String = "",
     numOfProblems: Int = 0,
@@ -82,7 +82,7 @@ fun QuestionSummaryHeader(
 
     Column(
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier
+        modifier = modifier
             .combinedClickable(
                 onClick = onHeaderClick,
                 onLongClick = {
@@ -127,10 +127,10 @@ fun QuestionSummaryHeader(
 @Composable
 fun LazyItemScope.QuestionSummaryContent(
     problem: Problem,
-    totalProblems: List<Problem>,
+    totalProblems: ImmutableList<Problem>,
     modifier: Modifier = Modifier,
     windowSizeClass: WindowSizeClass? = null,
-    onProblemClick: ((Problem, List<Problem>) -> Unit)? = null,
+    onProblemClick: ((Problem, ImmutableList<Problem>) -> Unit)? = null,
     onProblemLongClick: (() -> Unit)? = null,
     isDeleteWrongProblemDialogOpened: DeleteWrongProblemDialog? = null,
     updateDeletingWrongProblemDialogOpened: ((DeleteWrongProblemDialog) -> Unit)? = null,
@@ -286,14 +286,17 @@ fun LazyItemScope.QuestionSummaryContent(
 }
 
 @Composable
-fun QuestionSummaryDivider(windowSizeClass: WindowSizeClass? = null) {
+fun QuestionSummaryDivider(
+    modifier: Modifier = Modifier,
+    windowSizeClass: WindowSizeClass? = null,
+) {
     val useSplitScreen = if (windowSizeClass == null) {
         false
     } else {
         windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
     }
     Divider(
-        modifier = Modifier
+        modifier = modifier
             .widthBySplit(useSplitScreen)
             .padding(horizontal = 12.dp),
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
