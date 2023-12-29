@@ -124,9 +124,9 @@ fun CpaOverlayLoadingWheel(contentDesc: String, modifier: Modifier = Modifier) {
     }
 }
 
-@ThemePreviews
+@PreviewLightDark
 @Composable
-fun NiaLoadingWheelPreview() {
+private fun NiaLoadingWheelPreview() {
     CpaQuizTheme {
         Surface {
             CpaLoadingWheel(contentDesc = "LoadingWheel")
@@ -134,9 +134,9 @@ fun NiaLoadingWheelPreview() {
     }
 }
 
-@ThemePreviews
+@PreviewLightDark
 @Composable
-fun CpaOverlayLoadingWheelPreview() {
+private fun CpaOverlayLoadingWheelPreview() {
     CpaQuizTheme {
         Surface {
             CpaOverlayLoadingWheel(contentDesc = "LoadingWheel")

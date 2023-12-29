@@ -38,6 +38,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -99,6 +100,7 @@ import com.ysshin.cpaquiz.core.android.R as CR
 fun HomeRoute(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState = LocalSnackbarHostState.current,
 ) {
     val homeQuizUiState by viewModel.homeQuizUiState.collectAsStateWithLifecycle()
     val homeInfoUiState by viewModel.homeInfoUiState.collectAsStateWithLifecycle()
@@ -108,7 +110,6 @@ fun HomeRoute(
     val activity = context.findActivity()
     val appContext = context.applicationContext
     val scope = rememberCoroutineScope()
-    val snackbarHostState = LocalSnackbarHostState.current
 
     HomeScreen(
         homeQuizUiState = homeQuizUiState,

@@ -54,7 +54,6 @@ import com.ysshin.cpaquiz.core.android.ui.network.NetworkConnectivityStatusBox
 import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcon
 import com.ysshin.cpaquiz.designsystem.icon.CpaIcons
-import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
 import com.ysshin.cpaquiz.presentation.MainViewModel
 import com.ysshin.cpaquiz.presentation.PostNotificationUiState
 import com.ysshin.cpaquiz.presentation.navigation.CpaQuizNavHost
@@ -65,7 +64,7 @@ import timber.log.Timber
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CpaQuizApp(appState: CpaQuizAppState) {
-    val snackbarHostState = LocalSnackbarHostState.current
+    val snackbarHostState = appState.snackbarHostState
     val isOffline by appState.isOffline.collectAsStateWithLifecycle()
 
     RequestPostNotificationsPermission(snackbarHostState)

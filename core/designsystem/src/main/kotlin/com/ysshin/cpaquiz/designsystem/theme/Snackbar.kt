@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:compose:compositionlocal-allowlist")
+
 package com.ysshin.cpaquiz.designsystem.theme
 
 import androidx.compose.material3.SnackbarHostState

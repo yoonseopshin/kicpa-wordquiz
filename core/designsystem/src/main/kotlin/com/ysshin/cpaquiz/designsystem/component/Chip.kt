@@ -12,14 +12,13 @@ import androidx.compose.ui.draw.alpha
 
 @Composable
 fun NotClickableAssistedChip(
-    modifier: Modifier = Modifier,
     label: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
     colors: ChipColors = AssistChipDefaults.assistChipColors(),
     border: ChipBorder? = AssistChipDefaults.assistChipBorder(),
 ) {
-    Box {
+    Box(modifier = modifier) {
         AssistChip(
-            modifier = modifier,
             onClick = {},
             label = label,
             colors = colors,

@@ -20,16 +20,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.ysshin.cpaquiz.designsystem.component.ThemePreviews
+import com.ysshin.cpaquiz.designsystem.component.PreviewLightDark
 import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.designsystem.theme.shimmerColorShades
 
 @Composable
-fun ShimmerAnimation(modifier: Modifier, content: @Composable BoxScope.() -> Unit = {}) {
+fun ShimmerAnimation(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit = {}) {
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
     val density = LocalDensity.current.density
 
-    val transition = rememberInfiniteTransition()
+    val transition = rememberInfiniteTransition(label = "ShimmerTransition")
     val translateAnim by transition.animateFloat(
         initialValue = 0f,
         targetValue = screenWidthDp * density,
@@ -37,6 +37,7 @@ fun ShimmerAnimation(modifier: Modifier, content: @Composable BoxScope.() -> Uni
             tween(durationMillis = 1200, easing = FastOutSlowInEasing),
             RepeatMode.Reverse,
         ),
+        label = "ShimmerTranslateTransition",
     )
 
     val brush = Brush.linearGradient(
@@ -55,9 +56,9 @@ fun ShimmerAnimation(modifier: Modifier, content: @Composable BoxScope.() -> Uni
     }
 }
 
-@ThemePreviews
+@PreviewLightDark
 @Composable
-fun ShimmerAnimationPreview() {
+private fun ShimmerAnimationPreview() {
     CpaQuizTheme {
         ShimmerAnimation(modifier = Modifier.size(400.dp))
     }

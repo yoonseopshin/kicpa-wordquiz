@@ -108,19 +108,19 @@ fun CpaGradientBackground(
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme")
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme")
-annotation class ThemePreviews
+annotation class PreviewLightDark
 
-@ThemePreviews
+@PreviewLightDark
 @Composable
-fun BackgroundPreview() {
+private fun BackgroundPreview() {
     CpaQuizTheme {
         CpaBackground(Modifier.size(100.dp), content = {})
     }
 }
 
-@ThemePreviews
+@PreviewLightDark
 @Composable
-fun GradientBackgroundDefaultPreview() {
+private fun GradientBackgroundDefaultPreview() {
     CpaQuizTheme {
         CpaGradientBackground(Modifier.size(100.dp), content = {})
     }

@@ -85,9 +85,8 @@ fun SettingsScreen(
     deleteAllWrongProblems: Action,
     isSettingsNativeMediumAdEnabled: Boolean,
     modifier: Modifier = Modifier,
+    snackbarHostState: SnackbarHostState = LocalSnackbarHostState.current
 ) {
-    val snackbarHostState = LocalSnackbarHostState.current
-
     CpaBackground {
         Column(modifier = modifier.fillMaxSize()) {
             SettingsTopAppBar()
