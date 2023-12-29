@@ -38,9 +38,8 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      # Disabled spotless temporarily, as it was causing too many lint errors by not putting modifiers in Composable.
-      # - name: Check spotless
-      # run: ./gradlew spotlessCheck --stacktrace
+      - name: Check spotless
+        run: ./gradlew spotlessCheck --stacktrace
 
       - name: Check lint
         run: ./gradlew lintDebug --stacktrace
