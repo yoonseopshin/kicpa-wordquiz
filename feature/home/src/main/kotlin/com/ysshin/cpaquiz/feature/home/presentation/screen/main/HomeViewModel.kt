@@ -1,5 +1,6 @@
 package com.ysshin.cpaquiz.feature.home.presentation.screen.main
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.domain.model.AdType
@@ -25,7 +26,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
     private val quizUseCases: QuizUseCases,
-    private val configUseCases: ConfigUseCases,
+    configUseCases: ConfigUseCases,
 ) : BaseViewModel() {
 
     private val countMap = MutableStateFlow<MutableMap<QuizType, Int>>(mutableMapOf())
@@ -90,7 +91,8 @@ class HomeViewModel @Inject constructor(
         ) { nextExamDate, quizNumber, useTimer ->
             val now = LocalDate.now()
             val target = LocalDate.parse(nextExamDate, DateTimeFormatter.ISO_DATE)
-            val dday = Duration.between(now.atStartOfDay(), target.atStartOfDay()).toDays().toString()
+            val dday =
+                Duration.between(now.atStartOfDay(), target.atStartOfDay()).toDays().toString()
             HomeInfoUiState(dday, quizNumber, useTimer)
         }
             .stateIn(
@@ -131,12 +133,14 @@ class HomeViewModel @Inject constructor(
         subtypes: Map<QuizType, List<String>>,
         selectedSubtypes: MutableMap<String, Boolean>,
         quizType: QuizType,
-    ): List<SelectableSubtype> {
-        return (subtypes[quizType] ?: emptyList())
-            .filter(String::isNotEmpty)
-            .map {
-                SelectableSubtype(it, selectedSubtypes[it] ?: true)
-            }
+    ): SelectableSubtypes {
+        return SelectableSubtypes(
+            (subtypes[quizType] ?: emptyList())
+                .filter(String::isNotEmpty)
+                .map {
+                    SelectableSubtype(it, selectedSubtypes[it] ?: true)
+                },
+        )
     }
 
     fun getSelectedSubtypes(quizType: QuizType): List<String> {
@@ -171,17 +175,20 @@ class HomeViewModel @Inject constructor(
 
 data class SelectableSubtype(val text: String, val isSelected: Boolean)
 
+@Immutable
+data class SelectableSubtypes(val items: List<SelectableSubtype>)
+
 sealed interface HomeQuizUiState {
-    object Loading : HomeQuizUiState
+    data object Loading : HomeQuizUiState
     data class Success(
         val accountingCount: Int,
-        val accountingSubtypes: List<SelectableSubtype>,
+        val accountingSubtypes: SelectableSubtypes,
         val businessCount: Int,
-        val businessSubtypes: List<SelectableSubtype>,
+        val businessSubtypes: SelectableSubtypes,
         val commercialLawCount: Int,
-        val commercialLawSubtypes: List<SelectableSubtype>,
+        val commercialLawSubtypes: SelectableSubtypes,
         val taxLawCount: Int,
-        val taxLawSubtypes: List<SelectableSubtype>,
+        val taxLawSubtypes: SelectableSubtypes,
     ) : HomeQuizUiState
 }
 

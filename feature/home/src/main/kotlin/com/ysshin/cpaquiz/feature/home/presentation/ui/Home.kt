@@ -46,6 +46,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -90,11 +91,15 @@ import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeInfoUiState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeQuizUiState
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.HomeViewModel
 import com.ysshin.cpaquiz.feature.home.presentation.screen.main.SelectableSubtype
+import com.ysshin.cpaquiz.feature.home.presentation.screen.main.SelectableSubtypes
 import kotlinx.coroutines.launch
 import com.ysshin.cpaquiz.core.android.R as CR
 
 @Composable
-fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeRoute(
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
     val homeQuizUiState by viewModel.homeQuizUiState.collectAsStateWithLifecycle()
     val homeInfoUiState by viewModel.homeInfoUiState.collectAsStateWithLifecycle()
     val isHomeNativeMediumAdEnabled by viewModel.isHomeNativeMediumAdEnabled.collectAsStateWithLifecycle()
@@ -117,7 +122,10 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
             if (selectedSubtypes.isEmpty()) {
                 scope.launch {
                     snackbarHostState.showSnackbar(
-                        message = context.getString(R.string.subtypes_not_selected_alert, type.toKorean()),
+                        message = context.getString(
+                            R.string.subtypes_not_selected_alert,
+                            type.toKorean(),
+                        ),
                         withDismissAction = true,
                         duration = SnackbarDuration.Short,
                     )
@@ -125,7 +133,8 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
                 return@onQuizCardClick
             }
 
-            val quizStartNavActions = (appContext as QuizStartNavigationActionsProvider).quizStartNavActions
+            val quizStartNavActions =
+                (appContext as QuizStartNavigationActionsProvider).quizStartNavActions
             quizStartNavActions.onQuizStart(
                 activity = activity,
                 quizType = type,
@@ -135,6 +144,7 @@ fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
             )
         },
         onToggleSubtype = viewModel::toggleSubtype,
+        modifier = modifier,
     )
 }
 
@@ -147,16 +157,18 @@ fun HomeScreen(
     onToggleTimer: Action,
     onQuizCardClick: Consumer<QuizType>,
     onToggleSubtype: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     CpaBackground {
         CpaGradientBackground(
             gradientColors = LocalGradientColors.current,
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = modifier.fillMaxSize()) {
                 HomeTopAppBar(
                     homeInfoUiState = homeInfoUiState,
                     onSetQuizTimer = onSetQuizNumber,
                     onToggleTimer = onToggleTimer,
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 val verticalScrollState = rememberScrollState()
@@ -236,8 +248,14 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopAppBar(homeInfoUiState: HomeInfoUiState, onSetQuizTimer: Consumer<Int>, onToggleTimer: Action) {
+fun HomeTopAppBar(
+    homeInfoUiState: HomeInfoUiState,
+    onSetQuizTimer: Consumer<Int>,
+    onToggleTimer: Action,
+    modifier: Modifier = Modifier,
+) {
     TopAppBar(
+        modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
             Text(
@@ -246,7 +264,6 @@ fun HomeTopAppBar(homeInfoUiState: HomeInfoUiState, onSetQuizTimer: Consumer<Int
                 } else {
                     stringResource(id = R.string.dday, homeInfoUiState.dday)
                 },
-                modifier = Modifier.fillMaxWidth(),
             )
         },
         actions = {
@@ -261,44 +278,60 @@ fun HomeTopAppBar(homeInfoUiState: HomeInfoUiState, onSetQuizTimer: Consumer<Int
 }
 
 @Composable
-private fun HomeTopMenu(quizNumber: Int, onSetQuizTimer: Consumer<Int>, useTimer: Boolean, onToggleTimer: Action) {
+private fun HomeTopMenu(
+    quizNumber: Int,
+    onSetQuizTimer: Consumer<Int>,
+    useTimer: Boolean,
+    onToggleTimer: Action,
+) {
     var showDialog by remember { mutableStateOf(false) }
 
-    IconButton(onClick = {
-        showDialog = true
-    }) {
+    IconButton(
+        onClick = {
+            showDialog = true
+        },
+    ) {
         if (showDialog) {
-            AlertDialog(onDismissRequest = {
-                showDialog = false
-            }, title = { Text(text = stringResource(id = CR.string.quiz_settings_title)) }, text = {
-                LazyColumn {
-                    item {
-                        HomeQuizNumberBottomSheetListItem(
-                            quizNumber = quizNumber,
-                            onQuizNumberConfirm = onSetQuizTimer,
-                        )
-                    }
+            AlertDialog(
+                onDismissRequest = {
+                    showDialog = false
+                },
+                title = { Text(text = stringResource(id = CR.string.quiz_settings_title)) },
+                text = {
+                    LazyColumn {
+                        item {
+                            HomeQuizNumberBottomSheetListItem(
+                                quizNumber = quizNumber,
+                                onQuizNumberConfirm = onSetQuizTimer,
+                            )
+                        }
 
-                    item {
-                        HomeSettingsListItem(
-                            icon = CpaIcons.Timer,
-                            text = stringResource(id = CR.string.timer),
-                            onBottomSheetItemClick = onToggleTimer,
-                        ) {
-                            Switch(checked = useTimer, onCheckedChange = {
-                                onToggleTimer()
-                            })
+                        item {
+                            HomeSettingsListItem(
+                                icon = CpaIcons.Timer,
+                                text = stringResource(id = CR.string.timer),
+                                onBottomSheetItemClick = onToggleTimer,
+                            ) {
+                                Switch(
+                                    checked = useTimer,
+                                    onCheckedChange = {
+                                        onToggleTimer()
+                                    },
+                                )
+                            }
                         }
                     }
-                }
-            }, confirmButton = {
-                TextButton(onClick = { showDialog = false }) {
-                    Text(text = stringResource(id = CR.string.confirm))
-                }
-            })
+                },
+                confirmButton = {
+                    TextButton(onClick = { showDialog = false }) {
+                        Text(text = stringResource(id = CR.string.confirm))
+                    }
+                },
+            )
         }
 
-        val transition = updateTransition(targetState = showDialog, label = "SettingsMenuIconTransition")
+        val transition =
+            updateTransition(targetState = showDialog, label = "SettingsMenuIconTransition")
 
         val tint by transition.animateColor(
             transitionSpec = {
@@ -330,13 +363,19 @@ private fun HomeTopMenu(quizNumber: Int, onSetQuizTimer: Consumer<Int>, useTimer
             if (isExpanded) 240f else 0f
         }
 
-        val size by transition.animateDp(transitionSpec = {
-            if (false isTransitioningTo true) {
-                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
-            } else {
-                spring(stiffness = Spring.StiffnessLow)
-            }
-        }, label = "SettingsMenuIconSize") { isExpanded ->
+        val size by transition.animateDp(
+            transitionSpec = {
+                if (false isTransitioningTo true) {
+                    spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMedium,
+                    )
+                } else {
+                    spring(stiffness = Spring.StiffnessLow)
+                }
+            },
+            label = "SettingsMenuIconSize",
+        ) { isExpanded ->
             if (isExpanded) 32.dp else 24.dp
         }
 
@@ -354,25 +393,25 @@ private fun HomeTopMenu(quizNumber: Int, onSetQuizTimer: Consumer<Int>, useTimer
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun QuizCard(
-    modifier: Modifier = Modifier,
     cardBackgroundColor: Color,
     iconBackgroundColor: Color,
     count: Int,
     title: String,
     onClick: Action,
-    subtypes: List<SelectableSubtype>,
+    subtypes: SelectableSubtypes,
     toggleSubtype: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val cornerShape = RoundedCornerShape(24.dp)
     val quizCardEnabled = count > 0
     val disabledBackgroundAlpha = 0.09f
     val disabledContentAlpha = 0.36f
     val elevation = 6.dp
-    var cardWidth by remember { mutableStateOf(0) }
+    var cardWidth by remember { mutableIntStateOf(0) }
 
-    Column {
+    Column(modifier = modifier) {
         Surface(
-            modifier = modifier
+            modifier = Modifier
                 .bounceClickable(
                     dampingRatio = 0.9f,
                     enabled = quizCardEnabled,
@@ -456,7 +495,7 @@ private fun QuizCard(
             }
         }
 
-        if (subtypes.isNotEmpty()) {
+        if (subtypes.items.isNotEmpty()) {
             Row(
                 modifier = Modifier.width(
                     width = with(LocalDensity.current) {
@@ -465,7 +504,7 @@ private fun QuizCard(
                 ),
             ) {
                 LazyRow(state = rememberLazyListState()) {
-                    itemsIndexed(subtypes) { _, subtype ->
+                    itemsIndexed(subtypes.items) { _, subtype ->
                         FilterChip(
                             modifier = Modifier.padding(horizontal = 4.dp),
                             onClick = {
@@ -518,7 +557,7 @@ private fun HomeQuizNumberBottomSheetListItem(quizNumber: Int, onQuizNumberConfi
             openDialog.value = true
         },
     ) {
-        Crossfade(targetState = quizNumber) {
+        Crossfade(targetState = quizNumber, label = "QuizNumberCrossfade") {
             Text(
                 text = it.toString(),
                 style = Typography.headlineSmall,
@@ -578,21 +617,25 @@ private fun HomeScreenPreview() {
             HomeScreen(
                 homeQuizUiState = HomeQuizUiState.Success(
                     accountingCount = 10,
-                    accountingSubtypes = emptyList(),
+                    accountingSubtypes = SelectableSubtypes(emptyList()),
                     businessCount = 20,
-                    businessSubtypes = emptyList(),
+                    businessSubtypes = SelectableSubtypes(emptyList()),
                     commercialLawCount = 30,
-                    commercialLawSubtypes = listOf(
-                        SelectableSubtype("상행위", true),
-                        SelectableSubtype("회사법", true),
-                        SelectableSubtype("어음수표법", false),
+                    commercialLawSubtypes = SelectableSubtypes(
+                        listOf(
+                            SelectableSubtype("상행위", true),
+                            SelectableSubtype("회사법", true),
+                            SelectableSubtype("어음수표법", false),
+                        ),
                     ),
                     taxLawCount = 40,
-                    taxLawSubtypes = listOf(
-                        SelectableSubtype("기타세법", true),
-                        SelectableSubtype("부가가치세", true),
-                        SelectableSubtype("소득세", false),
-                        SelectableSubtype("법인세", false),
+                    taxLawSubtypes = SelectableSubtypes(
+                        listOf(
+                            SelectableSubtype("기타세법", true),
+                            SelectableSubtype("부가가치세", true),
+                            SelectableSubtype("소득세", false),
+                            SelectableSubtype("법인세", false),
+                        ),
                     ),
                 ),
                 homeInfoUiState = HomeInfoUiState(
