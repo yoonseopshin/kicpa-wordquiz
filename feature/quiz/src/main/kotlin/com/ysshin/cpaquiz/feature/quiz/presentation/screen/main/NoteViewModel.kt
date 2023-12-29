@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
 import com.ysshin.cpaquiz.core.android.base.BaseViewModel
 import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
+import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItems
 import com.ysshin.cpaquiz.core.base.Result
 import com.ysshin.cpaquiz.core.base.asResult
 import com.ysshin.cpaquiz.domain.model.AdType
@@ -28,7 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NoteViewModel @Inject constructor(
     private val problemUseCases: ProblemUseCases,
-    private val configUseCases: ConfigUseCases,
+    configUseCases: ConfigUseCases,
 ) : BaseViewModel() {
 
     private val _searchKeyword = MutableStateFlow("")
@@ -91,20 +92,24 @@ class NoteViewModel @Inject constructor(
             )
 
     val selectableFilteredYears
-        get() = _noteFilter.value.yearsOfQuestions.map {
-            SelectableTextItem(
-                text = it.toString(),
-                isSelected = _noteFilter.value.years.contains(it),
-            )
-        }
+        get() = SelectableTextItems(
+            _noteFilter.value.yearsOfQuestions.map {
+                SelectableTextItem(
+                    text = it.toString(),
+                    isSelected = _noteFilter.value.years.contains(it),
+                )
+            },
+        )
 
     val selectableFilteredTypes
-        get() = QuizType.all().map {
-            SelectableTextItem(
-                text = it.toKorean(),
-                isSelected = _noteFilter.value.types.contains(it),
-            )
-        }
+        get() = SelectableTextItems(
+            QuizType.all().map {
+                SelectableTextItem(
+                    text = it.toKorean(),
+                    isSelected = _noteFilter.value.types.contains(it),
+                )
+            },
+        )
 
     fun setFilter(years: List<Int>, types: List<QuizType>) {
         _noteFilter.value = _noteFilter.value.copy(
@@ -147,20 +152,20 @@ class NoteViewModel @Inject constructor(
 
 sealed interface TotalProblemsUiState {
     data class Success(val data: List<Problem>) : TotalProblemsUiState
-    object Error : TotalProblemsUiState
-    object Loading : TotalProblemsUiState
+    data object Error : TotalProblemsUiState
+    data object Loading : TotalProblemsUiState
 }
 
 sealed interface WrongProblemsUiState {
     data class Success(val data: List<Problem>) : WrongProblemsUiState
-    object Error : WrongProblemsUiState
-    object Loading : WrongProblemsUiState
+    data object Error : WrongProblemsUiState
+    data object Loading : WrongProblemsUiState
 }
 
 sealed interface SearchedProblemsUiState {
     data class Success(val data: List<Problem>) : SearchedProblemsUiState
-    object Error : SearchedProblemsUiState
-    object Loading : SearchedProblemsUiState
+    data object Error : SearchedProblemsUiState
+    data object Loading : SearchedProblemsUiState
 }
 
 data class NoteUiState(
@@ -191,10 +196,10 @@ internal fun NoteFilter.isFiltering() = isYearFiltering() || isQuizTypeFiltering
 sealed interface NoteMenuContent : Parcelable {
 
     @Parcelize
-    object Filter : NoteMenuContent
+    data object Filter : NoteMenuContent
 
     @Parcelize
-    object Search : NoteMenuContent
+    data object Search : NoteMenuContent
 }
 
 @Parcelize

@@ -104,7 +104,7 @@ import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
 import com.ysshin.cpaquiz.core.android.ui.ad.NativeSmallAd
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppCheckboxDialog
 import com.ysshin.cpaquiz.core.android.ui.dialog.AppInfoDialog
-import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItem
+import com.ysshin.cpaquiz.core.android.ui.dialog.SelectableTextItems
 import com.ysshin.cpaquiz.core.base.Action
 import com.ysshin.cpaquiz.core.base.Consumer
 import com.ysshin.cpaquiz.core.extension.extractItemsAroundTarget
@@ -176,8 +176,8 @@ fun NoteScreen(
     updateSearchKeyword: Consumer<String>,
     setFilter: (List<Int>, List<QuizType>) -> Unit,
     clearFilter: () -> Unit,
-    selectableFilteredYears: List<SelectableTextItem>,
-    selectableFilteredTypes: List<SelectableTextItem>,
+    selectableFilteredYears: SelectableTextItems,
+    selectableFilteredTypes: SelectableTextItems,
     deleteAllWrongProblems: Action,
     deleteTargetWrongProblem: Consumer<Problem>,
     setSelectedQuestion: (Problem?) -> Unit,
@@ -196,20 +196,23 @@ fun NoteScreen(
         isMenuOpened = false
     }
 
-    Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }, topBar = {
-        NoteTopAppBar(
-            isMenuOpened = isMenuOpened,
-            toggleMenu = { newNoteMenuContent ->
-                isMenuOpened = (isMenuOpened && noteMenuContent == newNoteMenuContent).not()
-                noteMenuContent = newNoteMenuContent
-            },
-            noteMenuContent = noteMenuContent,
-            noteFilter = noteFilter,
-            searchKeyword = searchKeyword,
-            updateSearchKeyword = updateSearchKeyword,
-            clearFilter = clearFilter,
-        )
-    }) { padding ->
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            NoteTopAppBar(
+                isMenuOpened = isMenuOpened,
+                toggleMenu = { newNoteMenuContent ->
+                    isMenuOpened = (isMenuOpened && noteMenuContent == newNoteMenuContent).not()
+                    noteMenuContent = newNoteMenuContent
+                },
+                noteMenuContent = noteMenuContent,
+                noteFilter = noteFilter,
+                searchKeyword = searchKeyword,
+                updateSearchKeyword = updateSearchKeyword,
+                clearFilter = clearFilter,
+            )
+        },
+    ) { padding ->
         val shouldShowAd = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact &&
                 isNoteNativeSmallAdEnabled
 
@@ -292,9 +295,10 @@ fun NoteScreen(
                                 deleteAllWrongProblems = deleteAllWrongProblems,
                                 isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened,
                                 updateDeletingWrongProblemDialogOpened = { dialog ->
-                                    isDeleteWrongProblemDialogOpened = isDeleteWrongProblemDialogOpened.copy(
-                                        isOpened = dialog.isOpened, problem = dialog.problem,
-                                    )
+                                    isDeleteWrongProblemDialogOpened =
+                                        isDeleteWrongProblemDialogOpened.copy(
+                                            isOpened = dialog.isOpened, problem = dialog.problem,
+                                        )
                                     Timber.d("dialog info: $dialog")
                                 },
                                 deleteTargetWrongProblem = deleteTargetWrongProblem,
@@ -332,7 +336,8 @@ fun NoteScreen(
                                     updateDeletingWrongProblemDialogOpened = { dialog ->
                                         isDeleteWrongProblemDialogOpened =
                                             isDeleteWrongProblemDialogOpened.copy(
-                                                isOpened = dialog.isOpened, problem = dialog.problem,
+                                                isOpened = dialog.isOpened,
+                                                problem = dialog.problem,
                                             )
                                         Timber.d("dialog info: $dialog")
                                     },
@@ -461,7 +466,8 @@ private fun LazyListScope.onSearchingContent(
     onProblemClick: ((Problem, List<Problem>) -> Unit)? = null,
     selectedQuestionInSplitScreen: Problem? = null,
 ) {
-    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+    val shouldShowListHeaderAsSticky =
+        windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is SearchedProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
@@ -531,7 +537,8 @@ private fun LazyListScope.wrongProblemsContent(
     windowSizeClass: WindowSizeClass,
     selectedQuestionInSplitScreen: Problem?,
 ) {
-    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+    val shouldShowListHeaderAsSticky =
+        windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is WrongProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
@@ -561,9 +568,12 @@ private fun LazyListScope.wrongProblemsContent(
 
         val items = uiState.data.map { it.toWrongProblemModel() }
 
-        itemsIndexed(items = items, key = { index, problem ->
-            "${index}_$problem"
-        }) { index, wrongProblemModel ->
+        itemsIndexed(
+            items = items,
+            key = { index, problem ->
+                "${index}_$problem"
+            },
+        ) { index, wrongProblemModel ->
             val scope = rememberCoroutineScope()
             var isSlideUp by remember {
                 mutableStateOf(false)
@@ -688,7 +698,8 @@ private fun LazyListScope.totalProblemsContent(
     onProblemClick: (Problem, List<Problem>) -> Unit,
     selectedQuestionInSplitScreen: Problem? = null,
 ) {
-    val shouldShowListHeaderAsSticky = windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
+    val shouldShowListHeaderAsSticky =
+        windowSizeClass.heightSizeClass != WindowHeightSizeClass.Compact
 
     if (uiState is TotalProblemsUiState.Success) {
         itemHeader(shouldShowListHeaderAsSticky) {
@@ -713,7 +724,10 @@ private fun LazyListScope.totalProblemsContent(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-fun LazyListScope.itemHeader(shouldShowListHeaderAsSticky: Boolean, content: @Composable LazyItemScope.() -> Unit) {
+fun LazyListScope.itemHeader(
+    shouldShowListHeaderAsSticky: Boolean,
+    content: @Composable LazyItemScope.() -> Unit,
+) {
     if (shouldShowListHeaderAsSticky) {
         stickyHeader {
             content()
@@ -775,7 +789,10 @@ private fun TotalNoteHeaderContent(state: TotalProblemsUiState, windowSizeClass:
 }
 
 @Composable
-private fun SearchedNoteHeaderContent(state: SearchedProblemsUiState, windowSizeClass: WindowSizeClass) {
+private fun SearchedNoteHeaderContent(
+    state: SearchedProblemsUiState,
+    windowSizeClass: WindowSizeClass,
+) {
     when (state) {
         is SearchedProblemsUiState.Success -> {
             val problems = state.data.map { problem ->
@@ -800,8 +817,8 @@ private fun NoteFilterMenuContent(
     noteMenuContent: NoteMenuContent,
     noteFilter: NoteFilter,
     hideMenu: Action,
-    selectableFilteredYears: List<SelectableTextItem>,
-    selectableFilteredTypes: List<SelectableTextItem>,
+    selectableFilteredYears: SelectableTextItems,
+    selectableFilteredTypes: SelectableTextItems,
     setFilter: (List<Int>, List<QuizType>) -> Unit,
     snackbarHostState: SnackbarHostState,
 ) {
@@ -819,7 +836,7 @@ private fun NoteFilterMenuContent(
             onConfirm = { items ->
                 Timber.d("Selected: $items")
 
-                if (!items.any { it.isSelected }) {
+                if (!items.items.any { it.isSelected }) {
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             message = context.getString(CR.string.msg_need_filtered_year),
@@ -831,7 +848,7 @@ private fun NoteFilterMenuContent(
                     return@AppCheckboxDialog
                 }
 
-                setFilter(items.filter { it.isSelected }.map { it.text.toInt() }, emptyList())
+                setFilter(items.items.filter { it.isSelected }.map { it.text.toInt() }, emptyList())
                 isYearFilterDialogOpened = false
             },
             onDismiss = {
@@ -851,7 +868,7 @@ private fun NoteFilterMenuContent(
             onConfirm = { items ->
                 Timber.d("Selected: $items")
 
-                if (!items.any { it.isSelected }) {
+                if (!items.items.any { it.isSelected }) {
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             message = context.getString(CR.string.msg_need_filtered_quiz_type),
@@ -863,7 +880,10 @@ private fun NoteFilterMenuContent(
                     return@AppCheckboxDialog
                 }
 
-                setFilter(emptyList(), items.filter { it.isSelected }.map { QuizType.from(it.text) })
+                setFilter(
+                    emptyList(),
+                    items.items.filter { it.isSelected }.map { QuizType.from(it.text) },
+                )
                 isQuizTypeFilterDialogOpened = false
             },
             onDismiss = {
@@ -990,7 +1010,8 @@ private fun NoteSearchMenuContent(
 
     LaunchedEffect(searchKeyword) {
         if (searchKeyword != keyword.text) {
-            keyword = TextFieldValue(text = searchKeyword, selection = TextRange(keyword.text.length))
+            keyword =
+                TextFieldValue(text = searchKeyword, selection = TextRange(keyword.text.length))
         }
     }
 
@@ -1030,10 +1051,12 @@ private fun NoteSearchMenuContent(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Text,
             ),
-            keyboardActions = KeyboardActions(onDone = {
-                keyboardController?.hide()
-                hideMenu()
-            }),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                    hideMenu()
+                },
+            ),
         )
 
         IconButton(
@@ -1087,16 +1110,20 @@ private fun NoteTopMenu(
         enter = scaleIn(animationSpec = tween(300)) + expandVertically(expandFrom = Alignment.CenterVertically),
         exit = scaleOut(animationSpec = tween(300)) + shrinkVertically(shrinkTowards = Alignment.CenterVertically),
     ) {
-        AssistChip(onClick = { clearFilter() }, modifier = Modifier.padding(all = 4.dp), label = {
-            Text(text = stringResource(id = CR.string.clear_filter))
-        }, leadingIcon = {
-            CpaIcon(
-                icon = CpaIcons.Filter,
-                modifier = Modifier.padding(start = 4.dp),
-                contentDescription = stringResource(id = CR.string.clear_filter),
-                tint = MaterialTheme.colorScheme.secondary,
-            )
-        })
+        AssistChip(
+            onClick = { clearFilter() }, modifier = Modifier.padding(all = 4.dp),
+            label = {
+                Text(text = stringResource(id = CR.string.clear_filter))
+            },
+            leadingIcon = {
+                CpaIcon(
+                    icon = CpaIcons.Filter,
+                    modifier = Modifier.padding(start = 4.dp),
+                    contentDescription = stringResource(id = CR.string.clear_filter),
+                    tint = MaterialTheme.colorScheme.secondary,
+                )
+            },
+        )
     }
 
     IconButton(
@@ -1133,13 +1160,19 @@ private fun NoteTopMenu(
             }
         }
 
-        val size by transition.animateDp(transitionSpec = {
-            if (false isTransitioningTo true) {
-                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
-            } else {
-                spring(stiffness = Spring.StiffnessLow)
-            }
-        }, label = "SearchingMenuIconSize") { isExpanded ->
+        val size by transition.animateDp(
+            transitionSpec = {
+                if (false isTransitioningTo true) {
+                    spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMedium,
+                    )
+                } else {
+                    spring(stiffness = Spring.StiffnessLow)
+                }
+            },
+            label = "SearchingMenuIconSize",
+        ) { isExpanded ->
             if (isExpanded) 32.dp else 24.dp
         }
 
@@ -1185,13 +1218,19 @@ private fun NoteTopMenu(
             }
         }
 
-        val size by transition.animateDp(transitionSpec = {
-            if (false isTransitioningTo true) {
-                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
-            } else {
-                spring(stiffness = Spring.StiffnessLow)
-            }
-        }, label = "FilteringMenuIconSize") { isExpanded ->
+        val size by transition.animateDp(
+            transitionSpec = {
+                if (false isTransitioningTo true) {
+                    spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMedium,
+                    )
+                } else {
+                    spring(stiffness = Spring.StiffnessLow)
+                }
+            },
+            label = "FilteringMenuIconSize",
+        ) { isExpanded ->
             if (isExpanded) 32.dp else 24.dp
         }
 
@@ -1257,8 +1296,8 @@ fun NoteScreenViewPreview() {
                 updateSearchKeyword = {},
                 setFilter = { _, _ -> },
                 clearFilter = { },
-                selectableFilteredYears = listOf(),
-                selectableFilteredTypes = listOf(),
+                selectableFilteredYears = SelectableTextItems(listOf()),
+                selectableFilteredTypes = SelectableTextItems(listOf()),
                 deleteAllWrongProblems = { },
                 deleteTargetWrongProblem = { },
                 noteFilter = NoteFilter.default(),
@@ -1311,8 +1350,8 @@ private fun NoteScreenSearchPreview() {
                 updateSearchKeyword = { },
                 setFilter = { _, _ -> },
                 clearFilter = { },
-                selectableFilteredYears = listOf(),
-                selectableFilteredTypes = listOf(),
+                selectableFilteredYears = SelectableTextItems(listOf()),
+                selectableFilteredTypes = SelectableTextItems(listOf()),
                 deleteAllWrongProblems = { },
                 deleteTargetWrongProblem = { },
                 noteFilter = NoteFilter.default(),
@@ -1330,4 +1369,5 @@ private enum class NoteScreenType {
 private fun getNoteScreenType(useSplitScreen: Boolean) =
     if (useSplitScreen) NoteScreenType.QuestionWithDetails else NoteScreenType.Question
 
-fun Modifier.widthBySplit(useSplitScreen: Boolean) = this.then(Modifier.fillMaxWidth(if (useSplitScreen) 0.45f else 1f))
+fun Modifier.widthBySplit(useSplitScreen: Boolean) =
+    this.then(Modifier.fillMaxWidth(if (useSplitScreen) 0.45f else 1f))
