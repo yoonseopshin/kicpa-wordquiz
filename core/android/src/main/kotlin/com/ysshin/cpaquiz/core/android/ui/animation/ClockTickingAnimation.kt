@@ -27,8 +27,8 @@ fun ClockTickingAnimation(
     clockBackgroundColor: Color,
     clockHandColor: Color,
     clockHandStroke: Dp,
-    content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit = {},
 ) {
     val rotationPerSecond = 360f
     val secondProgress by updateTransition(

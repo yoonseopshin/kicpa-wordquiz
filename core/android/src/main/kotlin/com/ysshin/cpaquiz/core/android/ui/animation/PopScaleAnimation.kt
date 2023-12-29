@@ -19,8 +19,8 @@ fun PopScaleAnimation(
     isVisible: Boolean,
     circleColor: Color,
     radius: Float,
-    content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit = {},
 ) {
     AnimatedVisibility(
         visible = isVisible,
