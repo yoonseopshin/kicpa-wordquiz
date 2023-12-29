@@ -70,5 +70,4 @@ class AppPreferenceDataSource @Inject constructor(private val dataStore: DataSto
             pref[quizResultNativeMediumAdKey] = config.quizResultNativeMediumAd.on
         }
     }
-
 }
