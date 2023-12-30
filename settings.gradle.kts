@@ -17,7 +17,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "cpa-word-problem"
+rootProject.name = "kicpa-wordquiz"
 include(":app")
 include(":core:domain")
 include(":core:common")

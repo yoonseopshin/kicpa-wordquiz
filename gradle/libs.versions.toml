@@ -64,6 +64,7 @@ google-play-inappreview-ktx = "2.0.1"
 uiautomator = "2.2.0"
 benchmarkBaselineProfileGradlePlugin = "1.2.2"
 benchmarkMacroJunit4 = "1.2.2"
+gradleDependencyGraphGeneratorPlugin = "0.8.0"
 
 [libraries]
 android-r8 = { module = "com.android.tools:r8", version.ref = "android-r8" }
@@ -72,6 +73,7 @@ android-tools-common = { group = "com.android.tools", name = "common", version.r
 androidx-benchmark-baseline-profile-gradle-plugin = { module = "androidx.benchmark:benchmark-baseline-profile-gradle-plugin", version.ref = "benchmarkBaselineProfileGradlePlugin" }
 androidx-benchmark-macro-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
 androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
+gradle-dependency-graph-generator-plugin = { module = "com.vanniktech:gradle-dependency-graph-generator-plugin", version.ref = "gradleDependencyGraphGeneratorPlugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }

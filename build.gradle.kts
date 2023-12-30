@@ -17,5 +17,8 @@ buildscript {
         classpath(libs.oss.licenses.plugin)
         classpath(libs.gms.google.services.plugin)
         classpath(libs.androidx.benchmark.baseline.profile.gradle.plugin)
+        classpath(libs.gradle.dependency.graph.generator.plugin)
     }
 }
+
+apply(plugin = "com.vanniktech.dependency.graph.generator")
