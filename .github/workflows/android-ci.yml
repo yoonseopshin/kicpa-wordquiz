@@ -98,8 +98,8 @@ jobs:
 
       - name: Commit Baseline Profiles
         run: |
-          git config --global user.name 'Baseline Profiles - GitHub Actions [skip ci]'
+          git config --global user.name 'Baseline Profiles - GitHub Actions'
           git config --global user.email 'github@actions'
           git add app/src/release/generated/baselineProfiles/baseline-prof.txt
-          git commit -m "chore: Generate baseline profiles"
+          git commit -m "chore: Generate baseline profiles [skip ci]"
           git push
