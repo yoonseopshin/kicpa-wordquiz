@@ -135,4 +135,6 @@ dependencies {
     debugImplementation(libs.leakcanary)
 
     implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.androidx.profileinstaller)
+    implementation(libs.coroutines.guava)
 }
