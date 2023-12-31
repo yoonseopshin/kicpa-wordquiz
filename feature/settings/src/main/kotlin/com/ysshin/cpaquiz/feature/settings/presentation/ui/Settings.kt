@@ -278,6 +278,7 @@ private fun SettingsListItem(settingsIcon: CpaIcon, settingsText: String, onClic
                         append(settingsText)
                     }
                 },
+                color = MaterialTheme.colorScheme.primary,
             )
         }
     }
