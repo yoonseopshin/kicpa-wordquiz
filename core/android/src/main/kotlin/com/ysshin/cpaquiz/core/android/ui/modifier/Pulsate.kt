@@ -37,6 +37,7 @@ fun Modifier.bounceClickable(
             ButtonState.Pressed -> dampingRatio
             ButtonState.Idle -> 1f
         },
+        label = "BounceScale",
     )
     val view = LocalView.current
 

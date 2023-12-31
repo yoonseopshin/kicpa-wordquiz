@@ -33,6 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription"
+                tools:src="@drawable/common_google_signin_btn_icon_light"
                 tools:visibility="visible" />
 
             <TextView
@@ -43,31 +44,16 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:minWidth="100dp"
+                android:textColor="@color/daynight_gray900s"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_advertiser"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_app_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_goneMarginStart="0dp"
                 tools:text="Test Ad : Google Ads"
                 tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/tv_advertiser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="1dp"
-                android:text="@string/ad"
-                android:textColor="@color/ad_green"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SmallSp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -82,26 +68,40 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <com.ysshin.cpaquiz.core.android.ui.ad.CpaNativeCall2ActionButton
                 android:id="@+id/btn_cta"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:background="@color/ad_button_background"
-                android:gravity="center"
-                android:textColor="@color/ad_button_text"
-                android:textSize="12sp"
-                tools:text="INSTALL" />
-
-            <TextView
-                android:id="@+id/tv_store"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:maxLines="1"
-                android:textSize="12sp"
+                android:minWidth="80dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 android:visibility="gone"
-                tools:text="Google Play"
+                tools:text="INSTALL"
                 tools:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_ad_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="1dp"
+                    android:text="@string/ad"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -115,6 +115,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:minHeight="32dp"
+            android:textColor="@color/daynight_gray550s"
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

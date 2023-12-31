@@ -33,6 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription"
+                tools:src="@drawable/common_google_signin_btn_icon_light"
                 tools:visibility="visible" />
 
             <TextView
@@ -43,8 +44,8 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:minWidth="100dp"
+                android:textColor="@color/daynight_gray900s"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,54 +68,39 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <com.ysshin.cpaquiz.core.android.ui.ad.CpaNativeCall2ActionButton
                 android:id="@+id/btn_cta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/ad_button_background"
                 android:gravity="center"
-                android:textColor="@color/ad_button_text"
-                android:textSize="12sp"
+                android:minWidth="80dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 tools:text="INSTALL"
                 tools:visibility="visible" />
 
-            <TextView
-                android:id="@+id/tv_store"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="2dp"
-                android:textSize="12sp"
-                android:visibility="gone"
-                tools:text="Google Play"
-                tools:visibility="visible" />
+                android:gravity="end"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="2dp"
-                android:textSize="12sp"
-                android:visibility="gone"
-                tools:text="Free"
-                tools:visibility="visible" />
+                <TextView
+                    android:id="@+id/tv_ad_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="1dp"
+                    android:text="@string/ad"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@id/tv_body"
+                    app:layout_constraintEnd_toEndOf="@id/tv_body" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="1dp"
-                android:text="@string/ad"
-                android:textColor="@color/ad_green"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/tv_body"
-                app:layout_constraintEnd_toEndOf="@id/tv_body"
-                tools:ignore="SmallSp" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -127,8 +113,8 @@
             android:layout_marginEnd="12dp"
             android:ellipsize="marquee"
             android:maxLines="1"
+            android:textColor="@color/daynight_gray550s"
             android:textSize="14sp"
-            android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/layout_action"
             app:layout_constraintStart_toStartOf="parent"
@@ -156,13 +142,13 @@
             android:id="@+id/tv_body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="12dp"
             android:paddingVertical="2dp"
+            android:textColor="@color/daynight_gray550s"
             android:textSize="12sp"
             android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/layout_action"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rtb_stars"
             tools:text="Stay up to date with your Ads Check how your ads are performing"

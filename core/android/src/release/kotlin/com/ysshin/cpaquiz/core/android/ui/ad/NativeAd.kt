@@ -20,11 +20,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import com.google.android.gms.ads.AdListener
@@ -82,6 +84,10 @@ fun NativeMediumAd(modifier: Modifier = Modifier) {
             AdState.Success -> {}
         }
 
+        val primaryColor = MaterialTheme.colorScheme.primary.toArgb()
+        val primaryContainerColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
+        val secondaryColor = MaterialTheme.colorScheme.secondary.toArgb()
+
         AndroidViewBinding(
             factory = { inflater, parent, attachToParent ->
                 adState = AdState.Loading
@@ -93,10 +99,14 @@ fun NativeMediumAd(modifier: Modifier = Modifier) {
                     adView.callToActionView = binding.btnCta
                     adView.headlineView = binding.tvHeadline
                     adView.iconView = binding.ivAppIcon
-                    adView.priceView = binding.tvPrice
                     adView.starRatingView = binding.rtbStars
-                    adView.storeView = binding.tvStore
                     adView.mediaView = binding.mvContent
+                }
+
+                binding.btnCta.updateColors(primaryColor, primaryContainerColor)
+                binding.tvAdInfo.setTextColor(primaryColor)
+                binding.rtbStars.progressDrawable?.let {
+                    DrawableCompat.setTint(it, secondaryColor)
                 }
 
                 try {
@@ -133,21 +143,9 @@ fun NativeMediumAd(modifier: Modifier = Modifier) {
                                     binding.tvHeadline.isVisible = true
                                 }
                             }
-                            nativeAd.price?.let {
-                                if (it.isNotBlank()) {
-                                    binding.tvPrice.text = it
-                                    binding.tvPrice.isVisible = true
-                                }
-                            }
                             nativeAd.starRating?.let {
                                 binding.rtbStars.rating = it.toFloat()
                                 binding.rtbStars.isVisible = true
-                            }
-                            nativeAd.store?.let {
-                                if (it.isNotBlank()) {
-                                    binding.tvStore.text = it
-                                    binding.tvStore.isVisible = true
-                                }
                             }
                             adView.setNativeAd(nativeAd)
                             adView.requestLayoutWithDelay()
@@ -211,6 +209,9 @@ fun NativeSmallAd(modifier: Modifier = Modifier) {
         mutableStateOf(AdState.Loading)
     }
 
+    val primaryColor = MaterialTheme.colorScheme.primary.toArgb()
+    val primaryContainerColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
+
     Box(modifier = modifier.defaultMinSize(minHeight = 64.dp)) {
         when (adState) {
             AdState.Loading -> CpaLoadingWheel(
@@ -232,8 +233,9 @@ fun NativeSmallAd(modifier: Modifier = Modifier) {
                     adView.callToActionView = binding.btnCta
                     adView.headlineView = binding.tvHeadline
                     adView.iconView = binding.ivAppIcon
-                    adView.storeView = binding.tvStore
                 }
+                binding.btnCta.updateColors(primaryColor, primaryContainerColor)
+                binding.tvAdInfo.setTextColor(primaryColor)
 
                 try {
                     val adLoader =
@@ -251,10 +253,9 @@ fun NativeSmallAd(modifier: Modifier = Modifier) {
                                     binding.tvBody.text = it
                                     binding.tvBody.isVisible = true
                                 }
-                                nativeAd.callToAction?.let { binding.btnCta.text = it }
-                                nativeAd.store?.let {
-                                    binding.tvStore.text = it
-                                    binding.tvStore.isVisible = true
+                                nativeAd.callToAction?.let {
+                                    binding.btnCta.text = it
+                                    binding.btnCta.isVisible = true
                                 }
                                 adView.setNativeAd(nativeAd)
                                 adView.requestLayoutWithDelay()
