@@ -8,7 +8,7 @@ object AdConstants {
 
     // FIXME: How do I check if app has been downloaded from the Google Play Store?
     // Checking with hardcoded variables for now
-    private val isMarketRelease = false
+    private val isMarketRelease = true
 
     fun getNativeMediumAdUnitId() = when (isMarketRelease) {
         true -> QUIZ_NATIVE_AD_MEDIUM
