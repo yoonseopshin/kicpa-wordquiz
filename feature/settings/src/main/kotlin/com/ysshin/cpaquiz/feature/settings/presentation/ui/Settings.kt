@@ -2,6 +2,7 @@ package com.ysshin.cpaquiz.feature.settings.presentation.ui
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,6 +25,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -61,6 +63,7 @@ import com.ysshin.cpaquiz.designsystem.theme.CpaQuizTheme
 import com.ysshin.cpaquiz.designsystem.theme.LocalSnackbarHostState
 import com.ysshin.cpaquiz.feature.settings.presentation.screen.main.SettingsViewModel
 import kotlinx.coroutines.launch
+import kotlin.math.pow
 import com.ysshin.cpaquiz.core.android.R as CR
 
 @Composable
@@ -105,10 +108,20 @@ private fun SettingsTopAppBar() {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         title = {
-            Text(
-                text = stringResource(id = CR.string.settings),
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-            )
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(text = stringResource(id = CR.string.settings))
+                Text(
+                    modifier = Modifier
+                        .align(alignment = Alignment.Bottom)
+                        .padding(end = 16.dp),
+                    text = "Inspired by KYK",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.surfaceColorAtElevation((2.0).pow(11).dp),
+                )
+            }
         },
     )
 }
