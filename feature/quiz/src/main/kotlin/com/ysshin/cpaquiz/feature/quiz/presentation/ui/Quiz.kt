@@ -26,7 +26,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -41,15 +40,12 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ysshin.cpaquiz.core.android.modifier.modifyIf
 import com.ysshin.cpaquiz.core.android.modifier.resourceTestTag
@@ -102,13 +98,9 @@ fun QuizScreen(modifier: Modifier = Modifier, viewModel: QuizViewModel = hiltVie
         }
     }
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-    ObserveLifecycle(lifecycleOwner = lifecycleOwner) { event ->
-        when (event) {
-            Lifecycle.Event.ON_PAUSE -> viewModel.onPause()
-            Lifecycle.Event.ON_RESUME -> viewModel.onResume()
-            else -> {}
-        }
+    LifecycleResumeEffect(viewModel) {
+        viewModel.onResume()
+        onPauseOrDispose { viewModel.onPause() }
     }
 
     LaunchedEffect(snackbarState.value) {
@@ -259,22 +251,6 @@ fun QuizTopAppBar(
         },
         scrollBehavior = scrollBehavior,
     )
-}
-
-@Composable
-fun ObserveLifecycle(lifecycleOwner: LifecycleOwner, onEvent: (event: Lifecycle.Event) -> Unit) {
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            onEvent(event)
-        }
-
-        val lifecycle = lifecycleOwner.lifecycle
-
-        lifecycle.addObserver(observer)
-        onDispose {
-            lifecycle.removeObserver(observer)
-        }
-    }
 }
 
 @Composable
