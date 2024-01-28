@@ -63,7 +63,6 @@ import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizState
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.QuizViewModel
 import com.ysshin.cpaquiz.feature.quiz.presentation.screen.quiz.SnackbarState
 import com.ysshin.cpaquiz.feature.quiz.presentation.ui.question.QuestionDetail
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,16 +88,16 @@ fun QuizScreen(modifier: Modifier = Modifier, viewModel: QuizViewModel = hiltVie
     val topAppBarState = rememberTopAppBarState()
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
 
-    var fabPosition by remember { mutableStateOf(Offset.Zero) }
+    var fabOffset by remember { mutableStateOf(Offset.Zero) }
     var quizDetailSize by remember { mutableStateOf(IntSize.Zero) }
     var quizDetailPosition by remember { mutableStateOf(Offset.Zero) }
     val areFabAndQuizDetailScreenOverlapped by remember {
         derivedStateOf {
-            fabPosition.y.toInt() < quizDetailSize.height + quizDetailPosition.y.toInt()
+            fabOffset.y < quizDetailSize.height + quizDetailPosition.y
         }
     }
 
-    LifecycleResumeEffect(viewModel) {
+    LifecycleResumeEffect(Unit) {
         viewModel.onResume()
         onPauseOrDispose { viewModel.onPause() }
     }
@@ -159,9 +158,8 @@ fun QuizScreen(modifier: Modifier = Modifier, viewModel: QuizViewModel = hiltVie
                     areFabAndQuizDetailScreenOverlapped = areFabAndQuizDetailScreenOverlapped,
                     onFabGloballyPositioned = { coordinates ->
                         val newPositionInWindow = coordinates.positionInWindow()
-                        if (fabPosition != newPositionInWindow) {
-                            Timber.d("fabPosition updated")
-                            fabPosition = newPositionInWindow
+                        if (fabOffset != newPositionInWindow) {
+                            fabOffset = newPositionInWindow
                         }
                     },
                     onFabClick = viewModel::selectAnswer,
@@ -177,14 +175,8 @@ fun QuizScreen(modifier: Modifier = Modifier, viewModel: QuizViewModel = hiltVie
             ) {
                 Column(
                     modifier = Modifier.onGloballyPositioned { coordinates ->
-                        if (quizDetailSize != coordinates.size) {
-                            Timber.d("quizDetailSize updated")
-                            quizDetailSize = coordinates.size
-                        }
-                        if (quizDetailPosition != coordinates.positionInWindow()) {
-                            Timber.d("quizDetailPosition updated")
-                            quizDetailPosition = coordinates.positionInWindow()
-                        }
+                        quizDetailSize = coordinates.size
+                        quizDetailPosition = coordinates.positionInWindow()
                     },
                 ) {
                     QuestionDetail(
