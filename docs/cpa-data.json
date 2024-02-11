@@ -1717,6 +1717,478 @@
     "subtype": "원가회계"
   },
   {
+    "year": 2015,
+    "pid": 1,
+    "description": "경영전략에 관한 설명으로 가장 적절한 것은?",
+    "sub_description": [],
+    "questions": [
+      "보스톤 컨설팅 그룹(BCG)의 사업포트폴리오 매트릭스에서 문제아(problem child, question marks)의 경우에 자금을 투입하기도 한다.",
+      "관련다각화 전략을 사용하면 반드시 규모의 경제(economy of scale)가 실현된다.",
+      "포터(Porter)의 가치사슬(value chain) 모형에 의하면 본원적 활동(primary activities)에는 기획, 구매, 물류, 생산, 판매, 유통, 사후관리가 포함된다.",
+      "포터(Porter)의 산업구조분석 모형에 의하면 구매자의 교섭력이 강하고, 공급자의 교섭력이 약하며, 대체재가 적을수록 수익성이 높아진다.",
+      "보스톤 컨설팅 그룹(BCG)의 사업포트폴리오 매트릭스에서 상대적 시장점유율이 1보다 크다는 것은 시장점유율이 50% 이상이라는 것을 의미한다."
+    ],
+    "answer": 0,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 2,
+    "description": "동기부여 이론에 관한 설명으로 가장 적절한 것은?",
+    "sub_description": [],
+    "questions": [
+      "브룸(Vroom)의 기대이론(expectancy theory)에 의하면, 수단성(instrumentality)을 높이기 위해서 종업원이 선호하는 보상 수단을 조사할 필요가 있다.",
+      "허쯔버그(Herzberg)의 이요인이론(two factor theory)에 의하면, 임금을 높여주거나 작업환경을 개선하는 것으로는 종업원의 만족도를 높일 수 없다.",
+      "브룸의 기대이론에서 기대(expectancy)는 노력했을 때 성과가 나타날 수 있는 객관적 확률이다.",
+      "브룸의 기대이론에 의하면, 연공급을 도입하면 기대(expectancy)가 높아진다.",
+      "아담스(Adams)의 공정성 이론(equity theory)에 의하면, 과다보상을 받았다고 느끼는 경우에는 만족도가 높기 때문에 행동의 변화가 나타나지 않는다."
+    ],
+    "answer": 1,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 3,
+    "description": "리더십 이론에 관한 설명으로 가장 적절한 것은?",
+    "sub_description": [],
+    "questions": [
+      "피들러(Fiedler)의 상황이론에 의하면, 리더가 처한 상황이 매우 호의적이거나 매우 비호의적인 경우에는 LPC(least preferred co-worker) 점수가 높은 리더가 적합하다.",
+      "리더-구성원 교환관계이론(LMX: leader-member exchange theory)은 상사와 모든 부하의 관계가 동질적이라고 가정하고 있다.",
+      "허시(Hersey)와 블랜차드(Blanchard)의 상황이론에 의하면, 부하의 성숙도가 매우 낮거나 매우 높은 경우에는 위임형 리더십 스타일이 적합하다.",
+      "블레이크(Blake)와 머튼(Mouton)의 관리격자모형(managerial grid model)에서는 리더가 처한 상황에 따라 리더십 스타일이 달라진다고 하였다.",
+      "하우스(House)의 경로-목표이론(path-goal theory)에서는 리더의  유형을 지시적, 지원적(후원적), 참여적, 성취지향적 리더십으로 구분하였다."
+    ],
+    "answer": 4,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 4,
+    "description": "태도와 성격에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "켈리(Kelly)의 귀인이론에서는 행동의 원인을 특이성, 합의성, 일관성으로 구분하여 파악한다.",
+      "자존적 편견(self-serving bias)은 평가자가 자신의 자존심을 지키기 위하여, 자신이 실패했을 때는 자신의 내부적 요인에서 원인을 찾고, 자신의 성공에 대해서는 외부적 요인에서 원인을 찾으려는 경향을 의미한다. ",
+      "성격유형을 A형과 B형으로 구분할 때, A형은 B형보다 업무처리 속도가 빠르고, 인내심이 부족한 편이다.",
+      "조직시민행동(organizational citizenship behavior)이란 조직에서의 공식적인 역할이 아니더라도, 조직을 위해 자발적으로 희생하고 노력하며 동료를 돕는 행동을 의미한다.",
+      "마이어(Meyer)와 알렌(Allen)이 주장하는 조직몰입 중 지속적(continuance) 몰입은 조직을 떠나면 경제적 비용이 많이 발생하기 때문에 조직에 머물러 있으려는 태도를 의미한다."
+    ],
+    "answer": 1,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 5,
+    "description": "보상관리에 관한 설명으로 가장 적절한 것은?",
+    "sub_description": [],
+    "questions": [
+      "회사 재직 중에 종업원의 직무가 변하지 않을 경우, 직무급을 도입하면 종업원의 장기근속을 유도할 수 있다.",
+      "임금수준이란 개인이 받는 임금의 크기를 의미하며, 임금수준을 결정할 때에는 기업의 지불능력을 고려해야 한다.",
+      "직능급을 도입할 경우, 우수 인재를 계속 보유하고 능력개발을 유도하는 장점이 있다.",
+      "직무급은 직무담당자의 능력, 태도, 성과에 의해 결정된다.",
+      "럭커 플랜(Rucker plan)은 매출액을 기준으로 성과배분액을 계산하며 종업원 제안제도를 채택하고 있다."
+    ],
+    "answer": 2,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 6,
+    "description": "직무관리에 관한 설명으로 가장 적절한 것은?",
+    "sub_description": [],
+    "questions": [
+      "요소비교법을 사용하여 직무평가를 할 때, 직무의 평가요소와 기준직무를 선정하는 것이 필요하다.",
+      "핵크만(Hackman)과 올드햄(Oldham)이 주장한 직무특성이론(job characteristics theory)에서 핵심직무특성에는 기능다양성(skill variety), 과업정체성(task identity), 과업중요성(task significance), 직무독립성(task independence), 피드백(feedback)이 포함된다.",
+      "직무충실화(job enrichment)란 과업의 다양성을 증진시키기 위해 직무의 수를 증가시키는 것을 의미한다.",
+      "서열법을 사용하여 직무평가를 할 때에는 등급분류 기준을 설정해야 한다.",
+      "핵크만(Hackman)과 올드햄(Oldham)의 직무특성이론에서 중요심리상태에는 작업에 대한 만족감, 작업 결과에 대한 책임감, 직무수행 결과에 대한 지식이 포함된다."
+    ],
+    "answer": 0,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 7,
+    "description": "인사평가에 관한 설명으로 가장 적절한 것은?",
+    "sub_description": [],
+    "questions": [
+      "행위기준고과법(BARS: behaviorally anchored rating scales)에서는 개인의 성과목표와 행동기준을 설정하고, 목표대비 달성 정도를 평가한다.",
+      "후광효과(halo effect)는 피평가자 개인의 특성보다는 출신학교나 출신지역에 근거해 평가할 때 나타나는 오류이다.",
+      "서열법은 피평가자의 강약점이나 절대적인 성과 수준을 파악할 수 없다는 단점이 있다.",
+      "행위기준고과법은 체크리스트법과 중요사건법을 결합한 것으로 피평가자의 구체적 행동에 근거하여 평가하는 방법이다.",
+      "평가의 타당성(validity)이란 동일한 피평가자를 반복하여 평가하여도 비슷한 결과가 나타나는지를 의미한다."
+    ],
+    "answer": 2,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 8,
+    "description": "인력계획에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "마코프체인 기법(Markov chain method)에서는 전이확률행렬을 이용하여 인력의 수요량을 예측한다.",
+      "마코프체인 기법은 경영환경이 급격하게 변할 경우에는 적합하지 않다.",
+      "기능목록(skill inventory)에는 종업원 개인의 학력, 직무경험, 기능, 자격증, 교육훈련 경험이 포함된다.",
+      "델파이 기법(Delphi method)은 전문가들이 면대면(face to face) 토론을 통해 인력의 공급량을 예측하는 방법이다.",
+      "조직의 규모가 급격하게 성장하고, 전략적 변화가 필요할 때에는 외부모집이 적절하다."
+    ],
+    "answer": 3,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 9,
+    "description": "고객의 지각(perception)에 기초한 경쟁자 파악 방법으로 적절한 항목은 모두 몇 개인가?",
+    "sub_description": [
+      "a. 상품제거(product deletion)",
+      "b. 상표전환 매트릭스(brand switching matrix)",
+      "c. 지각도(perceptual map)",
+      "d. 수요의 교차탄력성(cross-elasticity of demand)"
+    ],
+    "questions": [
+      "0개",
+      "1개",
+      "2개",
+      "3개",
+      "4개"
+    ],
+    "answer": 2,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 10,
+    "description": "소비자행동에서 아래의 상황을 가장 적절하게 설명할 수 있는 것은?",
+    "sub_description": [
+      "소비자는 자신이 좋아하는 연예인이 출연한 광고에 노출되면 그 광고 제품에 대한 태도가 호의적으로 변할 수 있다. 그러므로 자사상표에 대한 소비자들의 태도가 부정적일 때 소비자들이 좋아하는 연예인을 광고에 출연시킴으로써 태도변화를 시도할 수 있다."
+    ],
+    "questions": [
+      "균형이론(balance theory)",
+      "합리적 행동이론(theory of reasoned action)",
+      "다속성태도모형(multi-attribute attitude model)",
+      "정교화가능성모형(elaboration likelihood model)",
+      "단순노출효과(mere exposure effect)"
+    ],
+    "answer": 0,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 11,
+    "description": "제품관리에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "혁신소비자(innovator), 조기수용자(early adopter), 조기다수자(early majority), 후기다수자(late majority), 지각수용자(laggard)는 소비자들을 신제품 수용 시점에 따라 구분한 것이다.",
+      "신상품 개발 프로세스는 일반적으로 아이디어 창출 및 심사 → 컨셉트 개발 및 테스트 → 마케팅 믹스 개발 → 사업성 분석 → 시장테스트 → 시제품 생산 → 출시 순서로 이루어진다.",
+      "브랜드 계층구조(brand hierarchy)는 브랜드를 기업 브랜드(corporate brand), 패밀리 브랜드(family brand), 개별 브랜드(individual brand), 브랜드 수식어(brand modifier)로 구분한 것이다.",
+      "전형적인 제품수명주기(product life cycle)는 도입기, 성장기, 성숙기, 쇠퇴기 단계를 갖는다.",
+      "브랜드 확장은 ‘기존 브랜드와 동일한 상품 범주에 출시된 신상품에 기존 브랜드를 사용하는 라인 확장(line extension)’과 ‘기존 브랜드와 다른 범주에 속하는 신상품에 기존 브랜드를 사용하는 카테고리 확장(category extension)’으로 구분할 수 있다."
+    ],
+    "answer": 1,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 12,
+    "description": "가격관리에서 아래의 상황을 가장 적절하게 설명할 수 있는 것은?",
+    "sub_description": [
+      "1,000원짜리 제품에서 150원 미만의 가격인상은 느끼지 못하지만, 150원 이상의 가격인상은 알아차린다."
+    ],
+    "questions": [
+      "JND(just noticeable difference)",
+      "단수가격(odd-number pricing)",
+      "유보가격(reservation price)",
+      "스키밍가격(market-skimming pricing)",
+      "웨버의 법칙(Weber's Law)"
+    ],
+    "answer": 0,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 13,
+    "description": "촉진관리에 관한 설명으로 가장 적절한 것은?",
+    "sub_description": [],
+    "questions": [
+      "광고예산 결정 방법에서 매출액 비율법(percentage-of-sales method)의 단점은 광고비를 매출액의 결과가 아니라 원인으로 보는 것이다.",
+      "구매 공제(buying allowances)는 소비자 판매촉진(consumer promotion)에 포함된다.",
+      "광고 공제(advertising allowances)는 소비자 판매촉진(consumer promotion)에 포함된다.",
+      "홍보(publicity)는 PR(public relations) 활동에 포함된다.",
+      "회상 테스트(recall test)는 소비자에게 다수의 브랜드명을 제시한 후 자신이 본 광고의 브랜드를 표시하게 하는 것이다."
+    ],
+    "answer": 3,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 14,
+    "description": "유통경로구성원에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "소매업 수레바퀴 가설(Wheel of Retailing)은 소매환경 변화에 따른 소매업태 변화를 설명하는 것이다.",
+      "전문점(specialty store)과 비교하여 전문할인점(specialty discount store or category killer)은 상대적으로 낮은 수준의 서비스와 저렴한 가격을 갖고 있다.",
+      "상인 도매상(merchant wholesaler)은 취급하는 상품의 소유권을 가지고 있지 않다.",
+      "방문판매(direct sales), 자동 판매기(vending machine), 다이렉트 마케팅(direct marketing)은 무점포 소매상에 포함된다.",
+      "판매 대리점(selling agents)은 거래제조업자의 품목을 판매할 수 있는 계약을 맺고 판매활동을 한다."
+    ],
+    "answer": 2,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 15,
+    "description": "마케팅 조사에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "표본조사에서 불포함 오류(non-inclusion error)와 무응답 오류(non-response error)는 비관찰 오류(non-survey error)에 포함된다.",
+      "표본추출과정은 모집단의 확정 → 표본프레임의 결정 → 표본추출방법의 결정 → 표본크기의 결정 → 표본추출 단계로 이루어진다.",
+      "신뢰성(reliability)은 측정하고자 하는 현상이나 대상을 얼마나 일관성 있게 측정하였는가를 나타내는 것이다.",
+      "등간척도(interval scale)는 속성의 절대적 크기를 측정할 수 있기 때문에 사칙연산이 가능하다.",
+      "통제집단 사후설계(after-only with control group design)는 순수실험설계(true experimental design)에 포함된다."
+    ],
+    "answer": 3,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 16,
+    "description": "마케팅과 관련된 윤리적 문제에 포함될 수 있는 적절한 항목은 모두 몇 개인가?",
+    "sub_description": [
+      "a. 가격경쟁을 제한하는 행위",
+      "b. 오도광고(misleading advertising)",
+      "c. 유통경로구성원의 경로 파워 남용",
+      "d. 개인정보 유출",
+      "e. 제품의 계획적인 진부화(planned obsolescence)"
+    ],
+    "questions": [
+      "1개",
+      "2개",
+      "3개",
+      "4개",
+      "5개"
+    ],
+    "answer": 4,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 17,
+    "description": "생산시스템은 유형의 제품과 무형의 서비스에 대한 생산으로 구분된다. 제품과 서비스에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "제품은 서비스에 비해 상대적으로 투입물과 산출물의 균질성이 높다.",
+      "서비스는 제품에 비해 수요와 공급을 일치(matching supply with demand)시키기가 용이하다.",
+      "서비스는 제품에 비해 생산프로세스에 대한 특허취득이 어렵다.",
+      "서비스는 제품에 비해 산출물 품질에 대한 측정과 품질보증이 어렵다.",
+      "서비스는 제품에 비해 생산프로세스에 대한 고객참여도가 높다."
+    ],
+    "answer": 1,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 18,
+    "description": "수요예측에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "예측기법의 정확도가 높을수록 추적지표(TS: tracking signal) 값은 상승한다.",
+      "시계열(time series) 자료의 변동요인에는 추세, 계절변동, 순환변동, 불규칙변동이 포함된다.",
+      "시계열 예측법은 과거의 수요패턴이 미래에도 계속 이어진다고 가정한다.",
+      "지수평활법(exponential smoothing)은 최근 자료에 높은 가중치를 부여하고 현재로부터 먼 과거자료일수록 낮은 가중치를 부여하는 예측방법이다.",
+      "단순회귀분석(simple regression analysis)에서는 회귀선 부근의 변동이 우연변동(random variation)이라고 가정한다."
+    ],
+    "answer": 0,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 19,
+    "description": "재고관리에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "확률적 고정주문량모형(fixed-order quantity model, Q-system)에서는 재고수준이 재주문점(reorder point)에 도달할 때 새로운 주문을 하게 된다.",
+      "확률적 고정주문량모형에서 주문주기(order cycle)는 일정하지 않다.",
+      "투빈시스템(two-bin system)은 주기별 주문량이 일정한 고정주문량모델이다.",
+      "조달기간(lead time) 동안의 평균수요가 커지면 안전재고량은 증가한다.",
+      "서비스수준(service level)을 높이면 품절확률은 감소하고 안전재고량은 증가한다."
+    ],
+    "answer": 3,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 20,
+    "description": "공정능력분석에 사용되는 공정능력비율(process capability ratio, )에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "공정능력비율은 공정이 설계규격(specification)에 적합한 제품을 생산하는 능력이 어느 정도인지를 측정하는 도구이다.",
+      "공정능력비율이 증가하면 일반적으로 제품 불량률은 감소한다.",
+      "설계규격한계(specification limit)가 일정할 때 공정변동(표준편차)이 감소하면 공정능력비율은 증가한다.",
+      "공정능력비율이 증가하면 공정의 시그마수준(sigma level)도 증가한다.",
+      "공정능력비율이 1.0 미만이면 공정이 안정상태(under control)를 벗어났다고 판단한다."
+    ],
+    "answer": 4,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 21,
+    "description": "라인밸런싱(line balancing)에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "라인밸런싱은 제품별배치(product layout)의 설계를 위해 사용한다.",
+      "라인밸런싱의 목적은 작업장(work-station)별 작업시간의 균형을 이루어 유휴시간(idle time)을 최소화하는 것이다.",
+      "생산라인의 주기시간(cycle time)은 병목(bottleneck) 작업장의 작업시간보다 작다.",
+      "생산라인의 총유휴시간이 감소하면 라인효율(efficiency)은 증가한다.",
+      "생산라인의 총유휴시간이 감소하면 밸런스지체(balance delay)는 감소한다."
+    ],
+    "answer": 2,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 22,
+    "description": "총괄생산계획(aggregate production planning)에 관한 설명 중 적절한 항목만으로 구성된 것은?",
+    "sub_description": [
+      "a. 총괄생산계획은 주생산계획(master production schedule) 이후에 수립한다.",
+      "b. 수요추종전략(chase strategy)은 설비의 확장 및 축소를 통해 공급량을 조절하는 전략이다.",
+      "c. 혼합전략은 수요추종전략이나 평준화전략(level strategy)에 비해 총비용이 증가하는 단점이 있다.",
+      "d. 평준화전략은 수요추종전략에 비해 재고수준의 변동폭이 크다.",
+      "e. 총괄생산계획을 위해 도표법, 선형계획법, 휴리스틱이 사용된다."
+    ],
+    "questions": [
+      "a, b",
+      "b, c",
+      "c, d",
+      "d, e",
+      "a, e"
+    ],
+    "answer": 3,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 23,
+    "description": "다음의 설계기법과 이에 대한 설명을 가장 적절하게 연결한 것은?",
+    "sub_description": [
+      "㈀ VE(value engineering)",
+      "㈁ DFA(design for assembly)",
+      "㈂ QFD(quality function deployment)",
+      "㈃ Robust Design",
+      "a. 부품수 감축, 조립 방법 및 순서에 초점을 맞추는 설계",
+      "b. 품질에 나쁜 영향을 미치는 노이즈(noise)로부터 영향정도를 최소화 할 수 있도록 설계",
+      "c. 제품의 원가대비 기능의 비율을 개선하려는 노력",
+      "d. 고객의 다양한 요구사항과 제품의 기능적 요소들을 상호 연결함"
+    ],
+    "questions": [
+      "㈀-a, ㈁-c, ㈂-d",
+      "㈀-c, ㈁-a, ㈃-d",
+      "㈀-a, ㈂-b, ㈃-d",
+      "㈀-c, ㈂-a, ㈃-b",
+      "㈁-a, ㈂-d, ㈃-b"
+    ],
+    "answer": 4,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "일반경영"
+  },
+  {
+    "year": 2015,
+    "pid": 29,
+    "description": "자본조달순위이론(pecking order theory)에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "경영자는 외부투자자에 비해 더 많은 기업정보를 알고 있다고 가정한다.",
+      "자본조달시 고평가된 기업이라고 하더라도 신주발행보다 부채발행을 선호한다.",
+      "최적자본구조에 대해서는 설명하지 못한다.",
+      "수익성이 높은 기업은 파산비용 등 재무적 곤경비용의 부담이 작기 때문에 수익성이 낮은 기업보다 높은 부채비율을 가질 것으로 예측한다.",
+      "기업들이 여유자금(financial slack)을 보유하려는 동기를 설명한다."
+    ],
+    "answer": 3,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "재무관리"
+  },
+  {
+    "year": 2015,
+    "pid": 37,
+    "description": "옵션에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "위험헤지를 위하여 콜옵션 1단위 매도에 대하여 매입하여야 할 주식수를 헤지비율(hedge ratio)이라고 한다.",
+      "주식과 무위험채권을 적절히 이용하면 콜옵션과 동일한 손익구조를 갖는 복제포트폴리오를 구성할 수 있다.",
+      "다기간 이항모형은 단일기간 이항모형과 달리 기간별로 헤지비율이 달라질 수 있으므로 옵션의 만기까지 지속적인 헤지를 원하는 경우 지속적으로 헤지포트폴리오의 구성을 재조정해야 하며 이를 동적헤지(dynamic hedge)라고 한다.",
+      "이항모형에 의하면 옵션의 가치를 구하는 식에서 투자자의 위험에 대한 태도는 고려하지 않는다.",
+      "옵션탄력성(option elasticity)이 1보다 작다는 의미는 옵션이 기초자산보다 훨씬 위험이 크다는 것을 나타낸다."
+    ],
+    "answer": 4,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "재무관리"
+  },
+  {
+    "year": 2015,
+    "pid": 38,
+    "description": "포트폴리오 보험(portfolio insurance)에 관한 설명으로 가장 적절하지 않은 것은?",
+    "sub_description": [],
+    "questions": [
+      "보유하고 있는 포트폴리오의 가치가 일정수준 이하로 하락하는 것을 방지하면서 가치상승시에는 이익을 얻도록 하는 전략이다.",
+      "기초자산을 보유한 투자자가 풋옵션을 매도하여 기초자산의 가치가 행사가격 이하가 되지 않도록 방지하는 포트폴리오 보험전략을 실행할 수 있다.",
+      "주식포트폴리오에 대해 선물계약이 존재하는 경우 포트폴리오 보험은 선물계약과 무위험순수할인채권의 매입으로 합성될 수 있다.",
+      "보유한 자산에 대한 풋옵션이 존재하지 않거나 투자기간과 풋옵션의 만기가 일치하지 않는 경우 풋옵션 대신 주식과 채권으로 복제된 합성풋옵션을 이용하여 보호풋전략을 실행할 수 있다.",
+      "시간이 흐름에 따라 풋옵션 델타가 변하는 경우 기초자산 투자액과 무위험대출액을 계속적으로 조정해야 하므로 합성풋옵션을 이용한 포트폴리오 보험전략은 동적헤지전략의 일종으로 볼 수 있다."
+    ],
+    "answer": 1,
+    "type": "Business",
+    "source": "CPA",
+    "subtype": "재무관리"
+  },
+  {
     "year": 2016,
     "pid": 1,
     "description": "귀인(attribution)에 관한 설명으로 가장 적절한 것은?",
