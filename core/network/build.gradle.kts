@@ -10,4 +10,6 @@ android {
 
 dependencies {
     implementation(libs.bundles.retrofit)
+    debugImplementation(libs.chucker)
+    releaseImplementation(libs.chucker)
 }

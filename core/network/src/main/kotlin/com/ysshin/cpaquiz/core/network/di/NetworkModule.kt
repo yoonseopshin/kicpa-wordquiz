@@ -1,11 +1,14 @@
 package com.ysshin.cpaquiz.core.network.di
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.ysshin.cpaquiz.core.network.BuildConfig
 import com.ysshin.cpaquiz.core.network.api.RemoteApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -28,7 +31,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient = OkHttpClient.Builder()
         .readTimeout(5, TimeUnit.SECONDS)
         .connectTimeout(5, TimeUnit.SECONDS)
         .addNetworkInterceptor(
@@ -40,6 +43,7 @@ object NetworkModule {
                 }
             },
         )
+        .addInterceptor(ChuckerInterceptor(context))
         .build()
 
     @Singleton
